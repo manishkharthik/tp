@@ -9,21 +9,21 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Zhong Rui
 
-<img src="images/johndoe.png" width="200px">
-
+<img src="images/zhonggruii.png" width="200px">
+ 
 [[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
+[[github](https://github.com/zhonggruii/tp)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Project Advisor
 
-### Jane Doe
+### Aayush Bhatia
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/abhatia2003.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/abhatia2003)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Team Lead
@@ -38,11 +38,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Data
 
-### Jean Doe
+### Manish Kharthik
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/manishkharthik.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/manishkharthik)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
