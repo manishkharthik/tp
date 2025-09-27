@@ -288,9 +288,99 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `TutorTrack` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: Delete a student**
+System: TutorTrack
+Use case: UC1 - Delete a student
+Actor: User
+MSS:
+   1. User chooses a student profile.
+   2. User click "delete student".
+   3. TutorTrack asks for confirmation.
+   4. User confirms.
+   5. Student is deleted.
+   Use case ends.
+   
+   Extensions:
+   *a. At any time, User chooses to cancel the deletion.
+      *a1. User clicks on the back button.
+      *a2. TutorTrack cancels deletion.
+      Use case ends.
+
+**Use case: Add a student**
+System: TutorTrack
+Use case: UC2 - Add a student
+Actor: User
+MSS:
+   1. User clicks on "Add student".
+   2. User fills in student particulars.
+   3. TutorTrack asks for confirmation.
+   4. User confirms.
+   5. Student is added.
+   Use case ends.
+   
+   Extensions:
+   *a. At any time, User chooses to cancel the addition.
+      *a1. User clicks on the back button.
+      *a2. TutorTrack cancels addition.
+      Use case ends.
+
+**Use case: Update student details**
+System: TutorTrack
+Use case: UC3 - Update a student
+Actor: User
+MSS:
+   1. User clicks on a student profile.
+   2. User ammends the student particulars.
+   3. TutorTrack asks for confirmation.
+   4. User confirms.
+   5. Student profile is updated.
+   Use case ends.
+   
+   Extensions:
+   *a. At any time, User chooses to cancel the modification.
+      *a1. User clicks on the back button.
+      *a2. TutorTrack cancels modification.
+      Use case ends.
+
+**Use case: Update User availability**
+System: TutorTrack
+Use case: UC4 - Update User availability
+Actor: User
+MSS:
+   1. User clicks on their profile.
+   2. User ammends their availability.
+   3. TutorTrack asks for confirmation.
+   4. User confirms.
+   5. User profile is updated.
+   Use case ends.
+   
+   Extensions:
+   *a. At any time, User chooses to cancel the modification.
+      *a1. User clicks on the back button.
+      *a2. TutorTrack cancels modification.
+      Use case ends.
+
+**Use case: User share resources with Student**
+System: TutorTrack
+Use case: UC5 - Sharing resources
+Actor: User
+MSS:
+   1. User adds resources to their own folder.
+   2. User clicks on share.
+   3. User chooses which students to share it with.
+   4. System asks for confirmation.
+   5. User confirms.
+   6. Resources is shared.
+   Use case ends.
+
+Extensions:
+   *a. At any time, User chooses to cancel the upload.
+      *a1. User clicks on the back button.
+      *a2. TutorTrack cancels upload.
+      Use case ends.
+
 
 **MSS**
 
@@ -320,6 +410,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4. The student search operations should return results within 2 seconds.
+5. First time users should be able to add a student record within 5 minutes of first using the system.
+6. System should be able to provide clear validation messages for required fields.
+7. System should be accessible for users with visual impairments (older tutors with difficulty reading).
+8. The system should be up during peak tutoring hours i.e 3pm - 9pm.
 
 *{More to be added}*
 
