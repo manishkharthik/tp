@@ -5,7 +5,7 @@
 
 ## TutorTrack
 
-TutorTrack is a desktop tracking application that helps school tutors and tuition centres manage students and lessons quickly and reliably. It’s optimised for keyboard-centric workflows that includes, a fast command-line interface paired with a clean GUI so you can stay productive while teaching.
+TutorTrack is a desktop tracking application that helps school tutors and tuition centres manage students and lessons quickly and reliably. It is optimised for keyboard-centric workflows that includes, a fast command-line interface paired with a clean GUI so you can stay productive while teaching.
 
 Key capabilities
 
