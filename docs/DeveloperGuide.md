@@ -275,22 +275,32 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                                                                                 | So that I can…​                                                      |
-| ------ |--------------------------------------------|----------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
-| `* * *` | Novice User (Tutor)                        | record a student with basic information (name, contact, subject, parent’s emergency contact) | I can track them easily                                              |
-| `* * *` | Novice User (Tutor)                        | log when students/parents pays with amount and date                                          | I can  keep track of balances                                              |
-| `* * *` | Novice User (Tutor)                        | record attendance for each lesson with simple present/absent buttons                         | I can  monitor student participation with ease                                             |
-| `* * *` | Novice User (Tutor)                        | view all my students in a simple list                                                        | I can quickly find who I’m teaching                                            |
-| `* * *` | Novice User (Tutor)                        | delete students who have graduated or transferred                                            | I can keep my active list manageable                                            |
-| `* * *` | Novice User (Tutor)                        | archive students who discontinue lessons                                                     | I can ensure my list of students is up to date                                            |
-| `* *`  | Novice User (Tutor)                        | Create a simple class schedule with day and time                                             | I can organise my weekly timetable                                            |
-| `* *`  | Novice User (Tutor)                        | store notes about students’ lesson/learning patterns                                         | I can tailor my teaching methods                                              |
-| `* *`  | Novice User (Tutor)                        | record test scores for students                                                     | I can track their performances                                             |
-| `* *`  | Novice User (Tutor)                        | share class materials with colleagues                                                     | I can collaborate on teaching resources                                            |
-| `* *`  | Novice User (Tutor)                        | update a student’s performance data                                                     | I can monitor progress over time                                            |
-| `* *`  | Novice User (Tutor)                        | search for students by partial name, ID, or phone number                                                     | I can quickly find records during busy school hours                                            |
-| `* *`  | Novice User (Tutor)                        | undo/redo when editing contact or class details                                                     | I avoid errors when updating schedules                                            |
-
+| Priority | As a …​                       | I want to …​                                                                                 | So that I can…​                                                 |
+| ----- |-------------------------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `* * *` | Novice User (Tutor)           | Record a student with basic information (name, contact, subject, parent’s emergency contact) | I can track them easily                                         |
+| `* * *` | Novice User (Tutor)           | Log when students/parents pays with amount and date                                          | I can  keep track of balances                                   |
+| `* * *` | Novice User (Tutor)           | Record attendance for each lesson with simple present/absent buttons                         | I can  monitor student participation with ease                  |
+| `* * *` | Novice User (Tutor)           | View all my students in a simple list                                                        | I can quickly find who I’m teaching                             |
+| `* * *` | Novice User (Tutor)           | Delete students who have graduated or transferred                                            | I can keep my active list manageable                            |
+| `* * *` | Novice User (Tutor)           | Archive students who discontinue lessons                                                     | I can ensure my list of students is up to date                  |
+| `* *` | Novice User (Tutor)           | Create a simple class schedule with day and time                                             | I can organise my weekly timetable                              |
+| `* *` | Novice User (Tutor)           | Store notes about students’ lesson/learning patterns                                         | I can tailor my teaching methods                                |
+| `* *` | Novice User (Tutor)           | Record test scores for students                                                              | I can track their performances                                  |
+| `* *` | Novice User (Tutor)           | Share class materials with colleagues                                                        | I can collaborate on teaching resources                         |
+| `* *` | Novice User (Tutor)           | Update a student’s performance data                                                          | I can monitor progress over time                                |
+| `* *` | Novice User (Tutor)           | Search for students by partial name, ID, or phone number                                     | I can quickly find records during busy school hours             |
+| `* *` | Novice User (Tutor)           | Undo/redo when editing contact or class details                                              | I avoid errors when updating schedules                          |
+| `* * *` | Semi-Experienced User (Tutor) | Log assignments given to each class                                                          | I can monitor submission status and completion                  |
+| `* * *` | Semi-Experienced User (Tutor) | Mark attendance for multiple students at once                                                | I can save time during class                                    |
+| `* * *` | Semi-Experienced User (Tutor) | Attach homeworks/assignment tasks to individual students                                     | I can monitor completion between classes                        |
+| `* * *` | Semi-Experienced User (Tutor) | Attach subjects to individual students                                                       | I can manage students taking several courses                    |
+| `* * *` | Semi-Experienced User (Tutor) | View students’ subject enrollment across                                                     | I can manage my teaching responsibilities efficiently           |
+| `* * *` | Semi-Experienced User (Tutor) | View full payment history and outstanding balances                                           | I can track who owes money                                      |
+| `* * *` | Semi-Experienced User (Tutor) | View a student’s grade history with dates                                                    | I can see improvement trends                                    |
+| `* *` | Semi-Experienced User (Tutor) | Duplicate existing class schedules                                                           | I can quickly set up similar classes                            |
+| `* *` | Semi-Experienced User (Tutor) | Upload and organize teaching material by topic                                               | I can reuse resources efficiently                               |
+| `* *` | Semi-Experienced User (Tutor) | Set my availability                                                                          | I allow students to arrange a date to meet me for consultations |
+| `* *` | Semi-Experienced User (Tutor) | Track tuition schedules for each household                                                   | I can avoid clashes and manage travel time                      |
 
 
 
