@@ -277,7 +277,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
 | -------- |--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| -------- | ------------------------------------------ | Novice/First Time Users      | ---------------------------------------------------------------------- |
+| --------------------------------------------------  Novice/First Time Users       ---------------------------------------------------------------------- |
 | `* * *`  | Tutor                                      | record a student with basic information (name, contact, subject, parent’s emergency contact)       | I can track them easily                                                |
 | `* * *`  | user                                       | add a new person             |                                                                        |
 | `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
