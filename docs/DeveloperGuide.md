@@ -428,8 +428,7 @@ Extensions:
 
       Use case resumes at step 2.
 
-*{More to be added}*
-
+*{More to be added}
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -446,7 +445,20 @@ Extensions:
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Tutor**: An individual providing academic tutoring as a service who is primary user of this application
+* **Student**: A learner recieving academic tutoring, Students have unique information (name, contact, subjects) and associated records (attendance, payments, academic performance)
+* **Parent Contact**: Emergency contact of a student's parent in the form of a phone number for safety and administrative purposes
+* **Attendance**: A record A record to inidicate whether is present or absent for a given class
+* **Class Schedule**: An timetable entry that represents a class with its date and time
+* **Archive**: A status indicating whether a student is active (assigned to a class or tutor) or not
+* **Assignment**: Tasks given by tutors to students for them to complete
+* **Assignment Completion**: A record to inidicate whether tasks given by tutors to students for them to complete is completed
+* **Subject Enrollment**: The mapping between students and subjects they are learning, students may have mulitple subjects
+* **Payment Record**: A log entry for fees paid by students or parents, including amount and date, supports balance tracking
+* **Outstanding Balance**: The unpaid student fees 
+* **Performance Data**: Records of a student's test scores, grades, and attendance to track a student’s academic performance over time
+* **Teaching Material**: Documents, textbooks, or resources uploaded by tutors for lessons and/or assignments
+
 
 --------------------------------------------------------------------------------------------------------------------
 
