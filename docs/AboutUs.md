@@ -45,7 +45,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/manishkharthik.png" width="200px">
 
 [[github](http://github.com/manishkharthik)]
-[[portfolio](team/johndoe.md)]
 
 * Role: Developer
 * Responsibilities: Dev Ops + Threading
