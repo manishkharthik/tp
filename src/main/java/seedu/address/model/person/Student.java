@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  *  Creates student object
  */
-public class Student extends Person{
+public class Student extends Person {
 
     /**
      * Every field must be present and not null.
