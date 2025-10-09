@@ -12,15 +12,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 ### Zhong Rui
 
 <img src="images/zhonggruii.png" width="200px">
- 
+
 [[homepage](http://www.comp.nus.edu.sg/~damithch)]
 [[github](https://github.com/zhonggruii/tp)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Project Advisor
 
-
-### Darren Sim 
+### Darren Sim
 
 <img src="images/darrensimmx.png" width="200px">
 

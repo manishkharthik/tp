@@ -1,125 +1,61 @@
-// package seedu.address.model.person;
+package seedu.address.model.person;
 
-// import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-// import java.util.Collections;
-// import java.util.HashSet;
-// import java.util.Objects;
-// import java.util.Set;
+import seedu.address.model.tag.Tag;
 
-// import seedu.address.commons.util.ToStringBuilder;
-// import seedu.address.model.tag.Tag;
+/**
+ * Creates student object.
+ */
+public class Student extends Person {
 
-// /**
-//  * Represents a Student in the address book.
-//  * Guarantees:
-//  * - Core identity fields (name, phone, email, class, subjects, emergency contact) are present and validated.
-//  * - Optional fields (attendance, payment status, assignment status) may be absent or updated over time.
-//  * - Identity fields are immutable
-//  * - Operational fields are mutable to reflect real-time updates.
-//  */
-// public class Student {
+    private List<String> subjects;
+    private String studentClass;
+    private String emergencyContact;
+    private String attendance;
+    private String paymentStatus;
+    private String assignmentStatus;
 
-//     // Identity fields
-//     private final Name name;
-//     private final Phone phone;
-//     private final Email email;
-//     private final StudentClss studentClass;
-//     private final Subjects subjects;
-//     private final EmergencyContact emergencyContact;
 
-//     // Data fields
-//     private Attendance attendance;
-//     private PaymentStatus paymentStatus;
-//     private AssignmentStatus assignmentStatus;
+    /**
+     * Every field must be present and not null.
+     *
+     * @param name Name of the student
+     * @param phone Phone number of the student
+     * @param email Email of the student
+     * @param address Address of the student
+     * @param tags Tags associated with the student
+     */
+    public Student(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<String> subjects,
+                   String studentClass, String emergencyContact, String attendance,
+                   String paymentStatus, String assignmentStatus) {
+        super(name, phone, email, address, tags);
+        this.subjects = subjects;
+        this.studentClass = studentClass;
+        this.emergencyContact = emergencyContact;
+        this.attendance = attendance;
+        this.paymentStatus = paymentStatus;
+        this.assignmentStatus = assignmentStatus;
+    }
 
-//     // Administrative fields
-//     private boolean isArchived = false;
-
-//     /**
-//      * Every field must be present and not null.
-//      */
-//     public Student(Name name, Phone phone, Email email, studentClss studentClass, Subjects subjects,
-//                    EmergencyContact emergencyContact, Attendance attendance,
-//                    PaymentStatus paymentStatus, AssignmentStatus assignmentStatus) {
-//         requireAllNonNull(name, phone, email, studentClass, subjects, emergencyContact);
-//         this.name = name;
-//         this.phone = phone;
-//         this.email = email;
-//         this.studentClass = studentClass;
-//         this.subjects = subjects;
-//         this.emergencyContact = emergencyContact;
-//         this.attendance = attendance;
-//         this.paymentStatus = paymentStatus;
-//         this.assignmentStatus = assignmentStatus;
-//     }
-
-//     public Name getName() {
-//         return name;
-//     }
-
-//     public Phone getPhone() {
-//         return phone;
-//     }
-
-//     public Email getEmail() {
-//         return email;
-//     }
-
-//     public StudentClss getStudentClass() {
-//         return studentClass;
-//     }
-
-//     public Subjects getSubjects() {
-//         return subjects;
-//     }
-
-//     public EmergencyContact getEmergencyContact() {
-//         return emergencyContact;
-//     }
-
-//     public Attendance getAttendance() {
-//         return attendance;
-//     }
-
-//     public PaymentStatus getPaymentStatus() {
-//         return paymentStatus;
-//     }
-
-//     public AssignmentStatus getAssignmentStatus() {
-//         return assignmentStatus;
-//     }
-
-//     public boolean isArchived() {
-//         return isArchived;
-//     }
-
-//     public void setAttendance(Attendance attendance) {
-//         this.attendance = attendance;
-//     }
-
-//     public void setPaymentStatus(PaymentStatus paymentStatus) {
-//         this.paymentStatus = paymentStatus;
-//     }
-
-//     public void setAssignmentStatus(AssignmentStatus assignmentStatus) {
-//         this.assignmentStatus = assignmentStatus;
-//     }
-
-//     public void setArchived(boolean isArchived) {
-//         this.isArchived = isArchived;
-//     }
-
-//     /**
-//      * Returns true if both Students have the same name.
-//      * This defines a weaker notion of equality between two students.
-//      */
-//     public boolean isSameStudent(Student otherStudent) {
-//         if (otherStudent == this) {
-//             return true;
-//         }
-
-//         return otherStudent != null
-//                 && otherStudent.getName().equals(getName());
-//     }
-//
+    public List<String> getSubjects() {
+        return new ArrayList<>(subjects);
+    }
+    public String getStudentClass() {
+        return studentClass;
+    }
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+    public String getAttendanceStatus() {
+        return attendance;
+    }
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+    public String getAssignmentStatus() {
+        return assignmentStatus;
+    }
+}
