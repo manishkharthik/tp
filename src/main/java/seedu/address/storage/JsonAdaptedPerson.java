@@ -57,19 +57,6 @@ public class JsonAdaptedPerson {
      * <p>
      * This constructor is called by Jackson during deserialization.
      * The "type" field determines whether to later reconstruct a {@link Person} or {@link Student} model object.
-     *
-     * @param type             the object type ("person" or "student")
-     * @param name             the person's name
-     * @param phone            the person's phone number
-     * @param email            the person's email address
-     * @param address          the person's address
-     * @param tagged           list of associated tags
-     * @param studentClass     the student's class (mapped from JSON key "class")
-     * @param subjects         the student's enrolled subjects
-     * @param emergencyContact the student's emergency contact number
-     * @param attendance       the student's attendance status
-     * @param paymentStatus    the student's payment status
-     * @param assignmentStatus the student's assignment completion status
      */
     @JsonCreator
     public JsonAdaptedPerson(
@@ -84,8 +71,8 @@ public class JsonAdaptedPerson {
             @JsonProperty("emergencyContact") String emergencyContact,
             @JsonProperty("attendance") String attendance,
             @JsonProperty("paymentStatus") String paymentStatus,
-            @JsonProperty("assignmentStatus") String assignmentStatus
-    ) {
+            @JsonProperty("assignmentStatus") String assignmentStatus) {
+
         this.type = (type == null) ? "person" : type;
         this.name = name;
         this.phone = phone;
@@ -107,8 +94,6 @@ public class JsonAdaptedPerson {
      * <p>
      * This constructor is used when saving data to JSON.
      * If the source object is a {@code Student}, student-specific attributes are serialized as well.
-     *
-     * @param source the {@code Person} or {@code Student} instance to convert.
      */
     public JsonAdaptedPerson(Person source) {
         this.type = (source instanceof Student) ? "student" : "person";
@@ -162,26 +147,51 @@ public class JsonAdaptedPerson {
      * @throws IllegalValueException if any required field is missing or invalid.
      */
     public Person toModelType() throws IllegalValueException {
+
         // === Validation and construction for base fields ===
         if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+            throw new IllegalValueException(String.format(
+                    MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
-        final Name modelName = new Name(name);
+        final Name modelName;
+        try {
+            modelName = new Name(name);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
 
         if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+            throw new IllegalValueException(String.format(
+                    MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
         }
-        final Phone modelPhone = new Phone(phone);
+        final Phone modelPhone;
+        try {
+            modelPhone = new Phone(phone);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
 
         if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+            throw new IllegalValueException(String.format(
+                    MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
         }
-        final Email modelEmail = new Email(email);
+        final Email modelEmail;
+        try {
+            modelEmail = new Email(email);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
 
         if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+            throw new IllegalValueException(String.format(
+                    MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
         }
-        final Address modelAddress = new Address(address);
+        final Address modelAddress;
+        try {
+            modelAddress = new Address(address);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
 
         final List<Tag> modelTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
@@ -200,8 +210,7 @@ public class JsonAdaptedPerson {
                         || assignmentStatus != null;
 
         if (hasStudentBits) {
-            // Adjust this constructor call if your Student class uses different parameter ordering.
-            Student student = new Student(
+            return new Student(
                     modelName,
                     modelPhone,
                     modelEmail,
@@ -212,9 +221,7 @@ public class JsonAdaptedPerson {
                     emergencyContact,
                     attendance,
                     paymentStatus,
-                    assignmentStatus
-            );
-            return student;
+                    assignmentStatus);
         }
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTagSet);
