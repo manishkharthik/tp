@@ -64,6 +64,12 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
+     * Archives the given person.
+     * The person must exist in the address book.
+     */
+    void archivePerson(Person target);
+
+    /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */
