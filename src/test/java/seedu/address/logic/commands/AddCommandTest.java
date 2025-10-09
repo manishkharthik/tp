@@ -88,7 +88,7 @@ public class AddCommandTest {
     public void execute_nullModel_throwsNullPointerException() {
         Person validPerson = new PersonBuilder().build();
         AddCommand addCommand = new AddCommand(validPerson);
-        
+
         assertThrows(NullPointerException.class, () -> addCommand.execute(null));
     }
 
@@ -105,7 +105,7 @@ public class AddCommandTest {
 
         // different person -> different hashCode
         assertFalse(addAliceCommand1.hashCode() == addBobCommand.hashCode());
-        
+
         // hashCode should be consistent with equals
         assertTrue(addAliceCommand1.equals(addAliceCommand2));
         assertEquals(addAliceCommand1.hashCode(), addAliceCommand2.hashCode());
@@ -121,8 +121,8 @@ public class AddCommandTest {
         assertTrue(AddCommand.MESSAGE_USAGE.contains("add"));
         assertTrue(AddCommand.MESSAGE_USAGE.contains("student"));
         // Test that new student-specific fields are included in usage message
-        assertTrue(AddCommand.MESSAGE_USAGE.contains("c/"));  // class
-        assertTrue(AddCommand.MESSAGE_USAGE.contains("s/"));  // subjects
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("c/")); // class
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("s/")); // subjects
         assertTrue(AddCommand.MESSAGE_USAGE.contains("ec/")); // emergency contact
         assertTrue(AddCommand.MESSAGE_USAGE.contains("att/")); // attendance
         assertTrue(AddCommand.MESSAGE_USAGE.contains("pay/")); // payment status
