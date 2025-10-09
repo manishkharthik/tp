@@ -65,7 +65,9 @@ public class JsonAdaptedPerson {
             @JsonProperty("phone") String phone,
             @JsonProperty("email") String email,
             @JsonProperty("address") String address,
-            @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
+        @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
+        // Backward/alternate key used by some fixtures: "tags"
+        @JsonProperty("tags") List<JsonAdaptedTag> legacyTags,
             @JsonProperty("class") String studentClass,
             @JsonProperty("subjects") List<String> subjects,
             @JsonProperty("emergencyContact") String emergencyContact,
@@ -80,6 +82,9 @@ public class JsonAdaptedPerson {
         this.address = address;
         if (tagged != null) {
             this.tagged.addAll(tagged);
+        } else if (legacyTags != null) {
+            // Accept legacy "tags" property as an alias for "tagged"
+            this.tagged.addAll(legacyTags);
         }
         this.studentClass = studentClass;
         this.subjects = (subjects == null) ? null : new ArrayList<>(subjects);
@@ -87,6 +92,27 @@ public class JsonAdaptedPerson {
         this.attendance = attendance;
         this.paymentStatus = paymentStatus;
         this.assignmentStatus = assignmentStatus;
+    }
+
+    /**
+     * Backward-compatible convenience constructor without the legacy "tags" alias parameter.
+     * This matches older call sites and unit tests that pass only the "tagged" list.
+     */
+    public JsonAdaptedPerson(
+            String type,
+            String name,
+            String phone,
+            String email,
+            String address,
+            List<JsonAdaptedTag> tagged,
+            String studentClass,
+            List<String> subjects,
+            String emergencyContact,
+            String attendance,
+            String paymentStatus,
+            String assignmentStatus) {
+        this(type, name, phone, email, address, tagged, /* legacyTags */ null,
+                studentClass, subjects, emergencyContact, attendance, paymentStatus, assignmentStatus);
     }
 
     /**
@@ -122,19 +148,43 @@ public class JsonAdaptedPerson {
     }
 
     // Jackson getters
-    @JsonProperty("type") public String getType() { return type; }
-    @JsonProperty("name") public String getName() { return name; }
-    @JsonProperty("phone") public String getPhone() { return phone; }
-    @JsonProperty("email") public String getEmail() { return email; }
-    @JsonProperty("address") public String getAddress() { return address; }
-    @JsonProperty("tagged") public List<JsonAdaptedTag> getTagged() { return tagged; }
+    @JsonProperty("type") public String getType() {
+        return type;
+    }
+    @JsonProperty("name") public String getName() {
+        return name;
+    }
+    @JsonProperty("phone") public String getPhone() {
+        return phone;
+    }
+    @JsonProperty("email") public String getEmail() {
+        return email;
+    }
+    @JsonProperty("address") public String getAddress() {
+        return address;
+    }
+    @JsonProperty("tagged") public List<JsonAdaptedTag> getTagged() {
+        return tagged;
+    }
 
-    @JsonProperty("class") public String getStudentClass() { return studentClass; }
-    @JsonProperty("subjects") public List<String> getSubjects() { return subjects; }
-    @JsonProperty("emergencyContact") public String getEmergencyContact() { return emergencyContact; }
-    @JsonProperty("attendance") public String getAttendance() { return attendance; }
-    @JsonProperty("paymentStatus") public String getPaymentStatus() { return paymentStatus; }
-    @JsonProperty("assignmentStatus") public String getAssignmentStatus() { return assignmentStatus; }
+    @JsonProperty("class") public String getStudentClass() {
+        return studentClass;
+    }
+    @JsonProperty("subjects") public List<String> getSubjects() {
+        return subjects;
+    }
+    @JsonProperty("emergencyContact") public String getEmergencyContact() {
+        return emergencyContact;
+    }
+    @JsonProperty("attendance") public String getAttendance() {
+        return attendance;
+    }
+    @JsonProperty("paymentStatus") public String getPaymentStatus() {
+        return paymentStatus;
+    }
+    @JsonProperty("assignmentStatus") public String getAssignmentStatus() {
+        return assignmentStatus;
+    }
 
     /**
      * Converts this Jackson-friendly adapted person object into the model's {@link Person} or {@link Student} object.
