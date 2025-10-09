@@ -15,7 +15,7 @@ import seedu.address.model.tag.Tag;
  * Guarantees:
  * - Core identity fields (name, phone, email, class, subjects, emergency contact) are present and validated.
  * - Optional fields (attendance, payment status, assignment status) may be absent or updated over time.
- * - Identity fields are immutable.
+ * - Identity fields are immutable
  * - Operational fields are mutable to reflect real-time updates.
  */
 public class Student {
