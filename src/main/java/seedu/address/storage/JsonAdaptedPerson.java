@@ -18,7 +18,17 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.tag.Tag;
 
-@JsonInclude(JsonInclude.Include.NON_NULL) // omit nulls for backward compat
+/**
+ * Jackson-friendly version of {@link Person} and its subclass {@link Student}.
+ * <p>
+ * This class serves as an intermediate representation between the JSON data stored on disk
+ * and the model layer. It supports both {@code Person} and {@code Student} objects through
+ * the use of a discriminator field ("type") and conditional inclusion of student-specific attributes.
+ * <p>
+ * Fields annotated with {@link JsonProperty} map directly to JSON keys when serializing and deserializing.
+ * Any null values are omitted for backward compatibility with earlier AddressBook versions.
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
@@ -42,6 +52,25 @@ public class JsonAdaptedPerson {
     private final String paymentStatus;
     private final String assignmentStatus;
 
+    /**
+     * Constructs a {@code JsonAdaptedPerson} with the given JSON properties.
+     * <p>
+     * This constructor is called by Jackson during deserialization.
+     * The "type" field determines whether to later reconstruct a {@link Person} or {@link Student} model object.
+     *
+     * @param type             the object type ("person" or "student")
+     * @param name             the person's name
+     * @param phone            the person's phone number
+     * @param email            the person's email address
+     * @param address          the person's address
+     * @param tagged           list of associated tags
+     * @param studentClass     the student's class (mapped from JSON key "class")
+     * @param subjects         the student's enrolled subjects
+     * @param emergencyContact the student's emergency contact number
+     * @param attendance       the student's attendance status
+     * @param paymentStatus    the student's payment status
+     * @param assignmentStatus the student's assignment completion status
+     */
     @JsonCreator
     public JsonAdaptedPerson(
             @JsonProperty("type") String type,
@@ -73,8 +102,15 @@ public class JsonAdaptedPerson {
         this.assignmentStatus = assignmentStatus;
     }
 
+    /**
+     * Converts a given {@link Person} (or {@link Student}) model object into this Jackson-friendly class.
+     * <p>
+     * This constructor is used when saving data to JSON.
+     * If the source object is a {@code Student}, student-specific attributes are serialized as well.
+     *
+     * @param source the {@code Person} or {@code Student} instance to convert.
+     */
     public JsonAdaptedPerson(Person source) {
-        // base
         this.type = (source instanceof Student) ? "student" : "person";
         this.name = source.getName().fullName;
         this.phone = source.getPhone().value;
@@ -84,12 +120,12 @@ public class JsonAdaptedPerson {
 
         if (source instanceof Student) {
             Student s = (Student) source;
-            this.studentClass = s.getStudentClass();          // String
-            this.subjects = new ArrayList<>(s.getSubjects()); // List<String>
-            this.emergencyContact = s.getEmergencyContact();  // String
-            this.attendance = s.getAttendanceStatus();        // String
-            this.paymentStatus = s.getPaymentStatus();        // String
-            this.assignmentStatus = s.getAssignmentStatus();  // String
+            this.studentClass = s.getStudentClass();
+            this.subjects = new ArrayList<>(s.getSubjects());
+            this.emergencyContact = s.getEmergencyContact();
+            this.attendance = s.getAttendanceStatus();
+            this.paymentStatus = s.getPaymentStatus();
+            this.assignmentStatus = s.getAssignmentStatus();
         } else {
             this.studentClass = null;
             this.subjects = null;
@@ -116,7 +152,14 @@ public class JsonAdaptedPerson {
     @JsonProperty("assignmentStatus") public String getAssignmentStatus() { return assignmentStatus; }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
+     * Converts this Jackson-friendly adapted person object into the model's {@link Person} or {@link Student} object.
+     * <p>
+     * Validation checks are performed to ensure all required base fields are present.
+     * If any student-related fields or a "student" type discriminator are detected,
+     * a {@code Student} instance is constructed instead of a {@code Person}.
+     *
+     * @return a fully constructed {@code Person} or {@code Student} instance.
+     * @throws IllegalValueException if any required field is missing or invalid.
      */
     public Person toModelType() throws IllegalValueException {
         // === Validation and construction for base fields ===
@@ -146,7 +189,7 @@ public class JsonAdaptedPerson {
         }
         final Set<Tag> modelTagSet = new HashSet<>(modelTags);
 
-        // === Decide which model to build ===
+        // === Determine whether to construct a Student ===
         boolean hasStudentBits =
                 "student".equalsIgnoreCase(type)
                         || studentClass != null
@@ -157,7 +200,7 @@ public class JsonAdaptedPerson {
                         || assignmentStatus != null;
 
         if (hasStudentBits) {
-            // NOTE: Adjust this constructor call to your actual Student class signature
+            // Adjust this constructor call if your Student class uses different parameter ordering.
             Student student = new Student(
                     modelName,
                     modelPhone,
