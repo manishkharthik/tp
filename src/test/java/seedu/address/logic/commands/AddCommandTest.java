@@ -84,6 +84,61 @@ public class AddCommandTest {
         assertEquals(expected, addCommand.toString());
     }
 
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        Person validPerson = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(validPerson);
+
+        assertThrows(NullPointerException.class, () -> addCommand.execute(null));
+    }
+
+    @Test
+    public void hashCodeMethod() {
+        Person alice = new PersonBuilder().withName("Alice").build();
+        Person bob = new PersonBuilder().withName("Bob").build();
+        AddCommand addAliceCommand1 = new AddCommand(alice);
+        AddCommand addAliceCommand2 = new AddCommand(alice);
+        AddCommand addBobCommand = new AddCommand(bob);
+
+        // same person -> same hashCode
+        assertEquals(addAliceCommand1.hashCode(), addAliceCommand2.hashCode());
+
+        // different person -> different hashCode
+        assertFalse(addAliceCommand1.hashCode() == addBobCommand.hashCode());
+
+        // hashCode should be consistent with equals
+        assertTrue(addAliceCommand1.equals(addAliceCommand2));
+        assertEquals(addAliceCommand1.hashCode(), addAliceCommand2.hashCode());
+    }
+
+    @Test
+    public void getCommandWord() {
+        assertEquals("add", AddCommand.COMMAND_WORD);
+    }
+
+    @Test
+    public void getMessageUsage() {
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("add"));
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("student"));
+        // Test that new student-specific fields are included in usage message
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("c/")); // class
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("s/")); // subjects
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("ec/")); // emergency contact
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("att/")); // attendance
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("pay/")); // payment status
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("asg/")); // assignment status
+    }
+
+    @Test
+    public void getMessageSuccess() {
+        assertTrue(AddCommand.MESSAGE_SUCCESS.contains("student added"));
+    }
+
+    @Test
+    public void getMessageDuplicatePerson() {
+        assertTrue(AddCommand.MESSAGE_DUPLICATE_PERSON.contains("student already exists"));
+    }
+
     /**
      * A default model stub that have all of the methods failing.
      */
