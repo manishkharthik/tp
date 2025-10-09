@@ -79,6 +79,18 @@ public class UniquePersonList implements Iterable<Person> {
         }
     }
 
+    /**
+     * Archives the equivalent person from the list.
+     * The person must exist in the list.
+     * For now, archiving is implemented the same as removal.
+     */
+    public void archive(Person toArchive) {
+        requireNonNull(toArchive);
+        if (!internalList.remove(toArchive)) {
+            throw new PersonNotFoundException();
+        }
+    }
+
     public void setPersons(UniquePersonList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
