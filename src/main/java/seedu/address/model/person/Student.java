@@ -35,13 +35,19 @@ public class Student {
     /**
      * Every field must be present and not null.
      */
-    public Student(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Student(Name name, Phone phone, Email email, studentClss studentClass, Subjects subjects,
+                   EmergencyContact emergencyContact, Attendance attendance,
+                   PaymentStatus paymentStatus, AssignmentStatus assignmentStatus) {
+        requireAllNonNull(name, phone, email, studentClass, subjects, emergencyContact);
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.address = address;
-        this.tags.addAll(tags);
+        this.studentClass = studentClass;
+        this.subjects = subjects;
+        this.emergencyContact = emergencyContact;
+        this.attendance = attendance;
+        this.paymentStatus = paymentStatus;
+        this.assignmentStatus = assignmentStatus;   
     }
 
     public Name getName() {
