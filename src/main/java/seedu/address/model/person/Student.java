@@ -152,15 +152,20 @@ public class Student {
         return Objects.hash(name, phone, email, studentClass, subjects, emergencyContact,
                 attendance, paymentStatus, assignmentStatus);
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
-                .add("address", address)
-                .add("tags", tags)
+                .add("class", studentClass)
+                .add("subjects", subjects)
+                .add("emergencyContact", emergencyContact)
+                .add("attendance", attendance)
+                .add("paymentStatus", paymentStatus)
+                .add("assignmentStatus", assignmentStatus)
+                .add("isArchived", isArchived)
                 .toString();
     }
 
