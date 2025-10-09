@@ -12,7 +12,11 @@ import seedu.address.model.tag.Tag;
 
 /**
  * Represents a Student in the address book.
- * Guarantees: details are present and not null, field values are validated, immutable.
+ * Guarantees:
+ * - Core identity fields (name, phone, email, class, subjects, emergency contact) are present and validated.
+ * - Optional fields (attendance, payment status, assignment status) may be absent or updated over time.
+ * - Identity fields are immutable.
+ * - Operational fields are mutable to reflect real-time updates.
  */
 public class Student {
 
