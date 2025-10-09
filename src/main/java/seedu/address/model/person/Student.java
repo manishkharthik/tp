@@ -62,16 +62,48 @@ public class Student {
         return email;
     }
 
-    public Address getAddress() {
-        return address;
+    public StudentClss getStudentClass() {
+        return studentClass;
+    }   
+
+    public Subjects getSubjects() {
+        return subjects;
     }
 
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
+    public EmergencyContact getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public Attendance getAttendance() {
+        return attendance;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public AssignmentStatus getAssignmentStatus() {
+        return assignmentStatus;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setAttendance(Attendance attendance) {
+        this.attendance = attendance;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public void setAssignmentStatus(AssignmentStatus assignmentStatus) {
+        this.assignmentStatus = assignmentStatus;
+    }
+
+    public void setArchived(boolean isArchived) {
+        this.isArchived = isArchived;
     }
 
     /**
@@ -106,8 +138,12 @@ public class Student {
         return name.equals(otherStudent.name)
                 && phone.equals(otherStudent.phone)
                 && email.equals(otherStudent.email)
-                && address.equals(otherStudent.address)
-                && tags.equals(otherStudent.tags);
+                && studentClass.equals(otherStudent.studentClass)
+                && subjects.equals(otherStudent.subjects)
+                && emergencyContact.equals(otherStudent.emergencyContact)
+                && attendance.equals(otherStudent.attendance)
+                && paymentStatus.equals(otherStudent.paymentStatus)
+                && assignmentStatus.equals(otherStudent.assignmentStatus);  
     }
 
     @Override
