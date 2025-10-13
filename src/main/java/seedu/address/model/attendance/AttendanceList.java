@@ -2,14 +2,11 @@ package seedu.address.model.attendance;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import seedu.address.model.person.Name;
-import seedu.address.model.student.Student;
-
 
 
 /**
@@ -40,36 +37,45 @@ public class AttendanceList {
      * @param status   the attendance status
      */
     public void markAttendance(LocalDateTime dateTime, AttendanceStatus status) {
-        requireAllNonNull(student, dateTime, status);
-        // TODO: Complete logic for marking attendance
-        int studentId = student.getStudentId();
-        Name studentName = student.getName();
-        System.out.println("Marked " + studentName + " attendance");
+        requireAllNonNull(dateTime, status);
+
+        // Get the date part of the LocalDateTime
+        LocalDate day = dateTime.toLocalDate();
+
+        // Check if an attendance record for the same day already exists
+        for (AttendanceRecord record : studentAttendance) {
+            if (record.getDateTime().toLocalDate().equals(day)) {
+                // Update the existing record's status
+                studentAttendance.remove(record);
+                studentAttendance.add(new AttendanceRecord(status, dateTime));
+                System.out.println("Updated student's existing attendance record for " + day);
+                return;
+            }
+        }
+
+        // If no record exists for that day, add a new one
+        studentAttendance.add(new AttendanceRecord(status, dateTime));
+        System.out.println("Added new attendance record for student on" + day);
+        return;
     }
 
     /**
      * Returns the list of attendance records for a given student.
      *
-     * @param student the student whose attendance record is requested
      * @return a list of AttendanceRecord objects
      */
-    public List<AttendanceRecord> getStudentAttendance(Student student) {
-        try {
-            System.out.println("Returned student attendance!");
-            return new ArrayList<>();
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+    public List<AttendanceRecord> getStudentAttendance() {
+        System.out.println("Returned student attendance!");
+        return new ArrayList<>(studentAttendance);
     }
 
     /**
      * Calculates the attendance rate for the student.
      *
-     * @param student the student whose attendance rate is calculated
      * @return a double representing the fraction of attended sessions
      */
-    public double getAttendanceRate(Student student) {
-        List<AttendanceRecord> records = getStudentAttendance(student);
+    public double getAttendanceRate() {
+        List<AttendanceRecord> records = getStudentAttendance();
         if (records.isEmpty()) {
             return 0.0;
         }
