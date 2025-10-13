@@ -98,6 +98,9 @@ public class AttendanceList {
         return studentAttendance.equals(otherAttendanceList.studentAttendance);
     }
 
+    /**
+     * Return hashcode of the attendance list
+     */
     @Override
     public int hashCode() {
         return Objects.hash(studentAttendance);
