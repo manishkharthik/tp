@@ -6,7 +6,8 @@ import java.util.Objects;
 
 /**
  * Represents the attendance of a student.
- * It is tagged to student class, each student has their own attendance record.
+ * It is tagged to Student class and attendanceList class.
+ * It is made up of a dateTime and a AttendanceStatus.
  * 
  * Attendance record provides methods to mark & retrieve attendance and handles bulk operations
  */
