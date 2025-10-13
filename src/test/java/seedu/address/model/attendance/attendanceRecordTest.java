@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 public class AttendanceRecordTest {
 
-    // Sample attendance records for testing
+    // Sample attendance records for testing.
     private static final LocalDateTime DT1 = LocalDateTime.of(2025, 10, 13, 10, 0);
     private static final LocalDateTime DT2 = LocalDateTime.of(2025, 10, 14, 10, 0);
     private static final LocalDateTime DT3 = LocalDateTime.of(2025, 10, 15, 10, 0);
