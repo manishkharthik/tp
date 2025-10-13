@@ -32,7 +32,9 @@ public class AttendanceList {
 
     /**
      * Marks attendance for the student at a specific date and time.
-     *
+     * If a record for the same calendar date exists, updates it.
+     * Otherwise add as a new record.
+     * 
      * @param dateTime the date and time of the attendance
      * @param status   the attendance status
      */
