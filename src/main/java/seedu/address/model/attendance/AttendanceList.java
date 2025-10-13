@@ -103,7 +103,9 @@ public class AttendanceList {
         return Objects.hash(studentAttendance);
     }
 
-    // Retrn a string representation of the attendance list (number of entries)
+    /**
+     * Return a string representation of the attendance list (number of entries)
+     */
     @Override
     public String toString() {
         return "AttendanceList: " + studentAttendance.size() + " entries";
