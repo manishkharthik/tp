@@ -1,4 +1,4 @@
-package seedu.address.model.attendance;
+package test.java.seedu.address.model.attendance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
