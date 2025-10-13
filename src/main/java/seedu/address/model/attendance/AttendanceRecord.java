@@ -8,7 +8,6 @@ import java.util.Objects;
  * Represents the attendance of a student.
  * It is tagged to student class.
  * Guarantees: details are present ....
- * 
  * Attendance record provides methods to mark & retrieve attendance and handles bulk operations
  */
 public class AttendanceRecord {
@@ -25,7 +24,6 @@ public class AttendanceRecord {
     }
 
     /**
-     * 
      * @return returns current status of this record
      */
     public AttendanceStatus getStatus() {
@@ -33,7 +31,6 @@ public class AttendanceRecord {
     }
 
     /**
-     * 
      * @return returns current date and time of this attendance record
      */
     public LocalDateTime getDateTime() {
@@ -56,7 +53,7 @@ public class AttendanceRecord {
         }
 
         AttendanceRecord otherAttendanceRecord = (AttendanceRecord) other;
-        return dateTime.equals(otherAttendanceRecord.dateTime) 
+        return dateTime.equals(otherAttendanceRecord.dateTime)
             && status.equals(otherAttendanceRecord.status);
     }
 
