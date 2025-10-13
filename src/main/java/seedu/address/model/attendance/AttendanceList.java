@@ -26,23 +26,13 @@ import seedu.address.model.student.Student;
 public class AttendanceList {
 
     // Map of student ID to their attendance records
-    private final Map<String, List<AttendanceRecord>> studentAttendance;
+    private final List<AttendanceRecord> studentAttendance;
 
     /**
      * Creates a new AttendanceList for students of a lesson.
      */
     public AttendanceList() {
-        this.studentAttendance = new HashMap<>();
-    }
-
-    /**
-     * Copies over an existing AttendanceList.
-     */
-    public AttendanceList(AttendanceList toBeCopied) {
-        requireAllNonNull(toBeCopied);
-        studentAttendance = new HashMap<>();
-        toBeCopied.studentAttendance.forEach((studentId, records) ->
-                studentAttendance.put(studentId, new ArrayList<>(records)));
+        this.studentAttendance = new ArrayList<>();
     }
 
     /**
