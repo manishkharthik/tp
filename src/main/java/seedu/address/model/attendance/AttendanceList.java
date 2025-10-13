@@ -17,7 +17,7 @@ import seedu.address.model.student.Student;
 /**
  * Represents a list of attendance records tagged to a single student.
  * Each student has his/her own attendance list.
- * Each attendance list is a student’s personal list of all attendance records.
+ * Each attendance list contains all of a student’s attendance records.
  * 
  * AttendanceList provides methods to mark attendance, retrieve attendance,
  * calculate attendance rate for a student
