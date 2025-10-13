@@ -2,7 +2,6 @@ package seedu.address.model.attendance;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class AttendanceList {
 
     /**
      * Marks attendance for the student at a specific date and time.
-     * If a record for the same calendar date exists, updates it.
+     * If a record for the same date and time exists, updates it.
      * Otherwise add as a new record.
      * 
      * @param dateTime the date and time of the attendance
@@ -41,23 +40,19 @@ public class AttendanceList {
     public void markAttendance(LocalDateTime dateTime, AttendanceStatus status) {
         requireAllNonNull(dateTime, status);
 
-        // Get the date part of the LocalDateTime
-        LocalDate day = dateTime.toLocalDate();
-
-        // Check if an attendance record for the same day already exists
+        // Check if an attendance record for the same date and time already exists
         for (AttendanceRecord record : studentAttendance) {
-            if (record.getDateTime().toLocalDate().equals(day)) {
+            if (record.getDateTime().equals(dateTime)) {
                 // Update the existing record's status
-                studentAttendance.remove(record);
-                studentAttendance.add(new AttendanceRecord(status, dateTime));
-                System.out.println("Updated student's existing attendance record for " + day);
+                record.setStatus(status);
+                System.out.println("Updated student's existing attendance record for " + dateTime);
                 return;
             }
         }
 
         // If no record exists for that day, add a new one
         studentAttendance.add(new AttendanceRecord(status, dateTime));
-        System.out.println("Added new attendance record for student on" + day);
+        System.out.println("Added new attendance record for student on " + dateTime);
         return;
     }
 
@@ -68,7 +63,7 @@ public class AttendanceList {
      */
     public List<AttendanceRecord> getStudentAttendance() {
         System.out.println("Returned student attendance!");
-        return new ArrayList<>(studentAttendance);
+        return List.copyOf(studentAttendance);
     }
 
     /**
