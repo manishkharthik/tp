@@ -12,7 +12,7 @@ import java.util.Objects;
  * Represents a list of attendance records tagged to a single student.
  * Each student has his/her own attendance list.
  * Each attendance list contains all of a student’s attendance records.
- * 
+ *
  * AttendanceList provides methods to mark attendance, retrieve attendance,
  * calculate attendance rate for a student
  * and handles bulk operations for students within a lesson.
@@ -33,7 +33,7 @@ public class AttendanceList {
      * Marks attendance for the student at a specific date and time.
      * If a record for the same date and time exists, updates it.
      * Otherwise add as a new record.
-     * 
+     *
      * @param dateTime the date and time of the attendance
      * @param status   the attendance status
      */

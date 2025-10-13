@@ -36,7 +36,6 @@ public class AttendanceListTest {
     // Test 2: markAttendance adds a new record when none exists for the dateTime.
     @Test
     void markAttendance_addsNewRecordWhenNoneExists() {
-        
         list.markAttendance(DT1, AttendanceStatus.PRESENT);
         assertEquals(1, list.getStudentAttendance().size());
         assertEquals(AttendanceStatus.PRESENT, list.getStudentAttendance().get(0).getStatus());
@@ -96,7 +95,6 @@ public class AttendanceListTest {
         AttendanceList list2 = new AttendanceList();
         assertEquals(list1, list2); 
     }
-
     @Test
     void equals_worksCorrectly2() {
         AttendanceList list1 = new AttendanceList();

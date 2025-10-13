@@ -8,7 +8,7 @@ import java.util.Objects;
  * Represents the attendance of a student.
  * It is tagged to Student class and attendanceList class.
  * It is made up of a dateTime and a AttendanceStatus.
- * 
+ *
  * Attendance record provides methods to mark & retrieve attendance and handles bulk operations
  */
 public class AttendanceRecord {
@@ -49,7 +49,7 @@ public class AttendanceRecord {
      * Returns true if attendance record already exists
      * Uniqueness is determined by dateTime only
      * (i.e. same dateTime)
-     * 
+     *
      * @param other the other attendance record to compare with
      * @return true if both attendance records have the same dateTime
      */
