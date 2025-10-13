@@ -92,7 +92,7 @@ public class AttendanceRecordTest {
         assertTrue(record4.equals(record4));
     }
 
-    // Test 9: toString method returns expected string representation.
+    // Test 9: toString method returns the expected string representation.
     @Test
     void toString_returnsExpectedString() {
         String expected1 = record1.toString();
