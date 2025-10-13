@@ -15,9 +15,10 @@ import seedu.address.model.student.Student;
 
 
 /**
- * Represents a list of attendance records tagged to a lesson class.
- * Guarantees: details are present and not null where specified.
- *
+ * Represents a list of attendance records tagged to a lesson. 
+ * Each student in the lesson has their own attendance record.
+ * Each lesson has its own attendance list.
+ * 
  * AttendanceList provides methods to mark and retrieve attendance,
  * and handles bulk operations for students within a lesson.
  */

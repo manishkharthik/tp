@@ -6,12 +6,12 @@ import java.util.Objects;
 
 /**
  * Represents the attendance of a student.
- * It is tagged to student class.
- * Guarantees: details are present ....
+ * It is tagged to student class, each student has their own attendance record.
+ * 
  * Attendance record provides methods to mark & retrieve attendance and handles bulk operations
  */
 public class AttendanceRecord {
-    //private fields
+    // Private fields
     private final LocalDateTime dateTime;
     private final AttendanceStatus status;
 
@@ -47,7 +47,7 @@ public class AttendanceRecord {
             return true;
         }
 
-        // instanceof handles nulls
+        // Instanceof handles nulls
         if (!(other instanceof AttendanceRecord)) {
             return false;
         }
