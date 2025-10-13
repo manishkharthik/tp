@@ -346,7 +346,7 @@ MSS:
    4. User confirms.
    5. Student is added.
    Use case ends.
-   
+
    Extensions:
    *a. At any time, User chooses to cancel the addition.
       *a1. User clicks on the back button.
@@ -364,7 +364,7 @@ MSS:
    4. User confirms.
    5. Student profile is updated.
    Use case ends.
-   
+
    Extensions:
    *a. At any time, User chooses to cancel the modification.
       *a1. User clicks on the back button.
@@ -382,7 +382,7 @@ MSS:
    4. User confirms.
    5. User profile is updated.
    Use case ends.
-   
+
    Extensions:
    *a. At any time, User chooses to cancel the modification.
       *a1. User clicks on the back button.
@@ -457,7 +457,7 @@ Extensions:
 * **Assignment Completion**: A record to inidicate whether tasks given by tutors to students for them to complete is completed
 * **Subject Enrollment**: The mapping between students and subjects they are learning, students may have mulitple subjects
 * **Payment Record**: A log entry for fees paid by students or parents, including amount and date, supports balance tracking
-* **Outstanding Balance**: The unpaid student fees 
+* **Outstanding Balance**: The unpaid student fees
 * **Performance Data**: Records of a student's test scores, grades, and attendance to track a student’s academic performance over time
 * **Teaching Material**: Documents, textbooks, or resources uploaded by tutors for lessons and/or assignments
 

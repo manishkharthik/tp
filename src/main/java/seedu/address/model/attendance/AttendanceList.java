@@ -4,83 +4,75 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-
-import seedu.address.model.person.Name;
-import seedu.address.model.student.Student;
-
 
 
 /**
- * Represents a list of attendance records tagged to a lesson class.
- * Guarantees: details are present and not null where specified.
+ * Represents a list of attendance records tagged to a single student.
+ * Each student has his/her own attendance list.
+ * Each attendance list contains all of a student’s attendance records.
  *
- * AttendanceList provides methods to mark and retrieve attendance,
+ * AttendanceList provides methods to mark attendance, retrieve attendance,
+ * calculate attendance rate for a student
  * and handles bulk operations for students within a lesson.
  */
 public class AttendanceList {
 
-    // Map of student ID to their attendance records
-    private final Map<String, List<AttendanceRecord>> studentAttendance;
+    // A list of a student's attendance records
+    private final List<AttendanceRecord> studentAttendance;
 
     /**
-     * Creates a new AttendanceList for students of a lesson.
+     * Creates a new AttendanceList for a student
      */
     public AttendanceList() {
-        this.studentAttendance = new HashMap<>();
+        this.studentAttendance = new ArrayList<>();
     }
 
     /**
-     * Copies over an existing AttendanceList.
-     */
-    public AttendanceList(AttendanceList toBeCopied) {
-        requireAllNonNull(toBeCopied);
-        studentAttendance = new HashMap<>();
-        toBeCopied.studentAttendance.forEach((studentId, records) ->
-                studentAttendance.put(studentId, new ArrayList<>(records)));
-    }
-
-    /**
-     * Marks attendance for a student at a specific date and time.
+     * Marks attendance for the student at a specific date and time.
+     * If a record for the same date and time exists, updates it.
+     * Otherwise add as a new record.
      *
-     * @param student  the student whose attendance to mark
      * @param dateTime the date and time of the attendance
      * @param status   the attendance status
      */
-    public void markAttendance(Student student, LocalDateTime dateTime, AttendanceStatus status) {
-        requireAllNonNull(student, dateTime, status);
-        // TODO: Complete logic for marking attendance
-        int studentId = student.getStudentId();
-        Name studentName = student.getName();
-        System.out.println("Marked " + studentName + " attendance");
+    public void markAttendance(LocalDateTime dateTime, AttendanceStatus status) {
+        requireAllNonNull(dateTime, status);
+
+        // Check if an attendance record for the same date and time already exists
+        for (AttendanceRecord record : studentAttendance) {
+            if (record.getDateTime().equals(dateTime)) {
+                // Update the existing record's status
+                record.setStatus(status);
+                System.out.println("Updated student's existing attendance record for " + dateTime);
+                return;
+            }
+        }
+
+        // If no record exists for that day, add a new one
+        studentAttendance.add(new AttendanceRecord(status, dateTime));
+        System.out.println("Added new attendance record for student on " + dateTime);
+        return;
     }
 
     /**
      * Returns the list of attendance records for a given student.
      *
-     * @param student the student whose attendance record is requested
      * @return a list of AttendanceRecord objects
      */
-    public List<AttendanceRecord> getStudentAttendance(Student student) {
-        try {
-            System.out.println("Returned student attendance!");
-            return new ArrayList<>();
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+    public List<AttendanceRecord> getStudentAttendance() {
+        System.out.println("Returned student attendance!");
+        return List.copyOf(studentAttendance);
     }
 
     /**
-     * Calculates the attendance rate for a student.
+     * Calculates the attendance rate for the student.
      *
-     * @param student the student whose attendance rate is calculated
      * @return a double representing the fraction of attended sessions
      */
-    public double getAttendanceRate(Student student) {
-        List<AttendanceRecord> records = getStudentAttendance(student);
+    public double getAttendanceRate() {
+        List<AttendanceRecord> records = getStudentAttendance();
         if (records.isEmpty()) {
             return 0.0;
         }
@@ -109,13 +101,19 @@ public class AttendanceList {
         return studentAttendance.equals(otherAttendanceList.studentAttendance);
     }
 
+    /**
+     * Return hashcode of the attendance list
+     */
     @Override
     public int hashCode() {
         return Objects.hash(studentAttendance);
     }
 
+    /**
+     * Return a string representation of the attendance list (number of entries)
+     */
     @Override
     public String toString() {
-        return "AttendanceList: " + studentAttendance.size() + " students";
+        return "AttendanceList: " + studentAttendance.size() + " entries";
     }
 }
