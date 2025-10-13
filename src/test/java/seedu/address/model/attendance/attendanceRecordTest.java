@@ -33,7 +33,7 @@ public class AttendanceRecordTest {
         assertEquals(AttendanceStatus.PRESENT, test1.getStatus());
         assertEquals(DT1, test1.getDateTime());
     }
-    
+
     // Test 2: getStatus returns correct status.
     @Test
     void getStatus_returnsCorrectStatus() {
@@ -73,7 +73,7 @@ public class AttendanceRecordTest {
         assertNotEquals(record1, record3);
         assertNotEquals(record2, record3);
     }
-   
+
     // Test 6: equals method returns true for different status but same dateTime.
     @Test
     void equals_sameDateTimeDifferentStatus() {
@@ -91,7 +91,7 @@ public class AttendanceRecordTest {
         assertTrue(record3.equals(record3));
         assertTrue(record4.equals(record4));
     }
-   
+
     // Test 9: toString method returns expected string representation.
     @Test
     void toString_returnsExpectedString() {

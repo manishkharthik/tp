@@ -93,14 +93,14 @@ public class AttendanceListTest {
     void equals_worksCorrectly1() {
         AttendanceList list1 = new AttendanceList();
         AttendanceList list2 = new AttendanceList();
-        assertEquals(list1, list2); 
+        assertEquals(list1, list2);
     }
     @Test
     void equals_worksCorrectly2() {
         AttendanceList list1 = new AttendanceList();
         AttendanceList list2 = new AttendanceList();
         list1.markAttendance(DT1, AttendanceStatus.PRESENT);
-        assertNotEquals(list1, list2); 
+        assertNotEquals(list1, list2);
     }
 
     // Test 8: tostring method works correctly.
