@@ -1,63 +1,68 @@
 package seedu.address.model.attendance;
-import seedu.address.model.person.*;
-
-import java.time.LocalDateTime;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import seedu.address.model.person.Name;
+import seedu.address.model.student.Student;
 
 
 
 /**
- * Represents a list of attendances of attendance records.
- * It is tagged to lesson class.
- * Guarantees: details are present ....
- * 
- * Attendance list provides methods to mark & retrieve attendance and handles bulk operations
+ * Represents a list of attendance records tagged to a lesson class.
+ * Guarantees: details are present and not null where specified.
+ *
+ * AttendanceList provides methods to mark and retrieve attendance,
+ * and handles bulk operations for students within a lesson.
  */
 public class AttendanceList {
 
-    // Map of student ID to their attendance records 
+    // Map of student ID to their attendance records
     private final Map<String, List<AttendanceRecord>> studentAttendance;
 
     /**
-     * Creates a new attendanceList for students of a lesson
+     * Creates a new AttendanceList for students of a lesson.
      */
     public AttendanceList() {
         this.studentAttendance = new HashMap<>();
     }
 
     /**
-     * Copies over an attendance list that already exists
+     * Copies over an existing AttendanceList.
      */
     public AttendanceList(AttendanceList toBeCopied) {
         requireAllNonNull(toBeCopied);
         studentAttendance = new HashMap<>();
-        toBeCopied.studentAttendance.forEach((studentId, records) -> 
-                                            studentAttendance.put(studentId, new ArrayList<>(records)));
+        toBeCopied.studentAttendance.forEach((studentId, records) ->
+                studentAttendance.put(studentId, new ArrayList<>(records)));
     }
 
     /**
-     * @param student the student whose attendance to mark
+     * Marks attendance for a student at a specific date and time.
+     *
+     * @param student  the student whose attendance to mark
      * @param dateTime the date and time of the attendance
-     * @param status the attendance status (Optional)
+     * @param status   the attendance status
      */
     public void markAttendance(Student student, LocalDateTime dateTime, AttendanceStatus status) {
         requireAllNonNull(student, dateTime, status);
-        // TODO: Finish up logic for mark attendance
+        // TODO: Complete logic for marking attendance
         int studentId = student.getStudentId();
         Name studentName = student.getName();
-        System.out.println("Marked" + studentName +  "attendance");
+        System.out.println("Marked " + studentName + " attendance");
     }
 
     /**
-     * @param student the student whose attendance record we get
-     * @return list of attendance records for student
+     * Returns the list of attendance records for a given student.
+     *
+     * @param student the student whose attendance record is requested
+     * @return a list of AttendanceRecord objects
      */
     public List<AttendanceRecord> getStudentAttendance(Student student) {
         try {
@@ -68,21 +73,27 @@ public class AttendanceList {
         }
     }
 
+    /**
+     * Calculates the attendance rate for a student.
+     *
+     * @param student the student whose attendance rate is calculated
+     * @return a double representing the fraction of attended sessions
+     */
     public double getAttendanceRate(Student student) {
         List<AttendanceRecord> records = getStudentAttendance(student);
         if (records.isEmpty()) {
             return 0.0;
         }
-        // converts into stream and filter and count those that are present
+
         long presentCount = records.stream()
                 .filter(r -> r.getStatus() == AttendanceStatus.PRESENT)
                 .count();
+
         return (double) presentCount / records.size();
     }
 
     /**
-     * Returns true if both persons have the same identity and data fields.
-     * This defines a stronger notion of equality between two attendance list.
+     * Returns true if both attendance lists have the same data.
      */
     @Override
     public boolean equals(Object other) {
@@ -90,7 +101,6 @@ public class AttendanceList {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof AttendanceList)) {
             return false;
         }
@@ -106,7 +116,6 @@ public class AttendanceList {
 
     @Override
     public String toString() {
-        return "AttendanceList: " + studentAttendance.size() + "students";
+        return "AttendanceList: " + studentAttendance.size() + " students";
     }
-
 }
