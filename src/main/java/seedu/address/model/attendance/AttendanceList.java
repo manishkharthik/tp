@@ -4,9 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import seedu.address.model.person.Name;
@@ -25,24 +23,23 @@ import seedu.address.model.student.Student;
  */
 public class AttendanceList {
 
-    // Map of student ID to their attendance records
+    // A list of a student's attendance records
     private final List<AttendanceRecord> studentAttendance;
 
     /**
-     * Creates a new AttendanceList for students of a lesson.
+     * Creates a new AttendanceList for a student
      */
     public AttendanceList() {
         this.studentAttendance = new ArrayList<>();
     }
 
     /**
-     * Marks attendance for a student at a specific date and time.
+     * Marks attendance for the student at a specific date and time.
      *
-     * @param student  the student whose attendance to mark
      * @param dateTime the date and time of the attendance
      * @param status   the attendance status
      */
-    public void markAttendance(Student student, LocalDateTime dateTime, AttendanceStatus status) {
+    public void markAttendance(LocalDateTime dateTime, AttendanceStatus status) {
         requireAllNonNull(student, dateTime, status);
         // TODO: Complete logic for marking attendance
         int studentId = student.getStudentId();
@@ -66,7 +63,7 @@ public class AttendanceList {
     }
 
     /**
-     * Calculates the attendance rate for a student.
+     * Calculates the attendance rate for the student.
      *
      * @param student the student whose attendance rate is calculated
      * @return a double representing the fraction of attended sessions
@@ -106,8 +103,9 @@ public class AttendanceList {
         return Objects.hash(studentAttendance);
     }
 
+    // Retrn a string representation of the attendance list (number of entries)
     @Override
     public String toString() {
-        return "AttendanceList: " + studentAttendance.size() + " students";
+        return "AttendanceList: " + studentAttendance.size() + " entries";
     }
 }
