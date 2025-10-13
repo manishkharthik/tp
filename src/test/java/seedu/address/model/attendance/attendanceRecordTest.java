@@ -14,6 +14,8 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.attendance.AttendanceRecord;
+
 public class AttendanceRecordTest {
 
     // Sample attendance records for testing.
