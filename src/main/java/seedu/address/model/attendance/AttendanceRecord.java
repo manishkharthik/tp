@@ -14,7 +14,7 @@ import java.util.Objects;
 public class AttendanceRecord {
     // Private fields
     private final LocalDateTime dateTime;
-    private final AttendanceStatus status;
+    private AttendanceStatus status;
 
     /**
      * Constructor
@@ -32,6 +32,13 @@ public class AttendanceRecord {
     }
 
     /**
+     * Sets the status of this attendance record
+     */
+    public void setStatus(AttendanceStatus status) {
+        this.status = status;
+    }
+
+    /**
      * @return returns current date and time of this attendance record
      */
     public LocalDateTime getDateTime() {
@@ -39,8 +46,12 @@ public class AttendanceRecord {
     }
 
     /**
-     * Returns true if both persons have the same identity and data fields.
-     * This defines a stronger notion of equality between two attendance records.
+     * Returns true if attendance record already exists
+     * Uniqueness is determined by dateTime only
+     * (i.e. same dateTime)
+     * 
+     * @param other the other attendance record to compare with
+     * @return true if both attendance records have the same dateTime
      */
     @Override
     public boolean equals(Object other) {
@@ -54,13 +65,12 @@ public class AttendanceRecord {
         }
 
         AttendanceRecord otherAttendanceRecord = (AttendanceRecord) other;
-        return dateTime.equals(otherAttendanceRecord.dateTime)
-            && status.equals(otherAttendanceRecord.status);
+        return dateTime.equals(otherAttendanceRecord.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dateTime, status);
+        return Objects.hash(dateTime);
     }
 
     @Override
