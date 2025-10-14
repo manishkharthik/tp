@@ -7,11 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.attendance.AttendanceList;
+import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -34,9 +37,15 @@ public class StudentTest {
     private final List<String> subjects = List.of("Math", "Science");
     private final String studentClass = "10A";
     private final String emergencyContact = "98765432";
-    private final String attendance = "Present";
+    private final AttendanceList attendance = new AttendanceList();
     private final String paymentStatus = "Paid";
     private final String assignmentStatus = "Completed";
+    private final LocalDateTime time = LocalDateTime.of(2025, 10, 13, 10, 0);
+    {
+        attendance.markAttendance(time, AttendanceStatus.PRESENT);
+    }
+
+
 
     private final Student baseStudent = new Student(
             name, phone, email, address, tags,
@@ -74,7 +83,7 @@ public class StudentTest {
                         subjects,
                         "10A",
                         "98765432",
-                        "Present",
+                        attendance,
                         "Paid",
                         "Completed"
                 ));

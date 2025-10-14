@@ -44,9 +44,9 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_STUDENT_CLASS = "10A";
     private static final List<String> VALID_SUBJECTS = List.of("Math", "Physics");
     private static final String VALID_EMERGENCY_CONTACT = "91234567";
-    private static final String VALID_ATTENDANCE = "Present";
     private static final String VALID_PAYMENT_STATUS = "Paid";
     private static final String VALID_ASSIGNMENT_STATUS = "Completed";
+    private static final List<String> VALID_ATTENDANCE_LIST = List.of("PRESENT,2025-10-14T10:00");
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
@@ -193,7 +193,7 @@ public class JsonAdaptedPersonTest {
     }
 
     @Test
-    public void toModelType_validStudentDetails_returnsStudent() throws Exception {
+    public void toModelType_validStudentDetails_returnsStudent() {
         JsonAdaptedPerson student = new JsonAdaptedPerson(
                 "student",
                 VALID_NAME,
@@ -204,9 +204,9 @@ public class JsonAdaptedPersonTest {
                 VALID_STUDENT_CLASS,
                 VALID_SUBJECTS,
                 VALID_EMERGENCY_CONTACT,
-                VALID_ATTENDANCE,
                 VALID_PAYMENT_STATUS,
-                VALID_ASSIGNMENT_STATUS
+                VALID_ASSIGNMENT_STATUS,
+                VALID_ATTENDANCE_LIST
         );
         // We only test for successful conversion (not deep equality)
         assertEquals("student", student.getType());

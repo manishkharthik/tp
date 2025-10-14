@@ -13,6 +13,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -27,6 +28,9 @@ public class StudentListTest {
 
     @BeforeEach
     public void setUp() {
+        AttendanceList attendanceList1 = new AttendanceList();
+        AttendanceList attendanceList2 = new AttendanceList();
+        // Optionally, mark attendance for specific dates if needed
         student1 = new Student(
                 new Name("Alice"),
                 new Phone("12345678"),
@@ -36,7 +40,7 @@ public class StudentListTest {
                 List.of("Math"),
                 "10A",
                 "98765432",
-                "Present",
+                attendanceList1,
                 "Paid",
                 "Completed");
 
@@ -49,7 +53,7 @@ public class StudentListTest {
                 List.of("Science"),
                 "10B",
                 "87651234",
-                "Absent",
+                attendanceList2,
                 "Unpaid",
                 "Incomplete");
 

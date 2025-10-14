@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -21,7 +22,7 @@ public class Student extends Person {
     private List<String> subjects;
     private String studentClass;
     private String emergencyContact;
-    private String attendance;
+    private AttendanceList attendance;
     private String paymentStatus;
     private String assignmentStatus;
     private final int id = 1;
@@ -36,7 +37,7 @@ public class Student extends Person {
      * @param tags Tags associated with the student
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<String> subjects,
-                   String studentClass, String emergencyContact, String attendance,
+                   String studentClass, String emergencyContact, AttendanceList attendance,
                    String paymentStatus, String assignmentStatus) {
         super(name, phone, email, address, tags);
         this.subjects = subjects;
@@ -59,7 +60,7 @@ public class Student extends Person {
         return emergencyContact;
     }
 
-    public String getAttendanceStatus() {
+    public AttendanceList getAttendanceStatus() {
         return attendance;
     }
 
