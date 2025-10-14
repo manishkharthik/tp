@@ -248,18 +248,14 @@ public class JsonAdaptedPerson {
         if (hasStudentBits) {
             return new Student(
                     modelName,
-                    modelPhone,
-                    modelEmail,
-                    modelAddress,
-                    modelTagSet,
                     subjects,
                     studentClass,
                     emergencyContact,
                     modelAttendanceList,
                     paymentStatus,
-                    assignmentStatus
-            );
+                    assignmentStatus);
         }
+
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTagSet);
     }
 }

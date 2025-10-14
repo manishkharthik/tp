@@ -2,8 +2,10 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -120,5 +122,49 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /** Parses comma-separated subjects into {@code List<String>}. */
+    public static List<String> parseSubjects(String csvSubjects) throws ParseException {
+        requireNonNull(csvSubjects);
+        String trimmed = csvSubjects.trim();
+        if (trimmed.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String[] parts = trimmed.split(",");
+        List<String> subjects = new ArrayList<>();
+        for (String part : parts) {
+            String s = part.trim();
+            if (!s.isEmpty()) {
+                subjects.add(s);
+            }
+        }
+        return subjects;
+    }
+
+    /** Parses class string (non-empty). */
+    public static String parseStudentClass(String studentClass) throws ParseException {
+        requireNonNull(studentClass);
+        String trimmed = studentClass.trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException("Class cannot be empty.");
+        }
+        return trimmed;
+    }
+
+    /** Parses emergency contact, basic digit check. */
+    public static String parseEmergencyContact(String contact) throws ParseException {
+        requireNonNull(contact);
+        String trimmed = contact.trim();
+        if (!trimmed.matches("\\d{3,}")) {
+            throw new ParseException("Emergency contact should contain at least 3 digits.");
+        }
+        return trimmed;
+    }
+
+    /** Parses optional free-form status. */
+    public static String parseOptionalStatus(String status) throws ParseException {
+        requireNonNull(status);
+        return status.trim();
     }
 }

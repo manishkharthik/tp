@@ -8,17 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.attendance.AttendanceList;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 
 public class StudentListTest {
 
@@ -33,10 +28,6 @@ public class StudentListTest {
         // Optionally, mark attendance for specific dates if needed
         student1 = new Student(
                 new Name("Alice"),
-                new Phone("12345678"),
-                new Email("alice@example.com"),
-                new Address("123 Main St"),
-                Set.of(new Tag("CS2103")),
                 List.of("Math"),
                 "10A",
                 "98765432",
@@ -46,10 +37,6 @@ public class StudentListTest {
 
         student2 = new Student(
                 new Name("Bob"),
-                new Phone("87654321"),
-                new Email("bob@example.com"),
-                new Address("456 Side St"),
-                Set.of(new Tag("CS2103")),
                 List.of("Science"),
                 "10B",
                 "87651234",
