@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.attendance.AttendanceList;
+import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -41,16 +44,16 @@ public class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final String address;
-    private final List<JsonAdaptedTag> tagged = new ArrayList<>();
+    private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     // Student-only fields
     // "class" is a reserved word in Java; map JSON name "class" to Java field studentClass
     private final String studentClass;
     private final List<String> subjects;
     private final String emergencyContact;
-    private final String attendance;
     private final String paymentStatus;
     private final String assignmentStatus;
+    private final List<String> attendanceList;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given JSON properties.
@@ -65,61 +68,31 @@ public class JsonAdaptedPerson {
             @JsonProperty("phone") String phone,
             @JsonProperty("email") String email,
             @JsonProperty("address") String address,
-        @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
-        // Backward/alternate key used by some fixtures: "tags"
-        @JsonProperty("tags") List<JsonAdaptedTag> legacyTags,
+            @JsonProperty("tags") List<JsonAdaptedTag> tags,
             @JsonProperty("class") String studentClass,
             @JsonProperty("subjects") List<String> subjects,
             @JsonProperty("emergencyContact") String emergencyContact,
-            @JsonProperty("attendance") String attendance,
             @JsonProperty("paymentStatus") String paymentStatus,
-            @JsonProperty("assignmentStatus") String assignmentStatus) {
-
+            @JsonProperty("assignmentStatus") String assignmentStatus,
+            @JsonProperty("attendanceList") List<String> attendanceList) {
         this.type = (type == null) ? "person" : type;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        if (tagged != null) {
-            this.tagged.addAll(tagged);
-        } else if (legacyTags != null) {
-            // Accept legacy "tags" property as an alias for "tagged"
-            this.tagged.addAll(legacyTags);
+        if (tags != null) {
+            this.tags.addAll(tags);
         }
         this.studentClass = studentClass;
         this.subjects = (subjects == null) ? null : new ArrayList<>(subjects);
         this.emergencyContact = emergencyContact;
-        this.attendance = attendance;
         this.paymentStatus = paymentStatus;
         this.assignmentStatus = assignmentStatus;
-    }
-
-    /**
-     * Backward-compatible convenience constructor without the legacy "tags" alias parameter.
-     * This matches older call sites and unit tests that pass only the "tagged" list.
-     */
-    public JsonAdaptedPerson(
-            String type,
-            String name,
-            String phone,
-            String email,
-            String address,
-            List<JsonAdaptedTag> tagged,
-            String studentClass,
-            List<String> subjects,
-            String emergencyContact,
-            String attendance,
-            String paymentStatus,
-            String assignmentStatus) {
-        this(type, name, phone, email, address, tagged, /* legacyTags */ null,
-                studentClass, subjects, emergencyContact, attendance, paymentStatus, assignmentStatus);
+        this.attendanceList = (attendanceList == null) ? null : new ArrayList<>(attendanceList);
     }
 
     /**
      * Converts a given {@link Person} (or {@link Student}) model object into this Jackson-friendly class.
-     * <p>
-     * This constructor is used when saving data to JSON.
-     * If the source object is a {@code Student}, student-specific attributes are serialized as well.
      */
     public JsonAdaptedPerson(Person source) {
         this.type = (source instanceof Student) ? "student" : "person";
@@ -127,23 +100,22 @@ public class JsonAdaptedPerson {
         this.phone = source.getPhone().value;
         this.email = source.getEmail().value;
         this.address = source.getAddress().value;
-        source.getTags().forEach(tag -> this.tagged.add(new JsonAdaptedTag(tag)));
-
+        source.getTags().forEach(tag -> this.tags.add(new JsonAdaptedTag(tag)));
         if (source instanceof Student) {
             Student s = (Student) source;
             this.studentClass = s.getStudentClass();
             this.subjects = new ArrayList<>(s.getSubjects());
             this.emergencyContact = s.getEmergencyContact();
-            this.attendance = s.getAttendanceStatus();
             this.paymentStatus = s.getPaymentStatus();
             this.assignmentStatus = s.getAssignmentStatus();
+            this.attendanceList = null; // Or extract from Student if needed
         } else {
             this.studentClass = null;
             this.subjects = null;
             this.emergencyContact = null;
-            this.attendance = null;
             this.paymentStatus = null;
             this.assignmentStatus = null;
+            this.attendanceList = null;
         }
     }
 
@@ -163,10 +135,10 @@ public class JsonAdaptedPerson {
     @JsonProperty("address") public String getAddress() {
         return address;
     }
-    @JsonProperty("tagged") public List<JsonAdaptedTag> getTagged() {
-        return tagged;
+    @JsonProperty("tags")
+    public List<JsonAdaptedTag> getTags() {
+        return tags;
     }
-
     @JsonProperty("class") public String getStudentClass() {
         return studentClass;
     }
@@ -176,14 +148,14 @@ public class JsonAdaptedPerson {
     @JsonProperty("emergencyContact") public String getEmergencyContact() {
         return emergencyContact;
     }
-    @JsonProperty("attendance") public String getAttendance() {
-        return attendance;
-    }
     @JsonProperty("paymentStatus") public String getPaymentStatus() {
         return paymentStatus;
     }
     @JsonProperty("assignmentStatus") public String getAssignmentStatus() {
         return assignmentStatus;
+    }
+    @JsonProperty("attendanceList") public List<String> getAttendanceList() {
+        return attendanceList;
     }
 
     /**
@@ -244,10 +216,25 @@ public class JsonAdaptedPerson {
         }
 
         final List<Tag> modelTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tagged) {
+        for (JsonAdaptedTag tag : tags) {
             modelTags.add(tag.toModelType());
         }
         final Set<Tag> modelTagSet = new HashSet<>(modelTags);
+
+        AttendanceList modelAttendanceList = new AttendanceList();
+        if (attendanceList != null) {
+            for (String recordString : attendanceList) {
+                try {
+                    // Assume format is "STATUS,DATE_TIME" e.g. "PRESENT,2025-10-14T10:00"
+                    String[] parts = recordString.split(",", 2);
+                    AttendanceStatus status = AttendanceStatus.valueOf(parts[0]);
+                    LocalDateTime dateTime = LocalDateTime.parse(parts[1]);
+                    modelAttendanceList.markAttendance(dateTime, status);
+                } catch (Exception e) {
+                    throw new IllegalValueException("Invalid attendance record: " + recordString);
+                }
+            }
+        }
 
         // === Determine whether to construct a Student ===
         boolean hasStudentBits =
@@ -255,10 +242,9 @@ public class JsonAdaptedPerson {
                         || studentClass != null
                         || subjects != null
                         || emergencyContact != null
-                        || attendance != null
                         || paymentStatus != null
-                        || assignmentStatus != null;
-
+                        || assignmentStatus != null
+                        || attendanceList != null;
         if (hasStudentBits) {
             return new Student(
                     modelName,
@@ -269,11 +255,11 @@ public class JsonAdaptedPerson {
                     subjects,
                     studentClass,
                     emergencyContact,
-                    attendance,
+                    modelAttendanceList,
                     paymentStatus,
-                    assignmentStatus);
+                    assignmentStatus
+            );
         }
-
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTagSet);
     }
 }
