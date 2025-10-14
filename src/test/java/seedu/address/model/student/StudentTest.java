@@ -30,10 +30,6 @@ import seedu.address.model.tag.Tag;
 public class StudentTest {
 
     private final Name name = new Name("John Doe");
-    private final Phone phone = new Phone("12345678");
-    private final Email email = new Email("john@example.com");
-    private final Address address = new Address("123 Main St");
-    private final Set<Tag> tags = Set.of(new Tag("CS2103"));
     private final List<String> subjects = List.of("Math", "Science");
     private final String studentClass = "10A";
     private final String emergencyContact = "98765432";
@@ -45,21 +41,19 @@ public class StudentTest {
         attendance.markAttendance(time, AttendanceStatus.PRESENT);
     }
 
-
-
     private final Student baseStudent = new Student(
-            name, phone, email, address, tags,
-            subjects, studentClass, emergencyContact,
-            attendance, paymentStatus, assignmentStatus);
+        name, subjects, studentClass, emergencyContact,
+        attendance, paymentStatus, assignmentStatus
+        );
 
     @Test
     public void constructor_allFieldsPresent_success() {
         assertNotNull(baseStudent);
         assertEquals(name, baseStudent.getName());
-        assertEquals(phone, baseStudent.getPhone());
-        assertEquals(email, baseStudent.getEmail());
-        assertEquals(address, baseStudent.getAddress());
-        assertEquals(tags, baseStudent.getTags());
+        assertEquals(new Phone("000"), baseStudent.getPhone());
+        assertEquals(new Email("placeholder@example.com"), baseStudent.getEmail());
+        assertEquals(new Address("N/A"), baseStudent.getAddress());
+        assertEquals(0, baseStudent.getTags().size()); // tags are empty
         assertEquals(subjects, baseStudent.getSubjects());
         assertEquals(studentClass, baseStudent.getStudentClass());
         assertEquals(emergencyContact, baseStudent.getEmergencyContact());
@@ -76,10 +70,6 @@ public class StudentTest {
         assertThrows(NullPointerException.class, () ->
                 new Student(
                         null,
-                        new Phone("12345678"),
-                        new Email("john@example.com"),
-                        new Address("123 Main St"),
-                        tags,
                         subjects,
                         "10A",
                         "98765432",
@@ -97,8 +87,7 @@ public class StudentTest {
     @Test
     public void equals_sameValues_returnsTrue() {
         Student copy = new Student(
-                name, phone, email, address, tags,
-                subjects, studentClass, emergencyContact,
+                name, subjects, studentClass, emergencyContact,
                 attendance, paymentStatus, assignmentStatus);
         assertTrue(baseStudent.equals(copy));
     }
@@ -106,7 +95,7 @@ public class StudentTest {
     @Test
     public void equals_differentValues_returnsFalse() {
         Student different = new Student(
-                new Name("Jane Doe"), phone, email, address, tags,
+                new Name("Jane Doe"),
                 subjects, studentClass, emergencyContact,
                 attendance, paymentStatus, assignmentStatus);
         assertFalse(baseStudent.equals(different));
@@ -115,13 +104,13 @@ public class StudentTest {
     @Test
     public void hashCode_consistentWithEquals() {
         Student copy = new Student(
-                name, phone, email, address, tags,
+                name,
                 subjects, studentClass, emergencyContact,
                 attendance, paymentStatus, assignmentStatus);
         assertEquals(baseStudent.hashCode(), copy.hashCode());
 
         Student different = new Student(
-                new Name("Different"), phone, email, address, tags,
+                new Name("Different"),
                 subjects, studentClass, emergencyContact,
                 attendance, paymentStatus, assignmentStatus);
         assertNotEquals(baseStudent.hashCode(), different.hashCode());

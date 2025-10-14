@@ -1,9 +1,8 @@
 package seedu.address.model.student;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.attendance.AttendanceList;
@@ -12,35 +11,37 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 
 /**
- * Creates student object.
+ * Represents a student in the address book.
  */
 public class Student extends Person {
 
-    private List<String> subjects;
-    private String studentClass;
-    private String emergencyContact;
-    private AttendanceList attendance;
-    private String paymentStatus;
-    private String assignmentStatus;
+    private final List<String> subjects;
+    private final String studentClass;
+    private final String emergencyContact;
+    private final AttendanceList attendance;
+    private final String paymentStatus;
+    private final String assignmentStatus;
     private final int id = 1;
 
     /**
-     * Every field must be present and not null.
+     * Creates a Student object.
      *
-     * @param name Name of the student
-     * @param phone Phone number of the student
-     * @param email Email of the student
-     * @param address Address of the student
-     * @param tags Tags associated with the student
+     * @param name Name of the student.
+     * @param subjects Subjects taken by the student.
+     * @param studentClass The class or group of the student.
+     * @param emergencyContact Emergency contact number.
+     * @param attendance Attendance list of the student.
+     * @param paymentStatus Current payment status.
+     * @param assignmentStatus Assignment completion status.
      */
-    public Student(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<String> subjects,
-                   String studentClass, String emergencyContact, AttendanceList attendance,
+    public Student(Name name, List<String> subjects, String studentClass,
+                   String emergencyContact, AttendanceList attendance,
                    String paymentStatus, String assignmentStatus) {
-        super(name, phone, email, address, tags);
-        this.subjects = subjects;
+        super(name, new Phone("000"), new Email("placeholder@example.com"),
+                new Address("N/A"), new HashSet<>());
+        this.subjects = new ArrayList<>(subjects);
         this.studentClass = studentClass;
         this.emergencyContact = emergencyContact;
         this.attendance = attendance;
@@ -72,57 +73,40 @@ public class Student extends Person {
         return assignmentStatus;
     }
 
-    // TODO:
     public int getStudentId() {
-        return this.id;
+        return id;
     }
 
     /**
-     * Returns true if both persons have the same identity and data fields.
-     * This defines a stronger notion of equality between two persons.
+     * Returns true if both students have the same name.
      */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
-        // instanceof handles nulls
-        if (!(other instanceof Person) && !(other instanceof Student)) {
+        if (!(other instanceof Student)) {
             return false;
         }
-        Student otherPerson = (Student) other;
-        return super.equals(otherPerson) && subjects.equals(otherPerson.subjects)
-                && studentClass.equals(otherPerson.studentClass)
-                && emergencyContact.equals(otherPerson.emergencyContact)
-                && attendance.equals(otherPerson.attendance)
-                && paymentStatus.equals(otherPerson.paymentStatus)
-                && assignmentStatus.equals(otherPerson.assignmentStatus);
+        Student otherStudent = (Student) other;
+        return getName().equals(otherStudent.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                super.hashCode(),
-                subjects,
-                studentClass,
-                emergencyContact,
-                attendance,
-                paymentStatus,
-                assignmentStatus
-        );
+        return getName().hashCode();
     }
 
     @Override
     public String toString() {
-        return super.toString() + " "
-                + new ToStringBuilder(this)
+        return new ToStringBuilder(this)
+                .add("name", getName())
                 .add("subjects", subjects)
-                .add("studentClass", studentClass)
+                .add("class", studentClass)
                 .add("emergencyContact", emergencyContact)
                 .add("attendance", attendance)
                 .add("paymentStatus", paymentStatus)
                 .add("assignmentStatus", assignmentStatus)
                 .toString();
     }
-
 }

@@ -8,6 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
+import seedu.address.model.student.Student;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -40,6 +41,16 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label studentClass;
+    @FXML
+    private Label subjects;
+    @FXML
+    private Label emergencyContact;
+    @FXML
+    private Label paymentStatus;
+    @FXML
+    private Label assignmentStatus;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -55,5 +66,24 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        if (person instanceof Student) {
+            Student s = (Student) person;
+            if (studentClass != null) {
+                studentClass.setText("Class: " + s.getStudentClass());
+            }
+            if (subjects != null) {
+                subjects.setText("Subjects: " + String.join(", ", s.getSubjects()));
+            }
+            if (emergencyContact != null) {
+                emergencyContact.setText("Emergency: " + s.getEmergencyContact());
+            }
+            if (paymentStatus != null) {
+                paymentStatus.setText("Payment: " + s.getPaymentStatus());
+            }
+            if (assignmentStatus != null) {
+                assignmentStatus.setText("Assignment: " + s.getAssignmentStatus());
+            }
+        }
     }
 }

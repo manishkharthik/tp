@@ -85,6 +85,15 @@ public class AttendanceList {
     }
 
     /**
+     * Marks attendance for today with the given status.
+     *
+     * @param status the attendance status
+     */
+    public void markToday(AttendanceStatus status) {
+        markAttendance(LocalDateTime.now(), status);
+    }
+
+    /**
      * Returns true if both attendance lists have the same data.
      */
     @Override

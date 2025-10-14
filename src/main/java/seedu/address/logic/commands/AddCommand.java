@@ -4,13 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ASSIGNMENT_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ATTENDANCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -24,29 +21,24 @@ import seedu.address.model.person.Person;
 public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a student to the list of students. "
-            + "Parameters: "
-            + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_CLASS + "CLASS "
-            + PREFIX_SUBJECTS + "SUBJECTS (CSV) "
-            + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT "
-            + "[" + PREFIX_ATTENDANCE + "ATTENDANCE] "
-            + "[" + PREFIX_PAYMENT_STATUS + "PAYMENT_STATUS] "
-            + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT_STATUS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_CLASS + "10A "
-            + PREFIX_SUBJECTS + "Math,Physics,Chemistry "
-            + PREFIX_EMERGENCY_CONTACT + "91234567 "
-            + PREFIX_ATTENDANCE + "Present "
-            + PREFIX_PAYMENT_STATUS + "Paid "
-            + PREFIX_ASSIGNMENT_STATUS + "Completed";
+        + "Parameters: "
+        + PREFIX_NAME + "NAME "
+        + PREFIX_CLASS + "CLASS "
+        + PREFIX_SUBJECTS + "SUBJECT [s/SUBJECT]... "
+        + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT "
+        + "[" + PREFIX_ATTENDANCE + "ATTENDANCE] "
+        + "[" + PREFIX_PAYMENT_STATUS + "PAYMENT_STATUS] "
+        + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT_STATUS]...\n"
+        + "Example: " + COMMAND_WORD + " "
+        + PREFIX_NAME + "John Tan "
+        + PREFIX_CLASS + "3B "
+        + PREFIX_SUBJECTS + "Math s/Science "
+        + PREFIX_EMERGENCY_CONTACT + "91234567 "
+        + PREFIX_ATTENDANCE + "Present "
+        + PREFIX_PAYMENT_STATUS + "Paid "
+        + PREFIX_ASSIGNMENT_STATUS + "Completed";
+
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student already exists in the student list";

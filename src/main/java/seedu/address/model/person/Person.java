@@ -37,6 +37,17 @@ public class Person {
         this.tags.addAll(tags);
     }
 
+    /**
+     * Constructor for person with only name.
+     */
+    public Person(Name name) {
+        requireAllNonNull(name);
+        this.name = name;
+        this.phone = new Phone("");
+        this.email = new Email("");
+        this.address = new Address("");
+    }
+
     public Name getName() {
         return name;
     }
