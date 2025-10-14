@@ -44,7 +44,7 @@ public class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final String address;
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
     // Student-only fields
     // "class" is a reserved word in Java; map JSON name "class" to Java field studentClass
@@ -81,7 +81,7 @@ public class JsonAdaptedPerson {
         this.email = email;
         this.address = address;
         if (tags != null) {
-            this.tags.addAll(tags);
+            this.tagged.addAll(tags);
         }
         this.studentClass = studentClass;
         this.subjects = (subjects == null) ? null : new ArrayList<>(subjects);
@@ -100,7 +100,7 @@ public class JsonAdaptedPerson {
         this.phone = source.getPhone().value;
         this.email = source.getEmail().value;
         this.address = source.getAddress().value;
-        source.getTags().forEach(tag -> this.tags.add(new JsonAdaptedTag(tag)));
+        source.getTags().forEach(tag -> this.tagged.add(new JsonAdaptedTag(tag)));
         if (source instanceof Student) {
             Student s = (Student) source;
             this.studentClass = s.getStudentClass();
@@ -137,7 +137,7 @@ public class JsonAdaptedPerson {
     }
     @JsonProperty("tags")
     public List<JsonAdaptedTag> getTags() {
-        return tags;
+        return tagged;
     }
     @JsonProperty("class") public String getStudentClass() {
         return studentClass;
@@ -216,7 +216,7 @@ public class JsonAdaptedPerson {
         }
 
         final List<Tag> modelTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tags) {
+        for (JsonAdaptedTag tag : tagged) {
             modelTags.add(tag.toModelType());
         }
         final Set<Tag> modelTagSet = new HashSet<>(modelTags);
