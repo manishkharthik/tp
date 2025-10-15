@@ -78,6 +78,21 @@ public class Student extends Person {
     }
 
     /**
+     * Returns true if both student are the same.
+     * @param otherStudent
+     * @return
+     */
+    public boolean isSameStudent(Student otherStudent) {
+        if (otherStudent == this) {
+            return true;
+        }
+
+        return otherStudent != null
+                && otherStudent.getName().equals(getName())
+                && otherStudent.getStudentClass().equals(getStudentClass());
+    }
+
+    /**
      * Returns true if both students have the same name.
      */
     @Override

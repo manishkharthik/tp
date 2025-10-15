@@ -22,7 +22,10 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.attendance.AttendanceList;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.student.Student;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -75,6 +78,63 @@ public class AddCommandTest {
 
         // different person -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));
+    }
+
+    @Test
+    public void execute_studentWithMultipleSubjects_addSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Student studentWithMultipleSubjects = new Student(new Name("John"),
+                new ArrayList<String>(Arrays.asList("Math", "Science")),
+                "3A", "912345678", new AttendanceList(),
+                "Paid", "Completed");
+
+
+        CommandResult commandResult = new AddCommand(studentWithMultipleSubjects).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS,
+                        Messages.format(studentWithMultipleSubjects)),
+                commandResult.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_addToNonEmptyList_success() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Student existingStudent = new Student(new Name("John"), new ArrayList<String>(Arrays.asList("Math", "Science")),
+                "3A", "912345678", new AttendanceList(),
+                "Paid", "Completed");
+
+        modelStub.addPerson(existingStudent);
+
+        Student newStudent = new Student(new Name("Bob"), new ArrayList<String>(Arrays.asList("Math", "Science")),
+                "3A", "912345678", new AttendanceList(),
+                "Paid", "Completed");
+
+        CommandResult commandResult = new AddCommand(newStudent).execute(modelStub);
+
+        assertEquals(2, modelStub.personsAdded.size());
+        assertTrue(modelStub.personsAdded.contains(existingStudent));
+        assertTrue(modelStub.personsAdded.contains(newStudent));
+    }
+
+    @Test
+    public void execute_addStudentWithSameNameDifferentDetails_success() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Student student1 = new Student(new Name("John"), new ArrayList<String>(Arrays.asList("Math", "Science")),
+                "3A", "912345678", new AttendanceList(),
+                "Paid", "Completed");
+
+        Student student2 = new Student(new Name("John"), new ArrayList<String>(Arrays.asList("Math", "Science")),
+                "3B", "912345679", new AttendanceList(),
+                "Paid", "Completed");
+
+
+        new AddCommand(student1).execute(modelStub);
+        CommandResult commandResult = new AddCommand(student2).execute(modelStub);
+
+        assertEquals(2, modelStub.personsAdded.size());
+        assertFalse(student1.isSameStudent(student2)); // Verify they're different students
+        assertTrue(modelStub.personsAdded.contains(student1));
+        assertTrue(modelStub.personsAdded.contains(student2));
     }
 
     @Test
@@ -246,6 +306,11 @@ public class AddCommandTest {
         @Override
         public boolean hasPerson(Person person) {
             requireNonNull(person);
+            if (person instanceof Student) {
+                return personsAdded.stream()
+                        .filter(p -> p instanceof Student)
+                        .anyMatch(p -> ((Student) p).isSameStudent((Student) person));
+            }
             return personsAdded.stream().anyMatch(person::isSamePerson);
         }
 
@@ -260,5 +325,4 @@ public class AddCommandTest {
             return new AddressBook();
         }
     }
-
 }
