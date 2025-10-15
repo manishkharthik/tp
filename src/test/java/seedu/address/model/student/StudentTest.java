@@ -9,21 +9,20 @@ import static seedu.address.testutil.Assert.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.attendance.AttendanceStatus;
-import seedu.address.model.person.*;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.UniquePersonList;
 
 /**
  * Unit tests for the {@link seedu.address.model.student.Student} class.
- * <p>
- * Ensures that all fields, methods, and inherited behaviors are
- * functioning as intended.
+ * Ensures that all fields, methods, and inherited behaviors are functioning as intended.
  */
 public class StudentTest {
 
@@ -35,14 +34,20 @@ public class StudentTest {
     private final String paymentStatus = "Paid";
     private final String assignmentStatus = "Completed";
     private final LocalDateTime time = LocalDateTime.of(2025, 10, 13, 10, 0);
+
     {
         attendance.markAttendance(time, AttendanceStatus.PRESENT);
     }
 
     private final Student baseStudent = new Student(
-        name, subjects, studentClass, emergencyContact,
-        attendance, paymentStatus, assignmentStatus
-        );
+            name,
+            subjects,
+            studentClass,
+            emergencyContact,
+            attendance,
+            paymentStatus,
+            assignmentStatus
+    );
 
     @Test
     public void constructor_allFieldsPresent_success() {
@@ -51,7 +56,7 @@ public class StudentTest {
         assertEquals(new Phone("000"), baseStudent.getPhone());
         assertEquals(new Email("placeholder@example.com"), baseStudent.getEmail());
         assertEquals(new Address("N/A"), baseStudent.getAddress());
-        assertEquals(0, baseStudent.getTags().size()); // tags are empty
+        assertEquals(0, baseStudent.getTags().size());
         assertEquals(subjects, baseStudent.getSubjects());
         assertEquals(studentClass, baseStudent.getStudentClass());
         assertEquals(emergencyContact, baseStudent.getEmergencyContact());
@@ -62,13 +67,12 @@ public class StudentTest {
 
     @Test
     public void constructor_nullName_throwsNullPointerException() {
-        List<String> subjects = List.of("Math");
-        Set<Tag> tags = Set.of(new Tag("CS2103"));
+        List<String> oneSubject = List.of("Math");
 
         assertThrows(NullPointerException.class, () ->
                 new Student(
                         null,
-                        subjects,
+                        oneSubject,
                         "10A",
                         "98765432",
                         attendance,
@@ -85,8 +89,14 @@ public class StudentTest {
     @Test
     public void equals_sameValues_returnsTrue() {
         Student copy = new Student(
-                name, subjects, studentClass, emergencyContact,
-                attendance, paymentStatus, assignmentStatus);
+                name,
+                subjects,
+                studentClass,
+                emergencyContact,
+                attendance,
+                paymentStatus,
+                assignmentStatus
+        );
         assertTrue(baseStudent.equals(copy));
     }
 
@@ -94,30 +104,49 @@ public class StudentTest {
     public void equals_differentValues_returnsFalse() {
         Student different = new Student(
                 new Name("Jane Doe"),
-                subjects, studentClass, emergencyContact,
-                attendance, paymentStatus, assignmentStatus);
+                subjects,
+                studentClass,
+                emergencyContact,
+                attendance,
+                paymentStatus,
+                assignmentStatus
+        );
         assertFalse(baseStudent.equals(different));
     }
 
     @Test
     public void equals_differentTypes_returnFalse() {
         UniquePersonList list = new UniquePersonList();
-
         assertFalse(baseStudent.equals(list));
+    }
+
+    @Test
+    public void equals_sameInstance_returnsTrue() {
+        assertTrue(baseStudent.equals(baseStudent));
     }
 
     @Test
     public void hashCode_consistentWithEquals() {
         Student copy = new Student(
                 name,
-                subjects, studentClass, emergencyContact,
-                attendance, paymentStatus, assignmentStatus);
+                subjects,
+                studentClass,
+                emergencyContact,
+                attendance,
+                paymentStatus,
+                assignmentStatus
+        );
         assertEquals(baseStudent.hashCode(), copy.hashCode());
 
         Student different = new Student(
                 new Name("Different"),
-                subjects, studentClass, emergencyContact,
-                attendance, paymentStatus, assignmentStatus);
+                subjects,
+                studentClass,
+                emergencyContact,
+                attendance,
+                paymentStatus,
+                assignmentStatus
+        );
         assertNotEquals(baseStudent.hashCode(), different.hashCode());
     }
 
@@ -133,14 +162,19 @@ public class StudentTest {
     }
 
     @Test
-    public void duplicate_student_instance_returnsTrue() {
+    public void duplicateStudentInstance_returnsTrue() {
         UniquePersonList list = new UniquePersonList();
         list.add(baseStudent);
         assertTrue(baseStudent.isSameStudent(baseStudent));
     }
 
     @Test
-    public void student_sameName_differentClass_returnsFalse(){
+    public void null_student_returnFalse() {
+        assertFalse(baseStudent.equals(null));
+    }
+
+    @Test
+    public void studentSameNameDifferentClass_returnsFalse() {
         UniquePersonList list = new UniquePersonList();
         list.add(baseStudent);
 
@@ -151,25 +185,9 @@ public class StudentTest {
         assertFalse(baseStudent.isSameStudent(sameNameDifferentClass));
     }
 
-    @Test
-    public void null_student_returnFalse() {
-        assertFalse(baseStudent.equals(null));
-    }
 
     @Test
-    public void student_differentNameClass_returnFalse(){
-        UniquePersonList list = new UniquePersonList();
-        list.add(baseStudent);
-
-        Student duplicate = new Student(
-                new Name("anthony"), subjects, "10B", emergencyContact,
-                attendance, paymentStatus, assignmentStatus);
-
-        assertFalse(baseStudent.isSameStudent(duplicate));
-    }
-
-    @Test
-    public void student_sameName_sameClass_returns_error() {
+    public void studentSameNameSameClass_returnsTrue() {
         UniquePersonList list = new UniquePersonList();
         list.add(baseStudent);
 
