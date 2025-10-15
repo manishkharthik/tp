@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -81,9 +83,35 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_add() throws Exception {
+        String input = String.join(" ",
+                "add",
+                "n/John Tan",
+                "c/3B",
+                "s/Math",
+                "s/Science",
+                "ec/91234567",
+                "att/PRESENT",
+                "pay/Paid",
+                "asg/Completed"
+        );
+
+        var cmd = parser.parseCommand(input);
+        assertTrue(cmd instanceof AddCommand);
+    }
+
+    @Test
+    public void parseCommand_archive() throws Exception {
+        ArchiveCommand parsed = (ArchiveCommand) parser.parseCommand(
+                ArchiveCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new ArchiveCommand(INDEX_FIRST_PERSON), parsed);
+    }
+
+    @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
-            -> parser.parseCommand(""));
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                              HelpCommand.MESSAGE_USAGE), () -> parser.parseCommand(""));
     }
 
     @Test
