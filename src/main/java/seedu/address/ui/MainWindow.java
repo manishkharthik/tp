@@ -32,6 +32,7 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
+    private ArchivedPersonListPanel archivedPersonListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -111,6 +112,8 @@ public class MainWindow extends UiPart<Stage> {
      */
     void fillInnerParts() {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        archivedPersonListPanel = new ArchivedPersonListPanel(logic.getFilteredArchivedPersonList()); // THIS LINE
+
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -168,6 +171,22 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Switches to show archived persons list.
+     */
+    private void showArchivedPersonList() {
+        personListPanelPlaceholder.getChildren().clear();
+        personListPanelPlaceholder.getChildren().add(archivedPersonListPanel.getRoot());
+    }
+
+    /**
+     * Switches to show active persons list.
+     */
+    private void showActivePersonList() {
+        personListPanelPlaceholder.getChildren().clear();
+        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+    }
+
+    /**
      * Executes the command and returns the result.
      *
      * @see seedu.address.logic.Logic#execute(String)
@@ -184,6 +203,12 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            if (commandResult.isShowArchived()) {
+                showArchivedPersonList();
+            } else if (commandText.trim().toLowerCase().startsWith("list")) {
+                showActivePersonList();
             }
 
             return commandResult;

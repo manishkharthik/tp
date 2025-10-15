@@ -22,6 +22,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Person> filteredArchivedPersons;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -34,6 +35,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList()); // Changed here!
     }
 
     public ModelManager() {
@@ -150,4 +152,19 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
 
+    //=========== Filtered Person List Accessors =============================================================
+    /**
+     * Returns an unmodifiable view of the list of archived {@code Person} backed by the internal list of
+     * {@code versionedAddressBook}
+     */
+    @Override
+    public ObservableList<Person> getFilteredArchivedPersonList() {
+        return filteredArchivedPersons;
+    }
+
+    @Override
+    public void updateFilteredArchivedPersonList(Predicate<Person> predicate) {
+        requireNonNull(predicate);
+        filteredArchivedPersons.setPredicate(predicate);
+    }
 }
