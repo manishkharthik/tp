@@ -4,6 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.model.Model;
 
+/**
+ *  Show the list of archived persons.
+ */
 public class ListArchiveCommand extends Command {
 
     public static final String COMMAND_WORD = "listarchive";

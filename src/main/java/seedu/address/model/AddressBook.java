@@ -107,7 +107,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Sets list of archived persons to @param
+     * Sets list of archived persons to param
      * @param archivedPersons list of archived persons
      */
     public void setArchivedPersons(List<Person> archivedPersons) {
