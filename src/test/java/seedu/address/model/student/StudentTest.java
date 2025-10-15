@@ -15,10 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.attendance.AttendanceStatus;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Phone;
+import seedu.address.model.person.*;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -102,6 +100,13 @@ public class StudentTest {
     }
 
     @Test
+    public void equals_differentTypes_returnFalse() {
+        UniquePersonList list = new UniquePersonList();
+
+        assertFalse(baseStudent.equals(list));
+    }
+
+    @Test
     public void hashCode_consistentWithEquals() {
         Student copy = new Student(
                 name,
@@ -125,5 +130,53 @@ public class StudentTest {
         assertTrue(result.contains("Math"));
         assertTrue(result.contains("Paid"));
         assertTrue(result.contains("Completed"));
+    }
+
+    @Test
+    public void duplicate_student_instance_returnsTrue() {
+        UniquePersonList list = new UniquePersonList();
+        list.add(baseStudent);
+        assertTrue(baseStudent.isSameStudent(baseStudent));
+    }
+
+    @Test
+    public void student_sameName_differentClass_returnsFalse(){
+        UniquePersonList list = new UniquePersonList();
+        list.add(baseStudent);
+
+        Student sameNameDifferentClass = new Student(
+                name, subjects, "10B", emergencyContact,
+                attendance, paymentStatus, assignmentStatus);
+
+        assertFalse(baseStudent.isSameStudent(sameNameDifferentClass));
+    }
+
+    @Test
+    public void null_student_returnFalse() {
+        assertFalse(baseStudent.equals(null));
+    }
+
+    @Test
+    public void student_differentNameClass_returnFalse(){
+        UniquePersonList list = new UniquePersonList();
+        list.add(baseStudent);
+
+        Student duplicate = new Student(
+                new Name("anthony"), subjects, "10B", emergencyContact,
+                attendance, paymentStatus, assignmentStatus);
+
+        assertFalse(baseStudent.isSameStudent(duplicate));
+    }
+
+    @Test
+    public void student_sameName_sameClass_returns_error() {
+        UniquePersonList list = new UniquePersonList();
+        list.add(baseStudent);
+
+        Student duplicate = new Student(
+                name, subjects, studentClass, emergencyContact,
+                attendance, paymentStatus, assignmentStatus);
+
+        assertTrue(baseStudent.isSameStudent(duplicate));
     }
 }
