@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -11,6 +12,7 @@ import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -171,5 +173,67 @@ public class UniquePersonListTest {
     @Test
     public void toStringMethod() {
         assertEquals(uniquePersonList.asUnmodifiableObservableList().toString(), uniquePersonList.toString());
+    }
+
+    @Test
+    public void nullPersonArchive_throwsPersonNotFoundException() {
+        assertThrows(PersonNotFoundException.class, () -> uniquePersonList.archive(ALICE));
+    }
+
+    @Test
+    public void archive_existingPerson_personRemoved() {
+        uniquePersonList.add(ALICE);
+        uniquePersonList.archive(ALICE);
+        assertFalse(uniquePersonList.contains(ALICE));
+    }
+
+    @Test
+    public void equals_sameInstance_returnsTrue() {
+        assertTrue(uniquePersonList.equals(uniquePersonList));
+    }
+
+    @Test
+    public void equals_differentTypes_returnFalse() {
+        assertFalse(uniquePersonList.equals(ALICE));
+    }
+
+    @Test
+    void hashCode_equalLists_differentHashCode() {
+        UniquePersonList list1 = new UniquePersonList();
+        UniquePersonList list2 = new UniquePersonList();
+        list1.add(ALICE);
+        list2.add(BOB);
+        assertNotEquals(list1.hashCode(), list2.hashCode());
+    }
+
+    @Test
+    void hashCode_equalLists_sameHashCode() {
+        UniquePersonList list1 = new UniquePersonList();
+        UniquePersonList list2 = new UniquePersonList();
+        list1.add(ALICE);
+        list2.add(ALICE);
+        assertEquals(list1.hashCode(), list2.hashCode());
+    }
+
+    @Test
+    void iterator_nonEmptyList_returnsElementsInOrder() {
+        uniquePersonList.add(ALICE);
+        uniquePersonList.add(BOB);
+
+        Iterator<Person> iterator = uniquePersonList.iterator();
+
+        assertTrue(iterator.hasNext());
+        assertEquals(ALICE, iterator.next());
+
+        assertTrue(iterator.hasNext());
+        assertEquals(BOB, iterator.next());
+
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void iterator_emptyList_hasNoElements() {
+        Iterator<Person> iterator = uniquePersonList.iterator();
+        assertFalse(iterator.hasNext());
     }
 }
