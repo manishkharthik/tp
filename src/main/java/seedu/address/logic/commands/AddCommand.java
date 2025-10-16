@@ -64,7 +64,7 @@ public class AddCommand extends Command {
         }
 
         model.addPerson(toAdd);
-        CommandResult result =  new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        CommandResult result = new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
         assert result != null : "CommandResult should not be null";
         return result;
     }
