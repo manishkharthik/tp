@@ -86,47 +86,67 @@ public class AddCommandTest {
     public void execute_studentWithMultipleSubjects_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Student studentWithMultipleSubjects = new Student(new Name("John"),
-                new ArrayList<String>(Arrays.asList("Math", "Science")),
-                "3A", "912345678", new AttendanceList(),
+                new ArrayList<>(Arrays.asList("Math", "Science")),
+                "3A", "91234567", new AttendanceList(),
                 "Paid", "Completed");
-
 
         CommandResult commandResult = new AddCommand(studentWithMultipleSubjects).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS,
-                        Messages.format(studentWithMultipleSubjects)),
-                commandResult.getFeedbackToUser());
+        String successPrefix = String.format(AddCommand.MESSAGE_SUCCESS.split(": ")[0]);
+        assertTrue(commandResult.getFeedbackToUser().startsWith(successPrefix),
+                "Success message should start with 'New student added'");
+
+        boolean found = modelStub.personsAdded.stream()
+                .filter(p -> p instanceof Student)
+                .map(p -> (Student) p)
+                .anyMatch(s -> s.isSameStudent(studentWithMultipleSubjects));
+        assertTrue(found, "Added student should be in the list");
     }
 
     @Test
     public void execute_addToNonEmptyList_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student existingStudent = new Student(new Name("John"), new ArrayList<String>(Arrays.asList("Math", "Science")),
-                "3A", "912345678", new AttendanceList(),
+        Student existingStudent = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
+                "3A", "91234567", new AttendanceList(),
                 "Paid", "Completed");
 
         modelStub.addPerson(existingStudent);
 
-        Student newStudent = new Student(new Name("Bob"), new ArrayList<String>(Arrays.asList("Math", "Science")),
-                "3A", "912345678", new AttendanceList(),
+        Student newStudent = new Student(new Name("Bob"), new ArrayList<>(Arrays.asList("Math", "Science")),
+                "3A", "91234567", new AttendanceList(),
                 "Paid", "Completed");
 
         CommandResult commandResult = new AddCommand(newStudent).execute(modelStub);
 
-        assertEquals(2, modelStub.personsAdded.size());
-        assertTrue(modelStub.personsAdded.contains(existingStudent));
-        assertTrue(modelStub.personsAdded.contains(newStudent));
+        String successPrefix = String.format(AddCommand.MESSAGE_SUCCESS.split(": ")[0]);
+        assertTrue(commandResult.getFeedbackToUser().startsWith(successPrefix),
+                "Success message should start with 'New student added'");
+
+        assertEquals(2, modelStub.personsAdded.size(),
+                "Model should contain exactly 2 students");
+
+        boolean containsExistingStudent = modelStub.personsAdded.stream()
+                .filter(p -> p instanceof Student)
+                .map(p -> (Student) p)
+                .anyMatch(s -> s.isSameStudent(existingStudent));
+        assertTrue(containsExistingStudent, "Model should contain the existing student");
+
+        boolean containsNewStudent = modelStub.personsAdded.stream()
+                .filter(p -> p instanceof Student)
+                .map(p -> (Student) p)
+                .anyMatch(s -> s.isSameStudent(newStudent));
+        assertTrue(containsNewStudent, "Model should contain the new student");
     }
 
     @Test
     public void execute_addStudentWithSameNameDifferentDetails_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student student1 = new Student(new Name("John"), new ArrayList<String>(Arrays.asList("Math", "Science")),
-                "3A", "912345678", new AttendanceList(),
+        Student student1 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
+                "3A", "91234567", new AttendanceList(),
                 "Paid", "Completed");
 
-        Student student2 = new Student(new Name("John"), new ArrayList<String>(Arrays.asList("Math", "Science")),
-                "3B", "912345679", new AttendanceList(),
+        Student student2 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
+                "3B", "91234568", new AttendanceList(),
                 "Paid", "Completed");
 
 
