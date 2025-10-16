@@ -204,6 +204,35 @@ public class ArchiveCommandTest {
         assertTrue(result.contains("targetIndex"));
     }
 
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        ArchiveCommand cmd = new ArchiveCommand(INDEX_FIRST_PERSON);
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> cmd.execute(null));
+    }
+
+    @Test
+    public void execute_filteredListEmpty_throwsCommandException() {
+        // Ensure address book has data
+        Model nonEmpty = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        // Hide everyone in the filtered view
+        nonEmpty.updateFilteredPersonList(p -> false);
+        assertTrue(nonEmpty.getFilteredPersonList().isEmpty());
+
+        ArchiveCommand cmd = new ArchiveCommand(Index.fromOneBased(1));
+        assertCommandFailure(cmd, nonEmpty, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void hashCode_consistentWithEquals() {
+        ArchiveCommand a = new ArchiveCommand(INDEX_FIRST_PERSON);
+        ArchiveCommand b = new ArchiveCommand(INDEX_FIRST_PERSON);
+        ArchiveCommand c = new ArchiveCommand(INDEX_SECOND_PERSON);
+
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
+        assertNotNull(a.hashCode());
+        org.junit.jupiter.api.Assertions.assertNotEquals(a.hashCode(), c.hashCode());
+    }
     /**
      * Updates {@code model}'s filtered list to show no one.
      */
