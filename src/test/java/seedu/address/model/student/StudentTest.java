@@ -16,6 +16,7 @@ import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.UniquePersonList;
 
+
 /**
  * Unit tests for the {@link Student} class.
  * Ensures that constructor validation works as expected.
@@ -96,6 +97,47 @@ public class StudentTest {
             subjectsWithNull,
             validClass,
             validEmergencyContact,
+            validAttendance,
+            validPaymentStatus,
+            validAssignmentStatus
+        ));
+    }
+
+    @Test
+    public void constructor_emptySubjectsList_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new Student(
+            validName,
+            new ArrayList<>(),
+            validClass,
+            validEmergencyContact,
+            validAttendance,
+            validPaymentStatus,
+            validAssignmentStatus
+        ));
+    }
+
+    @Test
+    public void constructor_subjectsContainingBlankString_throwsAssertionError() {
+        List<String> subjectsWithBlank = new ArrayList<>(validSubjects);
+        subjectsWithBlank.add("   ");
+        assertThrows(AssertionError.class, () -> new Student(
+            validName,
+            subjectsWithBlank,
+            validClass,
+            validEmergencyContact,
+            validAttendance,
+            validPaymentStatus,
+            validAssignmentStatus
+        ));
+    }
+
+    @Test
+    public void constructor_emergencyContactNonDigits_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new Student(
+            validName,
+            validSubjects,
+            validClass,
+            "1234567a",
             validAttendance,
             validPaymentStatus,
             validAssignmentStatus
@@ -306,5 +348,76 @@ public class StudentTest {
         assertTrue(result.contains(validEmergencyContact));
         assertTrue(result.contains(validPaymentStatus));
         assertTrue(result.contains(validAssignmentStatus));
+    }
+
+    @Test
+    public void hashCode_validStudent_computesHashCode() {
+        int expected = validName.hashCode();
+        assertEquals(expected, baseStudent.hashCode());
+    }
+
+    @Test
+    public void equals_invalidType_returnsFalse() {
+        Object invalidType = "Not a student";
+        assertFalse(baseStudent.equals(invalidType));
+    }
+
+    @Test
+    public void isSameStudent_otherHasDifferentName_returnsFalse() {
+        Student otherStudent = new Student(
+            new Name("Different Name"),
+            validSubjects,
+            validClass,
+            validEmergencyContact,
+            validAttendance,
+            validPaymentStatus,
+            validAssignmentStatus
+        );
+        assertFalse(baseStudent.isSameStudent(otherStudent));
+    }
+
+    @Test
+    public void isSameStudent_otherHasDifferentClass_returnsFalse() {
+        Student otherStudent = new Student(
+            validName,
+            validSubjects,
+            "Different Class",
+            validEmergencyContact,
+            validAttendance,
+            validPaymentStatus,
+            validAssignmentStatus
+        );
+        assertFalse(baseStudent.isSameStudent(otherStudent));
+    }
+
+    // Test cases for getter method assertions
+    @Test
+    public void getSubjects_validState_returnsSubjects() {
+        List<String> subjects = baseStudent.getSubjects();
+        assertEquals(validSubjects, subjects);
+    }
+
+    @Test
+    public void getStudentClass_validState_returnsClass() {
+        String studentClass = baseStudent.getStudentClass();
+        assertEquals(validClass, studentClass);
+    }
+
+    @Test
+    public void getEmergencyContact_validState_returnsContact() {
+        String contact = baseStudent.getEmergencyContact();
+        assertEquals(validEmergencyContact, contact);
+    }
+
+    @Test
+    public void getPaymentStatus_validState_returnsStatus() {
+        String status = baseStudent.getPaymentStatus();
+        assertEquals(validPaymentStatus, status);
+    }
+
+    @Test
+    public void getAssignmentStatus_validState_returnsStatus() {
+        String status = baseStudent.getAssignmentStatus();
+        assertEquals(validAssignmentStatus, status);
     }
 }
