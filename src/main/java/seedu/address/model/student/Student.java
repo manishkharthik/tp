@@ -39,61 +39,111 @@ public class Student extends Person {
     public Student(Name name, List<String> subjects, String studentClass,
                    String emergencyContact, AttendanceList attendance,
                    String paymentStatus, String assignmentStatus) {
-        super(name, new Phone("000"), new Email("placeholder@example.com"),
+        super(name != null ? name : new Name("INVALID"),
+                new Phone("000"), new Email("placeholder@example.com"),
                 new Address("N/A"), new HashSet<>());
+
+        // Check for null values
+        assert name != null : "Name cannot be null";
+        assert subjects != null : "Subjects list cannot be null";
+        assert studentClass != null : "Student class cannot be null";
+        assert emergencyContact != null : "Emergency contact cannot be null";
+        assert attendance != null : "Attendance list cannot be null";
+        assert paymentStatus != null : "Payment status cannot be null";
+        assert assignmentStatus != null : "Assignment status cannot be null";
+
+        // Check for empty or blank strings
+        assert !studentClass.trim().isEmpty() : "Student class cannot be blank";
+        assert !emergencyContact.trim().isEmpty() : "Emergency contact cannot be blank";
+        assert !paymentStatus.trim().isEmpty() : "Payment status cannot be blank";
+        assert !assignmentStatus.trim().isEmpty() : "Assignment status cannot be blank";
+
+        // Check subjects list is not empty and contains no null or blank values
+        assert !subjects.isEmpty() : "Student must have at least one subject";
+        assert subjects.stream().allMatch(subject -> subject != null && !subject.trim().isEmpty())
+            : "Subject entries cannot be null or blank";
+
+        // Check emergency contact format (should be 8 digits)
+        assert emergencyContact.matches("\\d{8}") : "Emergency contact must be 8 digits";
+
         this.subjects = new ArrayList<>(subjects);
-        this.studentClass = studentClass;
+        this.studentClass = studentClass.trim();
         this.emergencyContact = emergencyContact;
         this.attendance = attendance;
-        this.paymentStatus = paymentStatus;
-        this.assignmentStatus = assignmentStatus;
+        this.paymentStatus = paymentStatus.trim();
+        this.assignmentStatus = assignmentStatus.trim();
     }
 
     public List<String> getSubjects() {
+        assert subjects != null : "Subjects list is null";
+        assert !subjects.isEmpty() : "Subjects list is empty";
+        assert subjects.stream().allMatch(subject -> subject != null && !subject.trim().isEmpty())
+            : "Subject entries cannot be null or blank";
         return new ArrayList<>(subjects);
     }
 
     public String getStudentClass() {
+        assert studentClass != null : "Student class is null";
+        assert !studentClass.trim().isEmpty() : "Student class is empty";
         return studentClass;
     }
 
     public String getEmergencyContact() {
+        assert emergencyContact != null : "Emergency contact is null";
+        assert emergencyContact.matches("\\d{8}") : "Emergency contact format invalid";
         return emergencyContact;
     }
 
     public AttendanceList getAttendanceStatus() {
+        assert attendance != null : "Attendance list is null";
         return attendance;
     }
 
     public String getPaymentStatus() {
+        assert paymentStatus != null : "Payment status is null";
+        assert !paymentStatus.trim().isEmpty() : "Payment status is empty";
         return paymentStatus;
     }
 
     public String getAssignmentStatus() {
+        assert assignmentStatus != null : "Assignment status is null";
+        assert !assignmentStatus.trim().isEmpty() : "Assignment status is empty";
         return assignmentStatus;
     }
 
     public int getStudentId() {
+        assert id > 0 : "Student ID must be positive";
         return id;
     }
 
     /**
      * Returns true if both student are the same.
-     * @param otherStudent
-     * @return
+     * This is used for identifying if two student entries refer to the same student.
+     * @param otherStudent The student to compare with
+     * @return true if both students have the same name and class
      */
     public boolean isSameStudent(Student otherStudent) {
         if (otherStudent == this) {
             return true;
         }
 
-        return otherStudent != null
-                && otherStudent.getName().equals(getName())
+        if (otherStudent == null) {
+            return false;
+        }
+
+        // Assert that both students have valid name and class before comparison
+        assert getName() != null : "Current student's name is null";
+        assert getStudentClass() != null : "Current student's class is null";
+        assert otherStudent.getName() != null : "Other student's name is null";
+        assert otherStudent.getStudentClass() != null : "Other student's class is null";
+
+        return otherStudent.getName().equals(getName())
                 && otherStudent.getStudentClass().equals(getStudentClass());
     }
 
     /**
      * Returns true if both students have the same name.
+     * This is a looser form of equality that only checks the name.
      */
     @Override
     public boolean equals(Object other) {
@@ -104,16 +154,31 @@ public class Student extends Person {
             return false;
         }
         Student otherStudent = (Student) other;
+
+        // Assert that both students have valid names before comparison
+        assert getName() != null : "Current student's name is null";
+        assert otherStudent.getName() != null : "Other student's name is null";
+
         return getName().equals(otherStudent.getName());
     }
 
     @Override
     public int hashCode() {
+        assert getName() != null : "Name cannot be null for hash calculation";
         return getName().hashCode();
     }
 
     @Override
     public String toString() {
+        // Assert all fields are non-null before creating string representation
+        assert getName() != null : "Name is null";
+        assert subjects != null : "Subjects list is null";
+        assert studentClass != null : "Student class is null";
+        assert emergencyContact != null : "Emergency contact is null";
+        assert attendance != null : "Attendance list is null";
+        assert paymentStatus != null : "Payment status is null";
+        assert assignmentStatus != null : "Assignment status is null";
+
         return new ToStringBuilder(this)
                 .add("name", getName())
                 .add("subjects", subjects)
