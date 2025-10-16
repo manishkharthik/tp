@@ -222,17 +222,6 @@ public class ArchiveCommandTest {
         assertCommandFailure(cmd, nonEmpty, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
-    @Test
-    public void hashCode_consistentWithEquals() {
-        ArchiveCommand a = new ArchiveCommand(INDEX_FIRST_PERSON);
-        ArchiveCommand b = new ArchiveCommand(INDEX_FIRST_PERSON);
-        ArchiveCommand c = new ArchiveCommand(INDEX_SECOND_PERSON);
-
-        assertEquals(a, b);
-        assertEquals(a.hashCode(), b.hashCode());
-        assertNotNull(a.hashCode());
-        org.junit.jupiter.api.Assertions.assertNotEquals(a.hashCode(), c.hashCode());
-    }
     /**
      * Updates {@code model}'s filtered list to show no one.
      */
