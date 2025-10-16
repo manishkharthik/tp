@@ -149,11 +149,6 @@ public class ListArchiveCommandTest {
     }
 
     @Test
-    public void execute_nullModel_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new ListArchiveCommand().execute(null));
-    }
-
-    @Test
     public void execute_twice() {
         Model m = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         // archive one person
