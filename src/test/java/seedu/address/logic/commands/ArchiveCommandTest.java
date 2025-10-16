@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -165,6 +167,41 @@ public class ArchiveCommandTest {
         ArchiveCommand archiveCommand = new ArchiveCommand(targetIndex);
         String expected = ArchiveCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
         assertEquals(expected, archiveCommand.toString());
+    }
+
+    @Test
+    public void execute_validIndex_assertionsPass() throws CommandException {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Person personToArchive = model.getFilteredPersonList().get(0);
+
+        ArchiveCommand command = new ArchiveCommand(INDEX_FIRST_PERSON);
+
+        // This executes all the assertion lines in execute()
+        CommandResult result = command.execute(model);
+
+        assertNotNull(result);
+        assertNotNull(result.getFeedbackToUser());
+        assertTrue(result.getFeedbackToUser().contains(personToArchive.getName().toString()));
+    }
+
+    @Test
+    public void equals_sameCommand_assertionsPass() {
+        ArchiveCommand command1 = new ArchiveCommand(INDEX_FIRST_PERSON);
+        ArchiveCommand command2 = new ArchiveCommand(INDEX_FIRST_PERSON);
+
+        // This executes the assertion in equals()
+        assertTrue(command1.equals(command2));
+    }
+
+    @Test
+    public void toString_validCommand_assertionsPass() {
+        ArchiveCommand command = new ArchiveCommand(INDEX_FIRST_PERSON);
+
+        // This executes the assertion in toString()
+        String result = command.toString();
+
+        assertNotNull(result);
+        assertTrue(result.contains("targetIndex"));
     }
 
     /**

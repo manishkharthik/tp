@@ -18,7 +18,13 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        assert model != null : "Model should not be null";
+
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(MESSAGE_SUCCESS);
+
+        CommandResult result = new CommandResult(MESSAGE_SUCCESS);
+        assert result != null : "CommandResult should not be null";
+
+        return result;
     }
 }

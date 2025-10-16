@@ -34,15 +34,24 @@ public class ArchiveCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert model != null : "Model should not be null";
+        assert targetIndex != null : "Target index should not be null";
         List<Person> lastShownList = model.getFilteredPersonList();
+        assert lastShownList != null : "Person list should not be null";
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
         Person personToArchive = lastShownList.get(targetIndex.getZeroBased());
+        assert personToArchive != null : "Person to archive should not be null";
         model.archivePerson(personToArchive);
-        return new CommandResult(String.format(MESSAGE_ARCHIVE_PERSON_SUCCESS, Messages.format(personToArchive)));
+        CommandResult result = new CommandResult(String.format(
+                MESSAGE_ARCHIVE_PERSON_SUCCESS, Messages.format(personToArchive))
+        );
+        assert result != null : "CommandResult should not be null";
+
+        return result;
     }
 
     @Override
