@@ -26,4 +26,23 @@ public class ListArchiveCommand extends Command {
 
         return result;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ListArchiveCommand)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return COMMAND_WORD.hashCode();
+    }
 }
