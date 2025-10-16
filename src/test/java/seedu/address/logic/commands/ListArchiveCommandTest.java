@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -103,5 +104,47 @@ public class ListArchiveCommandTest {
 
         // different command type -> returns false
         assertFalse(listArchiveCommand1.equals(new ListCommand()));
+    }
+
+    @Test
+    public void execute_validModel_assertionsPass() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        // This will execute line 19 (assert model != null)
+        CommandResult result = new ListArchiveCommand().execute(model);
+
+        // This covers lines 23-25 (assert result checks)
+        assertNotNull(result);
+        assertTrue(result.isShowArchived());
+        assertEquals(ListArchiveCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());
+    }
+
+    @Test
+    public void hashCode_validCommand_returnsHashCode() {
+        ListArchiveCommand command = new ListArchiveCommand();
+
+        // This covers line 46 (assert COMMAND_WORD != null in hashCode)
+        int hashCode = command.hashCode();
+
+        assertEquals(ListArchiveCommand.COMMAND_WORD.hashCode(), hashCode);
+    }
+
+    @Test
+    public void execute_afterArchiving_showsArchivedPersons() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        // Archive some persons
+        Person person1 = model.getFilteredPersonList().get(0);
+        Person person2 = model.getFilteredPersonList().get(1);
+        model.archivePerson(person1);
+        model.archivePerson(person2);
+
+        // Execute command - this tests all assertion lines
+        CommandResult result = new ListArchiveCommand().execute(model);
+
+        // Verify the assertions held true
+        assertNotNull(result);
+        assertTrue(result.isShowArchived());
+        assertEquals(2, model.getFilteredArchivedPersonList().size());
     }
 }

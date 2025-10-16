@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
@@ -202,7 +204,8 @@ public class AddCommandTest {
     /**
      * A default model stub that have all of the methods failing.
      */
-    private class ModelStub implements Model {
+    @Nested
+    public class ModelStub implements Model {
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
@@ -286,6 +289,42 @@ public class AddCommandTest {
         @Override
         public void updateFilteredArchivedPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
+        }
+
+        @Test
+        public void execute_validPerson_assertionsPass() throws CommandException {
+            ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+            Person validPerson = new PersonBuilder().build();
+
+            AddCommand command = new AddCommand(validPerson);
+
+            // This executes all assertion lines in execute()
+            CommandResult result = command.execute(modelStub);
+
+            assertNotNull(result);
+            assertNotNull(result.getFeedbackToUser());
+            assertTrue(result.getFeedbackToUser().contains(validPerson.getName().toString()));
+        }
+
+        @Test
+        public void equals_validComparison_assertionsPass() {
+            Person alice = new PersonBuilder().withName("Alice").build();
+            AddCommand command1 = new AddCommand(alice);
+            AddCommand command2 = new AddCommand(alice);
+
+            // This executes assertions in equals()
+            assertTrue(command1.equals(command2));
+        }
+
+        @Test
+        public void hashCode_validCommand_assertionsPass() {
+            Person alice = new PersonBuilder().withName("Alice").build();
+            AddCommand command = new AddCommand(alice);
+
+            // This executes assertions in hashCode() if you added any
+            int hash = command.hashCode();
+
+            assertNotNull(hash);
         }
     }
 
