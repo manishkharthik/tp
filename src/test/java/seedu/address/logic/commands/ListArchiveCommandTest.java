@@ -147,4 +147,19 @@ public class ListArchiveCommandTest {
         assertTrue(result.isShowArchived());
         assertEquals(2, model.getFilteredArchivedPersonList().size());
     }
+
+    @Test
+    public void execute_twice() {
+        Model m = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        // archive one person
+        Person p = m.getFilteredPersonList().get(0);
+        m.archivePerson(p);
+
+        CommandResult r1 = new ListArchiveCommand().execute(m);
+        CommandResult r2 = new ListArchiveCommand().execute(m);
+
+        assertTrue(r1.isShowArchived());
+        assertTrue(r2.isShowArchived());
+        assertEquals(1, m.getFilteredArchivedPersonList().size());
+    }
 }
