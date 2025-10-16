@@ -16,7 +16,14 @@ public class ListArchiveCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        assert model != null : "Model should not be null";
+
         model.updateFilteredArchivedPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(MESSAGE_SUCCESS, false, false, true);
+
+        CommandResult result = new CommandResult(MESSAGE_SUCCESS, false, false, true);
+        assert result != null : "CommandResult should not be null";
+        assert result.isShowArchived() : "CommandResult should indicate showing archived persons";
+
+        return result;
     }
 }
