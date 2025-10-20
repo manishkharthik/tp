@@ -14,7 +14,7 @@ import seedu.address.model.lesson.LessonList;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 
-//@TODO: Wire up between subject and lessonlist fucntions
+//@TODO: Wire up between subject and lessonlist functions
 public class Subject {
     private final String name;
     private final LessonList lessonList;
