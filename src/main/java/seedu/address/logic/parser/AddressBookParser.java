@@ -87,7 +87,7 @@ public class AddressBookParser {
             return new ListArchiveCommandParser().parse(arguments);
 
         case UnarchiveCommand.COMMAND_WORD:
-             return new UnarchiveCommandParser().parse(arguments);
+            return new UnarchiveCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
