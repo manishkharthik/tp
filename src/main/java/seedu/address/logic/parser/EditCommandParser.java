@@ -7,6 +7,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ATTENDANCE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ASSIGNMENT_STATUS;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +38,9 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG, 
+                        PREFIX_CLASS, PREFIX_SUBJECTS, PREFIX_EMERGENCY_CONTACT, PREFIX_ATTENDANCE,
+                        PREFIX_PAYMENT_STATUS, PREFIX_ASSIGNMENT_STATUS);
 
         Index index;
 
@@ -59,6 +67,30 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+        if (argMultimap.getValue(PREFIX_CLASS).isPresent()) {
+            editPersonDescriptor.setStudentClass(
+                    ParserUtil.parseStudentClass(argMultimap.getValue(PREFIX_CLASS).get()));
+        }
+        if (argMultimap.getValue(PREFIX_SUBJECTS).isPresent()) {
+            editPersonDescriptor.setSubjects(
+                    ParserUtil.parseSubjects(argMultimap.getAllValues(PREFIX_SUBJECTS)));
+        }
+        if (argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).isPresent()) {
+            editPersonDescriptor.setEmergencyContact(
+                    ParserUtil.parseEmergencyContact(argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).get()));
+        }
+        if (argMultimap.getValue(PREFIX_ATTENDANCE).isPresent()) {
+            editPersonDescriptor.setAttendance(
+                    ParserUtil.parseAttendanceList(argMultimap.getValue(PREFIX_ATTENDANCE).get()));
+        }
+        if (argMultimap.getValue(PREFIX_PAYMENT_STATUS).isPresent()) {
+            editPersonDescriptor.setPaymentStatus(
+                    ParserUtil.parsePaymentStatus(argMultimap.getValue(PREFIX_PAYMENT_STATUS).get()));
+        }
+        if (argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).isPresent()) {
+            editPersonDescriptor.setAssignmentStatus(
+                    ParserUtil.parseAssignmentStatus(argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).get()));
+        }
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
