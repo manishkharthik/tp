@@ -7,6 +7,7 @@ import java.util.Objects;
 /**
  * Represents a list of students enrolled in a specific subject.
  * Each StudentList instance is tied to a single subject.
+ * Currently unused, directly using UniquePersonList
  */
 public class StudentList {
 
