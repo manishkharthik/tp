@@ -22,7 +22,6 @@ public class Lesson {
      */
     public Lesson(String name, String subject) {
         requireAllNonNull(name, subject);
-        
         // Check for null and empty values
         assert name != null : "Lesson name cannot be null";
         assert subject != null : "Subject name cannot be null";
