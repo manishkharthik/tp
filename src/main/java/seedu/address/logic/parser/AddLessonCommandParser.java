@@ -31,14 +31,12 @@ public class AddLessonCommandParser implements Parser<AddLessonCommand> {
         String subject = argMultimap.getValue(PREFIX_SUBJECTS).get().trim();
         String lessonName = argMultimap.getValue(PREFIX_NAME).get().trim();
 
-        System.out.println("Subject: '" + subject + "', LessonName: '" + lessonName + "'");
-        System.out.println("Prefixes present: " + argMultimap.arePrefixesPresent(PREFIX_SUBJECTS, PREFIX_NAME));
-
-        try {
-            Lesson lesson = new Lesson(lessonName, subject);
-            return new AddLessonCommand(lesson);
-        } catch (IllegalArgumentException e) {
-            throw new ParseException(e.getMessage());
+        if (subject.isEmpty() || lessonName.isEmpty()) {
+            throw new ParseException(Lesson.MESSAGE_CONSTRAINTS);
         }
+
+        Lesson lesson = new Lesson(lessonName, subject);
+
+        return new AddLessonCommand(lesson);
     }
 }
