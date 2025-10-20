@@ -37,7 +37,7 @@ class JsonSerializableAddressBook {
             // Allow alternate top-level key "students" for backward/forward compatibility
             this.persons.addAll(students);
         }
-        if (archivedPersons != null) { 
+        if (archivedPersons != null) {
             this.archivedPersons.addAll(archivedPersons);
         }
     }
