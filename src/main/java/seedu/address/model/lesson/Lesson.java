@@ -32,6 +32,40 @@ public class Lesson {
         this.subject = subject.trim();
     }
 
+    public String getName() {
+        assert name != null : "Lesson name is null";
+        assert !name.trim().isEmpty() : "Lesson name is empty";
+        return name;
+    }
+
+    public String getSubject() {
+        assert subject != null : "Subject name is null";
+        assert !subject.trim().isEmpty() : "Subject name is empty";
+        return subject;
+    }
+
+    /**
+     * Returns true if both lessons have the same identity.
+     */
+    public boolean isSameLesson(Lesson otherLesson) {
+        if (otherLesson == this) {
+            return true;
+        }
+
+        if (otherLesson == null) {
+            return false;
+        }
+
+        // Assert that both lessons have valid names before comparison
+        assert name != null : "Current lesson's name is null";
+        assert subject != null : "Current lesson's subject is null";
+        assert otherLesson.name != null : "Other lesson's name is null";
+        assert otherLesson.subject != null : "Other lesson's subject is null";
+
+        return otherLesson.getName().equals(getName())
+                && otherLesson.getSubject().equals(getSubject());
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

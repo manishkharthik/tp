@@ -8,6 +8,8 @@ import java.util.Objects;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
+import seedu.address.model.lesson.exceptions.DuplicateLessonException;
+import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 
 /**
  * Represents a Subject in the address book.
@@ -44,6 +46,38 @@ public class Subject {
     public List<Lesson> getLessons() {
         assert lessonList != null : "Lesson list is null";
         return lessonList.getLessons();
+    }
+
+    /**
+     * Adds a lesson to this subject.
+     * The lesson must not already exist in the subject.
+     *
+     * @param lesson The lesson to add
+     * @throws DuplicateLessonException if an equivalent lesson already exists
+     */
+    public void addLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        lessonList.addLesson(lesson);
+    }
+
+    /**
+     * Removes a lesson from this subject.
+     * The lesson must exist in the subject.
+     *
+     * @param lesson The lesson to remove
+     * @throws LessonNotFoundException if the lesson does not exist
+     */
+    public void removeLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        lessonList.deleteLesson(lesson);
+    }
+
+    /**
+     * Returns true if the subject contains the given lesson.
+     */
+    public boolean containsLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        return lessonList.contains(lesson);
     }
 
     /**
