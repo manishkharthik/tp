@@ -7,6 +7,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -29,6 +31,7 @@ public class AddressBookTest {
     @Test
     public void constructor() {
         assertEquals(Collections.emptyList(), addressBook.getPersonList());
+        assertEquals(Collections.emptyList(), addressBook.getArchivedPersonList());
     }
 
     @Test
@@ -83,6 +86,137 @@ public class AddressBookTest {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getPersonList().remove(0));
     }
 
+    // ============== Archive Tests ==============
+
+    @Test
+    public void archivePerson_validPerson_success() {
+        addressBook.addPerson(ALICE);
+        addressBook.archivePerson(ALICE);
+
+        assertFalse(addressBook.hasPerson(ALICE));
+        assertTrue(addressBook.hasArchivedPerson(ALICE));
+        assertEquals(0, addressBook.getPersonList().size());
+        assertEquals(1, addressBook.getArchivedPersonList().size());
+    }
+
+    @Test
+    public void archivePerson_nullPerson_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.archivePerson(null));
+    }
+
+    @Test
+    public void unarchivePerson_validPerson_success() {
+        addressBook.addPerson(ALICE);
+        addressBook.archivePerson(ALICE);
+        addressBook.unarchivePerson(ALICE);
+
+        assertTrue(addressBook.hasPerson(ALICE));
+        assertFalse(addressBook.hasArchivedPerson(ALICE));
+        assertEquals(1, addressBook.getPersonList().size());
+        assertEquals(0, addressBook.getArchivedPersonList().size());
+    }
+
+    @Test
+    public void unarchivePerson_nullPerson_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.unarchivePerson(null));
+    }
+
+    @Test
+    public void hasArchivedPerson_nullPerson_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.hasArchivedPerson(null));
+    }
+
+    @Test
+    public void hasArchivedPerson_personNotInArchivedList_returnsFalse() {
+        assertFalse(addressBook.hasArchivedPerson(ALICE));
+    }
+
+    @Test
+    public void hasArchivedPerson_personInArchivedList_returnsTrue() {
+        addressBook.addPerson(ALICE);
+        addressBook.archivePerson(ALICE);
+        assertTrue(addressBook.hasArchivedPerson(ALICE));
+    }
+
+    @Test
+    public void addArchivedPerson_validPerson_success() {
+        addressBook.addArchivedPerson(ALICE);
+        assertTrue(addressBook.hasArchivedPerson(ALICE));
+        assertEquals(1, addressBook.getArchivedPersonList().size());
+    }
+
+    @Test
+    public void archiveMultiplePersons_success() {
+        addressBook.addPerson(ALICE);
+        addressBook.addPerson(BOB);
+        addressBook.addPerson(CARL);
+
+        addressBook.archivePerson(ALICE);
+        addressBook.archivePerson(BOB);
+
+        assertEquals(1, addressBook.getPersonList().size());
+        assertEquals(2, addressBook.getArchivedPersonList().size());
+        assertTrue(addressBook.hasArchivedPerson(ALICE));
+        assertTrue(addressBook.hasArchivedPerson(BOB));
+        assertTrue(addressBook.hasPerson(CARL));
+    }
+
+    @Test
+    public void resetData_withArchivedPersons_replacesData() {
+        // Setup original data with archived persons
+        addressBook.addPerson(ALICE);
+        addressBook.archivePerson(ALICE);
+
+        // Create new data with different archived persons
+        AddressBook newData = new AddressBook();
+        newData.addPerson(BOB);
+        newData.archivePerson(BOB);
+
+        addressBook.resetData(newData);
+
+        assertEquals(0, addressBook.getPersonList().size());
+        assertEquals(1, addressBook.getArchivedPersonList().size());
+        assertFalse(addressBook.hasArchivedPerson(ALICE));
+        assertTrue(addressBook.hasArchivedPerson(BOB));
+    }
+
+    @Test
+    public void getArchivedPersonList_modifyList_throwsUnsupportedOperationException() {
+        addressBook.addPerson(ALICE);
+        addressBook.archivePerson(ALICE);
+        assertThrows(UnsupportedOperationException.class, () -> addressBook.getArchivedPersonList().remove(0));
+    }
+
+    @Test
+    public void archiveAndUnarchive_multipleTimes_success() {
+        addressBook.addPerson(ALICE);
+
+        // Archive
+        addressBook.archivePerson(ALICE);
+        assertTrue(addressBook.hasArchivedPerson(ALICE));
+        assertFalse(addressBook.hasPerson(ALICE));
+
+        // Unarchive
+        addressBook.unarchivePerson(ALICE);
+        assertFalse(addressBook.hasArchivedPerson(ALICE));
+        assertTrue(addressBook.hasPerson(ALICE));
+
+        // Archive again
+        addressBook.archivePerson(ALICE);
+        assertTrue(addressBook.hasArchivedPerson(ALICE));
+        assertFalse(addressBook.hasPerson(ALICE));
+    }
+
+    @Test
+    public void setArchivedPersons_validList_success() {
+        List<Person> archivedPersons = Arrays.asList(ALICE, BOB);
+        addressBook.setArchivedPersons(archivedPersons);
+
+        assertEquals(2, addressBook.getArchivedPersonList().size());
+        assertTrue(addressBook.hasArchivedPerson(ALICE));
+        assertTrue(addressBook.hasArchivedPerson(BOB));
+    }
+
     @Test
     public void toStringMethod() {
         String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList() + "}";
@@ -94,9 +228,15 @@ public class AddressBookTest {
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<Person> archivedPersons = FXCollections.observableArrayList();
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
+        }
+
+        AddressBookStub(Collection<Person> persons, Collection<Person> archivedPersons) {
+            this.persons.setAll(persons);
+            this.archivedPersons.setAll(archivedPersons);
         }
 
         @Override
@@ -106,8 +246,7 @@ public class AddressBookTest {
 
         @Override
         public ObservableList<Person> getArchivedPersonList() {
-            throw new AssertionError("This method should not be called.");
+            return archivedPersons;
         }
     }
-
 }
