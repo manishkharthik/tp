@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -25,6 +24,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.attendance.AttendanceList;
+import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
@@ -297,7 +297,17 @@ public class AddCommandTest {
         }
 
         @Override
+        public ObservableList<Lesson> getFilteredLessonList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredLessonList(Predicate<Lesson> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -311,40 +321,19 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-        @Test
-        public void execute_validPerson_assertionsPass() throws CommandException {
-            ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-            Person validPerson = new PersonBuilder().build();
-
-            AddCommand command = new AddCommand(validPerson);
-
-            // This executes all assertion lines in execute()
-            CommandResult result = command.execute(modelStub);
-
-            assertNotNull(result);
-            assertNotNull(result.getFeedbackToUser());
-            assertTrue(result.getFeedbackToUser().contains(validPerson.getName().toString()));
+        @Override
+        public boolean hasLesson(Lesson lesson) {
+            throw new AssertionError("This method should not be called.");
         }
 
-        @Test
-        public void equals_validComparison_assertionsPass() {
-            Person alice = new PersonBuilder().withName("Alice").build();
-            AddCommand command1 = new AddCommand(alice);
-            AddCommand command2 = new AddCommand(alice);
-
-            // This executes assertions in equals()
-            assertTrue(command1.equals(command2));
+        @Override
+        public boolean hasSubject(String subject) {
+            throw new AssertionError("This method should not be called.");
         }
 
-        @Test
-        public void hashCode_validCommand_assertionsPass() {
-            Person alice = new PersonBuilder().withName("Alice").build();
-            AddCommand command = new AddCommand(alice);
-
-            // This executes assertions in hashCode() if you added any
-            int hash = command.hashCode();
-
-            assertNotNull(hash);
+        @Override
+        public void addLesson(Lesson lesson) {
+            throw new AssertionError("This method should not be called.");
         }
     }
 
