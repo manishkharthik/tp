@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import seedu.address.model.lesson.exceptions.DuplicateLessonException;
+import seedu.address.model.lesson.exceptions.LessonNotFoundException;
+
 /**
  * Represents a list of lessons for a specific subject.
  * Each LessonList instance is tied to a single subject.
@@ -24,25 +27,40 @@ public class LessonList {
     }
 
     /**
-     * Adds a lesson to the list if not already present.
-     *
-     * @param lesson the lesson to add
+     * Returns true if the list contains an equivalent lesson.
      */
-    public void addLesson(Lesson lesson) {
+    public boolean contains(Lesson lesson) {
         Objects.requireNonNull(lesson);
-        if (!lessons.contains(lesson)) {
-            lessons.add(lesson);
-        }
+        return lessons.stream().anyMatch(lesson::isSameLesson);
     }
 
     /**
-     * Deletes a lesson from the list if present.
+     * Adds a lesson to the list.
+     * The lesson must not already exist in the list.
+     *
+     * @param lesson the lesson to add
+     * @throws DuplicateLessonException if the lesson is a duplicate of an existing lesson
+     */
+    public void addLesson(Lesson lesson) {
+        Objects.requireNonNull(lesson);
+        if (contains(lesson)) {
+            throw new DuplicateLessonException();
+        }
+        lessons.add(lesson);
+    }
+
+    /**
+     * Deletes a lesson from the list.
+     * The lesson must exist in the list.
      *
      * @param lesson the lesson to remove
+     * @throws LessonNotFoundException if the lesson does not exist
      */
     public void deleteLesson(Lesson lesson) {
         Objects.requireNonNull(lesson);
-        lessons.remove(lesson);
+        if (!lessons.remove(lesson)) {
+            throw new LessonNotFoundException();
+        }
     }
 
     /**
