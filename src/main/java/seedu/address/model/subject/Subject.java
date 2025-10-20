@@ -1,7 +1,6 @@
 package seedu.address.model.subject;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +14,7 @@ import seedu.address.model.lesson.LessonList;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 
- //@TODO: Wire up between subject and lessonlist fucntions
+//@TODO: Wire up between subject and lessonlist fucntions
 public class Subject {
     private final String name;
     private final LessonList lessonList;
@@ -27,7 +26,7 @@ public class Subject {
      */
     public Subject(String name) {
         requireNonNull(name);
-        
+
         // Check for null and empty values
         assert name != null : "Subject name cannot be null";
         assert !name.trim().isEmpty() : "Subject name cannot be blank";

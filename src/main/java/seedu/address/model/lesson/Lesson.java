@@ -22,7 +22,7 @@ public class Lesson {
      */
     public Lesson(String name, String subject) {
         requireAllNonNull(name, subject);
-        
+
         // Check for null and empty values
         assert name != null : "Lesson name cannot be null";
         assert subject != null : "Subject name cannot be null";
@@ -31,29 +31,6 @@ public class Lesson {
 
         this.name = name.trim();
         this.subject = subject.trim();
-    }
-
-
-    /**
-     * Returns true if both lessons have the same identity.
-     */
-    public boolean isSameLesson(Lesson otherLesson) {
-        if (otherLesson == this) {
-            return true;
-        }
-
-        if (otherLesson == null) {
-            return false;
-        }
-
-        // Assert that both lessons have valid names before comparison
-        assert name != null : "Current lesson's name is null";
-        assert subject != null : "Current lesson's subject is null";
-        assert otherLesson.name != null : "Other lesson's name is null";
-        assert otherLesson.subject != null : "Other lesson's subject is null";
-
-        return otherLesson.getName().equals(getName())
-                && otherLesson.getSubject().equals(getSubject());
     }
 
     @Override

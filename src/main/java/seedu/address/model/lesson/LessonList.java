@@ -23,7 +23,6 @@ public class LessonList {
         this.lessons = new ArrayList<>();
     }
 
-    //@TODO: Update both lesson list and lesson class so that they have their supported functions
     /**
      * Adds a lesson to the list if not already present.
      *
