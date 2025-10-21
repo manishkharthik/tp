@@ -63,6 +63,13 @@ public class ArgumentMultimap {
     }
 
     /**
+     * Returns true if all the given prefixes are present in this ArgumentMultimap.
+     */
+    public boolean arePrefixesPresent(Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> getValue(prefix).isPresent());
+    }
+
+    /**
      * Throws a {@code ParseException} if any of the prefixes given in {@code prefixes} appeared more than
      * once among the arguments.
      */

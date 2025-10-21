@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Person;
 
 /**
@@ -13,6 +14,9 @@ import seedu.address.model.person.Person;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Lesson> PREDICATE_SHOW_ALL_LESSONS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -101,4 +105,43 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredArchivedPersonList(Predicate<Person> predicate);
+
+    /**
+     * Returns true if a lesson with the same identity as {@code lesson} exists in the list.
+     */
+    boolean hasLesson(Lesson lesson);
+
+    /**
+     * Returns true if the given subject exists in the list.
+     */
+    boolean hasSubject(String subject);
+
+    /**
+     * Adds the given lesson.
+     * {@code lesson} must not already exist in the list.
+     */
+    void addLesson(Lesson lesson);
+
+    /**
+     * Deletes the given lesson.
+     * {@code lesson} must exist in the list.
+     */
+    void deleteLesson(Lesson lesson);
+
+    /** Returns an unmodifiable view of the filtered lesson list */
+    ObservableList<Lesson> getFilteredLessonList();
+
+    /* Returns an unmodifiable view of the lesson list */
+    ObservableList<Lesson> getLessonList();
+
+    /**
+     * Updates the filter of the filtered lesson list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredLessonList(Predicate<Lesson> predicate);
+
+    /**
+     * Unarchives the given person (moves from archived list back to active list).
+     */
+    void unarchivePerson(Person target);
 }

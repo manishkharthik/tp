@@ -6,6 +6,8 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.lesson.Lesson;
+import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -17,6 +19,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniquePersonList archivedPersons;
+    private final LessonList lessonList;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -28,6 +31,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         archivedPersons = new UniquePersonList();
+        lessonList = new LessonList();
     }
 
     public AddressBook() {}
@@ -112,6 +116,72 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setArchivedPersons(List<Person> archivedPersons) {
         this.archivedPersons.setPersons(archivedPersons);
+    }
+
+    /**
+     * Unarchives {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the archived list.
+     */
+    public void unarchivePerson(Person key) {
+        requireNonNull(key);
+        assert key != null : "Person to unarchive should not be null";
+        assert archivedPersons.contains(key) : "Person must be in archived list";
+
+        archivedPersons.remove(key);
+        persons.add(key);
+    }
+
+    /**
+     * Returns true if an archived person with the same identity as {@code person} exists in the address book.
+     */
+    public boolean hasArchivedPerson(Person person) {
+        requireNonNull(person);
+        return archivedPersons.contains(person);
+    }
+
+    /**
+     * Adds an archived person directly to the archived list.
+     * Used during loading from storage.
+     */
+    public void addArchivedPerson(Person p) {
+        archivedPersons.add(p);
+    }
+
+    //// lesson-level operations
+
+    /**
+     * Returns true if a lesson with the same identity as {@code lesson} exists in the address book.
+     * @param lesson
+     * @return
+     */
+    public boolean hasLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        return lessonList.contains(lesson);
+    }
+
+    /**
+     * Adds a lesson to the address book.
+     * The lesson must not already exist in the address book.
+     */
+    public void addLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        lessonList.addLesson(lesson);
+    }
+
+    /**
+     * Deletes the given lesson from the address book.
+     * The lesson must exist in the address book.
+     */
+    public void deleteLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        lessonList.deleteLesson(lesson);
+    }
+
+    /**
+     * Returns the LessonList object.
+     */
+    public LessonList getLessonList() {
+        return lessonList;
     }
 
     //// util methods

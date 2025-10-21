@@ -21,11 +21,13 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.student.Student;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -56,7 +58,7 @@ public class EditCommand extends Command {
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
+     * @param index                of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
@@ -96,6 +98,45 @@ public class EditCommand extends Command {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
+
+        boolean editingStudentFields = editPersonDescriptor.getSubjects().isPresent()
+                || editPersonDescriptor.getStudentClass().isPresent()
+                || editPersonDescriptor.getEmergencyContact().isPresent()
+                || editPersonDescriptor.getAttendance().isPresent()
+                || editPersonDescriptor.getPaymentStatus().isPresent()
+                || editPersonDescriptor.getAssignmentStatus().isPresent();
+
+        if (personToEdit instanceof Student || editingStudentFields) {
+            List<String> updatedSubjects;
+            String updatedStudentClass;
+            String updatedEmergencyContact;
+            AttendanceList updatedAttendance;
+            String updatedPaymentStatus;
+            String updatedAssignmentStatus;
+
+            if (personToEdit instanceof Student) {
+                Student studentToEdit = (Student) personToEdit;
+                updatedSubjects = editPersonDescriptor.getSubjects().orElse(studentToEdit.getSubjects());
+                updatedStudentClass = editPersonDescriptor.getStudentClass().orElse(studentToEdit.getStudentClass());
+                updatedEmergencyContact = editPersonDescriptor.getEmergencyContact()
+                        .orElse(studentToEdit.getEmergencyContact());
+                updatedAttendance = editPersonDescriptor.getAttendance().orElse(studentToEdit.getAttendanceStatus());
+                updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse(studentToEdit.getPaymentStatus());
+                updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus()
+                        .orElse(studentToEdit.getAssignmentStatus());
+            } else {
+                updatedSubjects = editPersonDescriptor.getSubjects().orElse(List.of());
+                updatedStudentClass = editPersonDescriptor.getStudentClass().orElse("");
+                updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse("");
+                updatedAttendance = editPersonDescriptor.getAttendance().orElse(new AttendanceList());
+                updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse("");
+                updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse("");
+            }
+
+            return new Student(updatedName, updatedSubjects, updatedStudentClass,
+                    updatedEmergencyContact, updatedAttendance, updatedPaymentStatus, updatedAssignmentStatus);
+        }
+
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
@@ -129,7 +170,8 @@ public class EditCommand extends Command {
     }
 
     /**
-     * Stores the details to edit the person with. Each non-empty field value will replace the
+     * Stores the details to edit the person with. Each non-empty field value will
+     * replace the
      * corresponding field value of the person.
      */
     public static class EditPersonDescriptor {
@@ -138,8 +180,15 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private List<String> subjects;
+        private String studentClass;
+        private String emergencyContact;
+        private AttendanceList attendance;
+        private String paymentStatus;
+        private String assignmentStatus;
 
-        public EditPersonDescriptor() {}
+        public EditPersonDescriptor() {
+        }
 
         /**
          * Copy constructor.
@@ -151,13 +200,20 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setSubjects(toCopy.subjects);
+            setStudentClass(toCopy.studentClass);
+            setEmergencyContact(toCopy.emergencyContact);
+            setAttendance(toCopy.attendance);
+            setPaymentStatus(toCopy.paymentStatus);
+            setAssignmentStatus(toCopy.assignmentStatus);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, subjects,
+                    studentClass, emergencyContact, attendance, paymentStatus, assignmentStatus);
         }
 
         public void setName(Name name) {
@@ -201,12 +257,61 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Returns an unmodifiable tag set, which throws {@code UnsupportedOperationException}
+         * Returns an unmodifiable tag set, which throws
+         * {@code UnsupportedOperationException}
          * if modification is attempted.
          * Returns {@code Optional#empty()} if {@code tags} is null.
          */
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
+        }
+
+        public void setSubjects(List<String> subjects) {
+            this.subjects = subjects;
+        }
+
+        public Optional<List<String>> getSubjects() {
+            return Optional.ofNullable(subjects);
+        }
+
+        public void setStudentClass(String studentClass) {
+            this.studentClass = studentClass;
+        }
+
+        public Optional<String> getStudentClass() {
+            return Optional.ofNullable(studentClass);
+        }
+
+        public void setEmergencyContact(String emergencyContact) {
+            this.emergencyContact = emergencyContact;
+        }
+
+        public Optional<String> getEmergencyContact() {
+            return Optional.ofNullable(emergencyContact);
+        }
+
+        public void setAttendance(AttendanceList attendance) {
+            this.attendance = attendance;
+        }
+
+        public Optional<AttendanceList> getAttendance() {
+            return Optional.ofNullable(attendance);
+        }
+
+        public void setPaymentStatus(String paymentStatus) {
+            this.paymentStatus = paymentStatus;
+        }
+
+        public Optional<String> getPaymentStatus() {
+            return Optional.ofNullable(paymentStatus);
+        }
+
+        public void setAssignmentStatus(String assignmentStatus) {
+            this.assignmentStatus = assignmentStatus;
+        }
+
+        public Optional<String> getAssignmentStatus() {
+            return Optional.ofNullable(assignmentStatus);
         }
 
         @Override
@@ -225,7 +330,13 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(subjects, otherEditPersonDescriptor.subjects)
+                    && Objects.equals(studentClass, otherEditPersonDescriptor.studentClass)
+                    && Objects.equals(emergencyContact, otherEditPersonDescriptor.emergencyContact)
+                    && Objects.equals(attendance, otherEditPersonDescriptor.attendance)
+                    && Objects.equals(paymentStatus, otherEditPersonDescriptor.paymentStatus)
+                    && Objects.equals(assignmentStatus, otherEditPersonDescriptor.assignmentStatus);
         }
 
         @Override
@@ -236,6 +347,12 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("tags", tags)
+                    .add("subjects", subjects)
+                    .add("studentClass", studentClass)
+                    .add("emergencyContact", emergencyContact)
+                    .add("attendance", attendance)
+                    .add("paymentStatus", paymentStatus)
+                    .add("assignmentStatus", assignmentStatus)
                     .toString();
         }
     }

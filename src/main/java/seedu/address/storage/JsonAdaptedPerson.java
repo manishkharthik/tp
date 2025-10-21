@@ -54,6 +54,7 @@ public class JsonAdaptedPerson {
     private final String paymentStatus;
     private final String assignmentStatus;
     private final List<String> attendanceList;
+    private final boolean isArchived;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given JSON properties.
@@ -74,12 +75,14 @@ public class JsonAdaptedPerson {
             @JsonProperty("emergencyContact") String emergencyContact,
             @JsonProperty("paymentStatus") String paymentStatus,
             @JsonProperty("assignmentStatus") String assignmentStatus,
-            @JsonProperty("attendanceList") List<String> attendanceList) {
+            @JsonProperty("attendanceList") List<String> attendanceList,
+            @JsonProperty("isArchived") Boolean isArchived) {
         this.type = (type == null) ? "person" : type;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.isArchived = (isArchived != null) ? isArchived : false;
         if (tags != null) {
             this.tagged.addAll(tags);
         }
@@ -89,6 +92,7 @@ public class JsonAdaptedPerson {
         this.paymentStatus = paymentStatus;
         this.assignmentStatus = assignmentStatus;
         this.attendanceList = (attendanceList == null) ? null : new ArrayList<>(attendanceList);
+
     }
 
     /**
@@ -117,6 +121,7 @@ public class JsonAdaptedPerson {
             this.assignmentStatus = null;
             this.attendanceList = null;
         }
+        this.isArchived = false;
     }
 
     // Jackson getters
@@ -257,5 +262,12 @@ public class JsonAdaptedPerson {
         }
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTagSet);
+    }
+
+    /**
+     * Checks if Student is archived.
+     */
+    public boolean isArchived() {
+        return isArchived;
     }
 }
