@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.attendance.AttendanceList;
+import seedu.address.model.attendance.AttendanceRecord;
+import seedu.address.model.lesson.Lesson;
 import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -112,7 +113,11 @@ public class JsonAdaptedPerson {
             this.emergencyContact = s.getEmergencyContact();
             this.paymentStatus = s.getPaymentStatus();
             this.assignmentStatus = s.getAssignmentStatus();
-            this.attendanceList = null; // Or extract from Student if needed
+            this.attendanceList = new ArrayList<>();
+            s.getAttendanceList().getStudentAttendance().forEach(record ->
+                    this.attendanceList.add(record.getLesson().getName() + "|" +
+                            record.getLesson().getSubject() + "|" +
+                            record.getStatus().name()));
         } else {
             this.studentClass = null;
             this.subjects = null;
@@ -124,44 +129,18 @@ public class JsonAdaptedPerson {
         this.isArchived = false;
     }
 
-    // Jackson getters
-    @JsonProperty("type") public String getType() {
-        return type;
-    }
-    @JsonProperty("name") public String getName() {
-        return name;
-    }
-    @JsonProperty("phone") public String getPhone() {
-        return phone;
-    }
-    @JsonProperty("email") public String getEmail() {
-        return email;
-    }
-    @JsonProperty("address") public String getAddress() {
-        return address;
-    }
-    @JsonProperty("tags")
-    public List<JsonAdaptedTag> getTags() {
-        return tagged;
-    }
-    @JsonProperty("class") public String getStudentClass() {
-        return studentClass;
-    }
-    @JsonProperty("subjects") public List<String> getSubjects() {
-        return subjects;
-    }
-    @JsonProperty("emergencyContact") public String getEmergencyContact() {
-        return emergencyContact;
-    }
-    @JsonProperty("paymentStatus") public String getPaymentStatus() {
-        return paymentStatus;
-    }
-    @JsonProperty("assignmentStatus") public String getAssignmentStatus() {
-        return assignmentStatus;
-    }
-    @JsonProperty("attendanceList") public List<String> getAttendanceList() {
-        return attendanceList;
-    }
+    @JsonProperty("type") public String getType() { return type; }
+    @JsonProperty("name") public String getName() { return name; }
+    @JsonProperty("phone") public String getPhone() { return phone; }
+    @JsonProperty("email") public String getEmail() { return email; }
+    @JsonProperty("address") public String getAddress() { return address; }
+    @JsonProperty("tags") public List<JsonAdaptedTag> getTags() { return tagged; }
+    @JsonProperty("class") public String getStudentClass() { return studentClass; }
+    @JsonProperty("subjects") public List<String> getSubjects() { return subjects; }
+    @JsonProperty("emergencyContact") public String getEmergencyContact() { return emergencyContact; }
+    @JsonProperty("paymentStatus") public String getPaymentStatus() { return paymentStatus; }
+    @JsonProperty("assignmentStatus") public String getAssignmentStatus() { return assignmentStatus; }
+    @JsonProperty("attendanceList") public List<String> getAttendanceList() { return attendanceList; }
 
     /**
      * Converts this Jackson-friendly adapted person object into the model's {@link Person} or {@link Student} object.
@@ -177,48 +156,12 @@ public class JsonAdaptedPerson {
 
         // === Validation and construction for base fields ===
         if (name == null) {
-            throw new IllegalValueException(String.format(
-                    MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
-        final Name modelName;
-        try {
-            modelName = new Name(name);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(e.getMessage());
-        }
-
-        if (phone == null) {
-            throw new IllegalValueException(String.format(
-                    MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        final Phone modelPhone;
-        try {
-            modelPhone = new Phone(phone);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(e.getMessage());
-        }
-
-        if (email == null) {
-            throw new IllegalValueException(String.format(
-                    MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        final Email modelEmail;
-        try {
-            modelEmail = new Email(email);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(e.getMessage());
-        }
-
-        if (address == null) {
-            throw new IllegalValueException(String.format(
-                    MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        final Address modelAddress;
-        try {
-            modelAddress = new Address(address);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(e.getMessage());
-        }
+        final Name modelName = new Name(name);
+        final Phone modelPhone = new Phone(phone);
+        final Email modelEmail = new Email(email);
+        final Address modelAddress = new Address(address);
 
         final List<Tag> modelTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
@@ -230,11 +173,10 @@ public class JsonAdaptedPerson {
         if (attendanceList != null) {
             for (String recordString : attendanceList) {
                 try {
-                    // Assume format is "STATUS,DATE_TIME" e.g. "PRESENT,2025-10-14T10:00"
-                    String[] parts = recordString.split(",", 2);
-                    AttendanceStatus status = AttendanceStatus.valueOf(parts[0]);
-                    LocalDateTime dateTime = LocalDateTime.parse(parts[1]);
-                    modelAttendanceList.markAttendance(dateTime, status);
+                    String[] parts = recordString.split("\\|", 3);
+                    Lesson lesson = new Lesson(parts[0], parts[1]);
+                    AttendanceStatus status = AttendanceStatus.valueOf(parts[2]);
+                    modelAttendanceList.markAttendance(lesson, status);
                 } catch (Exception e) {
                     throw new IllegalValueException("Invalid attendance record: " + recordString);
                 }
@@ -251,23 +193,20 @@ public class JsonAdaptedPerson {
                         || assignmentStatus != null
                         || attendanceList != null;
         if (hasStudentBits) {
-            return new Student(
+            Student student = new Student(
                     modelName,
                     subjects,
                     studentClass,
                     emergencyContact,
-                    modelAttendanceList,
                     paymentStatus,
                     assignmentStatus);
+            modelAttendanceList.getStudentAttendance().forEach(r ->
+                    student.getAttendanceList().markAttendance(r.getLesson(), r.getStatus()));
+            return student;
         }
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTagSet);
     }
 
-    /**
-     * Checks if Student is archived.
-     */
-    public boolean isArchived() {
-        return isArchived;
-    }
+    public boolean isArchived() { return isArchived; }
 }
