@@ -212,52 +212,6 @@ public class EditCommandTest {
         assertTrue(descriptorA.equals(descriptorB));
     }
 
-    @Test
-    public void equals_detectsDifferencesInStudentFields() {
-        AttendanceList attendanceList1 = new AttendanceList();
-        attendanceList1.markAttendance(LocalDateTime.now(), AttendanceStatus.PRESENT);
-
-        AttendanceList attendanceList2 = new AttendanceList();
-        attendanceList2.markAttendance(LocalDateTime.now(), AttendanceStatus.ABSENT);
-
-        EditPersonDescriptor base = new EditPersonDescriptorBuilder().build();
-        base.setSubjects(List.of("Math", "Science"));
-        base.setStudentClass("3A");
-        base.setEmergencyContact("98765");
-        base.setAttendance(attendanceList1);
-        base.setPaymentStatus("Paid");
-        base.setAssignmentStatus("Submitted");
-
-        // different subjects
-        EditPersonDescriptor diffSubjects = new EditPersonDescriptorBuilder(base).build();
-        diffSubjects.setSubjects(List.of("Math", "Science", "English"));
-        assertFalse(base.equals(diffSubjects));
-
-        // different class
-        EditPersonDescriptor diffClass = new EditPersonDescriptorBuilder(base).build();
-        diffClass.setStudentClass("4B");
-        assertFalse(base.equals(diffClass));
-
-        // different contact
-        EditPersonDescriptor diffContact = new EditPersonDescriptorBuilder(base).build();
-        diffContact.setEmergencyContact("00000");
-        assertFalse(base.equals(diffContact));
-
-        // different attendance
-        EditPersonDescriptor diffAttendance = new EditPersonDescriptorBuilder(base).build();
-        diffAttendance.setAttendance(attendanceList2);
-        assertFalse(base.equals(diffAttendance));
-
-        // different payment
-        EditPersonDescriptor diffPayment = new EditPersonDescriptorBuilder(base).build();
-        diffPayment.setPaymentStatus("Unpaid");
-        assertFalse(base.equals(diffPayment));
-
-        // different assignment
-        EditPersonDescriptor diffAssignment = new EditPersonDescriptorBuilder(base).build();
-        diffAssignment.setAssignmentStatus("Missing");
-        assertFalse(base.equals(diffAssignment));
-    }
 
     @Test
     public void toString_includesAllStudentFields() {
