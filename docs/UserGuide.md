@@ -208,37 +208,37 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 * `edit 1 c/CS2103 s/Math, CS`  
   Edits the **phone number** and **email address** of the 1st student.
   <figure>
-    <img src="images/editStudent1_before.png" alt="Student 1 Before" width="600"/>
+    <img src="images/editStudent1_command_before.png" alt="Student 1 Before" width="600"/>
     <figcaption><em>Before editing the student</em></figcaption>
   </figure>
   <figure>
-    <img src="images/editStudent1_after.png" alt="Student 1 After" width="600"/>
+    <img src="images/editStudent1_command_after.png" alt="Student 1 After" width="600"/>
     <figcaption><em>After editing the student</em></figcaption>
   </figure>
   
 * `edit 2 pay/Pending`  
   Edits the **Payment Status** of the 2nd student and clears all existing tags.
   <figure>
-    <img src="images/editStudent2_before.png" alt="Student 2 Before" width="600"/>
+    <img src="images/editStudent2_command_before.png" alt="Student 2 Before" width="600"/>
     <figcaption><em>Before editing the student</em></figcaption>
   </figure>
   <figure>
-    <img src="images/editStudent2_after.png" alt="Student 2 After" width="600"/>
+    <img src="images/editStudent2_command_after.png" alt="Student 2 After" width="600"/>
     <figcaption><em>After editing the student</em></figcaption>
   </figure>
 * `edit 3 c/4C s/Math, Physics pay/Paid`  
   Updates the class, subjects, and payment status of a Person, making them into a Student.
   <figure>
-    <img src="images/editStudent3_before.png" alt="Student 3 Before" width="600"/>
+    <img src="images/editStudent3_command_before.png" alt="Student 3 Before" width="600"/>
     <figcaption><em>Before editing the student</em></figcaption>
   </figure>
   <figure>
-    <img src="images/editStudent3_command.png" alt="Student 3 Command" width="600"/>
+    <img src="images/editStudent3_command_view.png" alt="Student 3 Command" width="600"/>
     <figcaption><em>Input for editing the student</em>
     </figcaption>
   </figure> 
   <figure>
-    <img src="images/editStudent3_after.png" alt="Student 3 After" width="600"/>
+    <img src="images/editStudent3_command_after.png" alt="Student 3 After" width="600"/>
     <figcaption><em>After editing the student</em></figcaption>
   </figure>
 
@@ -307,27 +307,27 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
 **Examples:**
 * `archive 3` archives the 3rd student in the list.
 <figure>
-  <img src="images/archiveStudent1_before.png" alt="Student 1 Before" width="600"/>
+  <img src="images/archiveStudent1_command_before.png" alt="Student 1 Before" width="600"/>
     <figcaption><em>Before archiving the student</em></figcaption>
   </figure>
   <figure>
-    <img src="images/archiveStudent1_after.png" alt="Student 1 After" width="600"/>
+    <img src="images/archiveStudent1_command_after.png" alt="Student 1 After" width="600"/>
     <figcaption><em>After archiving the student</em>
     </figcaption>
   </figure> 
   
 * `find Gary` followed by `archive 1` archives the 1st student in the filtered results.
 <figure>
-  <img src="images/findStudent2.png" alt="Find Student 2" width="600"/>
+  <img src="images/findStudent2_command.png" alt="Find Student 2" width="600"/>
     <figcaption><em>Find the desired student</em></figcaption>
   </figure>
   <figure>
-    <img src="images/archiveStudent2_command.png" alt="Student 2 Archive Command" width="600"/>
+    <img src="images/archiveStudent2_command_view.png" alt="Student 2 Archive Command" width="600"/>
     <figcaption><em>Input for archiving Gary</em>
     </figcaption>
   </figure>
   <figure>
-  <img src="images/archiveStudent2_after.png" alt="Student 2 Archive After" width="600"/>
+  <img src="images/archiveStudent2_command_after.png" alt="Student 2 Archive After" width="600"/>
     <figcaption><em>Once student has been archived</em></figcaption>
   </figure>
 
@@ -347,7 +347,7 @@ Use this to view or verify students who have been archived previously.
 * `listarchive`  
   Shows all archived students with their full details.
   <figure>
-  <img src="images/listArchive.png" alt="Archive List" width="600"/>
+  <img src="images/listArchive_command.png" alt="Archive List" width="600"/>
     <figcaption><em>Archive List with all archived students</em></figcaption>
   </figure>
 
