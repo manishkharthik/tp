@@ -236,12 +236,15 @@ Format: `delete INDEX`
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd student in the student list.
- ![result for 'list' followed by 'delete 2'](images/deletecommand_delete_from_studentlist.png)
+ ![Before delete: result for 'list'](images/deletecommand_list_before.png)
+ ![After delete: result for 'delete 2'](images/deletecommand_list_after.png)
 * `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
- ![result for 'find John' followed by 'delete 2'](images/deletecommand_delete_after_find.png)
+ ![Before delete: result for 'find John'](images/deletecommand_find_before.png)
+ ![After delete: result for 'delete 2'](images/deletecommand_find_after.png)
 * `delete 3` where there are only 2 or fewer students results in the following error message: 
    **"The person index provided is invalid"**
- ![result for 'delete 3' on a student list of only two people](images/deletecomand_invalid_index.png)
+ ![result for 'delete 3' on a student list of only two people](images/deletecommand_error.png)
+
 ### Archiving a student : `archive`
 
 Archives the specified student from the address book.
