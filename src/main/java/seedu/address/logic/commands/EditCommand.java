@@ -99,8 +99,6 @@ public class EditCommand extends Command {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
 
-        // ✅ If the existing person is already a Student, or we’re editing
-        // student-related fields
         boolean editingStudentFields = editPersonDescriptor.getSubjects().isPresent()
                 || editPersonDescriptor.getStudentClass().isPresent()
                 || editPersonDescriptor.getEmergencyContact().isPresent()
@@ -109,7 +107,6 @@ public class EditCommand extends Command {
                 || editPersonDescriptor.getAssignmentStatus().isPresent();
 
         if (personToEdit instanceof Student || editingStudentFields) {
-            // convert Person → Student safely
             List<String> updatedSubjects;
             String updatedStudentClass;
             String updatedEmergencyContact;
@@ -128,7 +125,6 @@ public class EditCommand extends Command {
                 updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus()
                         .orElse(studentToEdit.getAssignmentStatus());
             } else {
-                // converting a plain Person into a Student for the first time
                 updatedSubjects = editPersonDescriptor.getSubjects().orElse(List.of());
                 updatedStudentClass = editPersonDescriptor.getStudentClass().orElse("");
                 updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse("");
@@ -141,7 +137,6 @@ public class EditCommand extends Command {
                     updatedEmergencyContact, updatedAttendance, updatedPaymentStatus, updatedAssignmentStatus);
         }
 
-        // normal person flow
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
