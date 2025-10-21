@@ -122,14 +122,25 @@ public interface Model {
      */
     void addLesson(Lesson lesson);
 
+    /**
+     * Deletes the given lesson.
+     * {@code lesson} must exist in the list.
+     */
+    void deleteLesson(Lesson lesson);
+
     /** Returns an unmodifiable view of the filtered lesson list */
     ObservableList<Lesson> getFilteredLessonList();
+
+    /* Returns an unmodifiable view of the lesson list */
+    ObservableList<Lesson> getLessonList();
 
     /**
      * Updates the filter of the filtered lesson list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredLessonList(Predicate<Lesson> predicate);
+
+    /**
      * Unarchives the given person (moves from archived list back to active list).
      */
     void unarchivePerson(Person target);
