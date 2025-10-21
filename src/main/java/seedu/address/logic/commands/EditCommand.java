@@ -99,25 +99,49 @@ public class EditCommand extends Command {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
 
-        if (personToEdit instanceof Student || editPersonDescriptor.getSubjects().isPresent()
+        // ✅ If the existing person is already a Student, or we’re editing
+        // student-related fields
+        boolean editingStudentFields = editPersonDescriptor.getSubjects().isPresent()
                 || editPersonDescriptor.getStudentClass().isPresent()
                 || editPersonDescriptor.getEmergencyContact().isPresent()
                 || editPersonDescriptor.getAttendance().isPresent()
                 || editPersonDescriptor.getPaymentStatus().isPresent()
-                || editPersonDescriptor.getAssignmentStatus().isPresent()) {
-            Student studentToEdit = (Student) personToEdit;
-            List<String> updatedSubjects = editPersonDescriptor.getSubjects().orElse(studentToEdit.getSubjects());
-            String updatedStudentClass = editPersonDescriptor.getStudentClass().orElse(studentToEdit.getStudentClass());
-            String updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse(studentToEdit.getEmergencyContact());
-            AttendanceList updatedAttendance = editPersonDescriptor.getAttendance().orElse(studentToEdit.getAttendanceStatus());
-            String updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse(studentToEdit.getPaymentStatus());
-            String updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse(studentToEdit.getAssignmentStatus());
-            
+                || editPersonDescriptor.getAssignmentStatus().isPresent();
+
+        if (personToEdit instanceof Student || editingStudentFields) {
+            // convert Person → Student safely
+            List<String> updatedSubjects;
+            String updatedStudentClass;
+            String updatedEmergencyContact;
+            AttendanceList updatedAttendance;
+            String updatedPaymentStatus;
+            String updatedAssignmentStatus;
+
+            if (personToEdit instanceof Student) {
+                Student studentToEdit = (Student) personToEdit;
+                updatedSubjects = editPersonDescriptor.getSubjects().orElse(studentToEdit.getSubjects());
+                updatedStudentClass = editPersonDescriptor.getStudentClass().orElse(studentToEdit.getStudentClass());
+                updatedEmergencyContact = editPersonDescriptor.getEmergencyContact()
+                        .orElse(studentToEdit.getEmergencyContact());
+                updatedAttendance = editPersonDescriptor.getAttendance().orElse(studentToEdit.getAttendanceStatus());
+                updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse(studentToEdit.getPaymentStatus());
+                updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus()
+                        .orElse(studentToEdit.getAssignmentStatus());
+            } else {
+                // converting a plain Person into a Student for the first time
+                updatedSubjects = editPersonDescriptor.getSubjects().orElse(List.of());
+                updatedStudentClass = editPersonDescriptor.getStudentClass().orElse("");
+                updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse("");
+                updatedAttendance = editPersonDescriptor.getAttendance().orElse(new AttendanceList());
+                updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse("");
+                updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse("");
+            }
+
             return new Student(updatedName, updatedSubjects, updatedStudentClass,
-                    updatedEmergencyContact, updatedAttendance,
-                    updatedPaymentStatus, updatedAssignmentStatus);
+                    updatedEmergencyContact, updatedAttendance, updatedPaymentStatus, updatedAssignmentStatus);
         }
 
+        // normal person flow
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
@@ -315,7 +339,7 @@ public class EditCommand extends Command {
                     && Objects.equals(subjects, otherEditPersonDescriptor.subjects)
                     && Objects.equals(studentClass, otherEditPersonDescriptor.studentClass)
                     && Objects.equals(emergencyContact, otherEditPersonDescriptor.emergencyContact)
-                    &&  Objects.equals(attendance, otherEditPersonDescriptor.attendance)
+                    && Objects.equals(attendance, otherEditPersonDescriptor.attendance)
                     && Objects.equals(paymentStatus, otherEditPersonDescriptor.paymentStatus)
                     && Objects.equals(assignmentStatus, otherEditPersonDescriptor.assignmentStatus);
         }
