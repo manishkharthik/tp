@@ -208,42 +208,94 @@ public class EditCommand extends Command {
             );
         }
 
-        public void setName(Name name) { this.name = name; }
-        public Optional<Name> getName() { return Optional.ofNullable(name); }
+        public void setName(Name name) {
+            this.name = name;
+        }
 
-        public void setPhone(Phone phone) { this.phone = phone; }
-        public Optional<Phone> getPhone() { return Optional.ofNullable(phone); }
+        public Optional<Name> getName() {
+            return Optional.ofNullable(name);
+        }
 
-        public void setEmail(Email email) { this.email = email; }
-        public Optional<Email> getEmail() { return Optional.ofNullable(email); }
+        public void setPhone(Phone phone) {
+            this.phone = phone;
+        }
 
-        public void setAddress(Address address) { this.address = address; }
-        public Optional<Address> getAddress() { return Optional.ofNullable(address); }
+        public Optional<Phone> getPhone() {
+            return Optional.ofNullable(phone);
+        }
 
-        public void setTags(Set<Tag> tags) { this.tags = (tags != null) ? new HashSet<>(tags) : null; }
+        public void setEmail(Email email) {
+            this.email = email;
+        }
+
+        public Optional<Email> getEmail() {
+            return Optional.ofNullable(email);
+        }
+
+        public void setAddress(Address address) {
+            this.address = address;
+        }
+        public Optional<Address> getAddress() {
+            return Optional.ofNullable(address);
+        }
+
+        public void setTags(Set<Tag> tags) {
+            this.tags = (tags != null) ? new HashSet<>(tags) : null;
+        }
+
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
-        public void setSubjects(List<String> subjects) { this.subjects = subjects; }
-        public Optional<List<String>> getSubjects() { return Optional.ofNullable(subjects); }
+        public void setSubjects(List<String> subjects) {
+            this.subjects = subjects;
+        }
 
-        public void setStudentClass(String studentClass) { this.studentClass = studentClass; }
-        public Optional<String> getStudentClass() { return Optional.ofNullable(studentClass); }
+        public Optional<List<String>> getSubjects() {
+            return Optional.ofNullable(subjects);
+        }
 
-        public void setEmergencyContact(String emergencyContact) { this.emergencyContact = emergencyContact; }
-        public Optional<String> getEmergencyContact() { return Optional.ofNullable(emergencyContact); }
+        public void setStudentClass(String studentClass) {
+            this.studentClass = studentClass;
+        }
 
-        public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
-        public Optional<String> getPaymentStatus() { return Optional.ofNullable(paymentStatus); }
+        public Optional<String> getStudentClass() {
+            return Optional.ofNullable(studentClass);
+        }
 
-        public void setAssignmentStatus(String assignmentStatus) { this.assignmentStatus = assignmentStatus; }
-        public Optional<String> getAssignmentStatus() { return Optional.ofNullable(assignmentStatus); }
+        public void setEmergencyContact(String emergencyContact) {
+            this.emergencyContact = emergencyContact;
+        }
+
+        public Optional<String> getEmergencyContact() {
+            return Optional.ofNullable(emergencyContact);
+        }
+
+        public void setPaymentStatus(String paymentStatus) {
+            this.paymentStatus = paymentStatus;
+        }
+
+        public Optional<String> getPaymentStatus() {
+            return Optional.ofNullable(paymentStatus);
+        }
+
+        public void setAssignmentStatus(String assignmentStatus) {
+            this.assignmentStatus = assignmentStatus;
+        }
+
+        public Optional<String> getAssignmentStatus() {
+            return Optional.ofNullable(assignmentStatus);
+        }
 
         @Override
         public boolean equals(Object other) {
-            if (other == this) return true;
-            if (!(other instanceof EditPersonDescriptor)) return false;
+            if (other == this) {
+                return true;
+            }
+
+            if (!(other instanceof EditPersonDescriptor)) {
+                return false;
+            }
             EditPersonDescriptor o = (EditPersonDescriptor) other;
             return Objects.equals(name, o.name)
                     && Objects.equals(phone, o.phone)
