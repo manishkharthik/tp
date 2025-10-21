@@ -164,7 +164,7 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    //=========== Filtered Archived Person List Accessors =============================================================
     /**
      * Returns an unmodifiable view of the list of archived {@code Person} backed by the internal list of
      * {@code versionedAddressBook}
@@ -210,5 +210,13 @@ public class ModelManager implements Model {
     public void updateFilteredLessonList(Predicate<Lesson> predicate) {
         requireNonNull(predicate);
         filteredLessons.setPredicate(predicate);
+      
+    @Override
+    public void unarchivePerson(Person target) {
+        requireNonNull(target);
+        assert target != null : "Person to unarchive should not be null";
+
+        logger.info("Unarchiving person: " + target.getName());
+        addressBook.unarchivePerson(target);
     }
 }

@@ -324,6 +324,23 @@ public class AddCommandTest {
         @Override
         public boolean hasLesson(Lesson lesson) {
             throw new AssertionError("This method should not be called.");
+        public void unarchivePerson(Person target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Test
+        public void execute_validPerson_assertionsPass() throws CommandException {
+            ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+            Person validPerson = new PersonBuilder().build();
+
+            AddCommand command = new AddCommand(validPerson);
+
+            // This executes all assertion lines in execute()
+            CommandResult result = command.execute(modelStub);
+
+            assertNotNull(result);
+            assertNotNull(result.getFeedbackToUser());
+            assertTrue(result.getFeedbackToUser().contains(validPerson.getName().toString()));
         }
 
         @Override

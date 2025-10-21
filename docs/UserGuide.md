@@ -66,32 +66,77 @@ TutorTrack is a **desktop app for managing contacts, optimized for use via a Com
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Shows a message with a link to access the full help page.
 
-![help message](images/helpMessage.png)
+![help command](images/helpcommand.png)
 
-Format: `help`
+**Format:** `help`
 
+**What happens:** A help window opens with a link to this user guide.
+
+---
 
 ### Adding a student: `add`
 
-Adds a student to the address book.
+Adds a new student to the address book with their academic and contact information.
 
-Format: `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]​`
+![add command](images/addcommand.png)
+
+**Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]`
+
+**Parameters:**
+* `n/NAME` - Student's full name (required)
+* `c/CLASS` - Student's class (e.g., 3B) (required)
+* `s/SUBJECT` - Subject(s) the student is taking (at least one required, can add multiple)
+* `ec/EMERGENCY_CONTACT` - Emergency contact phone number (required)
+* `att/ATTENDANCE` - Current attendance status: Present, Absent, Late, or Excused (optional)
+* `pay/PAYMENT_STATUS` - Payment status: Paid or Unpaid (optional)
+* `asg/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (optional)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A student can have any number of tags (including 0)
+* You can add multiple subjects by using multiple `s/` prefixes
+* Optional fields will use default values if not specified
+* Names are case-sensitive
 </div>
 
-Examples:
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+You cannot add a student with the same name and class as an existing student.
+</div>
+
+**Examples:**
 * `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed`
-* `add n/Sam Lee c/3B s/Art s/History ec/98765432 att/Absent pay/Paid asg/Incomplete`
+    * Adds John Tan from class 3B taking Math and Science
+* `add n/Sam Lee c/3A s/Art s/History ec/98765432`
+    * Adds Sam Lee from class 3A (uses default values for optional fields)
+
+**Expected output:**
+```
+New student added: John Tan; Class: 3B; Subjects: [Math, Science]; Emergency Contact: 91234567
+```
+
+---
 
 ### Listing all students : `list`
 
-Shows a list of all students in the address book.
+Shows a list of all active (non-archived) students in the address book.
 
-Format: `list`
+![list command](images/listcommand.png)
+
+**Format:** `list`
+
+**What it does:**
+* Displays all students who have not been archived
+* Returns you to the active student view if you were viewing archived students
+* Students are shown with their index numbers, names, classes, and other details
+
+**Expected output:**
+```
+Listed all students
+```
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use this command to reset any filters and see all active students after using `find` or other filtering commands.
+</div>
 
 ### Editing a student : `edit`
 

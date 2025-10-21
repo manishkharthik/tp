@@ -114,6 +114,35 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.archivedPersons.setPersons(archivedPersons);
     }
 
+    /**
+     * Unarchives {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the archived list.
+     */
+    public void unarchivePerson(Person key) {
+        requireNonNull(key);
+        assert key != null : "Person to unarchive should not be null";
+        assert archivedPersons.contains(key) : "Person must be in archived list";
+
+        archivedPersons.remove(key);
+        persons.add(key);
+    }
+
+    /**
+     * Returns true if an archived person with the same identity as {@code person} exists in the address book.
+     */
+    public boolean hasArchivedPerson(Person person) {
+        requireNonNull(person);
+        return archivedPersons.contains(person);
+    }
+
+    /**
+     * Adds an archived person directly to the archived list.
+     * Used during loading from storage.
+     */
+    public void addArchivedPerson(Person p) {
+        archivedPersons.add(p);
+    }
+
     //// util methods
 
     @Override
