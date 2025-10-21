@@ -20,7 +20,8 @@ public class ListLessonsCommandParser implements Parser<ListLessonsCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_SUBJECTS);
 
-        if (!argMultimap.arePrefixesPresent(PREFIX_SUBJECTS)) {
+        if (!argMultimap.arePrefixesPresent(PREFIX_SUBJECTS)
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     ListLessonsCommand.MESSAGE_USAGE));
         }

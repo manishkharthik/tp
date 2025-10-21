@@ -214,9 +214,13 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find John` returns `John Teo` and `John Tan`
+* `find Teo Tan` also returns `John Teo` and `John Tan`<br>
+
+  ![result for 'find alex david'](images/findcommand_multiple.png)
+
+* `find InvalidStudentName` returns an empty list of students since no student is named `InvalidStudentName`<br>
+  ![result for 'find alex david'](images/findcommand_invalid_person.png)
 
 ### Deleting a student : `delete`
 
