@@ -2,18 +2,19 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// Note: removed java.time.LocalDateTime
+// Note: removed AttendanceList import
+// Keep AttendanceStatus only if you add parseAttendanceStatus below
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.attendance.AttendanceList;
-import seedu.address.model.attendance.AttendanceStatus;
+import seedu.address.model.attendance.AttendanceStatus; // keep if used
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -163,27 +164,44 @@ public class ParserUtil {
     public static String parseEmergencyContact(String contact) throws ParseException {
         requireNonNull(contact);
         String trimmed = contact.trim();
-        if (!trimmed.matches("\\d{3,}")) {
-            throw new ParseException("Emergency contact should contain at least 3 digits.");
+        // Tighten to match Student's assertion
+        if (!trimmed.matches("\\d{8}")) {
+            throw new ParseException("Emergency contact must be exactly 8 digits.");
         }
         return trimmed;
     }
 
-    /** Parses attendance list from a single attendance record string. */
-    public static AttendanceList parseAttendanceList(String recordStr) throws ParseException {
-        requireNonNull(recordStr);
-        String trimmed = recordStr.trim();
+    // === New small helpers for markattendance ===
 
-        AttendanceList res = new AttendanceList();
-
-        try {
-            AttendanceStatus status = AttendanceStatus.valueOf(trimmed.toUpperCase());
-            res.markAttendance(LocalDateTime.now(), status);
-        } catch (IllegalArgumentException e) {
-            throw new ParseException("Invalid attendance status. Must be one of: PRESENT, ABSENT, LATE, EXCUSED");
+    /** Non-empty lesson name. */
+    public static String parseLessonName(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmed = name.trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException("Lesson name cannot be empty.");
         }
+        return trimmed;
+    }
 
-        return res;
+    /** Non-empty subject string (used by markattendance; not the CSV parser). */
+    public static String parseSingleSubject(String subject) throws ParseException {
+        requireNonNull(subject);
+        String trimmed = subject.trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException("Subject cannot be empty.");
+        }
+        return trimmed;
+    }
+
+    /** Maps free-form string to AttendanceStatus enum. */
+    public static AttendanceStatus parseAttendanceStatus(String status) throws ParseException {
+        requireNonNull(status);
+        String upper = status.trim().toUpperCase();
+        try {
+            return AttendanceStatus.valueOf(upper);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException("Invalid attendance status. Use PRESENT, ABSENT, LATE, or EXCUSED.");
+        }
     }
 
     /** Parses payment status (free-form). */
