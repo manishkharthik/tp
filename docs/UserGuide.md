@@ -175,18 +175,24 @@ Examples:
 
 ### Deleting a student : `delete`
 
-Deletes the specified student from the address book.
+Deletes the specified student from the student list.
 
 Format: `delete INDEX`
 
-* Deletes the student at the specified `INDEX`.
+* Deletes the student at the specified `INDEX`. This action is **irreversible**
 * The index refers to the index number shown in the displayed student list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* The command works on the last shown list of students, which may be filtered (e.g., after using `find`)
+* If the provided index is invalid (e.g., out of range), an error message will be shown.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd student in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st student in the results of the `find` command.
-
+* `list` followed by `delete 2` deletes the 2nd student in the student list.
+ ![result for 'list' followed by 'delete 2'](images/deletecommand_delete_from_studentlist.png)
+* `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
+ ![result for 'find John' followed by 'delete 2'](images/deletecommand_delete_after_find.png)
+* `delete 3` where there are only 2 or fewer students results in the following error message: 
+   **"The person index provided is invalid"**
+ ![result for 'delete 3' on a student list of only two people](images/deletecommand_invalid_index.png)
 ### Archiving a student : `archive`
 
 Archives the specified student from the address book.
