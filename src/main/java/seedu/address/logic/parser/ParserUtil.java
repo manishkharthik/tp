@@ -2,19 +2,18 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.time.LocalDateTime;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.attendance.AttendanceStatus;
-import seedu.address.model.attendance.AttendanceRecord;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -33,7 +32,7 @@ public class ParserUtil {
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
      * and trailing whitespaces will be
      * trimmed.
-     * 
+     *
      * @throws ParseException if the specified index is invalid (not non-zero
      *                        unsigned integer).
      */
@@ -170,6 +169,7 @@ public class ParserUtil {
         return trimmed;
     }
 
+    /** Parses attendance list from a single attendance record string. */
     public static AttendanceList parseAttendanceList(String recordStr) throws ParseException {
         requireNonNull(recordStr);
         String trimmed = recordStr.trim();
