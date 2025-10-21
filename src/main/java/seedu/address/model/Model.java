@@ -122,6 +122,12 @@ public interface Model {
      */
     void addLesson(Lesson lesson);
 
+    /**
+     * Deletes the given lesson.
+     * {@code lesson} must exist in the list.
+     */
+    void deleteLesson(Lesson lesson);
+
     /** Returns an unmodifiable view of the filtered lesson list */
     ObservableList<Lesson> getFilteredLessonList();
 

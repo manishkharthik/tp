@@ -211,7 +211,13 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredLessons.setPredicate(predicate);
     }
-      
+
+    @Override
+    public void deleteLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        lessonList.deleteLesson(lesson);
+    }
+
     @Override
     public void unarchivePerson(Person target) {
         requireNonNull(target);
