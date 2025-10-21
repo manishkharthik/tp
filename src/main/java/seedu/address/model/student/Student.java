@@ -32,13 +32,11 @@ public class Student extends Person {
      * @param subjects Subjects taken by the student.
      * @param studentClass The class or group of the student.
      * @param emergencyContact Emergency contact number.
-     * @param attendance Attendance list of the student.
      * @param paymentStatus Current payment status.
      * @param assignmentStatus Assignment completion status.
      */
     public Student(Name name, List<String> subjects, String studentClass,
-                   String emergencyContact, AttendanceList attendance,
-                   String paymentStatus, String assignmentStatus) {
+                   String emergencyContact, String paymentStatus, String assignmentStatus) {
         super(name != null ? name : new Name("INVALID"),
                 new Phone("000"), new Email("placeholder@example.com"),
                 new Address("N/A"), new HashSet<>());
@@ -48,7 +46,6 @@ public class Student extends Person {
         assert subjects != null : "Subjects list cannot be null";
         assert studentClass != null : "Student class cannot be null";
         assert emergencyContact != null : "Emergency contact cannot be null";
-        assert attendance != null : "Attendance list cannot be null";
         assert paymentStatus != null : "Payment status cannot be null";
         assert assignmentStatus != null : "Assignment status cannot be null";
 
@@ -69,7 +66,7 @@ public class Student extends Person {
         this.subjects = new ArrayList<>(subjects);
         this.studentClass = studentClass.trim();
         this.emergencyContact = emergencyContact;
-        this.attendance = attendance;
+        this.attendanceList = new AttendanceList();
         this.paymentStatus = paymentStatus.trim();
         this.assignmentStatus = assignmentStatus.trim();
     }
@@ -94,7 +91,7 @@ public class Student extends Person {
         return emergencyContact;
     }
 
-    public AttendanceList getAttendanceStatus() {
+    public AttendanceList getAttendanceList() {
         assert attendance != null : "Attendance list is null";
         return attendance;
     }
