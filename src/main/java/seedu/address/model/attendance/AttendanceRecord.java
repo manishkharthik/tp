@@ -2,7 +2,6 @@ package seedu.address.model.attendance;
 
 import static java.util.Objects.requireNonNull;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import seedu.address.model.lesson.Lesson;
@@ -11,7 +10,7 @@ import seedu.address.model.lesson.Lesson;
 /**
  * Represents the attendance of a student.
  * It is tagged to Student class and attendanceList class.
- * It is made up of a dateTime and a AttendanceStatus.
+ * It is made up of a Lesson and a AttendanceStatus.
  *
  * Attendance record provides methods to mark & retrieve attendance and handles bulk operations
  */
@@ -45,7 +44,7 @@ public class AttendanceRecord {
     }
 
     /**
-     * @return returns current date and time of this attendance record
+     * @return returns current lesson of this attendance record
      */
     public Lesson getLesson() {
         return lesson;
@@ -74,6 +73,6 @@ public class AttendanceRecord {
 
     @Override
     public String toString() {
-        return "dateTime: " + this.dateTime + "; status: " + this.status;
+        return "lesson: " + lesson + "; status: " + status;
     }
 }
