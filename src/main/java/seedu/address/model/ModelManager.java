@@ -7,10 +7,13 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.lesson.Lesson;
+import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,10 +22,16 @@ import seedu.address.model.person.Person;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    /** {@code Predicate} that always evaluate to true */
+    private static final Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+    private static final Predicate<Lesson> PREDICATE_SHOW_ALL_LESSONS = unused -> true;
+
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Person> filteredArchivedPersons;
+    private final FilteredList<Lesson> filteredLessons;
+    private final LessonList lessonList;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -34,8 +43,11 @@ public class ModelManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
+        this.lessonList = new LessonList(""); // Create empty lesson list
+        ObservableList<Lesson> observableLessons = FXCollections.observableList(this.lessonList.getInternalList());
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList()); // Changed here!
+        filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList());
+        filteredLessons = new FilteredList<>(observableLessons);
     }
 
     public ModelManager() {
@@ -168,6 +180,37 @@ public class ModelManager implements Model {
         filteredArchivedPersons.setPredicate(predicate);
     }
 
+    //=========== Lesson List Methods =============================================================
+
+    @Override
+    public boolean hasLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        return lessonList.contains(lesson);
+    }
+
+    @Override
+    public boolean hasSubject(String subject) {
+        requireNonNull(subject);
+        return lessonList.containsSubject(subject);
+    }
+
+    @Override
+    public void addLesson(Lesson lesson) {
+        requireNonNull(lesson);
+        lessonList.addLesson(lesson);
+        updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
+    }
+
+    @Override
+    public ObservableList<Lesson> getFilteredLessonList() {
+        return filteredLessons;
+    }
+
+    @Override
+    public void updateFilteredLessonList(Predicate<Lesson> predicate) {
+        requireNonNull(predicate);
+        filteredLessons.setPredicate(predicate);
+      
     @Override
     public void unarchivePerson(Person target) {
         requireNonNull(target);

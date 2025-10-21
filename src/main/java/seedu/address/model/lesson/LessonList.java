@@ -1,6 +1,7 @@
 package seedu.address.model.lesson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,8 +13,20 @@ import seedu.address.model.lesson.exceptions.LessonNotFoundException;
  * Each LessonList instance is tied to a single subject.
  */
 public class LessonList {
+    private static final String EMPTY_SUBJECT = "";
+
+    /**
+     * Creates an empty LessonList.
+     */
     private final List<Lesson> lessons;
     private final String subject;
+
+    /**
+     * Creates an empty LessonList.
+     */
+    public LessonList() {
+        this(EMPTY_SUBJECT);
+    }
 
     /**
      * Creates a LessonList associated with a specific subject.
@@ -47,6 +60,22 @@ public class LessonList {
             throw new DuplicateLessonException();
         }
         lessons.add(lesson);
+    }
+
+    /**
+     * Returns true if any lesson in the list belongs to the given subject.
+     */
+    public boolean containsSubject(String subject) {
+        Objects.requireNonNull(subject);
+        String trimmedLower = subject.trim().toLowerCase();
+        return lessons.stream().anyMatch(lesson -> lesson.getSubject().trim().toLowerCase().equals(trimmedLower));
+    }
+
+    /**
+     * Returns the internal list.
+     */
+    public List<Lesson> getInternalList() {
+        return Collections.unmodifiableList(lessons);
     }
 
     /**

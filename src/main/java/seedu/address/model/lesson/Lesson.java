@@ -11,6 +11,8 @@ import seedu.address.commons.util.ToStringBuilder;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Lesson {
+    public static final String MESSAGE_CONSTRAINTS = "Lesson name and subject must not be blank.";
+
     private final String name;
     private final String subject;
 
@@ -22,6 +24,9 @@ public class Lesson {
      */
     public Lesson(String name, String subject) {
         requireAllNonNull(name, subject);
+        if (name.trim().isEmpty() || subject.trim().isEmpty()) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
+        }
         // Check for null and empty values
         assert name != null : "Lesson name cannot be null";
         assert subject != null : "Subject name cannot be null";
@@ -31,6 +36,7 @@ public class Lesson {
         this.name = name.trim();
         this.subject = subject.trim();
     }
+
 
     public String getName() {
         assert name != null : "Lesson name is null";
