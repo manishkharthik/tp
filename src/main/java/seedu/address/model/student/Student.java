@@ -92,8 +92,8 @@ public class Student extends Person {
     }
 
     public AttendanceList getAttendanceList() {
-        assert attendance != null : "Attendance list is null";
-        return attendance;
+        assert attendanceList != null : "Attendance list is null";
+        return attendanceList;
     }
 
     public String getPaymentStatus() {
