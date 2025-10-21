@@ -3,12 +3,22 @@ layout: page
 title: User Guide
 ---
 
-TutorTrack is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your student management tasks done faster than traditional GUI apps. It is designed to help you, as a tutor, efficiently organise and track your students. This includes adding, deleteing and archiving students as well as a students studental information such as name, subjects, payment status, attendance and much more.
+## Welcome to TutorTrack
+
+TutorTrack is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorTrack can get your student management tasks done faster than traditional GUI apps.
+
+TutorTrack is designed to help you, as a tutor, efficiently organise and track your students. This includes adding, deleteing and archiving students as well as a students studental information such as name, subjects, payment status, attendance and much more.
 
 * Table of Contents
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
+
+## Using this guide
+
+
+## Useful Notations and Glossary
+
 
 ## Quick start
 
@@ -39,6 +49,12 @@ TutorTrack is a **desktop app for managing contacts, optimized for use via a Com
 1. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
+
+## Navigating the GUI
+
+
+
+
 
 ## Features
 
