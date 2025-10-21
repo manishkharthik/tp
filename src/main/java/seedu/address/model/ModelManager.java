@@ -43,7 +43,7 @@ public class ModelManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        this.lessonList = new LessonList(""); // Create empty lesson list
+        this.lessonList = this.addressBook.getLessonList();
         ObservableList<Lesson> observableLessons = FXCollections.observableList(this.lessonList.getInternalList());
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList());
@@ -203,6 +203,11 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<Lesson> getFilteredLessonList() {
+        return filteredLessons;
+    }
+
+    @Override
+    public ObservableList<Lesson> getLessonList() {
         return filteredLessons;
     }
 

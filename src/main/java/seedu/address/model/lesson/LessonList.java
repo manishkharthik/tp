@@ -44,7 +44,7 @@ public class LessonList {
      */
     public boolean contains(Lesson lesson) {
         Objects.requireNonNull(lesson);
-        return lessons.stream().anyMatch(lesson::isSameLesson);
+        return lessons.contains(lesson);
     }
 
     /**
