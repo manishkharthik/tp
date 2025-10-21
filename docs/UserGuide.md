@@ -366,16 +366,16 @@ Deletes **all students** from the active address book.
 * `clear`  
   Removes every student from the current list.
   <figure>
-    <img src="images/clear_before.png" alt="Student List before clearing" width="600"/>
+    <img src="images/clear_command_before.png" alt="Student List before clearing" width="600"/>
     <figcaption><em>Student List before clearing</em></figcaption>
   </figure>
   <figure>
-    <img src="images/clear_command.png" alt="Clear Command" width="600"/>
+    <img src="images/clear_command_view.png" alt="Clear Command" width="600"/>
     <figcaption><em>Clear Command</em>
     </figcaption>
   </figure> 
   <figure>
-    <img src="images/clear_after.png" alt="Student List after clearing" width="600"/>
+    <img src="images/clear_command_after.png" alt="Student List after clearing" width="600"/>
     <figcaption><em>Student List after clearing</em></figcaption>
   </figure>
 
