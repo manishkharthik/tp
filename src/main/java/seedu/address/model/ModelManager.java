@@ -210,6 +210,7 @@ public class ModelManager implements Model {
     public void updateFilteredLessonList(Predicate<Lesson> predicate) {
         requireNonNull(predicate);
         filteredLessons.setPredicate(predicate);
+    }
       
     @Override
     public void unarchivePerson(Person target) {
