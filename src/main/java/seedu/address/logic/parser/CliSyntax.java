@@ -19,5 +19,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_ATTENDANCE = new Prefix("att/");
     public static final Prefix PREFIX_PAYMENT_STATUS = new Prefix("pay/");
     public static final Prefix PREFIX_ASSIGNMENT_STATUS = new Prefix("asg/");
+    public static final Prefix PREFIX_LESSON = new Prefix("l/");
+    public static final Prefix PREFIX_STATUS = new Prefix("st/");
 
 }
