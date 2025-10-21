@@ -16,8 +16,38 @@ TutorTrack is designed to help you, as a tutor, efficiently organise and track y
 
 ## Using this guide
 
+* If you are new to TutorTrack, start with the Quick Start section to get set up and running in minutes.
+* If you need help with specific commands, refer to the Command Summary for a concise overview.
+* If you want a deeper understanding of a particular feature, explore the relevant section under Features.
+* If you are a developer seeking technical or implementation details, check out our Developer Guide for architecture and design information.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## Useful Notations and Glossary
+
+While exploring TutorTrack, you will encounter several icons and terms used throughout this guide. The following tables explain their meanings to help you navigate the guide more effectively.
+
+| Term | Meaning |
+|:-----|:--------|
+| **GUI** | *Graphical User Interface* — The visual interface of TutorTrack that displays students, subjects, and command results. |
+| **CLI** | *Command Line Interface* — The text-based interface where users type commands to perform actions in TutorTrack. |
+| **Command** | A text instruction entered by the user to perform an operation in TutorTrack (e.g., `add`, `delete`, `archive`). |
+| **Parameter** | Information provided to a command to specify details. For example, in `add n/John Tan c/3B`, `n/John Tan` and `c/3B` are parameters. |
+| **Case-sensitive** | When the casing of letters matters. For example, `add` is valid but `ADD` is not. |
+| **Case-insensitive** | When the casing of letters does not matter. For example, `john` and `John` are treated as the same. |
+| **Index** | The position number of a student as shown in the current displayed list (1-indexed). |
+| **Mainstream OS** | Commonly used operating systems supported by TutorTrack — Windows, macOS, Linux, and Unix. |
+| **Tutor** | An individual providing academic tutoring services. Tutors are the primary users of TutorTrack. |
+| **Student** | A learner receiving academic tutoring. Each student has unique information (e.g., name, contact, subjects) and associated records (e.g., attendance, payments, academic performance). |
+| **Parent Contact** | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes. |
+| **Attendance** | The attendance record associated with a student, tracking presence, lateness, or absence for lessons. |
+| **AttendanceStatus** | The recorded attendance status for a student during a lesson — can be **Present**, **Absent**, **Late**, or **Excused**. |
+| **Archive** | A status indicating whether a student is **active** (currently enrolled or assigned to a tutor) or **archived** (no longer active but retained for recordkeeping). |
+| **Subject Enrollment** | The mapping between students and the subjects they are studying. A student may be enrolled in multiple subjects. |
+| **Payment Status** | The record indicating whether a student’s payment for tuition or lessons is **Paid**, **Unpaid**, or **Pending**. |
+
+
+--------------------------------------------------------------------------------------------------------------------
 
 
 ## Quick start
@@ -25,15 +55,15 @@ TutorTrack is designed to help you, as a tutor, efficiently organise and track y
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all students.
@@ -46,14 +76,13 @@ TutorTrack is designed to help you, as a tutor, efficiently organise and track y
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Navigating the GUI
 
-
-
+(guide on how to use the GUI)
 
 
 ## Features
@@ -218,6 +247,7 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
