@@ -380,7 +380,7 @@ Deletes **all students** from the active address book.
   </figure>
 
 
-**Caution:**  
+<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**  
 This command cannot be undone. All active records will be permanently deleted.  
 Archived records are not affected by this command.</div>
 
