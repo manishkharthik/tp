@@ -136,7 +136,7 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredLessonList(Predicate<Lesson> predicate);
-    
+
     /**
      * Unarchives the given person (moves from archived list back to active list).
      */

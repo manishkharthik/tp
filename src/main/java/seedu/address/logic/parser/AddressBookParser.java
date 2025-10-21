@@ -93,7 +93,7 @@ public class AddressBookParser {
 
         case ListLessonsCommand.COMMAND_WORD:
             return new ListLessonsCommandParser().parse(arguments);
-            
+
         case UnarchiveCommand.COMMAND_WORD:
             return new UnarchiveCommandParser().parse(arguments);
 
