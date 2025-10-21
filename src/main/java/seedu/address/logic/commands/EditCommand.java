@@ -21,7 +21,6 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -90,10 +89,7 @@ public class EditCommand extends Command {
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
-    /**
-     * Creates and returns a {@code Person} with the details of {@code personToEdit}
-     * edited with {@code editPersonDescriptor}.
-     */
+    /** Creates and returns a {@code Person} edited with {@code editPersonDescriptor}. */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
 
@@ -102,7 +98,6 @@ public class EditCommand extends Command {
         boolean editingStudentFields = editPersonDescriptor.getSubjects().isPresent()
                 || editPersonDescriptor.getStudentClass().isPresent()
                 || editPersonDescriptor.getEmergencyContact().isPresent()
-                || editPersonDescriptor.getAttendance().isPresent()
                 || editPersonDescriptor.getPaymentStatus().isPresent()
                 || editPersonDescriptor.getAssignmentStatus().isPresent();
 
@@ -110,31 +105,33 @@ public class EditCommand extends Command {
             List<String> updatedSubjects;
             String updatedStudentClass;
             String updatedEmergencyContact;
-            AttendanceList updatedAttendance;
             String updatedPaymentStatus;
             String updatedAssignmentStatus;
 
             if (personToEdit instanceof Student) {
-                Student studentToEdit = (Student) personToEdit;
-                updatedSubjects = editPersonDescriptor.getSubjects().orElse(studentToEdit.getSubjects());
-                updatedStudentClass = editPersonDescriptor.getStudentClass().orElse(studentToEdit.getStudentClass());
-                updatedEmergencyContact = editPersonDescriptor.getEmergencyContact()
-                        .orElse(studentToEdit.getEmergencyContact());
-                updatedAttendance = editPersonDescriptor.getAttendance().orElse(studentToEdit.getAttendanceStatus());
-                updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse(studentToEdit.getPaymentStatus());
-                updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus()
-                        .orElse(studentToEdit.getAssignmentStatus());
+                Student s = (Student) personToEdit;
+                updatedSubjects = editPersonDescriptor.getSubjects().orElse(s.getSubjects());
+                updatedStudentClass = editPersonDescriptor.getStudentClass().orElse(s.getStudentClass());
+                updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse(s.getEmergencyContact());
+                updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse(s.getPaymentStatus());
+                updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse(s.getAssignmentStatus());
             } else {
                 updatedSubjects = editPersonDescriptor.getSubjects().orElse(List.of());
                 updatedStudentClass = editPersonDescriptor.getStudentClass().orElse("");
                 updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse("");
-                updatedAttendance = editPersonDescriptor.getAttendance().orElse(new AttendanceList());
                 updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse("");
                 updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse("");
             }
 
-            return new Student(updatedName, updatedSubjects, updatedStudentClass,
-                    updatedEmergencyContact, updatedAttendance, updatedPaymentStatus, updatedAssignmentStatus);
+            // Note: AttendanceList is NOT edited via EditCommand.
+            return new Student(
+                    updatedName,
+                    updatedSubjects,
+                    updatedStudentClass,
+                    updatedEmergencyContact,
+                    updatedPaymentStatus,
+                    updatedAssignmentStatus
+            );
         }
 
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
@@ -155,10 +152,8 @@ public class EditCommand extends Command {
         if (!(other instanceof EditCommand)) {
             return false;
         }
-
-        EditCommand otherEditCommand = (EditCommand) other;
-        return index.equals(otherEditCommand.index)
-                && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
+        EditCommand o = (EditCommand) other;
+        return index.equals(o.index) && editPersonDescriptor.equals(o.editPersonDescriptor);
     }
 
     @Override
@@ -169,26 +164,22 @@ public class EditCommand extends Command {
                 .toString();
     }
 
-    /**
-     * Stores the details to edit the person with. Each non-empty field value will
-     * replace the
-     * corresponding field value of the person.
-     */
+    /** Stores the details to edit the person with. */
     public static class EditPersonDescriptor {
         private Name name;
         private Phone phone;
         private Email email;
         private Address address;
         private Set<Tag> tags;
+
+        // Student-only (excluding attendance)
         private List<String> subjects;
         private String studentClass;
         private String emergencyContact;
-        private AttendanceList attendance;
         private String paymentStatus;
         private String assignmentStatus;
 
-        public EditPersonDescriptor() {
-        }
+        public EditPersonDescriptor() {}
 
         /**
          * Copy constructor.
@@ -203,7 +194,6 @@ public class EditCommand extends Command {
             setSubjects(toCopy.subjects);
             setStudentClass(toCopy.studentClass);
             setEmergencyContact(toCopy.emergencyContact);
-            setAttendance(toCopy.attendance);
             setPaymentStatus(toCopy.paymentStatus);
             setAssignmentStatus(toCopy.assignmentStatus);
         }
@@ -212,131 +202,59 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, subjects,
-                    studentClass, emergencyContact, attendance, paymentStatus, assignmentStatus);
+            return CollectionUtil.isAnyNonNull(
+                    name, phone, email, address, tags,
+                    subjects, studentClass, emergencyContact, paymentStatus, assignmentStatus
+            );
         }
 
-        public void setName(Name name) {
-            this.name = name;
-        }
+        public void setName(Name name) { this.name = name; }
+        public Optional<Name> getName() { return Optional.ofNullable(name); }
 
-        public Optional<Name> getName() {
-            return Optional.ofNullable(name);
-        }
+        public void setPhone(Phone phone) { this.phone = phone; }
+        public Optional<Phone> getPhone() { return Optional.ofNullable(phone); }
 
-        public void setPhone(Phone phone) {
-            this.phone = phone;
-        }
+        public void setEmail(Email email) { this.email = email; }
+        public Optional<Email> getEmail() { return Optional.ofNullable(email); }
 
-        public Optional<Phone> getPhone() {
-            return Optional.ofNullable(phone);
-        }
+        public void setAddress(Address address) { this.address = address; }
+        public Optional<Address> getAddress() { return Optional.ofNullable(address); }
 
-        public void setEmail(Email email) {
-            this.email = email;
-        }
-
-        public Optional<Email> getEmail() {
-            return Optional.ofNullable(email);
-        }
-
-        public void setAddress(Address address) {
-            this.address = address;
-        }
-
-        public Optional<Address> getAddress() {
-            return Optional.ofNullable(address);
-        }
-
-        /**
-         * Sets {@code tags} to this object's {@code tags}.
-         * A defensive copy of {@code tags} is used internally.
-         */
-        public void setTags(Set<Tag> tags) {
-            this.tags = (tags != null) ? new HashSet<>(tags) : null;
-        }
-
-        /**
-         * Returns an unmodifiable tag set, which throws
-         * {@code UnsupportedOperationException}
-         * if modification is attempted.
-         * Returns {@code Optional#empty()} if {@code tags} is null.
-         */
+        public void setTags(Set<Tag> tags) { this.tags = (tags != null) ? new HashSet<>(tags) : null; }
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
-        public void setSubjects(List<String> subjects) {
-            this.subjects = subjects;
-        }
+        public void setSubjects(List<String> subjects) { this.subjects = subjects; }
+        public Optional<List<String>> getSubjects() { return Optional.ofNullable(subjects); }
 
-        public Optional<List<String>> getSubjects() {
-            return Optional.ofNullable(subjects);
-        }
+        public void setStudentClass(String studentClass) { this.studentClass = studentClass; }
+        public Optional<String> getStudentClass() { return Optional.ofNullable(studentClass); }
 
-        public void setStudentClass(String studentClass) {
-            this.studentClass = studentClass;
-        }
+        public void setEmergencyContact(String emergencyContact) { this.emergencyContact = emergencyContact; }
+        public Optional<String> getEmergencyContact() { return Optional.ofNullable(emergencyContact); }
 
-        public Optional<String> getStudentClass() {
-            return Optional.ofNullable(studentClass);
-        }
+        public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
+        public Optional<String> getPaymentStatus() { return Optional.ofNullable(paymentStatus); }
 
-        public void setEmergencyContact(String emergencyContact) {
-            this.emergencyContact = emergencyContact;
-        }
-
-        public Optional<String> getEmergencyContact() {
-            return Optional.ofNullable(emergencyContact);
-        }
-
-        public void setAttendance(AttendanceList attendance) {
-            this.attendance = attendance;
-        }
-
-        public Optional<AttendanceList> getAttendance() {
-            return Optional.ofNullable(attendance);
-        }
-
-        public void setPaymentStatus(String paymentStatus) {
-            this.paymentStatus = paymentStatus;
-        }
-
-        public Optional<String> getPaymentStatus() {
-            return Optional.ofNullable(paymentStatus);
-        }
-
-        public void setAssignmentStatus(String assignmentStatus) {
-            this.assignmentStatus = assignmentStatus;
-        }
-
-        public Optional<String> getAssignmentStatus() {
-            return Optional.ofNullable(assignmentStatus);
-        }
+        public void setAssignmentStatus(String assignmentStatus) { this.assignmentStatus = assignmentStatus; }
+        public Optional<String> getAssignmentStatus() { return Optional.ofNullable(assignmentStatus); }
 
         @Override
         public boolean equals(Object other) {
-            if (other == this) {
-                return true;
-            }
-
-            // instanceof handles nulls
-            if (!(other instanceof EditPersonDescriptor)) {
-                return false;
-            }
-
-            EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
-            return Objects.equals(name, otherEditPersonDescriptor.name)
-                    && Objects.equals(phone, otherEditPersonDescriptor.phone)
-                    && Objects.equals(email, otherEditPersonDescriptor.email)
-                    && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
-                    && Objects.equals(subjects, otherEditPersonDescriptor.subjects)
-                    && Objects.equals(studentClass, otherEditPersonDescriptor.studentClass)
-                    && Objects.equals(emergencyContact, otherEditPersonDescriptor.emergencyContact)
-                    && Objects.equals(attendance, otherEditPersonDescriptor.attendance)
-                    && Objects.equals(paymentStatus, otherEditPersonDescriptor.paymentStatus)
-                    && Objects.equals(assignmentStatus, otherEditPersonDescriptor.assignmentStatus);
+            if (other == this) return true;
+            if (!(other instanceof EditPersonDescriptor)) return false;
+            EditPersonDescriptor o = (EditPersonDescriptor) other;
+            return Objects.equals(name, o.name)
+                    && Objects.equals(phone, o.phone)
+                    && Objects.equals(email, o.email)
+                    && Objects.equals(address, o.address)
+                    && Objects.equals(tags, o.tags)
+                    && Objects.equals(subjects, o.subjects)
+                    && Objects.equals(studentClass, o.studentClass)
+                    && Objects.equals(emergencyContact, o.emergencyContact)
+                    && Objects.equals(paymentStatus, o.paymentStatus)
+                    && Objects.equals(assignmentStatus, o.assignmentStatus);
         }
 
         @Override
@@ -350,7 +268,6 @@ public class EditCommand extends Command {
                     .add("subjects", subjects)
                     .add("studentClass", studentClass)
                     .add("emergencyContact", emergencyContact)
-                    .add("attendance", attendance)
                     .add("paymentStatus", paymentStatus)
                     .add("assignmentStatus", assignmentStatus)
                     .toString();
