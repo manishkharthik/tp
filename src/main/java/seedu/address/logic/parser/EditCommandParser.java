@@ -3,9 +3,15 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ASSIGNMENT_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ATTENDANCE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collection;
@@ -31,8 +37,10 @@ public class EditCommandParser implements Parser<EditCommand> {
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
+                        PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
+                        PREFIX_CLASS, PREFIX_SUBJECTS, PREFIX_EMERGENCY_CONTACT, PREFIX_ATTENDANCE,
+                        PREFIX_PAYMENT_STATUS, PREFIX_ASSIGNMENT_STATUS);
 
         Index index;
 
@@ -49,16 +57,49 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
+
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
             editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
+
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
             editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
         }
+
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+
+        if (argMultimap.getValue(PREFIX_CLASS).isPresent()) {
+            editPersonDescriptor.setStudentClass(
+                    ParserUtil.parseStudentClass(argMultimap.getValue(PREFIX_CLASS).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_SUBJECTS).isPresent()) {
+            editPersonDescriptor.setSubjects(
+                    ParserUtil.parseSubjects(argMultimap.getValue(PREFIX_SUBJECTS).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).isPresent()) {
+            editPersonDescriptor.setEmergencyContact(
+                    ParserUtil.parseEmergencyContact(argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_ATTENDANCE).isPresent()) {
+            editPersonDescriptor.setAttendance(
+                    ParserUtil.parseAttendanceList(argMultimap.getValue(PREFIX_ATTENDANCE).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_PAYMENT_STATUS).isPresent()) {
+            editPersonDescriptor.setPaymentStatus(
+                    ParserUtil.parsePaymentStatus(argMultimap.getValue(PREFIX_PAYMENT_STATUS).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).isPresent()) {
+            editPersonDescriptor.setAssignmentStatus(
+                    ParserUtil.parseAssignmentStatus(argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).get()));
+        }
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);

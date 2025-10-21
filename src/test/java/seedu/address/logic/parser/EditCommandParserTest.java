@@ -23,8 +23,14 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ASSIGNMENT_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ATTENDANCE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -46,6 +52,20 @@ import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 public class EditCommandParserTest {
+
+    private static final String CLASS_DESC = " " + PREFIX_CLASS + "3A";
+    private static final String SUBJECTS_DESC = " " + PREFIX_SUBJECTS + "Math, Science";
+    private static final String EMERGENCY_DESC = " " + PREFIX_EMERGENCY_CONTACT + "98765432";
+    private static final String ATTENDANCE_DESC = " " + PREFIX_ATTENDANCE + "PRESENT";
+    private static final String PAYMENT_DESC = " " + PREFIX_PAYMENT_STATUS + "Paid";
+    private static final String ASSIGNMENT_DESC = " " + PREFIX_ASSIGNMENT_STATUS + "Submitted";
+
+    private static final String INVALID_CLASS_DESC = " " + PREFIX_CLASS + " ";
+    private static final String INVALID_EMERGENCY_DESC = " " + PREFIX_EMERGENCY_CONTACT + "abc";
+    private static final String INVALID_ATTENDANCE_DESC = " " + PREFIX_ATTENDANCE + "sick";
+    private static final String INVALID_SUBJECTS_DESC = " " + PREFIX_SUBJECTS + " , , , ";
+    private static final String INVALID_PAYMENT_DESC = " " + PREFIX_PAYMENT_STATUS + " ";
+    private static final String INVALID_ASSIGNMENT_DESC = " " + PREFIX_ASSIGNMENT_STATUS + " ";
 
     private static final String TAG_EMPTY = " " + PREFIX_TAG;
 
@@ -205,4 +225,65 @@ public class EditCommandParserTest {
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
+
+    @Test
+    public void parse_validClass_success() {
+        Index index = INDEX_FIRST_PERSON;
+        String userInput = index.getOneBased() + CLASS_DESC;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withStudentClass("3A").build();
+        EditCommand expectedCommand = new EditCommand(index, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_validSubjects_success() {
+        Index index = INDEX_FIRST_PERSON;
+        String userInput = index.getOneBased() + SUBJECTS_DESC;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withSubjects("Math, Science").build();
+        EditCommand expectedCommand = new EditCommand(index, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_validEmergencyContact_success() {
+        Index index = INDEX_FIRST_PERSON;
+        String userInput = index.getOneBased() + EMERGENCY_DESC;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withEmergencyContact("98765432").build();
+        EditCommand expectedCommand = new EditCommand(index, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_validPaymentStatus_success() {
+        Index index = INDEX_FIRST_PERSON;
+        String userInput = index.getOneBased() + PAYMENT_DESC;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPaymentStatus("Paid").build();
+        EditCommand expectedCommand = new EditCommand(index, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_validAssignmentStatus_success() {
+        Index index = INDEX_FIRST_PERSON;
+        String userInput = index.getOneBased() + ASSIGNMENT_DESC;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withAssignmentStatus("Submitted").build();
+        EditCommand expectedCommand = new EditCommand(index, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
 }
