@@ -133,18 +133,53 @@ public class JsonAdaptedPerson {
         this.isArchived = false;
     }
 
-    @JsonProperty("type") public String getType() { return type; }
-    @JsonProperty("name") public String getName() { return name; }
-    @JsonProperty("phone") public String getPhone() { return phone; }
-    @JsonProperty("email") public String getEmail() { return email; }
-    @JsonProperty("address") public String getAddress() { return address; }
-    @JsonProperty("tags") public List<JsonAdaptedTag> getTags() { return tagged; }
-    @JsonProperty("class") public String getStudentClass() { return studentClass; }
-    @JsonProperty("subjects") public List<String> getSubjects() { return subjects; }
-    @JsonProperty("emergencyContact") public String getEmergencyContact() { return emergencyContact; }
-    @JsonProperty("paymentStatus") public String getPaymentStatus() { return paymentStatus; }
-    @JsonProperty("assignmentStatus") public String getAssignmentStatus() { return assignmentStatus; }
-    @JsonProperty("attendanceList") public List<String> getAttendanceList() { return attendanceList; }
+    @JsonProperty("type") public String getType() {
+        return type;
+    }
+
+    @JsonProperty("name") public String getName() {
+        return name;
+    }
+
+    @JsonProperty("phone") public String getPhone() {
+        return phone;
+    }
+
+    @JsonProperty("email") public String getEmail() {
+        return email;
+    }
+
+    @JsonProperty("address") public String getAddress() {
+        return address;
+    }
+
+    @JsonProperty("tags") public List<JsonAdaptedTag> getTags() {
+        return tagged;
+    }
+
+    @JsonProperty("class") public String getStudentClass() {
+        return studentClass;
+    }
+
+    @JsonProperty("subjects") public List<String> getSubjects() {
+        return subjects;
+    }
+
+    @JsonProperty("emergencyContact") public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    @JsonProperty("paymentStatus") public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    @JsonProperty("assignmentStatus") public String getAssignmentStatus() {
+        return assignmentStatus;
+    }
+
+    @JsonProperty("attendanceList") public List<String> getAttendanceList() {
+        return attendanceList;
+    }
 
     /**
      * Converts this Jackson-friendly adapted person object into the model's {@link Person} or {@link Student} object.
@@ -212,5 +247,7 @@ public class JsonAdaptedPerson {
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTagSet);
     }
 
-    public boolean isArchived() { return isArchived; }
+    public boolean isArchived() {
+        return isArchived;
+    }
 }
