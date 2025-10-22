@@ -23,20 +23,21 @@ public class MarkAttendanceCommand extends Command {
     public static final String COMMAND_WORD = "markattendance";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks attendance for a student. "
-        + "Parameters: "
-        + PREFIX_NAME + "NAME "
-        + PREFIX_SUBJECTS + "SUBJECT "
-        + PREFIX_LESSON + "LESSON "
-        + PREFIX_STATUS + "STATUS (PRESENT/ABSENT/LATE/EXCUSED)\n"
-        + "Example: " + COMMAND_WORD + " "
-        + PREFIX_NAME + "John Tan "
-        + PREFIX_SUBJECTS + "Math "
-        + PREFIX_LESSON + "Lesson 5 "
-        + PREFIX_STATUS + "PRESENT";
+            + "Parameters: "
+            + PREFIX_NAME + "NAME "
+            + PREFIX_SUBJECTS + "SUBJECT "
+            + PREFIX_LESSON + "LESSON "
+            + PREFIX_STATUS + "STATUS (PRESENT/ABSENT/LATE/EXCUSED)\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "John Tan "
+            + PREFIX_SUBJECTS + "Math "
+            + PREFIX_LESSON + "Lesson 5 "
+            + PREFIX_STATUS + "PRESENT";
 
     public static final String MESSAGE_SUCCESS = "Marked attendance for %1$s: [%2$s - %3$s] → %4$s";
     public static final String MESSAGE_STUDENT_NOT_FOUND = "No student found with name: %s";
-    public static final String MESSAGE_PERSON_NOT_STUDENT = "%s is not a student or has not been added as a student.";
+    public static final String MESSAGE_PERSON_NOT_STUDENT =
+            "%s is not a student or has not been added as a student.";
     public static final String MESSAGE_SUBJECT_NOT_ENROLLED = "%s does not read subject: %s";
 
     private final Name name;
@@ -80,8 +81,7 @@ public class MarkAttendanceCommand extends Command {
         Student student = (Student) foundPerson;
 
         // Check if the student is enrolled in the given subject
-        boolean enrolled = student.getSubjects().stream()
-                .anyMatch(s -> s.equalsIgnoreCase(subject));
+        boolean enrolled = student.getSubjects().stream().anyMatch(s -> s.equalsIgnoreCase(subject));
         if (!enrolled) {
             throw new CommandException(String.format(MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
@@ -98,10 +98,7 @@ public class MarkAttendanceCommand extends Command {
                 status
         );
 
-        CommandResult result = new CommandResult(feedback);
-        assert result != null : "CommandResult should not be null";
-
-        return result;
+        return new CommandResult(feedback);
     }
 
     @Override
@@ -113,12 +110,11 @@ public class MarkAttendanceCommand extends Command {
         if (!(other instanceof MarkAttendanceCommand)) {
             return false;
         }
-
-        MarkAttendanceCommand otherCommand = (MarkAttendanceCommand) other;
-        return name.equals(otherCommand.name)
-                && subject.equals(otherCommand.subject)
-                && lessonName.equals(otherCommand.lessonName)
-                && status.equals(otherCommand.status);
+        MarkAttendanceCommand o = (MarkAttendanceCommand) other;
+        return name.equals(o.name)
+                && subject.equals(o.subject)
+                && lessonName.equals(o.lessonName)
+                && status.equals(o.status);
     }
 
     @Override

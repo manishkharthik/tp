@@ -26,7 +26,7 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
                 PREFIX_NAME, PREFIX_SUBJECTS, PREFIX_LESSON, PREFIX_STATUS
         );
 
-        // Require all prefixes, no preamble allowed (same style as AddCommandParser)
+        // Require all prefixes; no preamble allowed (same style as AddCommandParser)
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_SUBJECTS, PREFIX_LESSON, PREFIX_STATUS)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(
