@@ -27,7 +27,6 @@ public class StudentTest {
     private final List<String> validSubjects = List.of("Math", "Science");
     private final String validClass = "10A";
     private final String validEmergencyContact = "98765432";
-    private final AttendanceList validAttendance = new AttendanceList();
     private final String validPaymentStatus = "Paid";
     private final String validAssignmentStatus = "Completed";
     private Student baseStudent;
@@ -43,7 +42,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         );
@@ -57,7 +55,6 @@ public class StudentTest {
         assertEquals(validSubjects, student.getSubjects());
         assertEquals(validClass, student.getStudentClass());
         assertEquals(validEmergencyContact, student.getEmergencyContact());
-        assertEquals(validAttendance, student.getAttendanceStatus());
         assertEquals(validPaymentStatus, student.getPaymentStatus());
         assertEquals(validAssignmentStatus, student.getAssignmentStatus());
     }
@@ -69,7 +66,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -82,7 +78,6 @@ public class StudentTest {
             null,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -97,7 +92,6 @@ public class StudentTest {
             subjectsWithNull,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -110,7 +104,6 @@ public class StudentTest {
             new ArrayList<>(),
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -125,7 +118,6 @@ public class StudentTest {
             subjectsWithBlank,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -138,7 +130,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             "1234567a",
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -151,7 +142,6 @@ public class StudentTest {
             validSubjects,
             null,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -164,7 +154,6 @@ public class StudentTest {
             validSubjects,
             "   ",
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -177,7 +166,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             null,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         ));
@@ -190,34 +178,7 @@ public class StudentTest {
             validSubjects,
             validClass,
             "123", // Less than 8 digits
-            validAttendance,
             validPaymentStatus,
-            validAssignmentStatus
-        ));
-    }
-
-    @Test
-    public void constructor_nullAttendance_throwsAssertionError() {
-        assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            null,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
-    }
-
-    @Test
-    public void constructor_nullPaymentStatus_throwsAssertionError() {
-        assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validAttendance,
-            null,
             validAssignmentStatus
         ));
     }
@@ -229,7 +190,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             "   ",
             validAssignmentStatus
         ));
@@ -242,7 +202,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             null
         ));
@@ -255,7 +214,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             "   "
         ));
@@ -273,7 +231,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         );
@@ -287,7 +244,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         );
@@ -317,7 +273,6 @@ public class StudentTest {
             validSubjects,
             "10B",
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         );
@@ -331,7 +286,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         );
@@ -369,7 +323,6 @@ public class StudentTest {
             validSubjects,
             validClass,
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         );
@@ -383,7 +336,6 @@ public class StudentTest {
             validSubjects,
             "Different Class",
             validEmergencyContact,
-            validAttendance,
             validPaymentStatus,
             validAssignmentStatus
         );
