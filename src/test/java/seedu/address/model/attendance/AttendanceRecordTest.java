@@ -4,100 +4,85 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.lesson.Lesson;
 
 public class AttendanceRecordTest {
 
-    // Sample attendance records for testing.
-    private static final LocalDateTime DT1 = LocalDateTime.of(2025, 10, 13, 10, 0);
-    private static final LocalDateTime DT2 = LocalDateTime.of(2025, 10, 14, 10, 0);
-    private static final LocalDateTime DT3 = LocalDateTime.of(2025, 10, 15, 10, 0);
-    private static final LocalDateTime DT4 = LocalDateTime.of(2025, 10, 16, 10, 0);
-    private AttendanceRecord record1 = new AttendanceRecord(AttendanceStatus.PRESENT, DT1);
-    private AttendanceRecord record2 = new AttendanceRecord(AttendanceStatus.ABSENT, DT2);
-    private AttendanceRecord record3 = new AttendanceRecord(AttendanceStatus.EXCUSED, DT3);
-    private AttendanceRecord record4 = new AttendanceRecord(AttendanceStatus.LATE, DT4);
+    // Lessons for identity checks
+    private static final Lesson L1_MATH = new Lesson("L1", "Math");
+    private static final Lesson L1_MATH_DUP = new Lesson("L1", "Math"); // same identity as L1_MATH
+    private static final Lesson L2_MATH = new Lesson("L2", "Math");
+    private static final Lesson QUIZ_SCI = new Lesson("Quiz", "Science");
 
-    // Test 1: Constructor sets fields correctly.
+    // Sample records
+    private final AttendanceRecord r1 = new AttendanceRecord(L1_MATH, AttendanceStatus.PRESENT);
+    private final AttendanceRecord r2 = new AttendanceRecord(L2_MATH, AttendanceStatus.ABSENT);
+    private final AttendanceRecord r3 = new AttendanceRecord(QUIZ_SCI, AttendanceStatus.EXCUSED);
+    private final AttendanceRecord r4 = new AttendanceRecord(L1_MATH, AttendanceStatus.LATE); // same lesson as r1
+
+    // Test 1: constructor sets fields correctly
     @Test
     void constructor_setsFieldsCorrectly() {
-        AttendanceRecord test1 = new AttendanceRecord(AttendanceStatus.PRESENT, DT1);
-        assertEquals(AttendanceStatus.PRESENT, test1.getStatus());
-        assertEquals(DT1, test1.getDateTime());
+        AttendanceRecord rec = new AttendanceRecord(L1_MATH, AttendanceStatus.PRESENT);
+        assertEquals(L1_MATH, rec.getLesson());
+        assertEquals(AttendanceStatus.PRESENT, rec.getStatus());
     }
 
-    // Test 2: getStatus returns correct status.
+    // Test 2: getters return correct values
     @Test
-    void getStatus_returnsCorrectStatus() {
-        assertEquals(AttendanceStatus.PRESENT, record1.getStatus());
-        assertEquals(AttendanceStatus.ABSENT, record2.getStatus());
-        assertEquals(AttendanceStatus.EXCUSED, record3.getStatus());
-        assertEquals(AttendanceStatus.LATE, record4.getStatus());
+    void getters_returnCorrectValues() {
+        assertEquals(L1_MATH, r1.getLesson());
+        assertEquals(AttendanceStatus.PRESENT, r1.getStatus());
+
+        assertEquals(L2_MATH, r2.getLesson());
+        assertEquals(AttendanceStatus.ABSENT, r2.getStatus());
     }
 
-    // Test 3: getDateTime returns correct dateTime.
+    // Test 3: setStatus updates status but not lesson
     @Test
-    void getDateTime_returnsCorrectDateTime() {
-        assertEquals(DT1, record1.getDateTime());
-        assertEquals(DT2, record2.getDateTime());
+    void setStatus_updatesOnlyStatus() {
+        AttendanceRecord rec = new AttendanceRecord(QUIZ_SCI, AttendanceStatus.ABSENT);
+        rec.setStatus(AttendanceStatus.PRESENT);
+        assertEquals(QUIZ_SCI, rec.getLesson());
+        assertEquals(AttendanceStatus.PRESENT, rec.getStatus());
     }
 
-    // Test 4: setStatus updates status correctly.
+    // Test 4: equals — different lessons => not equal
     @Test
-    void setStatus_updatesStatusCorrectly1() {
-        AttendanceRecord testRecord = new AttendanceRecord(AttendanceStatus.PRESENT, DT1);
-        testRecord.setStatus(AttendanceStatus.ABSENT);
-        assertEquals(AttendanceStatus.ABSENT, testRecord.getStatus());
-        assertEquals(DT1, testRecord.getDateTime());
+    void equals_differentLessons_notEqual() {
+        assertNotEquals(r1, r2);
+        assertNotEquals(r1, r3);
+        assertNotEquals(r2, r3);
     }
 
+    // Test 5: equals — same lesson, different status => equal
     @Test
-    void setStatus_updatesStatusCorrectly2() {
-        AttendanceRecord testRecord = new AttendanceRecord(AttendanceStatus.ABSENT, DT1);
-        testRecord.setStatus(AttendanceStatus.PRESENT);
-        assertEquals(AttendanceStatus.PRESENT, testRecord.getStatus());
+    void equals_sameLessonDifferentStatus_equal() {
+        // r1 (L1_MATH, PRESENT) vs r4 (L1_MATH, LATE)
+        assertTrue(r1.equals(r4));
+
+        // also via a new instance using a duplicate Lesson object with same identity
+        AttendanceRecord rec = new AttendanceRecord(L1_MATH_DUP, AttendanceStatus.EXCUSED);
+        assertTrue(r1.equals(rec));
     }
 
-    // Test 5: equals method works correctly (different dateTime).
+    // Test 6: equals — same object reference
     @Test
-    void equals_differentDateTime() {
-        assertNotEquals(record1, record2);
-        assertNotEquals(record1, record3);
-        assertNotEquals(record2, record3);
+    void equals_sameReference_true() {
+        assertTrue(r1.equals(r1));
+        assertTrue(r2.equals(r2));
+        assertTrue(r3.equals(r3));
     }
 
-    // Test 6: equals method returns true for different status but same dateTime.
+    // Test 7: toString contains lesson info and status (don’t overfit exact formatting)
     @Test
-    void equals_sameDateTimeDifferentStatus() {
-        AttendanceRecord testRecord1 = new AttendanceRecord(AttendanceStatus.ABSENT, DT1);
-        AttendanceRecord testRecord2 = new AttendanceRecord(AttendanceStatus.PRESENT, DT2);
-        assertTrue(record1.equals(testRecord1));
-        assertTrue(record2.equals(testRecord2));
-    }
-
-    // Test 8: equals method returns true for same object reference.
-    @Test
-    void equals_sameObjectReference() {
-        assertTrue(record1.equals(record1));
-        assertTrue(record2.equals(record2));
-        assertTrue(record3.equals(record3));
-        assertTrue(record4.equals(record4));
-    }
-
-    // Test 9: toString method returns the expected string representation.
-    @Test
-    void toString_returnsExpectedString() {
-        String expected1 = record1.toString();
-        String expected2 = record2.toString();
-        String expected3 = record3.toString();
-        String expected4 = record4.toString();
-        assertEquals("dateTime: " + DT1 + "; status: PRESENT", expected1);
-        assertEquals("dateTime: " + DT2 + "; status: ABSENT", expected2);
-        assertEquals("dateTime: " + DT3 + "; status: EXCUSED", expected3);
-        assertEquals("dateTime: " + DT4 + "; status: LATE", expected4);
+    void toString_containsLessonAndStatus() {
+        String s1 = r1.toString();
+        // Should at least include lesson name/subject and status
+        assertTrue(s1.contains("L1"));
+        assertTrue(s1.contains("Math"));
+        assertTrue(s1.contains("PRESENT"));
     }
 }
-

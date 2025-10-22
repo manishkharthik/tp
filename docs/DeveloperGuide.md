@@ -328,7 +328,7 @@ MSS:
    4. User confirms.
    5. Student is deleted.
    Use case ends.
-   
+
    Extensions:
    *a. At any time, User chooses to cancel the deletion.
       *a1. User clicks on the back button.

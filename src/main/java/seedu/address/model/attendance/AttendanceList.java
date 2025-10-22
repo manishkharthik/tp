@@ -2,64 +2,60 @@ package seedu.address.model.attendance;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import seedu.address.model.lesson.Lesson;
 
 /**
  * Represents a list of attendance records tagged to a single student.
- * Each student has his/her own attendance list.
- * Each attendance list contains all of a student’s attendance records.
+ * Each student has their own AttendanceList containing all attendance records for lessons.
  *
- * AttendanceList provides methods to mark attendance, retrieve attendance,
- * calculate attendance rate for a student
- * and handles bulk operations for students within a lesson.
+ * AttendanceList provides methods to mark attendance, retrieve records,
+ * calculate attendance rate, and handle updates for lessons.
  */
 public class AttendanceList {
 
-    // A list of a student's attendance records
+    // Each student’s attendance records
     private final List<AttendanceRecord> studentAttendance;
 
     /**
-     * Creates a new AttendanceList for a student
+     * Creates a new AttendanceList for a student.
      */
     public AttendanceList() {
         this.studentAttendance = new ArrayList<>();
     }
 
     /**
-     * Marks attendance for the student at a specific date and time.
-     * If a record for the same date and time exists, updates it.
-     * Otherwise add as a new record.
+     * Marks attendance for the given lesson with the provided status.
+     * If a record for the same lesson already exists, updates it.
+     * Otherwise, adds a new record.
      *
-     * @param dateTime the date and time of the attendance
-     * @param status   the attendance status
+     * @param lesson the lesson for which attendance is marked
+     * @param status the attendance status
      */
-    public void markAttendance(LocalDateTime dateTime, AttendanceStatus status) {
-        requireAllNonNull(dateTime, status);
+    public void markAttendance(Lesson lesson, AttendanceStatus status) {
+        requireAllNonNull(lesson, status);
 
-        // Check if an attendance record for the same date and time already exists
+        AttendanceRecord newRecord = new AttendanceRecord(lesson, status);
+
+        // Check if an existing record for the same lesson exists
         for (AttendanceRecord record : studentAttendance) {
-            if (record.getDateTime().equals(dateTime)) {
-                // Update the existing record's status
+            if (record.equals(newRecord)) {
                 record.setStatus(status);
-                System.out.println("Updated student's existing attendance record for " + dateTime);
+                System.out.println("Updated existing attendance record for lesson: " + lesson);
                 return;
             }
         }
 
-        // If no record exists for that day, add a new one
-        studentAttendance.add(new AttendanceRecord(status, dateTime));
-        System.out.println("Added new attendance record for student on " + dateTime);
-        return;
+        // Otherwise, add a new attendance record
+        studentAttendance.add(newRecord);
+        System.out.println("Added new attendance record for lesson: " + lesson);
     }
 
     /**
-     * Returns the list of attendance records for a given student.
-     *
-     * @return a list of AttendanceRecord objects
+     * Returns the list of attendance records for this student.
      */
     public List<AttendanceRecord> getStudentAttendance() {
         System.out.println("Returned student attendance!");
@@ -69,32 +65,22 @@ public class AttendanceList {
     /**
      * Calculates the attendance rate for the student.
      *
-     * @return a double representing the fraction of attended sessions
+     * @return the fraction of lessons attended (PRESENT / total)
      */
     public double getAttendanceRate() {
-        List<AttendanceRecord> records = getStudentAttendance();
-        if (records.isEmpty()) {
+        if (studentAttendance.isEmpty()) {
             return 0.0;
         }
 
-        long presentCount = records.stream()
+        long presentCount = studentAttendance.stream()
                 .filter(r -> r.getStatus() == AttendanceStatus.PRESENT)
                 .count();
 
-        return (double) presentCount / records.size();
+        return (double) presentCount / studentAttendance.size();
     }
 
     /**
-     * Marks attendance for today with the given status.
-     *
-     * @param status the attendance status
-     */
-    public void markToday(AttendanceStatus status) {
-        markAttendance(LocalDateTime.now(), status);
-    }
-
-    /**
-     * Returns true if both attendance lists have the same data.
+     * Returns true if both attendance lists contain the same data.
      */
     @Override
     public boolean equals(Object other) {
@@ -106,8 +92,8 @@ public class AttendanceList {
             return false;
         }
 
-        AttendanceList otherAttendanceList = (AttendanceList) other;
-        return studentAttendance.equals(otherAttendanceList.studentAttendance);
+        AttendanceList otherList = (AttendanceList) other;
+        return studentAttendance.equals(otherList.studentAttendance);
     }
 
     /**
@@ -119,7 +105,7 @@ public class AttendanceList {
     }
 
     /**
-     * Return a string representation of the attendance list (number of entries)
+     * Returns a string representation of the attendance list.
      */
     @Override
     public String toString() {

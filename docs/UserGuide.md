@@ -192,20 +192,20 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 * Edits the student at the specified `INDEX`. The index refers to the index number shown in the displayed student list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When you edit a Person (not originally a Student) with Student fields, they will be converted to Students, with their relevant fields updated to match Student fields.  
+* When you edit a Person (not originally a Student) with Student fields, they will be converted to Students, with their relevant fields updated to match Student fields.
 * When editing tags, the existing tags of the student will be removed i.e adding of tags is not cumulative.
 * You can remove all the student’s tags by typing `t/` without
     specifying any tags after it.
 * You can also edit **student-specific details**, such as:
-  - `c/` → Student class  
-  - `s/` → Subject(s) (you may specify multiple)  
-  - `ec/` → Emergency contact  
-  - `att/` → Attendance status (`Present`, `Absent`, `Late`, or `Excused`)  
-  - `pay/` → Payment status (e.g. `Paid`, `Pending`, `Overdue`)  
+  - `c/` → Student class
+  - `s/` → Subject(s) (you may specify multiple)
+  - `ec/` → Emergency contact
+  - `att/` → Attendance status (`Present`, `Absent`, `Late`, or `Excused`)
+  - `pay/` → Payment status (e.g. `Paid`, `Pending`, `Overdue`)
   - `asg/` → Assignment status (e.g. `Submitted`, `Incomplete`, `Not Submitted`)
 
 **Examples:**
-* `edit 1 c/CS2103 s/Math, CS`  
+* `edit 1 c/CS2103 s/Math, CS`
   Edits the **phone number** and **email address** of the 1st student.
   <figure>
     <img src="images/editStudent1_command_before.png" alt="Student 1 Before" width="600"/>
@@ -215,8 +215,8 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
     <img src="images/editStudent1_command_after.png" alt="Student 1 After" width="600"/>
     <figcaption><em>After editing the student</em></figcaption>
   </figure>
-  
-* `edit 2 pay/Pending`  
+
+* `edit 2 pay/Pending`
   Edits the **Payment Status** of the 2nd student and clears all existing tags.
   <figure>
     <img src="images/editStudent2_command_before.png" alt="Student 2 Before" width="600"/>
@@ -226,7 +226,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
     <img src="images/editStudent2_command_after.png" alt="Student 2 After" width="600"/>
     <figcaption><em>After editing the student</em></figcaption>
   </figure>
-* `edit 3 c/4C s/Math, Physics pay/Paid`  
+* `edit 3 c/4C s/Math, Physics pay/Paid`
   Updates the class, subjects, and payment status of a Person, making them into a Student.
   <figure>
     <img src="images/editStudent3_command_before.png" alt="Student 3 Before" width="600"/>
@@ -236,7 +236,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
     <img src="images/editStudent3_command_view.png" alt="Student 3 Command" width="600"/>
     <figcaption><em>Input for editing the student</em>
     </figcaption>
-  </figure> 
+  </figure>
   <figure>
     <img src="images/editStudent3_command_after.png" alt="Student 3 After" width="600"/>
     <figcaption><em>After editing the student</em></figcaption>
@@ -283,7 +283,7 @@ Examples:
 * `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
  ![Before delete: result for 'find John'](images/deletecommand_find_before.png)
  ![After delete: result for 'delete 2'](images/deletecommand_find_after.png)
-* `delete 3` where there are only 2 or fewer students results in the following error message: 
+* `delete 3` where there are only 2 or fewer students results in the following error message:
    **"The person index provided is invalid"**
  ![result for 'delete 3' on a student list of only two people](images/deletecommand_error.png)
 
@@ -293,7 +293,7 @@ Archives the specified student from the address book.
 
 Format: `archive INDEX`
 
-Moves a student into the **archive list**.  
+Moves a student into the **archive list**.
 Archived students are **not deleted** and can be viewed anytime using `listarchive`.
 
 **Format:** `archive INDEX`
@@ -314,8 +314,8 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
     <img src="images/archiveStudent1_command_after.png" alt="Student 1 After" width="600"/>
     <figcaption><em>After archiving the student</em>
     </figcaption>
-  </figure> 
-  
+  </figure>
+
 * `find Gary` followed by `archive 1` archives the 1st student in the filtered results.
 <figure>
   <img src="images/findStudent2_command.png" alt="Find Student 2" width="600"/>
@@ -333,7 +333,7 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
 
 ### Viewing archived students : `listarchive`
 
-Displays **all archived students** in the system.  
+Displays **all archived students** in the system.
 Use this to view or verify students who have been archived previously.
 
 **Format:** `listarchive`
@@ -344,7 +344,7 @@ Use this to view or verify students who have been archived previously.
 * Archived students retain all their details (class, subjects, attendance, payment, etc.) for recordkeeping.
 
 **Example:**
-* `listarchive`  
+* `listarchive`
   Shows all archived students with their full details.
   <figure>
   <img src="images/listArchive_command.png" alt="Archive List" width="600"/>
@@ -355,7 +355,7 @@ Use this to view or verify students who have been archived previously.
 
 Deletes **all students** from the active address book.
 
-**Format:**  
+**Format:**
 
 **Details:**
 * Permanently deletes all student records from the **main list**.
@@ -363,7 +363,7 @@ Deletes **all students** from the active address book.
 * The data file is automatically updated after the operation.
 
 **Example:**
-* `clear`  
+* `clear`
   Removes every student from the current list.
   <figure>
     <img src="images/clear_command_before.png" alt="Student List before clearing" width="600"/>
@@ -373,15 +373,15 @@ Deletes **all students** from the active address book.
     <img src="images/clear_command_view.png" alt="Clear Command" width="600"/>
     <figcaption><em>Clear Command</em>
     </figcaption>
-  </figure> 
+  </figure>
   <figure>
     <img src="images/clear_command_after.png" alt="Student List after clearing" width="600"/>
     <figcaption><em>Student List after clearing</em></figcaption>
   </figure>
 
 
-<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**  
-This command cannot be undone. All active records will be permanently deleted.  
+<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
+This command cannot be undone. All active records will be permanently deleted.
 Archived records are not affected by this command.</div>
 
 ### Exiting the program : `exit`
@@ -450,4 +450,4 @@ Action | Format, Examples
 **List** | `list`
 **Help** | `help`
 **Archive** | `archive INDEX`<br> e.g., `archive 4`
-**ViewArchived** | `listarchive` 
+**ViewArchived** | `listarchive`
