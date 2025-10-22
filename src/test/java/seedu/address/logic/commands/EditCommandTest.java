@@ -12,6 +12,8 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.security.auth.Subject;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -117,8 +119,11 @@ public class EditCommandTest {
     @Test
     public void execute_editStudentAttendance_success() throws Exception {
         Index studentIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        Student student = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
         AttendanceList newAttendance = new AttendanceList();
-        newAttendance.markAttendance(LocalDateTime.now(), AttendanceStatus.PRESENT);
+        Subject subject = student.getSubjects().get(0);
+        Lesson newLesson = new Lesson("Lesson 1", subject.toString());
+        newAttendance.markAttendance(newLesson, AttendanceStatus.PRESENT);
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withAttendance(newAttendance)
