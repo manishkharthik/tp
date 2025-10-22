@@ -147,14 +147,14 @@ public class MarkAttendanceCommandTest {
         MarkAttendanceCommand f = new MarkAttendanceCommand(INDEX_FIRST_PERSON, "Math", "L1",
                 AttendanceStatus.ABSENT);
 
-        assertTrue(a.equals(a));      // same object
-        assertTrue(a.equals(b));      // same values
-        assertFalse(a.equals(1));     // different type
-        assertFalse(a.equals(null));  // null
-        assertFalse(a.equals(c));     // different index
-        assertFalse(a.equals(d));     // different subject
-        assertFalse(a.equals(e));     // different lesson
-        assertFalse(a.equals(f));     // different status
+        assertTrue(a.equals(a));
+        assertTrue(a.equals(b));
+        assertFalse(a.equals(1));
+        assertFalse(a.equals(null));
+        assertFalse(a.equals(c));
+        assertFalse(a.equals(d));
+        assertFalse(a.equals(e));
+        assertFalse(a.equals(f));
     }
 
     @Test
