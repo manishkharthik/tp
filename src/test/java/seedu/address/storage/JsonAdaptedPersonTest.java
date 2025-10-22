@@ -40,13 +40,15 @@ public class JsonAdaptedPersonTest {
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
 
-    // Default student-related test data (can be null to simulate Person)
+    // Student-related test data
     private static final String VALID_STUDENT_CLASS = "10A";
     private static final List<String> VALID_SUBJECTS = List.of("Math", "Physics");
     private static final String VALID_EMERGENCY_CONTACT = "91234567";
     private static final String VALID_PAYMENT_STATUS = "Paid";
     private static final String VALID_ASSIGNMENT_STATUS = "Completed";
-    private static final List<String> VALID_ATTENDANCE_LIST = List.of("PRESENT,2025-10-14T10:00");
+
+    // New attendance string format: STATUS|LESSON_NAME|SUBJECT
+    private static final List<String> VALID_ATTENDANCE_LIST = List.of("PRESENT|L1|Math");
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
@@ -161,10 +163,14 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void toModelType_nullAddress_throwsIllegalValueException() {
-
         JsonAdaptedPerson person = new JsonAdaptedPerson(
-                "person", VALID_NAME, VALID_PHONE, VALID_EMAIL, null, VALID_TAGS, null,
-                null, null, null, null, null,
+                "person",
+                VALID_NAME,
+                VALID_PHONE,
+                VALID_EMAIL,
+                null,
+                VALID_TAGS,
+                null, null, null, null, null, null,
                 false
         );
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
@@ -206,7 +212,7 @@ public class JsonAdaptedPersonTest {
                 VALID_ATTENDANCE_LIST,
                 false
         );
-        // We only test for successful conversion (not deep equality)
+        // Just verify discriminator and successful path
         assertEquals("student", student.getType());
     }
 }
