@@ -21,6 +21,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -176,6 +177,7 @@ public class EditCommand extends Command {
         private List<String> subjects;
         private String studentClass;
         private String emergencyContact;
+        private AttendanceList attendanceList;
         private String paymentStatus;
         private String assignmentStatus;
 
@@ -194,6 +196,7 @@ public class EditCommand extends Command {
             setSubjects(toCopy.subjects);
             setStudentClass(toCopy.studentClass);
             setEmergencyContact(toCopy.emergencyContact);
+            setAttendanceList(toCopy.attendanceList);
             setPaymentStatus(toCopy.paymentStatus);
             setAssignmentStatus(toCopy.assignmentStatus);
         }
@@ -279,6 +282,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(paymentStatus);
         }
 
+        public void setAttendanceList(AttendanceList attendanceList) {
+            this.attendanceList = attendanceList;
+        }
+
+        public Optional<AttendanceList> getAttendanceList() {
+            return Optional.ofNullable(attendanceList);
+        }
+
         public void setAssignmentStatus(String assignmentStatus) {
             this.assignmentStatus = assignmentStatus;
         }
@@ -320,6 +331,7 @@ public class EditCommand extends Command {
                     .add("subjects", subjects)
                     .add("studentClass", studentClass)
                     .add("emergencyContact", emergencyContact)
+                    .add("attendanceList", attendanceList)
                     .add("paymentStatus", paymentStatus)
                     .add("assignmentStatus", assignmentStatus)
                     .toString();
