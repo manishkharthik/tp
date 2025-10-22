@@ -11,9 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.attendance.AttendanceList;
-import seedu.address.model.attendance.AttendanceRecord;
-import seedu.address.model.lesson.Lesson;
 import seedu.address.model.attendance.AttendanceStatus;
+import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -115,9 +114,14 @@ public class JsonAdaptedPerson {
             this.assignmentStatus = s.getAssignmentStatus();
             this.attendanceList = new ArrayList<>();
             s.getAttendanceList().getStudentAttendance().forEach(record ->
-                    this.attendanceList.add(record.getLesson().getName() + "|" +
-                            record.getLesson().getSubject() + "|" +
-                            record.getStatus().name()));
+                this.attendanceList.add(
+                    record.getLesson().getName()
+                    + "|"
+                    + record.getLesson().getSubject()
+                    + "|"
+                    + record.getStatus().name()
+                )
+            );
         } else {
             this.studentClass = null;
             this.subjects = null;

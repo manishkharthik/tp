@@ -22,10 +22,9 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListArchiveCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListLessonsCommand;
+import seedu.address.logic.commands.MarkAttendanceCommand;
 import seedu.address.logic.commands.UnarchiveCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.logic.commands.MarkAttendanceCommand;
-import seedu.address.logic.parser.MarkAttendanceCommandParser;
 
 /**
  * Parses user input.

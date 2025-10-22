@@ -60,8 +60,14 @@ public class AttendanceRecord {
      */
     @Override
     public boolean equals(Object other) {
-        if (other == this) return true;
-        if (!(other instanceof AttendanceRecord)) return false;
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof AttendanceRecord)) {
+            return false;
+        }
+
         AttendanceRecord o = (AttendanceRecord) other;
         return lesson.equals(o.lesson);
     }
