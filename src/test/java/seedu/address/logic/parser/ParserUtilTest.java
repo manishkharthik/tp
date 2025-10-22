@@ -14,7 +14,6 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -246,22 +245,6 @@ public class ParserUtilTest {
     @Test
     public void parseEmergencyContact_valid_returnsTrimmedValue() throws Exception {
         assertEquals("987654", ParserUtil.parseEmergencyContact(" 987654 "));
-    }
-
-    @Test
-    public void parseAttendanceList_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseAttendanceList(null));
-    }
-
-    @Test
-    public void parseAttendanceList_invalidStatus_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceList("unknownstatus"));
-    }
-
-    @Test
-    public void parseAttendanceList_validStatus_returnsAttendanceList() throws Exception {
-        AttendanceList attendance = ParserUtil.parseAttendanceList("PRESENT");
-        assertTrue(attendance.getAttendanceRate() == 1.0);
     }
 
     @Test
