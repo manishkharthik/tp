@@ -24,7 +24,6 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -88,7 +87,7 @@ public class AddCommandTest {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Student studentWithMultipleSubjects = new Student(new Name("John"),
                 new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567", new AttendanceList(),
+                "3A", "91234567",
                 "Paid", "Completed");
 
         CommandResult commandResult = new AddCommand(studentWithMultipleSubjects).execute(modelStub);
@@ -108,13 +107,13 @@ public class AddCommandTest {
     public void execute_addToNonEmptyList_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Student existingStudent = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567", new AttendanceList(),
+                "3A", "91234567",
                 "Paid", "Completed");
 
         modelStub.addPerson(existingStudent);
 
         Student newStudent = new Student(new Name("Bob"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567", new AttendanceList(),
+                "3A", "91234567",
                 "Paid", "Completed");
 
         CommandResult commandResult = new AddCommand(newStudent).execute(modelStub);
@@ -143,13 +142,12 @@ public class AddCommandTest {
     public void execute_addStudentWithSameNameDifferentDetails_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Student student1 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567", new AttendanceList(),
+                "3A", "91234567",
                 "Paid", "Completed");
 
         Student student2 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3B", "91234568", new AttendanceList(),
+                "3B", "91234568",
                 "Paid", "Completed");
-
 
         new AddCommand(student1).execute(modelStub);
         CommandResult commandResult = new AddCommand(student2).execute(modelStub);
@@ -207,7 +205,7 @@ public class AddCommandTest {
         assertTrue(AddCommand.MESSAGE_USAGE.contains("c/")); // class
         assertTrue(AddCommand.MESSAGE_USAGE.contains("s/")); // subjects
         assertTrue(AddCommand.MESSAGE_USAGE.contains("ec/")); // emergency contact
-        assertTrue(AddCommand.MESSAGE_USAGE.contains("att/")); // attendance
+        // removed: attendance prefix assertion (feature not in constructor anymore)
         assertTrue(AddCommand.MESSAGE_USAGE.contains("pay/")); // payment status
         assertTrue(AddCommand.MESSAGE_USAGE.contains("asg/")); // assignment status
     }
