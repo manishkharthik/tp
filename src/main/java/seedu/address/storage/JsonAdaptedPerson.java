@@ -47,7 +47,6 @@ public class JsonAdaptedPerson {
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
     // Student-only fields
-    // "class" is a reserved word in Java; map JSON name "class" to Java field studentClass
     private final String studentClass;
     private final List<String> subjects;
     private final String emergencyContact;
@@ -197,10 +196,41 @@ public class JsonAdaptedPerson {
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
-        final Name modelName = new Name(name);
-        final Phone modelPhone = new Phone(phone);
-        final Email modelEmail = new Email(email);
-        final Address modelAddress = new Address(address);
+        if (phone == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+        }
+        if (email == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+        }
+        if (address == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        }
+
+        final Name modelName;
+        final Phone modelPhone;
+        final Email modelEmail;
+        final Address modelAddress;
+        try {
+            modelName = new Name(name);
+        } catch (Exception e) {
+            // Keep the message aligned with your model’s constraints if available.
+            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
+        }
+        try {
+            modelPhone = new Phone(phone);
+        } catch (Exception e) {
+            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+        }
+        try {
+            modelEmail = new Email(email);
+        } catch (Exception e) {
+            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
+        }
+        try {
+            modelAddress = new Address(address);
+        } catch (Exception e) {
+            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        }
 
         final List<Tag> modelTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
@@ -211,14 +241,24 @@ public class JsonAdaptedPerson {
         AttendanceList modelAttendanceList = new AttendanceList();
         if (attendanceList != null) {
             for (String recordString : attendanceList) {
-                try {
-                    String[] parts = recordString.split("\\|", 3);
-                    Lesson lesson = new Lesson(parts[0], parts[1]);
-                    AttendanceStatus status = AttendanceStatus.valueOf(parts[2]);
-                    modelAttendanceList.markAttendance(lesson, status);
-                } catch (Exception e) {
+                // Expect exactly "lessonName|subject|STATUS"
+                String[] parts = recordString.split("\\|", -1);
+                if (parts.length != 3 || parts[0].isEmpty() || parts[1].isEmpty() || parts[2].isEmpty()) {
                     throw new IllegalValueException("Invalid attendance record: " + recordString);
                 }
+                final Lesson lesson;
+                final AttendanceStatus status;
+                try {
+                    lesson = new Lesson(parts[0], parts[1]);
+                } catch (Exception e) {
+                    throw new IllegalValueException("Invalid attendance record (bad lesson): " + recordString);
+                }
+                try {
+                    status = AttendanceStatus.valueOf(parts[2]);
+                } catch (Exception e) {
+                    throw new IllegalValueException("Invalid attendance record (bad status): " + recordString);
+                }
+                modelAttendanceList.markAttendance(lesson, status);
             }
         }
 
@@ -231,7 +271,12 @@ public class JsonAdaptedPerson {
                         || paymentStatus != null
                         || assignmentStatus != null
                         || attendanceList != null;
+
         if (hasStudentBits) {
+            // If your Student constructor forbids nulls, you may need to normalize here:
+            // List<String> safeSubjects = (subjects != null) ? subjects : new ArrayList<>();
+            // String sc = (studentClass != null) ? studentClass : "";
+            // ... but only do this if your Student constructor asserts non-null.
             Student student = new Student(
                     modelName,
                     subjects,
@@ -239,8 +284,8 @@ public class JsonAdaptedPerson {
                     emergencyContact,
                     paymentStatus,
                     assignmentStatus);
-            modelAttendanceList.getStudentAttendance().forEach(r ->
-                    student.getAttendanceList().markAttendance(r.getLesson(), r.getStatus()));
+            modelAttendanceList.getStudentAttendance()
+                    .forEach(r -> student.getAttendanceList().markAttendance(r.getLesson(), r.getStatus()));
             return student;
         }
 
