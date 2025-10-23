@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.attendance.AttendanceStatus;
@@ -34,11 +35,6 @@ public class MarkAttendanceCommand extends Command {
             + PREFIX_LESSON + "Lesson 5 "
             + PREFIX_STATUS + "PRESENT";
 
-    public static final String MESSAGE_SUCCESS = "Marked attendance for %1$s: [%2$s - %3$s] → %4$s";
-    public static final String MESSAGE_STUDENT_NOT_FOUND = "No student found with name: %s";
-    public static final String MESSAGE_PERSON_NOT_STUDENT =
-            "%s is not a student or has not been added as a student.";
-    public static final String MESSAGE_SUBJECT_NOT_ENROLLED = "%s does not read subject: %s";
 
     private final Name name;
     private final String subject;
@@ -72,10 +68,10 @@ public class MarkAttendanceCommand extends Command {
         Person foundPerson = model.getFilteredPersonList().stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_STUDENT_NOT_FOUND, name)));
+                .orElseThrow(() -> new CommandException(String.format(Messages.MESSAGE_STUDENT_NOT_FOUND, name)));
 
         if (!(foundPerson instanceof Student)) {
-            throw new CommandException(String.format(MESSAGE_PERSON_NOT_STUDENT, name));
+            throw new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_STUDENT, name));
         }
 
         Student student = (Student) foundPerson;
@@ -83,7 +79,8 @@ public class MarkAttendanceCommand extends Command {
         // Check if the student is enrolled in the given subject
         boolean enrolled = student.getSubjects().stream().anyMatch(s -> s.equalsIgnoreCase(subject));
         if (!enrolled) {
-            throw new CommandException(String.format(MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
+            throw new CommandException(
+                String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
 
         // Create a Lesson object and mark attendance
@@ -91,7 +88,7 @@ public class MarkAttendanceCommand extends Command {
         student.getAttendanceList().markAttendance(lesson, status);
 
         String feedback = String.format(
-                MESSAGE_SUCCESS,
+                Messages.MESSAGE_SUCCESS,
                 student.getName(),
                 subject,
                 lessonName,

@@ -19,6 +19,12 @@ public class Messages {
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
 
+    public static final String MESSAGE_SUCCESS = "Marked attendance for %1$s: [%2$s - %3$s] → %4$s";
+    public static final String MESSAGE_STUDENT_NOT_FOUND = "No student found with name: %s";
+    public static final String MESSAGE_PERSON_NOT_STUDENT =
+            "%s is not a student or has not been added as a student.";
+    public static final String MESSAGE_SUBJECT_NOT_ENROLLED = "%s does not read subject: %s";
+
     /**
      * Returns an error message indicating the duplicate prefixes.
      */
