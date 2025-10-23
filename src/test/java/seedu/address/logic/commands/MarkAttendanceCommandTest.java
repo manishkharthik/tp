@@ -13,7 +13,6 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -21,6 +20,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.lesson.Lesson;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Name;
 import seedu.address.model.student.Student;
@@ -49,9 +49,7 @@ public class MarkAttendanceCommandTest {
                 Messages.format(personToMark), status, LESSON_NAME, SUBJECT);
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        // mutate expected model to reflect the same mark
-        Person p = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Student s = (Student) p;
+        Student s = (Student) expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         s.getAttendanceList().markAttendance(lesson, status);
 
         assertCommandSuccess(cmd, model, expectedMessage, expectedModel);
@@ -100,6 +98,8 @@ public class MarkAttendanceCommandTest {
 
     @Test
     public void execute_updatesExistingRecord_success() throws CommandException {
+        Person person = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Name targetName = person.getName();
         Lesson lesson = new Lesson(LESSON_NAME, SUBJECT);
         Student student = (Student) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Name nameOfPersonToMark = student.getName();
@@ -165,7 +165,7 @@ public class MarkAttendanceCommandTest {
         MarkAttendanceCommand cmd = new MarkAttendanceCommand(name, SUBJECT, LESSON_NAME,
                 AttendanceStatus.PRESENT);
         String expected = MarkAttendanceCommand.class.getCanonicalName()
-                + "{targetIndex=" + targetIndex
+                + "{name=" + targetName
                 + ", subject=" + SUBJECT
                 + ", lessonName=" + LESSON_NAME
                 + ", status=" + AttendanceStatus.PRESENT + "}";
