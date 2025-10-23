@@ -23,6 +23,15 @@ checkstyle {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+    jvmArgs '-ea'
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+run {
+    jvmArgs '-ea'
 }
 
 task coverage(type: JacocoReport) {
