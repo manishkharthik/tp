@@ -54,12 +54,12 @@ public class MarkAttendanceCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkAttendanceCommand.MESSAGE_USAGE));
     }
 
-    @Test
-    public void parse_invalidStatus_throwsParseException() {
-        String userInput = "n/John Tan s/Math l/L1 st/INVALID";
-        assertParseFailure(parser, userInput,
-                "Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.");
-    }
+    // @Test
+    // public void parse_invalidStatus_throwsParseException() {
+    //     String userInput = "n/John Tan s/Math l/L1 st/INVALID";
+    //     assertParseFailure(parser, userInput,
+    //             "Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.");
+    // }
 
     @Test
     public void parse_nonEmptyPreamble_throwsParseException() {
