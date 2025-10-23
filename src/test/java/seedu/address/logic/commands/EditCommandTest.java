@@ -26,6 +26,8 @@ import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
+import seedu.address.model.lesson.Lesson;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.StudentBuilder;
@@ -117,8 +119,12 @@ public class EditCommandTest {
     @Test
     public void execute_editStudentAttendance_success() throws Exception {
         Index studentIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        Student student = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
         AttendanceList newAttendance = new AttendanceList();
-        newAttendance.markAttendance(LocalDateTime.now(), AttendanceStatus.PRESENT);
+        Subject subject = new Subject(student.getSubjects().get(0));
+        Lesson newLesson = new Lesson("Lesson 1", subject.toString());
+        subject.addLesson(newLesson);
+        newAttendance.markAttendance(newLesson, AttendanceStatus.PRESENT);
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withAttendance(newAttendance)
@@ -128,7 +134,7 @@ public class EditCommandTest {
         editCommand.execute(model);
 
         Student edited = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
-        assertEquals(newAttendance, edited.getAttendanceStatus());
+        assertEquals(newAttendance, edited.getAttendanceList());
     }
 
     @Test
@@ -188,14 +194,19 @@ public class EditCommandTest {
 
     @Test
     public void equals_includesAllStudentFields() {
-        AttendanceList attendanceList = new AttendanceList();
-        attendanceList.markAttendance(LocalDateTime.now(), AttendanceStatus.PRESENT);
+        Index studentIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        Student student = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
+        AttendanceList newAttendance = new AttendanceList();
+        Subject subject = new Subject(student.getSubjects().get(0));
+        Lesson newLesson = new Lesson("Lesson 1", subject.toString());
+        subject.addLesson(newLesson);
+        newAttendance.markAttendance(newLesson, AttendanceStatus.PRESENT);
 
         EditPersonDescriptor descriptorA = new EditPersonDescriptorBuilder()
                 .withSubjects("Math,Science")
                 .withStudentClass("3A")
                 .withEmergencyContact("91234567")
-                .withAttendance(attendanceList)
+                .withAttendance(newAttendance)
                 .withPaymentStatus("Paid")
                 .withAssignmentStatus("Submitted")
                 .build();
@@ -204,7 +215,7 @@ public class EditCommandTest {
                 .withSubjects("Math,Science")
                 .withStudentClass("3A")
                 .withEmergencyContact("91234567")
-                .withAttendance(attendanceList)
+                .withAttendance(newAttendance)
                 .withPaymentStatus("Paid")
                 .withAssignmentStatus("Submitted")
                 .build();
@@ -215,14 +226,19 @@ public class EditCommandTest {
 
     @Test
     public void toString_includesAllStudentFields() {
-        AttendanceList attendanceList = new AttendanceList();
-        attendanceList.markAttendance(LocalDateTime.now(), AttendanceStatus.PRESENT);
+        Index studentIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        Student student = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
+        AttendanceList newAttendance = new AttendanceList();
+        Subject subject = new Subject(student.getSubjects().get(0));
+        Lesson newLesson = new Lesson("Lesson 1", subject.toString());
+        subject.addLesson(newLesson);
+        newAttendance.markAttendance(newLesson, AttendanceStatus.PRESENT);
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withSubjects("Math,Science")
                 .withStudentClass("3A")
                 .withEmergencyContact("98765432")
-                .withAttendance(attendanceList)
+                .withAttendance(newAttendance)
                 .withPaymentStatus("Paid")
                 .withAssignmentStatus("Submitted")
                 .build();
