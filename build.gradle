@@ -31,7 +31,7 @@ test {
 }
 
 run {
-    jvmArgs '-ea'
+    enableAssertions = true
 }
 
 task coverage(type: JacocoReport) {
