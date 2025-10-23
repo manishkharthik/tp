@@ -273,10 +273,7 @@ public class JsonAdaptedPerson {
                         || attendanceList != null;
 
         if (hasStudentBits) {
-            // If your Student constructor forbids nulls, you may need to normalize here:
-            // List<String> safeSubjects = (subjects != null) ? subjects : new ArrayList<>();
-            // String sc = (studentClass != null) ? studentClass : "";
-            // ... but only do this if your Student constructor asserts non-null.
+            // Validate student-specific fields
             Student student = new Student(
                     modelName,
                     subjects,
