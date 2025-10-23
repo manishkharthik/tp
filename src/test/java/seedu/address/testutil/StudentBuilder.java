@@ -62,7 +62,7 @@ public class StudentBuilder extends PersonBuilder {
         subjects = new ArrayList<>(studentToCopy.getSubjects());
         studentClass = studentToCopy.getStudentClass();
         emergencyContact = studentToCopy.getEmergencyContact();
-        attendance = studentToCopy.getAttendanceStatus();
+        attendance = studentToCopy.getAttendanceList();
         paymentStatus = studentToCopy.getPaymentStatus();
         assignmentStatus = studentToCopy.getAssignmentStatus();
     }
@@ -163,6 +163,6 @@ public class StudentBuilder extends PersonBuilder {
      */
     public Student build() {
         return new Student(name, subjects, studentClass, emergencyContact,
-                attendance, paymentStatus, assignmentStatus);
+        paymentStatus, assignmentStatus);
     }
 }
