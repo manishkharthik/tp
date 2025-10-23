@@ -13,13 +13,12 @@ import seedu.address.model.lesson.Lesson;
 
 public class AttendanceListTest {
 
-    private final AttendanceList list = new AttendanceList();
-
     // Helpers
     private static final Lesson L1_MATH = new Lesson("L1", "Math");
-    private static final Lesson L1_MATH_DUP = new Lesson("L1", "Math"); // same identity as L1_MATH
+    private static final Lesson L1_MATH_DUP = new Lesson("L1", "Math");
     private static final Lesson L2_MATH = new Lesson("L2", "Math");
     private static final Lesson QUIZ_SCI = new Lesson("Quiz", "Science");
+    private final AttendanceList list = new AttendanceList();
 
     // Test 1: Constructor creates an empty attendance list.
     @Test

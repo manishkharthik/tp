@@ -1,6 +1,5 @@
 package seedu.address.testutil;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -150,17 +148,6 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withEmergencyContact(String emergencyContact) {
         descriptor.setEmergencyContact(emergencyContact);
-        return this;
-    }
-
-    /**
-     * Sets the {@code attendance} record of the {@code EditPersonDescriptor}.
-     *
-     * @param attendance The {@code AttendanceList} object containing attendance data.
-     * @return This builder, for method chaining.
-     */
-    public EditPersonDescriptorBuilder withAttendance(AttendanceList attendance) {
-        descriptor.setAttendance(attendance);
         return this;
     }
 

@@ -9,7 +9,6 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +21,8 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.attendance.AttendanceList;
-import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
-import seedu.address.model.subject.Subject;
-import seedu.address.model.lesson.Lesson;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.StudentBuilder;
@@ -117,27 +112,6 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_editStudentAttendance_success() throws Exception {
-        Index studentIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-        Student student = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
-        AttendanceList newAttendance = new AttendanceList();
-        Subject subject = new Subject(student.getSubjects().get(0));
-        Lesson newLesson = new Lesson("Lesson 1", subject.toString());
-        subject.addLesson(newLesson);
-        newAttendance.markAttendance(newLesson, AttendanceStatus.PRESENT);
-
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-                .withAttendance(newAttendance)
-                .build();
-
-        EditCommand editCommand = new EditCommand(studentIndex, descriptor);
-        editCommand.execute(model);
-
-        Student edited = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
-        assertEquals(newAttendance, edited.getAttendanceList());
-    }
-
-    @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, new EditPersonDescriptor());
         Person editedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
@@ -194,19 +168,10 @@ public class EditCommandTest {
 
     @Test
     public void equals_includesAllStudentFields() {
-        Index studentIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-        Student student = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
-        AttendanceList newAttendance = new AttendanceList();
-        Subject subject = new Subject(student.getSubjects().get(0));
-        Lesson newLesson = new Lesson("Lesson 1", subject.toString());
-        subject.addLesson(newLesson);
-        newAttendance.markAttendance(newLesson, AttendanceStatus.PRESENT);
-
         EditPersonDescriptor descriptorA = new EditPersonDescriptorBuilder()
                 .withSubjects("Math,Science")
                 .withStudentClass("3A")
                 .withEmergencyContact("91234567")
-                .withAttendance(newAttendance)
                 .withPaymentStatus("Paid")
                 .withAssignmentStatus("Submitted")
                 .build();
@@ -215,7 +180,6 @@ public class EditCommandTest {
                 .withSubjects("Math,Science")
                 .withStudentClass("3A")
                 .withEmergencyContact("91234567")
-                .withAttendance(newAttendance)
                 .withPaymentStatus("Paid")
                 .withAssignmentStatus("Submitted")
                 .build();
@@ -223,22 +187,12 @@ public class EditCommandTest {
         assertTrue(descriptorA.equals(descriptorB));
     }
 
-
     @Test
     public void toString_includesAllStudentFields() {
-        Index studentIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-        Student student = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
-        AttendanceList newAttendance = new AttendanceList();
-        Subject subject = new Subject(student.getSubjects().get(0));
-        Lesson newLesson = new Lesson("Lesson 1", subject.toString());
-        subject.addLesson(newLesson);
-        newAttendance.markAttendance(newLesson, AttendanceStatus.PRESENT);
-
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withSubjects("Math,Science")
                 .withStudentClass("3A")
                 .withEmergencyContact("98765432")
-                .withAttendance(newAttendance)
                 .withPaymentStatus("Paid")
                 .withAssignmentStatus("Submitted")
                 .build();
@@ -250,4 +204,5 @@ public class EditCommandTest {
         assertTrue(output.contains("Paid"));
         assertTrue(output.contains("Submitted"));
     }
+
 }

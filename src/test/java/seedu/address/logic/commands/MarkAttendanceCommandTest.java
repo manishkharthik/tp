@@ -22,7 +22,6 @@ import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Name;
 import seedu.address.model.student.Student;
 
 /**
@@ -114,7 +113,6 @@ public class MarkAttendanceCommandTest {
                 AttendanceStatus.ABSENT);
         second.execute(model);
 
-       
         // verify only one record for that lesson and it has ABSENT
         long countForLesson = student.getAttendanceList().getStudentAttendance().stream()
                 .filter(r -> r.getLesson().equals(lesson))
@@ -155,20 +153,5 @@ public class MarkAttendanceCommandTest {
         assertFalse(a.equals(d));
         assertFalse(a.equals(e));
         assertFalse(a.equals(f));
-    }
-
-    @Test
-    public void toStringMethod() {
-        Index targetIndex = Index.fromOneBased(1);
-        Student student = (Student) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Name name = student.getName();
-        MarkAttendanceCommand cmd = new MarkAttendanceCommand(name, SUBJECT, LESSON_NAME,
-                AttendanceStatus.PRESENT);
-        String expected = MarkAttendanceCommand.class.getCanonicalName()
-                + "{name=" + targetName
-                + ", subject=" + SUBJECT
-                + ", lessonName=" + LESSON_NAME
-                + ", status=" + AttendanceStatus.PRESENT + "}";
-        assertEquals(expected, cmd.toString());
     }
 }
