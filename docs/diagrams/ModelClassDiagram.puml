@@ -20,12 +20,7 @@ Class Email
 Class Name
 Class Phone
 Class Tag
-
 Class Subject
-Class LessonList
-Class Lesson
-Class AttendanceList
-Class AttendanceRecord
 
 Class I #FFFFFF
 }
@@ -43,7 +38,6 @@ ModelManager -right-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePersonList
-AddressBook *--> "1" UniquePersonList : archivedPersons
 UniquePersonList --> "~* all" Person
 Person <|-- Student
 Person *--> Name
@@ -53,13 +47,6 @@ Person *--> Address
 Person *--> "*" Tag
 
 Student *--> "1..*" Subject : subjects
-Student *--> "1" AttendanceList
-AttendanceList *--> "*" AttendanceRecord
-
-Subject *--> "1" LessonList
-LessonList *--> "*" Lesson
-
-AttendanceRecord --> "1" Lesson
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
@@ -68,9 +55,5 @@ Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 
-Subject -[hidden]right-> LessonList
-LessonList -[hidden]right-> Lesson
-
 ModelManager --> "~* filtered" Person
-ModelManager --> "~* filtered" Person : archivedPersons
 @enduml
