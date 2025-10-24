@@ -20,7 +20,10 @@ Class Email
 Class Name
 Class Phone
 Class Tag
+
 Class Subject
+Class AttendanceList
+Class AttendanceRecord 
 
 Class I #FFFFFF
 }
@@ -47,6 +50,10 @@ Person *--> Address
 Person *--> "*" Tag
 
 Student *--> "1..*" Subject : subjects
+Student *--> "1" AttendanceList
+AttendanceList *--> "*" AttendanceRecord
+
+AttendanceRecord --> "1" Lesson
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
