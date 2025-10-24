@@ -41,7 +41,6 @@ public class Student extends Person {
                 new Phone("000"), new Email("placeholder@example.com"),
                 new Address("N/A"), new HashSet<>());
 
-        // Check for null values
         assert name != null : "Name cannot be null";
         assert subjects != null : "Subjects list cannot be null";
         assert studentClass != null : "Student class cannot be null";
@@ -49,26 +48,28 @@ public class Student extends Person {
         assert paymentStatus != null : "Payment status cannot be null";
         assert assignmentStatus != null : "Assignment status cannot be null";
 
-        // Check for empty or blank strings
-        assert !studentClass.trim().isEmpty() : "Student class cannot be blank";
-        assert !emergencyContact.trim().isEmpty() : "Emergency contact cannot be blank";
-        assert !paymentStatus.trim().isEmpty() : "Payment status cannot be blank";
-        assert !assignmentStatus.trim().isEmpty() : "Assignment status cannot be blank";
+        String trimmedStudentClass = studentClass.trim();
+        String trimmedEmergencyContact = emergencyContact.trim();
+        String trimmedPaymentStatus = paymentStatus.trim();
+        String trimmedAssignmentStatus = assignmentStatus.trim();
 
-        // Check subjects list is not empty and contains no null or blank values
+        assert !trimmedStudentClass.isEmpty() : "Student class cannot be blank";
+        assert !trimmedEmergencyContact.isEmpty() : "Emergency contact cannot be blank";
+        assert !trimmedPaymentStatus.isEmpty() : "Payment status cannot be blank";
+        assert !trimmedAssignmentStatus.isEmpty() : "Assignment status cannot be blank";
+
         assert !subjects.isEmpty() : "Student must have at least one subject";
         assert subjects.stream().allMatch(subject -> subject != null && !subject.trim().isEmpty())
-            : "Subject entries cannot be null or blank";
+                : "Subject entries cannot be null or blank";
 
-        // Check emergency contact format (should be 8 digits)
-        assert emergencyContact.matches("\\d{8}") : "Emergency contact must be 8 digits";
+        assert trimmedEmergencyContact.matches("\\d{8}") : "Emergency contact must be 8 digits";
 
         this.subjects = new ArrayList<>(subjects);
-        this.studentClass = studentClass.trim();
-        this.emergencyContact = emergencyContact;
+        this.studentClass = trimmedStudentClass;
+        this.emergencyContact = trimmedEmergencyContact;
         this.attendanceList = new AttendanceList();
-        this.paymentStatus = paymentStatus.trim();
-        this.assignmentStatus = assignmentStatus.trim();
+        this.paymentStatus = trimmedPaymentStatus;
+        this.assignmentStatus = trimmedAssignmentStatus;
     }
 
     public List<String> getSubjects() {
