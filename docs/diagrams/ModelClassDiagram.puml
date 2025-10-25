@@ -15,6 +15,7 @@ Class UserPrefs
 Class UniquePersonList
 Class Person
 Class Student
+Class StudentList
 Class Address
 Class Email
 Class Name
@@ -26,6 +27,7 @@ Class LessonList
 Class Lesson
 Class AttendanceList
 Class AttendanceRecord
+Class AttendanceStatus
 
 Class I #FFFFFF
 }
@@ -56,7 +58,11 @@ Student *--> "1..*" Subject : subjects
 Student *--> "1" AttendanceList
 AttendanceList *--> "*" AttendanceRecord
 
+StudentList *--> "*" Student : students
+StudentList --> "1" Subject : subject
+
 AttendanceRecord --> "1" Lesson
+AttendanceRecord .right.> AttendanceStatus : status
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
