@@ -22,8 +22,8 @@ Class Phone
 Class Tag
 
 Class Subject
-Class LessonList 
-Class Lesson 
+Class LessonList
+Class Lesson
 Class AttendanceList
 Class AttendanceRecord
 
