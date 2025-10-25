@@ -65,5 +65,9 @@ Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 
+Subject --> LessonList
+LessonList -> Lesson
+
 ModelManager --> "~* filtered" Person
+ModelManager --> "~* filtered" Person : archivedPersons
 @enduml
