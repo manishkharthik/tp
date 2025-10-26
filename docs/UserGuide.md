@@ -147,7 +147,7 @@ You cannot add a student with the same name and class as an existing student.
   * Adds John Tan from class 3B (uses default values for optional fields)
 
   ![result for 'add n/John Tan...'](images/addcommand_compulsory.png)
-    
+
 * `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
   * Adds Sarah Lim from class 2A
 
@@ -182,7 +182,7 @@ Use this command to reset any filters and see all active students after using `f
 Edits an existing student in the address book.
 
 Format: `edit [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
- 
+
 * Edits the student at the specified `INDEX`. The index refers to the index number shown in the displayed student list. The index **must be a positive integer** 1, 2, 3, …​
 * All fields are optional, but at least one of them needs to be provided
 * Existing values will be updated to the input values.
