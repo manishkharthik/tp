@@ -18,6 +18,10 @@ import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 
 //@TODO: Wire up between subject and lessonlist functions
 public class Subject {
+
+    public static final String MESSAGE_CONSTRAINTS = "Subject names should not be empty";
+    public static final String VALIDATION_REGEX = ".+";
+
     private final String name;
     private final LessonList lessonList;
 
@@ -97,6 +101,13 @@ public class Subject {
         assert otherSubject.name != null : "Other subject's name is null";
 
         return otherSubject.getName().equals(getName());
+    }
+
+    /**
+     * Returns true if a given string is a valid subject name.
+     */
+    public static boolean isValidSubjectName(String test) {
+        return test.matches(VALIDATION_REGEX);
     }
 
     @Override

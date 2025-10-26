@@ -23,6 +23,7 @@ class JsonSerializableAddressBook {
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedPerson> archivedPersons = new ArrayList<>();
+    private final List<JsonAdaptedSubject> subjectList = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
@@ -53,6 +54,9 @@ class JsonSerializableAddressBook {
                 .collect(Collectors.toList()));
         archivedPersons.addAll(source.getArchivedPersonList().stream()
                 .map(JsonAdaptedPerson::new)
+                .collect(Collectors.toList()));
+        subjectList.addAll(source.getSubjectList().getSubjects().stream()
+                .map(JsonAdaptedSubject::new)
                 .collect(Collectors.toList()));
     }
 
