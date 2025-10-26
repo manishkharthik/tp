@@ -352,7 +352,7 @@ Use this to view or verify students who have been archived previously.
 
 ### Unarchiving students : `unarchive`
 
-Unarchives students. Use this unarchive students that have been archived to bring them back to the main list.
+Unarchives students. Use this to unarchive students that have been archived to bring them back to the main list.
 
 **Format** `unarchive INDEX`
 
@@ -364,11 +364,11 @@ Unarchives students. Use this unarchive students that have been archived to brin
 **Example:**
 * `unarchive 1` unarchives index 1 `John Tan`.
 <figure>
-  <img src="images/unarchive_before.png" alt="Student 1 Before" width="600"/>
+  <img src="images/unarchive_before.png" alt="Student 1 Before" width="1907"/>
     <figcaption><em>Before unarchiving the student at index 1</em></figcaption>
 </figure>
 <figure>
-    <img src="images/unarchive_after.png" alt="Student 2 Archive Command" width="600"/>
+    <img src="images/unarchive_after.png" alt="Student 2 Archive Command" width="1911"/>
     <figcaption><em>After unarchiving John Tan</em>
     </figcaption>
 </figure>
@@ -376,7 +376,7 @@ Unarchives students. Use this unarchive students that have been archived to brin
 * unarchiving an invalid index displays an error message.
 
 <figure>
-    <img src="images/unarchive_error.png" alt="Student 2 Archive Command" width="600"/>
+    <img src="images/unarchive_error.png" alt="Student 2 Archive Command" width="1909"/>
     <figcaption><em>Error message when unarchiving invalid index</em>
     </figcaption>
 </figure>
