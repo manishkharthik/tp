@@ -161,7 +161,7 @@ public class JsonAdaptedPersonTest {
                 VALID_TAGS,
                 null, null, null, null, null, null, false
         );
-        String expectedMessage = Address.MESSAGE_CONSTRAINTS;
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
