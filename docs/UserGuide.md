@@ -252,12 +252,11 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* students matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* students matching all keywords will be returned (i.e. `AND` search).
+  e.g. `find john tan` will return `john tan` and not `john wee`.
 
 Examples:
 * `find John` returns `John Teo` and `John Tan`
-* `find Teo Tan` also returns `John Teo` and `John Tan`<br>
 
   ![result for 'find alex david'](images/findcommand_multiple.png)
 
@@ -350,6 +349,37 @@ Use this to view or verify students who have been archived previously.
   <img src="images/listArchive_command.png" alt="Archive List" width="600"/>
     <figcaption><em>Archive List with all archived students</em></figcaption>
   </figure>
+
+### Unarchiving students : `unarchive`
+
+Unarchives students. Use this unarchive students that have been archived to bring them back to the main list.
+
+**Format** `unarchive INDEX`
+
+**Details:**
+* Unarchives at the student at the specified `INDEX` (from the archive list).
+* The index must be a **positive integer**.
+* If the provided index is invalid (e.g out of range), an error message will be shown.
+
+**Example:**
+* `unarchive 1` unarchives index 1 `John Tan`.
+<figure>
+  <img src="images/unarchive_before.png" alt="Student 1 Before" width="600"/>
+    <figcaption><em>Before unarchiving the student at index 1</em></figcaption>
+</figure>
+<figure>
+    <img src="images/unarchive_after.png" alt="Student 2 Archive Command" width="600"/>
+    <figcaption><em>After unarchiving John Tan</em>
+    </figcaption>
+</figure>
+
+* unarchiving an invalid index displays an error message.
+
+<figure>
+    <img src="images/unarchive_error.png" alt="Student 2 Archive Command" width="600"/>
+    <figcaption><em>Error message when unarchiving invalid index</em>
+    </figcaption>
+</figure>
 
 ### Clearing all entries : `clear`
 
