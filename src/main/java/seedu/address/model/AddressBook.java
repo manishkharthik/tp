@@ -221,6 +221,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Returns the SubjectList object.
      */
+    @Override
     public SubjectList getSubjectList() {
         return subjectList;
     }
