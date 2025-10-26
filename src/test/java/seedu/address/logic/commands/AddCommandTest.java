@@ -28,6 +28,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -362,6 +363,11 @@ public class AddCommandTest {
 
         @Override
         public void addLesson(Lesson lesson) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Subject getSubject(String subjectName) {
             throw new AssertionError("This method should not be called.");
         }
     }
