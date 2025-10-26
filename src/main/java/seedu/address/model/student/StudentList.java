@@ -112,11 +112,14 @@ public final class StudentList {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Subject: ").append(subject).append(System.lineSeparator());
+        StringBuilder s = new StringBuilder("Subject: " + subject + "\n");
         for (int i = 0; i < students.size(); i++) {
-            sb.append(i + 1).append(". ").append(students.get(i).getName()).append(System.lineSeparator());
+            s.append(i + 1)
+                    .append(". ")
+                    .append(students.get(i).getName())
+                    .append("\n");
         }
-        return sb.toString();
+        return s.toString();
     }
 
     @Override
