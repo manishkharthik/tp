@@ -45,10 +45,12 @@ public class Student extends Person {
         assert subjects != null : "Subjects list cannot be null";
         assert studentClass != null : "Student class cannot be null";
         assert emergencyContact != null : "Emergency contact cannot be null";
-        System.out.println("DEBUG emergencyContact='" + emergencyContact + "'");
 
         String trimmedStudentClass = studentClass.trim();
         String trimmedEmergencyContact = emergencyContact.trim();
+        assert !trimmedStudentClass.isEmpty() : "Student class cannot be blank";
+        assert !trimmedEmergencyContact.isEmpty() : "Emergency contact cannot be blank";
+        assert trimmedEmergencyContact.matches("\\d{8}") : "Emergency contact must be 8 digits";
 
         // Handle null safety and trimming
         String trimmedPaymentStatus = (paymentStatus == null) ? "" : paymentStatus.trim();
@@ -67,8 +69,6 @@ public class Student extends Person {
         assert !subjects.isEmpty() : "Student must have at least one subject";
         assert subjects.stream().allMatch(subject -> subject != null && !subject.trim().isEmpty())
                 : "Subject entries cannot be null or blank";
-
-        assert trimmedEmergencyContact.matches("\\d{8}") : "Emergency contact must be 8 digits";
 
         this.subjects = new ArrayList<>(subjects);
         this.studentClass = trimmedStudentClass;
