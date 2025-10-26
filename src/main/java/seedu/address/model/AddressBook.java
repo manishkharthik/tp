@@ -10,6 +10,9 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
+import seedu.address.model.subject.SubjectList;
 
 /**
  * Wraps all data at the address-book level
@@ -20,6 +23,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     private final UniquePersonList persons;
     private final UniquePersonList archivedPersons;
     private final LessonList lessonList;
+    private final SubjectList subjectList;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -32,6 +36,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons = new UniquePersonList();
         archivedPersons = new UniquePersonList();
         lessonList = new LessonList();
+        subjectList = new SubjectList();
     }
 
     public AddressBook() {}
@@ -80,6 +85,15 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addPerson(Person p) {
         persons.add(p);
+        if (p instanceof Student) {
+            Student s = (Student) p;
+            List<String> subjects = s.getSubjects();
+            for (int i = 0; i < subjects.size(); i++) {
+                if (!subjectList.contains(subjects.get(i))) {
+                    subjectList.addSubject(new Subject(subjects.get(i)));
+                }
+            }
+        }
     }
 
     /**
@@ -182,6 +196,33 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public LessonList getLessonList() {
         return lessonList;
+    }
+
+    //// subject-level operations
+
+    /**
+     * Adds a subject to the address book.
+     * The subject must not already exist in the address book.
+     */
+    public void addSubject(Subject subject) {
+        requireNonNull(subject);
+        subjectList.addSubject(subject);
+    }
+
+    /**
+     * Deletes the given subject from the address book.
+     * The subject must exist in the address book.
+     */
+    public void deleteSubject(Subject subject) {
+        requireNonNull(subject);
+        subjectList.deleteSubject(subject);
+    }
+
+    /**
+     * Returns the SubjectList object.
+     */
+    public SubjectList getSubjectList() {
+        return subjectList;
     }
 
     //// util methods
