@@ -395,7 +395,7 @@ public class JsonAdaptedPerson {
     }
 
     /**
-     * Private internal class to access base fields more cleanly. 
+     * Private internal class to access base fields more cleanly.
      */
     private static final class BaseFields {
         private final Name name;
