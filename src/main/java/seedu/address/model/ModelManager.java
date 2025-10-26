@@ -15,6 +15,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
+import seedu.address.model.subject.Subject;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -221,6 +222,26 @@ public class ModelManager implements Model {
     public void deleteLesson(Lesson lesson) {
         requireNonNull(lesson);
         lessonList.deleteLesson(lesson);
+    }
+
+    @Override
+    public Subject getSubject(String subjectName) {
+        requireNonNull(subjectName);
+        if (!hasSubject(subjectName)) {
+            throw new IllegalArgumentException("Subject not found: " + subjectName);
+        }
+
+        // Create a Subject object with the lessons that belong to this subject
+        Subject subject = new Subject(subjectName);
+
+        // Add all lessons that belong to this subject
+        for (Lesson lesson : lessonList.getInternalList()) {
+            if (lesson.getSubject().equals(subjectName)) {
+                subject.addLesson(lesson);
+            }
+        }
+
+        return subject;
     }
 
     @Override

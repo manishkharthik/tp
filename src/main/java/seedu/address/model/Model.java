@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Person;
+import seedu.address.model.subject.Subject;
 
 /**
  * The API of the Model component.
@@ -144,4 +145,10 @@ public interface Model {
      * Unarchives the given person (moves from archived list back to active list).
      */
     void unarchivePerson(Person target);
+
+    /***
+     * Returns subject with the given name.
+     * The subject must exist in the address book.
+     */
+    Subject getSubject(String subjectName);
 }
