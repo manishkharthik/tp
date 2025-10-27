@@ -14,7 +14,6 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all students";
 
-
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
@@ -26,5 +25,16 @@ public class ListCommand extends Command {
         assert result != null : "CommandResult should not be null";
 
         return result;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // All ListCommand instances are identical since the command has no parameters
+        return other == this || (other instanceof ListCommand);
+    }
+
+    @Override
+    public String toString() {
+        return ListCommand.class.getCanonicalName();
     }
 }
