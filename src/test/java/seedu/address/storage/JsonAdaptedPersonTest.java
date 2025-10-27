@@ -1,8 +1,10 @@
 package seedu.address.storage;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.BENSON;
@@ -418,5 +420,118 @@ public class JsonAdaptedPersonTest {
         );
         Person modelPerson = person.toModelType();
         assertFalse(modelPerson instanceof Student);
+    }
+
+    @Test
+    public void normalizeType_invalidType_defaultsToPerson() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                "unknownType",
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, null, null, null, null, null, null, false
+        );
+        Person modelPerson = person.toModelType();
+        assertTrue(modelPerson instanceof Person);
+    }
+
+    @Test
+    public void trimOrNull_returnsNullForWhitespaceOnlyFields() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                "person",
+                " ", VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, null, null, null, null, null, null, false
+        );
+        assertThrows(IllegalValueException.class, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidAttendanceLesson_throwsIllegalValueException() {
+        List<String> invalidAttendance = List.of("|||");
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                "student",
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, VALID_STUDENT_CLASS, VALID_SUBJECTS, VALID_EMERGENCY_CONTACT,
+                VALID_PAYMENT_STATUS, VALID_ASSIGNMENT_STATUS, invalidAttendance, false
+        );
+        assertThrows(IllegalValueException.class, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullTagInList_skipsGracefully() throws Exception {
+        List<JsonAdaptedTag> tagsWithNull = new ArrayList<>();
+        tagsWithNull.add(null);
+        tagsWithNull.add(new JsonAdaptedTag("friend"));
+
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                "person",
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                tagsWithNull, null, null, null, null, null, null, false
+        );
+        assertDoesNotThrow(person::toModelType);
+    }
+
+    @Test
+    public void toModelType_attendanceRecordWithBlankStatus_throwsIllegalValueException() {
+        List<String> attendance = List.of("Lesson1|Math| ");
+        JsonAdaptedPerson student = new JsonAdaptedPerson(
+                "student",
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, VALID_STUDENT_CLASS, VALID_SUBJECTS, VALID_EMERGENCY_CONTACT,
+                VALID_PAYMENT_STATUS, VALID_ASSIGNMENT_STATUS, attendance, false
+        );
+        assertThrows(IllegalValueException.class, student::toModelType);
+    }
+
+    @Test
+    public void toModelType_blankTypeDefaultsToPerson() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                "   ", VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, null, null, null, null, null, null, false
+        );
+        Person modelPerson = person.toModelType();
+        assertTrue(modelPerson instanceof Person);
+    }
+
+    @Test
+    public void toModelType_nullAttendance_returnsEmptyAttendanceList() throws Exception {
+        JsonAdaptedPerson student = new JsonAdaptedPerson(
+                "student", VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, VALID_STUDENT_CLASS, VALID_SUBJECTS, VALID_EMERGENCY_CONTACT,
+                VALID_PAYMENT_STATUS, VALID_ASSIGNMENT_STATUS, null, false
+        );
+        Student modelStudent = (Student) student.toModelType();
+        assertTrue(modelStudent.getAttendanceList().getStudentAttendance().isEmpty());
+    }
+
+    @Test
+    public void toModelType_validStudentAttendance_success() throws Exception {
+        List<String> attendance = List.of("Lesson1|Math|PRESENT");
+        JsonAdaptedPerson student = new JsonAdaptedPerson(
+                "student", VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, VALID_STUDENT_CLASS, VALID_SUBJECTS, VALID_EMERGENCY_CONTACT,
+                VALID_PAYMENT_STATUS, VALID_ASSIGNMENT_STATUS, attendance, false
+        );
+        Student modelStudent = (Student) student.toModelType();
+        assertEquals(1, modelStudent.getAttendanceList().getStudentAttendance().size());
+    }
+
+    @Test
+    public void toModelType_invalidTypeDefaultsToPerson() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                "weirdType", VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, null, null, null, null, null, null, false
+        );
+        Person modelPerson = person.toModelType();
+        assertTrue(modelPerson instanceof Person);
+    }
+
+    @Test
+    public void toModelType_validTypeStudentLikeFieldsStillStudent() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(
+                "person", VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, "5B", VALID_SUBJECTS, VALID_PHONE_AMY, VALID_PAYMENT_STATUS,
+                VALID_ASSIGNMENT_STATUS, null, false
+        );
+        Person modelPerson = person.toModelType();
+        assertTrue(modelPerson instanceof Student);
     }
 }
