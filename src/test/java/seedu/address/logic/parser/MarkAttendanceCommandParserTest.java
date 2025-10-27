@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.MarkAttendanceCommand;
 import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Name;
+import seedu.address.model.subject.Subject;
 
 /**
  * Unit tests for {@link MarkAttendanceCommandParser}.
@@ -21,7 +22,7 @@ public class MarkAttendanceCommandParserTest {
     public void parse_validArgs_returnsMarkAttendanceCommand() {
         String userInput = " n/John Tan s/Math l/L1 st/PRESENT ";
         MarkAttendanceCommand expected =
-                new MarkAttendanceCommand(new Name("John Tan"), "Math", "L1", AttendanceStatus.PRESENT);
+                new MarkAttendanceCommand(new Name("John Tan"), new Subject("Math"), "L1", AttendanceStatus.PRESENT);
 
         assertParseSuccess(parser, userInput, expected);
     }

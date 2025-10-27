@@ -11,13 +11,14 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.subject.Subject;
 
 /**
  * Represents a student in the address book.
  */
 public class Student extends Person {
 
-    private final List<String> subjects;
+    private final List<Subject> subjects;
     private final String studentClass;
     private final String emergencyContact;
     private final AttendanceList attendanceList;
@@ -35,7 +36,7 @@ public class Student extends Person {
      * @param paymentStatus Current payment status.
      * @param assignmentStatus Assignment completion status.
      */
-    public Student(Name name, List<String> subjects, String studentClass,
+    public Student(Name name, List<Subject> subjects, String studentClass,
                    String emergencyContact, String paymentStatus, String assignmentStatus) {
         super(name != null ? name : new Name("INVALID"),
                 new Phone("000"), new Email("placeholder@example.com"),
@@ -67,10 +68,13 @@ public class Student extends Person {
         }
 
         assert !subjects.isEmpty() : "Student must have at least one subject";
-        assert subjects.stream().allMatch(subject -> subject != null && !subject.trim().isEmpty())
+        assert subjects.stream().allMatch(subject -> subject != null && !subject.getName().trim().isEmpty())
                 : "Subject entries cannot be null or blank";
 
-        this.subjects = new ArrayList<>(subjects);
+        this.subjects = new ArrayList<>();
+        for (Subject subject : subjects) {
+            this.subjects.add(new Subject(subject.getName()));
+        }
         this.studentClass = trimmedStudentClass;
         this.emergencyContact = trimmedEmergencyContact;
         this.attendanceList = new AttendanceList();
@@ -78,11 +82,9 @@ public class Student extends Person {
         this.assignmentStatus = trimmedAssignmentStatus;
     }
 
-    public List<String> getSubjects() {
+    public List<Subject> getSubjects() {
         assert subjects != null : "Subjects list is null";
         assert !subjects.isEmpty() : "Subjects list is empty";
-        assert subjects.stream().allMatch(subject -> subject != null && !subject.trim().isEmpty())
-            : "Subject entries cannot be null or blank";
         return new ArrayList<>(subjects);
     }
 

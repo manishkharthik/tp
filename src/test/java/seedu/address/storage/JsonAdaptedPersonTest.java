@@ -20,6 +20,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 
 /**
  * Unit tests for {@link JsonAdaptedPerson}.
@@ -256,7 +257,7 @@ public class JsonAdaptedPersonTest {
     public void constructor_fromStudent_setsStudentType() {
         Student student = new Student(
                 new Name("Alice"),
-                List.of("Math", "Science"),
+                List.of(new Subject("Math"), new Subject("Science")),
                 "3A",
                 "91234567",
                 "Paid",
@@ -270,7 +271,7 @@ public class JsonAdaptedPersonTest {
     public void constructor_fromStudent_preservesStudentFields() {
         Student student = new Student(
                 new Name("Bob"),
-                List.of("English", "History"),
+                List.of(new Subject("English"), new Subject("History")),
                 "4B",
                 "98765432",
                 "Unpaid",
@@ -279,7 +280,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson adapted = new JsonAdaptedPerson(student);
 
         assertEquals("4B", adapted.getStudentClass());
-        assertEquals(List.of("English", "History"), adapted.getSubjects());
+        assertEquals(List.of(new Subject("English"), new Subject("History")), adapted.getSubjects());
         assertEquals("98765432", adapted.getEmergencyContact());
         assertEquals("Unpaid", adapted.getPaymentStatus());
         assertEquals("Incomplete", adapted.getAssignmentStatus());

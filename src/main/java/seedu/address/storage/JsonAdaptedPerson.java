@@ -23,6 +23,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -60,7 +61,7 @@ public class JsonAdaptedPerson {
 
     // Student-only fields
     private final String studentClass;
-    private final List<String> subjects;
+    private final List<Subject> subjects;
     private final String emergencyContact;
     private final String paymentStatus;
     private final String assignmentStatus;
@@ -98,7 +99,7 @@ public class JsonAdaptedPerson {
         }
 
         this.studentClass = trimOrNull(studentClass);
-        this.subjects = (subjects == null) ? null : new ArrayList<>(subjects);
+        this.subjects = (subjects == null) ? null : new ArrayList<>(subjects.stream().map(Subject::new).toList());
         this.emergencyContact = trimOrNull(emergencyContact);
         this.paymentStatus = trimOrNull(paymentStatus);
         this.assignmentStatus = trimOrNull(assignmentStatus);
@@ -193,7 +194,7 @@ public class JsonAdaptedPerson {
     }
 
     @JsonProperty("subjects")
-    public List<String> getSubjects() {
+    public List<Subject> getSubjects() {
         return (subjects == null) ? null : Collections.unmodifiableList(subjects);
     }
 

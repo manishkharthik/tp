@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.lesson.exceptions.DuplicateLessonException;
 import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 
@@ -99,6 +100,43 @@ public class LessonList {
      */
     public List<Lesson> getLessons() {
         return new ArrayList<>(lessons);
+    }
+
+    /**
+     * Marks attendance for a given lesson name.
+     * Returns a new LessonList with updated attendance.
+     */
+    public LessonList markAttendance(String lessonName, AttendanceStatus status) {
+        Objects.requireNonNull(lessonName);
+        Objects.requireNonNull(status);
+
+        LessonList updated = new LessonList(this.subject);
+        for (Lesson lesson : lessons) {
+            if (lesson.getName().equalsIgnoreCase(lessonName)) {
+                updated.addLesson(new Lesson(lesson.getName(), lesson.getSubject(), status));
+            } else {
+                updated.addLesson(lesson);
+            }
+        }
+        return updated;
+    }
+
+    /**
+     * Returns a formatted string of all lessons and their attendance.
+     */
+    public String getFormattedAttendance() {
+        if (lessons.isEmpty()) {
+            return "No lessons found for subject: " + subject;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Lesson lesson : lessons) {
+            sb.append(lesson.getName())
+            .append(" ")
+            .append(lesson.getAttendanceStatus().toString())
+            .append("\n");
+        }
+        return sb.toString().trim();
     }
 
     /**

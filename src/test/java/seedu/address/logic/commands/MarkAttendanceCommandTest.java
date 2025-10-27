@@ -25,6 +25,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.testutil.StudentBuilder;
 
 /**
@@ -32,7 +33,7 @@ import seedu.address.testutil.StudentBuilder;
  */
 public class MarkAttendanceCommandTest {
 
-    private static final String SUBJECT = "Math";
+    private static final Subject SUBJECT = new Subject("Math");
     private static final String LESSON_NAME = "L1";
 
     private Model model;
@@ -70,7 +71,7 @@ public class MarkAttendanceCommandTest {
     public void execute_validStudentUnfilteredList_success() {
         Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Name nameOfPersonToMark = personToMark.getName();
-        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT);
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
         AttendanceStatus status = AttendanceStatus.PRESENT;
 
         MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
@@ -101,7 +102,7 @@ public class MarkAttendanceCommandTest {
 
         Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Name nameOfPersonToMark = personToMark.getName();
-        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT);
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
         AttendanceStatus status = AttendanceStatus.ABSENT;
 
         MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
@@ -130,7 +131,7 @@ public class MarkAttendanceCommandTest {
     public void execute_updatesExistingRecord_success() throws CommandException {
         Person p = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Name name = p.getName();
-        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT);
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
 
         // First mark PRESENT
         new MarkAttendanceCommand(name, SUBJECT, LESSON_NAME, AttendanceStatus.PRESENT).execute(model);
@@ -158,12 +159,12 @@ public class MarkAttendanceCommandTest {
         Student student2 = (Student) model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         Name name2 = student2.getName();
 
-        MarkAttendanceCommand a = new MarkAttendanceCommand(name1, "Math", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand b = new MarkAttendanceCommand(name1, "Math", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand c = new MarkAttendanceCommand(name2, "Math", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand d = new MarkAttendanceCommand(name1, "Physics", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand e = new MarkAttendanceCommand(name1, "Math", "L2", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand f = new MarkAttendanceCommand(name1, "Math", "L1", AttendanceStatus.ABSENT);
+        MarkAttendanceCommand a = new MarkAttendanceCommand(name1, new Subject("Math"), "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand b = new MarkAttendanceCommand(name1, new Subject("Math"), "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand c = new MarkAttendanceCommand(name2, new Subject("Math"), "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand d = new MarkAttendanceCommand(name1, new Subject("Physics"), "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand e = new MarkAttendanceCommand(name1, new Subject("Math"), "L2", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand f = new MarkAttendanceCommand(name1, new Subject("Math"), "L1", AttendanceStatus.ABSENT);
 
         assertTrue(a.equals(a));
         assertTrue(a.equals(b));

@@ -87,10 +87,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.add(p);
         if (p instanceof Student) {
             Student s = (Student) p;
-            List<String> subjects = s.getSubjects();
+            List<Subject> subjects = s.getSubjects();
             for (int i = 0; i < subjects.size(); i++) {
                 if (!subjectList.contains(subjects.get(i))) {
-                    subjectList.addSubject(new Subject(subjects.get(i)));
+                    subjectList.addSubject(new Subject(subjects.get(i).getName()));
                 }
             }
         }

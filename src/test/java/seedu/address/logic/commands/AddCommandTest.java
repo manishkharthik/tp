@@ -86,11 +86,17 @@ public class AddCommandTest {
     @Test
     public void execute_studentWithMultipleSubjects_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student studentWithMultipleSubjects = new Student(new Name("John"),
-                new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567",
-                "Paid", "Completed");
-
+        Student studentWithMultipleSubjects = new Student(
+        new Name("John"),
+        new ArrayList<>(Arrays.asList(
+                new Subject("Math"),
+                new Subject("Science")
+        )),
+        "3A",
+        "91234567",
+        "Paid",
+        "Completed"
+);
         CommandResult commandResult = new AddCommand(studentWithMultipleSubjects).execute(modelStub);
 
         String successPrefix = String.format(AddCommand.MESSAGE_SUCCESS.split(": ")[0]);
@@ -107,15 +113,28 @@ public class AddCommandTest {
     @Test
     public void execute_addToNonEmptyList_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student existingStudent = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567",
+        Student existingStudent = new Student(
+            new Name("John"),
+            new ArrayList<>(Arrays.asList(
+                new Subject("Math"),
+                new Subject("Science")
+            )),
+            "3A",
+            "91234567",
                 "Paid", "Completed");
 
         modelStub.addPerson(existingStudent);
 
-        Student newStudent = new Student(new Name("Bob"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567",
-                "Paid", "Completed");
+        Student newStudent = new Student(
+            new Name("Bob"), 
+            new ArrayList<>(Arrays.asList(
+                new Subject("Math"),
+                new Subject("Science")
+            )),
+            "3A",
+            "91234567",
+            "Paid",
+            "Completed");
 
         CommandResult commandResult = new AddCommand(newStudent).execute(modelStub);
 
@@ -142,11 +161,15 @@ public class AddCommandTest {
     @Test
     public void execute_addStudentWithSameNameDifferentDetails_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student student1 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
+        Student student1 = new Student(
+            new Name("John"), 
+            new ArrayList<>(Arrays.asList(
+                new Subject("Math"), new Subject("Science"))),
                 "3A", "91234567",
                 "Paid", "Completed");
 
-        Student student2 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
+        Student student2 = new Student(new Name("John"), new ArrayList<>(Arrays.asList(
+                new Subject("Math"), new Subject("Science"))),
                 "3B", "91234568",
                 "Paid", "Completed");
 
