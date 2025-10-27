@@ -195,6 +195,15 @@ public class DeleteCommandTest {
     }
 
     /**
+     * Tests executing delete command with null model
+     */
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        DeleteCommand cmd = new DeleteCommand(INDEX_FIRST_PERSON);
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> cmd.execute(null));
+    }
+
+    /**
      * Tests consecutive deletions
      */
     @Test

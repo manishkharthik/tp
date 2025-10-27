@@ -183,6 +183,30 @@ public class AddCommandTest {
     }
 
     @Test
+    public void execute_modelThrowsException_propagatesCommandException() {
+        Model modelStub = new ModelStub() {
+            @Override
+            public void addPerson(Person person) {
+                throw new AssertionError("Simulated model failure");
+            }
+
+            @Override
+            public boolean hasPerson(Person person) {
+                return false;
+            }
+
+            @Override
+            public ReadOnlyAddressBook getAddressBook() {
+                return new AddressBook();
+            }
+        };
+
+        Person person = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(person);
+        assertThrows(AssertionError.class, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
     public void toStringMethod() {
         AddCommand addCommand = new AddCommand(ALICE);
         String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
@@ -196,6 +220,17 @@ public class AddCommandTest {
 
         assertThrows(NullPointerException.class, () -> addCommand.execute(null));
     }
+
+    @Test
+    public void execute_commandIsImmutable_afterExecution() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
+        AddCommand command = new AddCommand(validPerson);
+
+        command.execute(modelStub);
+        assertEquals(validPerson, new PersonBuilder(validPerson).build());
+    }
+
 
     @Test
     public void hashCodeMethod() {

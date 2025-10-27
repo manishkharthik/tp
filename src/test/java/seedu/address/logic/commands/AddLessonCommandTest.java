@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -26,6 +27,11 @@ public class AddLessonCommandTest {
     }
 
     @Test
+    public void constructor_nullLesson_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddLessonCommand(null));
+    }
+
+    @Test
     public void execute_validLesson_success() {
         Lesson lesson = new Lesson("Math", "Algebra");
         AddLessonCommand addLessonCommand = new AddLessonCommand(lesson);
@@ -44,6 +50,20 @@ public class AddLessonCommandTest {
 
         assertCommandFailure(addLessonCommand, model, AddLessonCommand.MESSAGE_DUPLICATE_LESSON);
     }
+
+    @Test
+    public void execute_emptyAddressBook_success() {
+        model = new ModelManager(); // start with no data
+        expectedModel = new ModelManager();
+        Lesson lesson = new Lesson("Science", "Physics");
+
+        AddLessonCommand command = new AddLessonCommand(lesson);
+        expectedModel.addLesson(lesson);
+
+        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS, lesson);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
 
     @Test
     public void equals() {
