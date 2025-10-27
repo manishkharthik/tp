@@ -88,6 +88,32 @@ public class StudentListTest {
     }
 
     @Test
+    public void containsStudent_studentPresent_returnsTrue() {
+        StudentList list = new StudentList("Math");
+        list.addStudent(student1);
+        assertTrue(list.containsStudent(student1));
+    }
+
+    @Test
+    public void containsStudent_studentNotPresent_returnsFalse() {
+        StudentList list = new StudentList("Math");
+        list.addStudent(student1);
+        assertFalse(list.containsStudent(student2));
+    }
+
+    @Test
+    public void containsStudent_emptyList_returnsFalse() {
+        StudentList list = new StudentList("Math");
+        assertFalse(list.containsStudent(student1));
+    }
+
+    @Test
+    public void containsStudent_nullStudent_throwsNullPointerException() {
+        StudentList list = new StudentList("Math");
+        assertThrows(NullPointerException.class, () -> list.containsStudent(null));
+    }
+
+    @Test
     public void toString_correctFormatting_returnsExpectedString() {
         studentList.addStudent(student1);
         studentList.addStudent(student2);
@@ -95,6 +121,12 @@ public class StudentListTest {
                 + "1. Alice\n"
                 + "2. Bob\n";
         assertEquals(expected, studentList.toString());
+    }
+
+    @Test
+    public void equals_sameInstance_returnsTrue() {
+        studentList.addStudent(student1);
+        assertEquals(studentList, studentList);
     }
 
     @Test

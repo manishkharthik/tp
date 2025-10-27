@@ -54,6 +54,7 @@ public class SubjectListTest {
         subjectList.addSubject(math);
         subjectList.deleteSubject(math);
         assertFalse(subjectList.contains(math));
+        assertThrows(SubjectNotFoundException.class, () -> subjectList.deleteSubject(math));
     }
 
     @Test
