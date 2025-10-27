@@ -88,14 +88,45 @@ public class StudentListTest {
     }
 
     @Test
+    public void containsStudent_studentPresent_returnsTrue() {
+        StudentList list = new StudentList("Math");
+        list.addStudent(student1);
+        assertTrue(list.containsStudent(student1));
+    }
+
+    @Test
+    public void containsStudent_studentNotPresent_returnsFalse() {
+        StudentList list = new StudentList("Math");
+        list.addStudent(student1);
+        assertFalse(list.containsStudent(student2));
+    }
+
+    @Test
+    public void containsStudent_emptyList_returnsFalse() {
+        StudentList list = new StudentList("Math");
+        assertFalse(list.containsStudent(student1));
+    }
+
+    @Test
+    public void containsStudent_nullStudent_throwsNullPointerException() {
+        StudentList list = new StudentList("Math");
+        assertThrows(NullPointerException.class, () -> list.containsStudent(null));
+    }
+
+    @Test
     public void toString_correctFormatting_returnsExpectedString() {
         studentList.addStudent(student1);
         studentList.addStudent(student2);
-        String expected =
-                "Subject: Math\n"
-                        + "1. Alice\n"
-                        + "2. Bob\n";
+        String expected = "Subject: Math\n"
+                + "1. Alice\n"
+                + "2. Bob\n";
         assertEquals(expected, studentList.toString());
+    }
+
+    @Test
+    public void equals_sameInstance_returnsTrue() {
+        studentList.addStudent(student1);
+        assertEquals(studentList, studentList);
     }
 
     @Test
@@ -133,5 +164,81 @@ public class StudentListTest {
     @Test
     public void constructor_nullSubject_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new StudentList(null));
+    }
+
+    @Test
+    public void constructor_blankSubject_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new StudentList(" "));
+    }
+
+    @Test
+    public void addStudent_nullStudent_throwsNullPointerException() {
+        StudentList list = new StudentList("Math");
+        assertThrows(NullPointerException.class, () -> list.addStudent(null));
+    }
+
+    @Test
+    public void deleteStudent_nullStudent_throwsNullPointerException() {
+        StudentList list = new StudentList("Math");
+        assertThrows(NullPointerException.class, () -> list.deleteStudent(null));
+    }
+
+    @Test
+    public void getSize_reflectsListStateCorrectly() {
+        StudentList list = new StudentList("Math");
+        assertEquals(0, list.size());
+        list.addStudent(student1);
+        assertEquals(1, list.size());
+        list.deleteStudent(student1);
+        assertEquals(0, list.size());
+    }
+
+    @Test
+    public void isEmpty_reflectsListStateCorrectly() {
+        StudentList list = new StudentList("Math");
+        assertTrue(list.isEmpty());
+        list.addStudent(student1);
+        assertFalse(list.isEmpty());
+        list.deleteStudent(student1);
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void equals_nullAndDifferentType_returnsFalse() {
+        StudentList list = new StudentList("Math");
+        assertNotEquals(list, null);
+        assertNotEquals(list, "string");
+    }
+
+    @Test
+    public void hashCode_consistentAcrossInvocations() {
+        StudentList list = new StudentList("Math");
+        list.addStudent(student1);
+        int firstHash = list.hashCode();
+        int secondHash = list.hashCode();
+        assertEquals(firstHash, secondHash);
+    }
+
+    @Test
+    public void deleteStudent_notPresent_noCrash() {
+        StudentList list = new StudentList("Math");
+        list.addStudent(student1);
+        list.deleteStudent(student2);
+        assertEquals(1, list.getStudentsList().size());
+    }
+
+    @Test
+    public void toString_includesSubjectAndStudentNames() {
+        StudentList list = new StudentList("Science");
+        list.addStudent(student1);
+        String output = list.toString();
+        assertTrue(output.contains("Subject: Science"));
+        assertTrue(output.contains("Alice"));
+    }
+
+    @Test
+    public void containsSubject_caseInsensitiveMatch() {
+        StudentList list = new StudentList("Math");
+        assertTrue(list.getSubject().equalsIgnoreCase("math"));
     }
 }
