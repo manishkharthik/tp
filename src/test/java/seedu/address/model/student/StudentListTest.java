@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.person.Name;
+import seedu.address.model.subject.Subject;
 
 public class StudentListTest {
 
@@ -25,7 +26,7 @@ public class StudentListTest {
         // Optionally, mark attendance for specific dates if needed
         student1 = new Student(
                 new Name("Alice"),
-                List.of("Math"),
+                List.of(new Subject("Math")),
                 "10A",
                 "98765432",
                 "Paid",
@@ -33,7 +34,7 @@ public class StudentListTest {
 
         student2 = new Student(
                 new Name("Bob"),
-                List.of("Science"),
+                List.of(new Subject("Science")),
                 "10B",
                 "87651234",
                 "Unpaid",

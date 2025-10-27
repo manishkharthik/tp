@@ -29,6 +29,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -115,7 +116,7 @@ public class EditCommand extends Command {
         // If the existing record is a Student, or student-only fields are being edited,
         // construct a Student and preserve attendance (EditCommand does not change attendance).
         if (personToEdit instanceof Student || editingStudentFields) {
-            List<String> updatedSubjects;
+            List<Subject> updatedSubjects;
             String updatedStudentClass;
             String updatedEmergencyContact;
             String updatedPaymentStatus;
@@ -208,7 +209,7 @@ public class EditCommand extends Command {
         private Set<Tag> tags;
 
         // Student-only (excluding attendance)
-        private List<String> subjects;
+        private List<Subject> subjects;
         private String studentClass;
         private String emergencyContact;
         private AttendanceList attendanceList;
@@ -284,11 +285,11 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
-        public void setSubjects(List<String> subjects) {
+        public void setSubjects(List<Subject> subjects) {
             this.subjects = (subjects == null) ? null : List.copyOf(subjects);
         }
 
-        public Optional<List<String>> getSubjects() {
+        public Optional<List<Subject>> getSubjects() {
             return (subjects == null) ? Optional.empty() : Optional.of(List.copyOf(subjects));
         }
 

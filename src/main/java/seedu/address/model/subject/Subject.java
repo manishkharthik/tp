@@ -47,9 +47,9 @@ public class Subject {
         return name;
     }
 
-    public List<Lesson> getLessons() {
+    public LessonList getLessons() {
         assert lessonList != null : "Lesson list is null";
-        return lessonList.getLessons();
+        return lessonList;
     }
 
     /**
@@ -101,6 +101,21 @@ public class Subject {
         assert otherSubject.name != null : "Other subject's name is null";
 
         return otherSubject.getName().equals(getName());
+    }
+
+    /**
+     * Returns true if the subject name equals the given string, ignoring case.
+     */
+    public boolean equalsIgnoreCase(String otherName) {
+        if (otherName == null) {
+            return false;
+        }
+
+        // Assert that both names are valid before comparison
+        assert name != null : "Current subject's name is null";
+        assert otherName != null : "Other subject's name is null";
+
+        return name.equalsIgnoreCase(otherName);
     }
 
     /**

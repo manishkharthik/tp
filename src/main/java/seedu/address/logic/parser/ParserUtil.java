@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -133,21 +135,28 @@ public class ParserUtil {
     }
 
     /** Parses comma-separated subjects into {@code List<String>}. */
-    public static List<String> parseSubjects(String csvSubjects) throws ParseException {
+    public static List<Subject> parseSubjects(String csvSubjects) throws ParseException {
         requireNonNull(csvSubjects);
         String trimmed = csvSubjects.trim();
         if (trimmed.isEmpty()) {
             return new ArrayList<>();
         }
         String[] parts = trimmed.split(",");
-        List<String> subjects = new ArrayList<>();
+        List<Subject> subjects = new ArrayList<>();
         for (String part : parts) {
             String s = part.trim();
             if (!s.isEmpty()) {
-                subjects.add(s);
+                subjects.add(new Subject(s));
             }
         }
         return subjects;
+    }
+
+    /**
+     * Returns true if all of the specified prefixes contain non-empty values in the given ArgumentMultimap.
+     */
+    public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Arrays.stream(prefixes).allMatch(p -> argumentMultimap.getValue(p).isPresent());
     }
 
     /** Parses class string (non-empty). */

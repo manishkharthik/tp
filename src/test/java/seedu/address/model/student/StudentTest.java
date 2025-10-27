@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.person.Name;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.subject.Subject;
 
 
 /**
@@ -23,7 +24,7 @@ import seedu.address.model.person.UniquePersonList;
 public class StudentTest {
 
     private final Name validName = new Name("John Doe");
-    private final List<String> validSubjects = List.of("Math", "Science");
+    private final List<Subject> validSubjects = List.of(new Subject("Math"), new Subject("Science"));
     private final String validClass = "10A";
     private final String validEmergencyContact = "98765432";
     private final String validPaymentStatus = "Paid";
@@ -84,7 +85,7 @@ public class StudentTest {
 
     @Test
     public void constructor_subjectsContainingNull_throwsAssertionError() {
-        List<String> subjectsWithNull = new ArrayList<>(validSubjects);
+        List<Subject> subjectsWithNull = new ArrayList<>(validSubjects);
         subjectsWithNull.add(null);
         assertThrows(AssertionError.class, () -> new Student(
             validName,
@@ -110,8 +111,8 @@ public class StudentTest {
 
     @Test
     public void constructor_subjectsContainingBlankString_throwsAssertionError() {
-        List<String> subjectsWithBlank = new ArrayList<>(validSubjects);
-        subjectsWithBlank.add("   ");
+        List<Subject> subjectsWithBlank = new ArrayList<>(validSubjects);
+        subjectsWithBlank.add(new Subject("   "));
         assertThrows(AssertionError.class, () -> new Student(
             validName,
             subjectsWithBlank,
@@ -347,7 +348,7 @@ public class StudentTest {
     // Test cases for getter method assertions
     @Test
     public void getSubjects_validState_returnsSubjects() {
-        List<String> subjects = baseStudent.getSubjects();
+        List<Subject> subjects = baseStudent.getSubjects();
         assertEquals(validSubjects, subjects);
     }
 

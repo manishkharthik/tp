@@ -273,7 +273,7 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook();
         Student student = new Student(
                 new Name("John"),
-                List.of("Math", "Science"),
+                List.of(new Subject("Math"), new Subject("Science")),
                 "3A", "91234567", "Paid", "Completed"
         );
 
@@ -289,12 +289,12 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook();
         Student student1 = new Student(
                 new Name("John"),
-                List.of("Math"),
+                List.of(new Subject("Math")),
                 "3A", "91234567", "Paid", "Completed"
         );
         Student student2 = new Student(
                 new Name("Greg"),
-                List.of("Math"),
+                List.of(new Subject("Math")),
                 "3B", "99887766", "Paid", "Completed"
         );
 
