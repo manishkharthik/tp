@@ -30,7 +30,7 @@ class JsonAdaptedSubject {
 
     @JsonValue
     public String getSubjectName() {
-        return subjectName;
+        return this.subjectName;
     }
 
     /**
@@ -39,10 +39,10 @@ class JsonAdaptedSubject {
      * @throws IllegalValueException if there were any data constraints violated in the adapted subject.
      */
     public Subject toModelType() throws IllegalValueException {
-        if (!Subject.isValidSubjectName(subjectName)) {
+        if (!Subject.isValidSubjectName(this.subjectName)) {
             throw new IllegalValueException(Subject.MESSAGE_CONSTRAINTS);
         }
-        return new Subject(subjectName);
+        return new Subject(this.subjectName);
     }
 
 }
