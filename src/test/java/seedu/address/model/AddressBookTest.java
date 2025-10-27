@@ -20,9 +20,14 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.subject.SubjectList;
+import seedu.address.model.subject.exceptions.DuplicateSubjectException;
+import seedu.address.model.subject.exceptions.SubjectNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddressBookTest {
@@ -261,5 +266,101 @@ public class AddressBookTest {
         public SubjectList getSubjectList() {
             return subjectList;
         }
+    }
+
+    @Test
+    public void addPerson_student_addsSubjectsToSubjectList() {
+        AddressBook addressBook = new AddressBook();
+        Student student = new Student(
+                new Name("John"),
+                List.of("Math", "Science"),
+                "3A", "91234567", "Paid", "Completed"
+        );
+
+        addressBook.addPerson(student);
+
+        SubjectList subjects = addressBook.getSubjectList();
+        assertTrue(subjects.contains(new Subject("Math")));
+        assertTrue(subjects.contains(new Subject("Science")));
+    }
+
+    @Test
+    public void addPerson_duplicateStudentSubjects_doesNotDuplicateSubjectList() {
+        AddressBook addressBook = new AddressBook();
+        Student student1 = new Student(
+                new Name("John"),
+                List.of("Math"),
+                "3A", "91234567", "Paid", "Completed"
+        );
+        Student student2 = new Student(
+                new Name("Greg"),
+                List.of("Math"),
+                "3B", "99887766", "Paid", "Completed"
+        );
+
+        addressBook.addPerson(student1);
+        addressBook.addPerson(student2);
+
+        SubjectList subjects = addressBook.getSubjectList();
+        assertEquals(1, subjects.getSubjects().size());
+    }
+
+    @Test
+    public void addSubject_validSubject_success() throws DuplicateSubjectException {
+        AddressBook addressBook = new AddressBook();
+        Subject math = new Subject("Math");
+        addressBook.addSubject(math);
+
+        assertTrue(addressBook.getSubjectList().contains(math));
+    }
+
+    @Test
+    public void addSubject_duplicateSubject_throwsDuplicateSubjectException() throws DuplicateSubjectException {
+        AddressBook addressBook = new AddressBook();
+        Subject math = new Subject("Math");
+        addressBook.addSubject(math);
+
+        assertThrows(DuplicateSubjectException.class, () -> addressBook.addSubject(math));
+    }
+
+    @Test
+    public void addSubject_nullSubject_throwsNullPointerException() {
+        AddressBook addressBook = new AddressBook();
+        assertThrows(NullPointerException.class, () -> addressBook.addSubject(null));
+    }
+
+    @Test
+    public void deleteSubject_existingSubject_success() throws DuplicateSubjectException, SubjectNotFoundException {
+        AddressBook addressBook = new AddressBook();
+        Subject math = new Subject("Math");
+        addressBook.addSubject(math);
+        addressBook.deleteSubject(math);
+
+        assertFalse(addressBook.getSubjectList().contains(math));
+    }
+
+    @Test
+    public void deleteSubject_nonExistentSubject_throwsSubjectNotFoundException() {
+        AddressBook addressBook = new AddressBook();
+        Subject fake = new Subject("Science");
+        assertThrows(SubjectNotFoundException.class, () -> addressBook.deleteSubject(fake));
+    }
+
+    @Test
+    public void getSubjectList_returnsDefensiveCopy() throws DuplicateSubjectException {
+        AddressBook addressBook = new AddressBook();
+        Subject physics = new Subject("Physics");
+        addressBook.addSubject(physics);
+
+        List<Subject> subjects = addressBook.getSubjectList().getSubjects();
+        subjects.clear();
+        assertEquals(1, addressBook.getSubjectList().getSubjects().size());
+    }
+
+    @Test
+    public void addPerson_nonStudent_doesNotAddSubjects() {
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(ALICE);
+        assertEquals(0, addressBook.getSubjectList().getSubjects().size());
     }
 }
