@@ -207,8 +207,8 @@ public class AddCommandTest {
         assertTrue(AddCommand.MESSAGE_USAGE.contains("s/")); // subjects
         assertTrue(AddCommand.MESSAGE_USAGE.contains("ec/")); // emergency contact
         // removed: attendance prefix assertion (feature not in constructor anymore)
-        assertTrue(AddCommand.MESSAGE_USAGE.contains("pay/")); // payment status
-        assertTrue(AddCommand.MESSAGE_USAGE.contains("asg/")); // assignment status
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("ps/")); // payment status
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("as/")); // assignment status
     }
 
     @Test
