@@ -17,6 +17,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Name;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -71,7 +72,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         // Construct Student (AttendanceList is created internally by Student)
         Student student = new Student(
                 name,
-                subjects,
+                subjects.stream().map(Subject::new).toList(),
                 studentClass,
                 emergencyContact,
                 paymentStatus,

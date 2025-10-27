@@ -46,7 +46,7 @@ public class ListLessonsCommand extends Command {
         }
 
         Subject subject = model.getSubject(subjectName);
-        List<Lesson> lessons = subject.getLessons();
+        List<Lesson> lessons = subject.getLessons().getLessons();
         String lessonListDisplay = formatLessonList(lessons);
         model.updateFilteredLessonList(lesson -> lesson.getSubject().equals(subjectName));
 

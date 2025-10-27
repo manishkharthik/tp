@@ -12,6 +12,7 @@ import seedu.address.logic.commands.MarkAttendanceCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Name;
+import seedu.address.model.subject.Subject;
 
 /**
  * Parses input arguments and creates a new {@code MarkAttendanceCommand} object.
@@ -63,7 +64,7 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
             throw new ParseException("Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.");
         }
 
-        return new MarkAttendanceCommand(name, subject, lessonName, status);
+        return new MarkAttendanceCommand(name, new Subject(subject), lessonName, status);
     }
 
     private static boolean arePrefixesPresent(ArgumentMultimap map, Prefix... prefixes) {

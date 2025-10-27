@@ -15,6 +15,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 
 /**
  * Marks a student's attendance for a specified lesson.
@@ -37,20 +38,20 @@ public class MarkAttendanceCommand extends Command {
 
 
     private final Name name;
-    private final String subject;
+    private final Subject subject;
     private final String lessonName;
     private final AttendanceStatus status;
 
     /**
      * Creates a MarkAttendanceCommand to update a student's attendance record.
      */
-    public MarkAttendanceCommand(Name name, String subject, String lessonName, AttendanceStatus status) {
+    public MarkAttendanceCommand(Name name, Subject subject, String lessonName, AttendanceStatus status) {
         requireNonNull(name);
         requireNonNull(subject);
         requireNonNull(lessonName);
         requireNonNull(status);
         this.name = name;
-        this.subject = subject.trim();
+        this.subject = subject;
         this.lessonName = lessonName.trim();
         this.status = status;
     }
@@ -77,14 +78,14 @@ public class MarkAttendanceCommand extends Command {
         Student student = (Student) foundPerson;
 
         // Check if the student is enrolled in the given subject
-        boolean enrolled = student.getSubjects().stream().anyMatch(s -> s.equalsIgnoreCase(subject));
+        boolean enrolled = student.getSubjects().stream().anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
         if (!enrolled) {
             throw new CommandException(
                 String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
 
         // Create a Lesson object and mark attendance
-        Lesson lesson = new Lesson(lessonName, subject);
+        Lesson lesson = new Lesson(lessonName, subject.getName());
         student.getAttendanceList().markAttendance(lesson, status);
 
         String feedback = String.format(

@@ -7,6 +7,7 @@ import java.util.List;
 import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.person.Name;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 
 /**
  * A utility class to help with building {@code Student} objects for tests.
@@ -21,10 +22,10 @@ public class StudentBuilder extends PersonBuilder {
     public static final String DEFAULT_EMERGENCY_CONTACT = "91234567";
     public static final String DEFAULT_PAYMENT_STATUS = "Pending";
     public static final String DEFAULT_ASSIGNMENT_STATUS = "Not Submitted";
-    public static final String[] DEFAULT_SUBJECTS = { "Math", "Science" };
+    public static final Subject[] DEFAULT_SUBJECTS = { new Subject("Math"), new Subject("Science") };
 
     private Name name;
-    private List<String> subjects;
+    private List<Subject> subjects;
     private String studentClass;
     private String emergencyContact;
     private AttendanceList attendance;
@@ -59,7 +60,7 @@ public class StudentBuilder extends PersonBuilder {
      */
     public StudentBuilder(Student studentToCopy) {
         name = studentToCopy.getName();
-        subjects = new ArrayList<>(studentToCopy.getSubjects());
+        subjects = studentToCopy.getSubjects();
         studentClass = studentToCopy.getStudentClass();
         emergencyContact = studentToCopy.getEmergencyContact();
         attendance = studentToCopy.getAttendanceList();
@@ -93,7 +94,7 @@ public class StudentBuilder extends PersonBuilder {
         for (String s : parts) {
             String trimmed = s.trim();
             if (!trimmed.isEmpty()) {
-                subjects.add(trimmed);
+                subjects.add(new Subject(trimmed));
             }
         }
         return this;

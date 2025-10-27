@@ -73,7 +73,9 @@ public class PersonCard extends UiPart<Region> {
                 studentClass.setText("Class: " + s.getStudentClass());
             }
             if (subjects != null) {
-                subjects.setText("Subjects: " + String.join(", ", s.getSubjects()));
+                subjects.setText("Subjects: " + String.join(", ", s.getSubjects().stream()
+                        .map(subj -> subj.getName())
+                        .toList()));
             }
             if (emergencyContact != null) {
                 emergencyContact.setText("Emergency: " + s.getEmergencyContact());
