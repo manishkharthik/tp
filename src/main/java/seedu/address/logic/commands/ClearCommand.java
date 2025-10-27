@@ -24,4 +24,15 @@ public class ClearCommand extends Command {
 
         return result;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        // All ClearCommand instances are functionally identical
+        return other instanceof ClearCommand;
+    }
+
+    @Override
+    public int hashCode() {
+        return ClearCommand.class.hashCode();
+    }
 }

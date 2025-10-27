@@ -1,5 +1,8 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -35,5 +38,30 @@ public class ListCommandTest {
     public void execute_listIsFiltered_showsEverything() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void equals_sameInstance_returnsTrue() {
+        ListCommand listCommand1 = new ListCommand();
+        ListCommand listCommand2 = new ListCommand();
+
+        // same object
+        assertTrue(listCommand1.equals(listCommand1));
+
+        // same type, no state -> equal
+        assertTrue(listCommand1.equals(listCommand2));
+
+        // different type
+        assertFalse(listCommand1.equals(new HelpCommand()));
+
+        // null
+        assertFalse(listCommand1.equals(null));
+    }
+
+    @Test
+    public void toString_returnsCorrectFormat() {
+        ListCommand listCommand = new ListCommand();
+        String expected = ListCommand.class.getCanonicalName();
+        assertEquals(expected, listCommand.toString());
     }
 }
