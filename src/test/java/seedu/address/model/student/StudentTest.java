@@ -183,39 +183,42 @@ public class StudentTest {
     }
 
     @Test
-    public void constructor_blankPaymentStatus_throwsAssertionError() {
-        assertThrows(AssertionError.class, () -> new Student(
+    public void constructor_blankPaymentStatus_defaultsToUnpaid() {
+        Student student = new Student(
             validName,
             validSubjects,
             validClass,
             validEmergencyContact,
             "   ",
             validAssignmentStatus
-        ));
+        );
+        assertEquals("Unpaid", student.getPaymentStatus());
     }
 
     @Test
     public void constructor_nullAssignmentStatus_throwsAssertionError() {
-        assertThrows(AssertionError.class, () -> new Student(
+        Student student = new Student(
             validName,
             validSubjects,
             validClass,
             validEmergencyContact,
             validPaymentStatus,
             null
-        ));
+        );
+        assertEquals("Incomplete", student.getAssignmentStatus());
     }
 
     @Test
     public void constructor_blankAssignmentStatus_throwsAssertionError() {
-        assertThrows(AssertionError.class, () -> new Student(
+        Student student = new Student(
             validName,
             validSubjects,
             validClass,
             validEmergencyContact,
             validPaymentStatus,
             "   "
-        ));
+        );
+        assertEquals("Incomplete", student.getAssignmentStatus());
     }
 
     @Test

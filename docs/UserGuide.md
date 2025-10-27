@@ -68,7 +68,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
    * `list` : Lists all students.
 
-   * `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed` : Adds a student named `John Tan` to the Address Book.
+   * `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` : Adds a student named `John Tan` to the Address Book.
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
@@ -95,13 +95,10 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  e.g `n/NAME [ps/PAYMENT_STATUS]` can be used as `n/John Doe ps/Paid` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Items with `…`​ after them can be used multiple times.<br>
+  e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -125,22 +122,19 @@ Shows a message with a link to access the full help page.
 
 Adds a new student to the address book with their academic and contact information.
 
-![add command](images/addcommand.png)
-
-**Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]`
+**Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
-* `n/NAME` - Student's full name (required)
-* `c/CLASS` - Student's class (e.g., 3B) (required)
-* `s/SUBJECT` - Subject(s) the student is taking (at least one required, can add multiple)
-* `ec/EMERGENCY_CONTACT` - Emergency contact phone number (required)
-* `att/ATTENDANCE` - Current attendance status: Present, Absent, Late, or Excused (optional)
-* `pay/PAYMENT_STATUS` - Payment status: Paid or Unpaid (optional)
-* `asg/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (optional)
+* `n/NAME` - Student's full name (**required**)
+* `c/CLASS` - Student's class (e.g., 3B) (**required**)
+* `s/SUBJECT` - Subject(s) the student is taking (**at least one required**, use multiple `s/` prefixes to add more)
+* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number (**required**)
+* `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
+* `asg/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 * You can add multiple subjects by using multiple `s/` prefixes
-* Optional fields will use default values if not specified
+* Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified
 * Names are case-sensitive
 </div>
 
@@ -149,15 +143,15 @@ You cannot add a student with the same name and class as an existing student.
 </div>
 
 **Examples:**
-* `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed`
-    * Adds John Tan from class 3B taking Math and Science
-* `add n/Sam Lee c/3A s/Art s/History ec/98765432`
-    * Adds Sam Lee from class 3A (uses default values for optional fields)
+* `add n/John Tan c/3B s/Math s/Science ec/91234567` (add command without optional fields)
+  * Adds John Tan from class 3B (uses default values for optional fields)
 
-**Expected output:**
-```
-New student added: John Tan; Class: 3B; Subjects: [Math, Science]; Emergency Contact: 91234567
-```
+  ![result for 'add n/John Tan...'](images/addcommand_compulsory.png)
+
+* `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
+  * Adds Sarah Lim from class 2A
+
+  ![result for 'add n/Sarah Lim...'](images/addcommand_optional.png)
 
 ---
 
@@ -187,20 +181,16 @@ Use this command to reset any filters and see all active students after using `f
 
 Edits an existing student in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 * Edits the student at the specified `INDEX`. The index refers to the index number shown in the displayed student list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
+* All fields are optional, but at least one of them needs to be provided
 * Existing values will be updated to the input values.
 * When you edit a Person (not originally a Student) with Student fields, they will be converted to Students, with their relevant fields updated to match Student fields.
-* When editing tags, the existing tags of the student will be removed i.e adding of tags is not cumulative.
-* You can remove all the student’s tags by typing `t/` without
-    specifying any tags after it.
 * You can also edit **student-specific details**, such as:
   - `c/` → Student class
   - `s/` → Subject(s) (you may specify multiple)
   - `ec/` → Emergency contact
-  - `att/` → Attendance status (`Present`, `Absent`, `Late`, or `Excused`)
   - `pay/` → Payment status (e.g. `Paid`, `Pending`, `Overdue`)
   - `asg/` → Assignment status (e.g. `Submitted`, `Incomplete`, `Not Submitted`)
 
@@ -383,9 +373,9 @@ Unarchives students. Use this to unarchive students that have been archived to b
 
 ### Clearing all entries : `clear`
 
-Deletes **all students** from the active address book.
+Deletes **all students** from the active address book. This action is **irreversible**
 
-**Format:**
+**Format:** `clear`
 
 **Details:**
 * Permanently deletes all student records from the **main list**.
@@ -422,17 +412,19 @@ Format: `exit`
 
 ## Command Summary
 
-| Action | Format, Examples |
+| Action | Format, Examples (if necessary) |
 |--------|------------------|
-| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed` |
+| **Help** | `help` |
+| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` |
+| **List** | `list` |
+| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math s/Science ps/Pending` |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]` |
 | **Delete** | `delete INDEX` <br> e.g., `delete 2` |
-| **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS] [t/TAG]...`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math s/Science pay/Pending` |
 | **Archive** | `archive INDEX`<br> e.g., `archive 3` |
 | **List Archived** | `listarchive` |
+| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1` |
 | **Clear** | `clear` |
-| **List** | `list` |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]` |
-| **Help** | `help` |
+| **Exit** | `exit` |
 
 ### Saving the data
 
@@ -466,18 +458,4 @@ _Details coming soon ..._
 
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
---------------------------------------------------------------------------------------------------------------------
-
-## Command summary
-
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]​` <br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List** | `list`
-**Help** | `help`
-**Archive** | `archive INDEX`<br> e.g., `archive 4`
-**ViewArchived** | `listarchive`
+------------------------------------------------------------------------------------------------------------
