@@ -61,7 +61,7 @@ public class MarkAttendanceCommand extends Command {
         assert lesson != null : "Lesson name cannot be null";
         assert status != null : "Status cannot be null";
 
-        // 1) Find student by name
+        // Find student by name
         Person foundPerson = model.getFilteredPersonList().stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
@@ -73,23 +73,27 @@ public class MarkAttendanceCommand extends Command {
 
         Student student = (Student) foundPerson;
 
-        // 2) Check the student is enrolled in the subject (by subject name for now)
+        // Check the student is enrolled in the subject (by subject name for now)
         boolean enrolled = student.getSubjects().stream()
                 .anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
         if (!enrolled) {
             throw new CommandException(
                     String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
-
-        // (Optional sanity) ensure the lesson’s subject matches the subject passed
-        if (!lesson.getSubject().equalsIgnoreCase(subject.getName())) {
-            throw new CommandException("Lesson does not belong to the specified subject.");
+        
+        // Check that the lesson exists in the subject
+        Lesson lessonToCheck = new Lesson(lesson.getName(), subject.getName());
+        if (!subject.containsLesson(lessonToCheck)) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_LESSON_NOT_FOUND,
+                    lesson.getName(),
+                    subject.getName()
+            ));
         }
-
-        // 3) Mark attendance
+        // Mark attendance
         student.getAttendanceList().markAttendance(lesson, status);
 
-        // 4) Feedback
+        // Feedback
         String feedback = String.format(
                 Messages.MESSAGE_SUCCESS,
                 student.getName(),

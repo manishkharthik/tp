@@ -24,6 +24,8 @@ public class Messages {
     public static final String MESSAGE_PERSON_NOT_STUDENT =
             "%s is not a student or has not been added as a student.";
     public static final String MESSAGE_SUBJECT_NOT_ENROLLED = "%s does not read subject: %s";
+    public static final String MESSAGE_LESSON_NOT_FOUND =
+        "Lesson '%1$s' does not exist in subject '%2$s'. Please add it first using addlesson.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
