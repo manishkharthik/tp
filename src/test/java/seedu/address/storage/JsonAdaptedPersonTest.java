@@ -49,7 +49,7 @@ public class JsonAdaptedPersonTest {
 
     // Student-related test data
     private static final String VALID_STUDENT_CLASS = "10A";
-    private static final List<String> VALID_SUBJECTS = List.of("Math", "Physics");
+    private static final List<Subject> VALID_SUBJECTS = List.of(new Subject("Math"), new Subject("Physics"));
     private static final String VALID_EMERGENCY_CONTACT = "91234567";
     private static final String VALID_PAYMENT_STATUS = "Paid";
     private static final String VALID_ASSIGNMENT_STATUS = "Completed";

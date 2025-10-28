@@ -81,7 +81,7 @@ public class JsonAdaptedPerson {
             @JsonProperty("address") String address,
             @JsonProperty("tags") List<JsonAdaptedTag> tags,
             @JsonProperty("class") String studentClass,
-            @JsonProperty("subjects") List<String> subjects,
+            @JsonProperty("subjects") List<Subject> subjects,
             @JsonProperty("emergencyContact") String emergencyContact,
             @JsonProperty("paymentStatus") String paymentStatus,
             @JsonProperty("assignmentStatus") String assignmentStatus,
@@ -99,7 +99,7 @@ public class JsonAdaptedPerson {
         }
 
         this.studentClass = trimOrNull(studentClass);
-        this.subjects = (subjects == null) ? null : new ArrayList<>(subjects.stream().map(Subject::new).toList());
+        this.subjects = (subjects == null) ? null : new ArrayList<>(subjects);
         this.emergencyContact = trimOrNull(emergencyContact);
         this.paymentStatus = trimOrNull(paymentStatus);
         this.assignmentStatus = trimOrNull(assignmentStatus);
