@@ -81,15 +81,16 @@ public class MarkAttendanceCommand extends Command {
                     String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
         
-        // Check that the lesson exists in the subject
-        Lesson lessonToCheck = new Lesson(lesson.getName(), subject.getName());
-        if (!subject.containsLesson(lessonToCheck)) {
-            throw new CommandException(String.format(
-                    Messages.MESSAGE_LESSON_NOT_FOUND,
-                    lesson.getName(),
-                    subject.getName()
-            ));
-        }
+        // Check that the lesson exists in the subject (uncommented out for now until fix for lesson is made)
+        // Lesson lessonToCheck = new Lesson(lesson.getName(), subject.getName());
+        // if (!subject.containsLesson(lessonToCheck)) {
+        //     throw new CommandException(String.format(
+        //             Messages.MESSAGE_LESSON_NOT_FOUND,
+        //             lesson.getName(),
+        //             subject.getName()
+        //     ));
+        // }
+
         // Mark attendance
         student.getAttendanceList().markAttendance(lesson, status);
 
