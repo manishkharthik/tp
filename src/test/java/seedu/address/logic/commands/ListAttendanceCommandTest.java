@@ -57,16 +57,14 @@ public class ListAttendanceCommandTest {
     @Test
     public void execute_studentNotFound_throwsCommandException() {
         ListAttendanceCommand command = new ListAttendanceCommand("Alice", "Math");
-        assertThrows(CommandException.class, 
-            () -> command.execute(model), 
+        assertThrows(CommandException.class, () -> command.execute(model),
             String.format(ListAttendanceCommand.MESSAGE_STUDENT_NOT_FOUND, "Alice"));
     }
 
     @Test
     public void execute_subjectNotFound_throwsCommandException() {
         ListAttendanceCommand command = new ListAttendanceCommand("John", "Science");
-        assertThrows(CommandException.class, 
-            () -> command.execute(model),
+        assertThrows(CommandException.class, () -> command.execute(model),
             String.format(ListAttendanceCommand.MESSAGE_SUBJECT_NOT_FOUND, "Science", "John"));
     }
 
@@ -82,8 +80,7 @@ public class ListAttendanceCommandTest {
         model.addPerson(student);
 
         ListAttendanceCommand command = new ListAttendanceCommand("Mary", "Physics");
-        assertThrows(CommandException.class,
-            () -> command.execute(model),
+        assertThrows(CommandException.class, () -> command.execute(model),
             String.format(ListAttendanceCommand.MESSAGE_NO_LESSONS, "Mary", "Physics"));
     }
 
@@ -106,8 +103,7 @@ public class ListAttendanceCommandTest {
         // "John Doe" exists, but we pass only "John"
         ListAttendanceCommand command = new ListAttendanceCommand("John Doe", "Math");
 
-        assertThrows(CommandException.class,
-                () -> command.execute(model),
+        assertThrows(CommandException.class, () -> command.execute(model),
                 String.format(ListAttendanceCommand.MESSAGE_STUDENT_NOT_FOUND, "John Doe"));
-    }  
+    }
 }
