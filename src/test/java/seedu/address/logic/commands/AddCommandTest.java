@@ -87,16 +87,16 @@ public class AddCommandTest {
     public void execute_studentWithMultipleSubjects_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Student studentWithMultipleSubjects = new Student(
-        new Name("John"),
-        new ArrayList<>(Arrays.asList(
+            new Name("John"),
+            new ArrayList<>(Arrays.asList(
                 new Subject("Math"),
                 new Subject("Science")
-        )),
-        "3A",
-        "91234567",
-        "Paid",
-        "Completed"
-);
+            )),
+            "3A",
+            "91234567",
+            "Paid",
+            "Completed"
+        );
         CommandResult commandResult = new AddCommand(studentWithMultipleSubjects).execute(modelStub);
 
         String successPrefix = String.format(AddCommand.MESSAGE_SUCCESS.split(": ")[0]);
@@ -126,7 +126,7 @@ public class AddCommandTest {
         modelStub.addPerson(existingStudent);
 
         Student newStudent = new Student(
-            new Name("Bob"), 
+            new Name("Bob"),
             new ArrayList<>(Arrays.asList(
                 new Subject("Math"),
                 new Subject("Science")
@@ -162,7 +162,7 @@ public class AddCommandTest {
     public void execute_addStudentWithSameNameDifferentDetails_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Student student1 = new Student(
-            new Name("John"), 
+            new Name("John"),
             new ArrayList<>(Arrays.asList(
                 new Subject("Math"), new Subject("Science"))),
                 "3A", "91234567",

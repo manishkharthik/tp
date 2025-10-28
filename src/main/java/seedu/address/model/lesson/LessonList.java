@@ -134,7 +134,7 @@ public class LessonList {
             sb.append(lesson.getName())
             .append(" ")
             .append(lesson.getAttendanceStatus().toString())
-            .append("\n");
+                .append("\n");
         }
         return sb.toString().trim();
     }

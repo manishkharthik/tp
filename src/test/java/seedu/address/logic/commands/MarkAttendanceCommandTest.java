@@ -159,12 +159,18 @@ public class MarkAttendanceCommandTest {
         Student student2 = (Student) model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         Name name2 = student2.getName();
 
-        MarkAttendanceCommand a = new MarkAttendanceCommand(name1, new Subject("Math"), "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand b = new MarkAttendanceCommand(name1, new Subject("Math"), "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand c = new MarkAttendanceCommand(name2, new Subject("Math"), "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand d = new MarkAttendanceCommand(name1, new Subject("Physics"), "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand e = new MarkAttendanceCommand(name1, new Subject("Math"), "L2", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand f = new MarkAttendanceCommand(name1, new Subject("Math"), "L1", AttendanceStatus.ABSENT);
+        MarkAttendanceCommand a = new MarkAttendanceCommand(name1, new Subject("Math"),
+                "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand b = new MarkAttendanceCommand(name1, new Subject("Math"),
+                "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand c = new MarkAttendanceCommand(name2, new Subject("Math"),
+                "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand d = new MarkAttendanceCommand(name1, new Subject("Physics"),
+                "L1", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand e = new MarkAttendanceCommand(name1, new Subject("Math"),
+                "L2", AttendanceStatus.PRESENT);
+        MarkAttendanceCommand f = new MarkAttendanceCommand(name1, new Subject("Math"),
+                "L1", AttendanceStatus.ABSENT);
 
         assertTrue(a.equals(a));
         assertTrue(a.equals(b));
