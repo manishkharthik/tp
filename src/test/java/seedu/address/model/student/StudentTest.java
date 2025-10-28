@@ -112,15 +112,17 @@ public class StudentTest {
     @Test
     public void constructor_subjectsContainingBlankString_throwsAssertionError() {
         List<Subject> subjectsWithBlank = new ArrayList<>(validSubjects);
-        subjectsWithBlank.add(new Subject("   "));
-        assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            subjectsWithBlank,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+        assertThrows(AssertionError.class, () -> {
+            subjectsWithBlank.add(new Subject("   ")); // move this inside!
+            new Student(
+                validName,
+                subjectsWithBlank,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus
+            );
+        });
     }
 
     @Test

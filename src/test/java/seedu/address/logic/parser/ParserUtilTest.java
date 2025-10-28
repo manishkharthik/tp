@@ -18,6 +18,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
@@ -206,13 +207,13 @@ public class ParserUtilTest {
 
     @Test
     public void parseSubjects_validCommaSeparated_returnsList() throws Exception {
-        assertEquals(Arrays.asList("Math", "Science"),
+        assertEquals(Arrays.asList(new Subject("Math"), new Subject("Science")),
                 ParserUtil.parseSubjects("Math, Science"));
     }
 
     @Test
     public void parseSubjects_withExtraSpaces_returnsTrimmedList() throws Exception {
-        assertEquals(Arrays.asList("Math", "English"),
+        assertEquals(Arrays.asList(new Subject("Math"), new Subject("English")),
                 ParserUtil.parseSubjects("  Math ,  English  "));
     }
 
