@@ -26,7 +26,7 @@ public class DeleteLessonCommandTest {
 
     @Test
     public void execute_existingLesson_success() throws Exception {
-        Lesson lesson = new Lesson("Algebra", "Mathematics");
+        Lesson lesson = new Lesson("Algebra", "Math");
         model.addLesson(lesson);
 
         DeleteLessonCommand command = new DeleteLessonCommand(lesson);

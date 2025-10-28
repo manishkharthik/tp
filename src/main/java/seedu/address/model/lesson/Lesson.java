@@ -43,7 +43,7 @@ public class Lesson {
      * Overloaded constructor to create Lesson without attendance status, set to null.
      */
     public Lesson(String name, String subject) {
-        this(name, subject, null);
+        this(name, subject, AttendanceStatus.ABSENT);
     }
 
     public String getName() {
