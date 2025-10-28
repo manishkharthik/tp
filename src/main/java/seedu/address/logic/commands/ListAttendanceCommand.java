@@ -30,6 +30,12 @@ public class ListAttendanceCommand extends Command {
     private final String studentName;
     private final String subjectName;
 
+    /**
+     * Creates a {@code ListAttendanceCommand} to list attendance for the specified student and subject.
+     *
+     * @param studentName the name of the student whose attendance is to be listed
+     * @param subjectName the name of the subject for which attendance is to be listed
+     */
     public ListAttendanceCommand(String studentName, String subjectName) {
         requireNonNull(studentName);
         requireNonNull(subjectName);
@@ -78,7 +84,7 @@ public class ListAttendanceCommand extends Command {
             sb.append(lesson.getName())
               .append(" ")
               .append(lesson.getAttendanceStatus().toString())
-              .append("\n");
+                .append("\n");
         }
 
         return new CommandResult(String.format(
