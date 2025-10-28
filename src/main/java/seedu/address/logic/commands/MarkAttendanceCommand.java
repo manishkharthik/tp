@@ -36,23 +36,19 @@ public class MarkAttendanceCommand extends Command {
             + PREFIX_LESSON + "Lesson 5 "
             + PREFIX_STATUS + "PRESENT";
 
-
     private final Name name;
     private final Subject subject;
-    private final String lessonName;
+    private final Lesson lesson;
     private final AttendanceStatus status;
 
-    /**
-     * Creates a MarkAttendanceCommand to update a student's attendance record.
-     */
-    public MarkAttendanceCommand(Name name, Subject subject, String lessonName, AttendanceStatus status) {
+    public MarkAttendanceCommand(Name name, Subject subject, Lesson lesson, AttendanceStatus status) {
         requireNonNull(name);
         requireNonNull(subject);
-        requireNonNull(lessonName);
+        requireNonNull(lesson);
         requireNonNull(status);
         this.name = name;
         this.subject = subject;
-        this.lessonName = lessonName.trim();
+        this.lesson = lesson;
         this.status = status;
     }
 
@@ -62,10 +58,10 @@ public class MarkAttendanceCommand extends Command {
         assert model != null : "Model should not be null";
         assert name != null : "Name cannot be null";
         assert subject != null : "Subject cannot be null";
-        assert lessonName != null : "Lesson name cannot be null";
+        assert lesson != null : "Lesson name cannot be null";
         assert status != null : "Status cannot be null";
 
-        // Find student by name in the filtered list
+        // 1) Find student by name
         Person foundPerson = model.getFilteredPersonList().stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
@@ -77,22 +73,28 @@ public class MarkAttendanceCommand extends Command {
 
         Student student = (Student) foundPerson;
 
-        // Check if the student is enrolled in the given subject
-        boolean enrolled = student.getSubjects().stream().anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
+        // 2) Check the student is enrolled in the subject (by subject name for now)
+        boolean enrolled = student.getSubjects().stream()
+                .anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
         if (!enrolled) {
             throw new CommandException(
-                String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
+                    String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
 
-        // Create a Lesson object and mark attendance
-        Lesson lesson = new Lesson(lessonName, subject.getName());
+        // (Optional sanity) ensure the lesson’s subject matches the subject passed
+        if (!lesson.getSubject().equalsIgnoreCase(subject.getName())) {
+            throw new CommandException("Lesson does not belong to the specified subject.");
+        }
+
+        // 3) Mark attendance
         student.getAttendanceList().markAttendance(lesson, status);
 
+        // 4) Feedback
         String feedback = String.format(
                 Messages.MESSAGE_SUCCESS,
                 student.getName(),
                 subject,
-                lessonName,
+                lesson.getName(),
                 status
         );
 
@@ -108,16 +110,17 @@ public class MarkAttendanceCommand extends Command {
         if (!(other instanceof MarkAttendanceCommand)) {
             return false;
         }
+
         MarkAttendanceCommand o = (MarkAttendanceCommand) other;
         return name.equals(o.name)
                 && subject.equals(o.subject)
-                && lessonName.equals(o.lessonName)
+                && lesson.equals(o.lesson)
                 && status.equals(o.status);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(name, subject, lessonName, status);
+        return java.util.Objects.hash(name, subject, lesson, status);
     }
 
     @Override
@@ -125,7 +128,7 @@ public class MarkAttendanceCommand extends Command {
         return new ToStringBuilder(this)
                 .add("name", name)
                 .add("subject", subject)
-                .add("lessonName", lessonName)
+                .add("lesson", lesson)
                 .add("status", status)
                 .toString();
     }
