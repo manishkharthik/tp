@@ -210,15 +210,6 @@ Edits an existing student's information in Tutor Track
 * If the person at `INDEX`is not yet a Student, supplying any student-specific fields will convert them into a Student.
 * Subjects are matched case-insensitively.
 
-<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
-
-* Provide at least one field to change, otherwise, the command is rejected.
-* Ensure the target `INDEX` is visible after any filters (e.g., after find); otherwise you may edit the wrong entry.
-* Use consistent subject names to avoid near-duplicate entries (e.g., prefer Math over Mathematics if your list already uses Math).
-* If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
-
-</div>
-
 ⸻
 
 **Examples:**
@@ -247,6 +238,15 @@ Edits an existing student's information in Tutor Track
     <td align="center"><em>Figure 6b: After setting Payment Status to “Pending”</em></td>
   </tr>
 </table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Provide at least one field to change, otherwise, the command is rejected.
+* Ensure the target `INDEX` is visible after any filters (e.g., after find); otherwise you may edit the wrong entry.
+* Use consistent subject names to avoid near-duplicate entries (e.g., prefer Math over Mathematics if your list already uses Math).
+* If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
+
+</div>
 
 ### Locating students by name: `find`
 
