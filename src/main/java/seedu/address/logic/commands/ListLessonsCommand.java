@@ -23,7 +23,7 @@ public class ListLessonsCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_SUBJECTS + "Mathematics";
 
-    public static final String MESSAGE_SUCCESS = "Listed all lessons in subject: %1$s";
+    public static final String MESSAGE_SUCCESS = "Listed all lessons in subject: %1$s\n%2$s";
     public static final String MESSAGE_SUBJECT_NOT_FOUND = "Subject not found: %1$s";
 
     private final String subjectName;
