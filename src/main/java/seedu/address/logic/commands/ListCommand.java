@@ -14,6 +14,11 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all students";
 
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Lists all students in the address book.\n"
+            + "This command does not take any parameters.\n"
+            + "Example: " + COMMAND_WORD;
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
