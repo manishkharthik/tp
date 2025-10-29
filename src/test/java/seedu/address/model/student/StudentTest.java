@@ -16,7 +16,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.subject.Subject;
 
-
 /**
  * Unit tests for the {@link Student} class.
  * Ensures that constructor validation works as expected.
@@ -38,13 +37,12 @@ public class StudentTest {
 
     private Student createValidStudent() {
         return new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        );
+                validName,
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus);
     }
 
     @Test
@@ -62,25 +60,23 @@ public class StudentTest {
     @Test
     public void constructor_nullName_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            null,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                null,
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
     public void constructor_nullSubjects_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            null,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                null,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
@@ -88,25 +84,23 @@ public class StudentTest {
         List<Subject> subjectsWithNull = new ArrayList<>(validSubjects);
         subjectsWithNull.add(null);
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            subjectsWithNull,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                subjectsWithNull,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
     public void constructor_emptySubjectsList_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            new ArrayList<>(),
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                new ArrayList<>(),
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
@@ -115,112 +109,103 @@ public class StudentTest {
         assertThrows(AssertionError.class, () -> {
             subjectsWithBlank.add(new Subject("   ")); // move this inside!
             new Student(
-                validName,
-                subjectsWithBlank,
-                validClass,
-                validEmergencyContact,
-                validPaymentStatus,
-                validAssignmentStatus
-            );
+                    validName,
+                    subjectsWithBlank,
+                    validClass,
+                    validEmergencyContact,
+                    validPaymentStatus,
+                    validAssignmentStatus);
         });
     }
 
     @Test
     public void constructor_emergencyContactNonDigits_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            validSubjects,
-            validClass,
-            "1234567a",
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                validSubjects,
+                validClass,
+                "1234567a",
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
     public void constructor_nullClass_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            validSubjects,
-            null,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                validSubjects,
+                null,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
     public void constructor_blankClass_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            validSubjects,
-            "   ",
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                validSubjects,
+                "   ",
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
     public void constructor_nullEmergencyContact_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            validSubjects,
-            validClass,
-            null,
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                validSubjects,
+                validClass,
+                null,
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
     public void constructor_invalidEmergencyContact_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> new Student(
-            validName,
-            validSubjects,
-            validClass,
-            "123", // Less than 8 digits
-            validPaymentStatus,
-            validAssignmentStatus
-        ));
+                validName,
+                validSubjects,
+                validClass,
+                "123", // Less than 8 digits
+                validPaymentStatus,
+                validAssignmentStatus));
     }
 
     @Test
     public void constructor_blankPaymentStatus_defaultsToUnpaid() {
         Student student = new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            "   ",
-            validAssignmentStatus
-        );
+                validName,
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                "   ",
+                validAssignmentStatus);
         assertEquals("Unpaid", student.getPaymentStatus());
     }
 
     @Test
     public void constructor_nullAssignmentStatus_throwsAssertionError() {
         Student student = new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            null
-        );
+                validName,
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                null);
         assertEquals("Incomplete", student.getAssignmentStatus());
     }
 
     @Test
     public void constructor_blankAssignmentStatus_throwsAssertionError() {
         Student student = new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            "   "
-        );
+                validName,
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                "   ");
         assertEquals("Incomplete", student.getAssignmentStatus());
     }
 
@@ -232,26 +217,24 @@ public class StudentTest {
     @Test
     public void equals_sameValues_returnsTrue() {
         Student copy = new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        );
+                validName,
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus);
         assertTrue(baseStudent.equals(copy));
     }
 
     @Test
     public void equals_differentValues_returnsFalse() {
         Student different = new Student(
-            new Name("Jane Doe"),
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        );
+                new Name("Jane Doe"),
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus);
         assertFalse(baseStudent.equals(different));
     }
 
@@ -274,26 +257,24 @@ public class StudentTest {
     @Test
     public void isSameStudent_sameNameDifferentClass_returnsFalse() {
         Student sameNameDifferentClass = new Student(
-            validName,
-            validSubjects,
-            "10B",
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        );
+                validName,
+                validSubjects,
+                "10B",
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus);
         assertFalse(baseStudent.isSameStudent(sameNameDifferentClass));
     }
 
     @Test
     public void isSameStudent_sameNameSameClass_returnsTrue() {
         Student duplicate = new Student(
-            validName,
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        );
+                validName,
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus);
         assertTrue(baseStudent.isSameStudent(duplicate));
     }
 
@@ -324,26 +305,24 @@ public class StudentTest {
     @Test
     public void isSameStudent_otherHasDifferentName_returnsFalse() {
         Student otherStudent = new Student(
-            new Name("Different Name"),
-            validSubjects,
-            validClass,
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        );
+                new Name("Different Name"),
+                validSubjects,
+                validClass,
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus);
         assertFalse(baseStudent.isSameStudent(otherStudent));
     }
 
     @Test
     public void isSameStudent_otherHasDifferentClass_returnsFalse() {
         Student otherStudent = new Student(
-            validName,
-            validSubjects,
-            "Different Class",
-            validEmergencyContact,
-            validPaymentStatus,
-            validAssignmentStatus
-        );
+                validName,
+                validSubjects,
+                "Different Class",
+                validEmergencyContact,
+                validPaymentStatus,
+                validAssignmentStatus);
         assertFalse(baseStudent.isSameStudent(otherStudent));
     }
 
@@ -352,6 +331,12 @@ public class StudentTest {
     public void getSubjects_validState_returnsSubjects() {
         List<Subject> subjects = baseStudent.getSubjects();
         assertEquals(validSubjects, subjects);
+    }
+
+    @Test
+    public void getSubjectNames_validSubjects_returnsListOfNames() {
+        List<String> subjectNames = baseStudent.getSubjectNames();
+        assertEquals(List.of("Math", "Science"), subjectNames);
     }
 
     @Test

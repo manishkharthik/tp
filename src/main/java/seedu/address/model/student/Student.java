@@ -88,6 +88,13 @@ public class Student extends Person {
         return new ArrayList<>(subjects);
     }
 
+    public List<String> getSubjectNames() {
+        assert subjects != null : "Subjects list is null";
+        assert !subjects.isEmpty() : "Subjects list is empty";
+        List<String> subjectNames = subjects.stream().map(subject -> subject.getName()).toList();
+        return subjectNames;
+    }
+
     public String getStudentClass() {
         assert studentClass != null : "Student class is null";
         assert !studentClass.trim().isEmpty() : "Student class is empty";
