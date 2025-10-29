@@ -28,6 +28,8 @@ public class Messages {
     public static final String MESSAGE_LESSON_NOT_FOUND =
         "Lesson '%1$s' does not exist in subject '%2$s'. Please add it first using addlesson.";
     public static final String MESSAGE_INVALID_STATUS = "Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.";
+    public static final String MESSAGE_LIST_ATTENDANCE_HEADER = "Attendance for %1$s (%2$s):%n%3$s";
+    public static final String MESSAGE_NO_ATTENDANCE_RECORDS = "No attendance records for %1$s (%2$s).";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
