@@ -192,28 +192,28 @@ Use this command to reset any filters and see all active students after using `f
 </div>
 
 ### Editing a student : `edit`
+Edits an existing student's information in Tutor Track 
+**Format:** `edit [INDEX] [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
-Format: `edit [INDEX] [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
+**Parameters:**
+*	`c/` — class (e.g., `3A`)
+*	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
+*	`ec/` — emergency contact (numbers only)
+*	`ps/` — payment status (e.g., Paid, Pending, Overdue)
+*	`as/` — assignment status (e.g., Submitted, Incomplete, Not Submitted)
 
-Description:
+**Description**:
 *	Edits the student at the given `INDEX` (as shown in the current student list). `INDEX` is a positive integer.
-*	Provide at least one field to change, otherwise, the command is rejected.
 *	Existing values are replaced by the new ones you supply.
 * If the person at `INDEX`is not yet a Student, supplying any student-specific fields will convert them into a Student.
-*	Student-specific fields:
-	*	`c/` — class (e.g., `3A`)
-	*	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
-	*	`ec/` — emergency contact (numbers only)
-	*	`ps/` — payment status (e.g., Paid, Pending, Overdue)
-	*	`as/` — assignment status (e.g., Submitted, Incomplete, Not Submitted)
-* Notes:
-  * Some screenshots may show the aliases pay/ and asg/; in this version, use ps/ and as/.
-  * Subjects are matched case-insensitively.
+* Subjects are matched case-insensitively.
 
-Cautions & Tips:
+<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
+*	Provide at least one field to change, otherwise, the command is rejected.
 *	Ensure the target `INDEX` is visible after any filters (e.g., after find); otherwise you may edit the wrong entry.
 *	Use consistent subject names to avoid near-duplicate entries (e.g., prefer Math over Mathematics if your list already uses Math).
 *	If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
+</div>
 
 ⸻
 
