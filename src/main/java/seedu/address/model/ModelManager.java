@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -16,6 +17,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
 import seedu.address.model.subject.Subject;
+import seedu.address.model.subject.SubjectList;
 
 /**
  * Represents the in-memory model of the TutorTrack data.
@@ -33,6 +35,7 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredArchivedPersons;
     private final FilteredList<Lesson> filteredLessons;
     private final LessonList lessonList;
+    private final SubjectList subjectList;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -45,6 +48,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         this.lessonList = this.addressBook.getLessonList();
+        this.subjectList = this.addressBook.getSubjectList();
         ObservableList<Lesson> observableLessons = FXCollections.observableList(this.lessonList.getInternalList());
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList());
@@ -263,11 +267,11 @@ public class ModelManager implements Model {
         addressBook.unarchivePerson(target);
     }
 
-    // @Override
-    // public Optional<Subject> findSubjectByName(String name) {
-    //     requireNonNull(name);
-    //     return subjectList.stream()
-    //             .filter(s -> s.getName().equalsIgnoreCase(name))
-    //             .findFirst();
-    // }
+    @Override
+    public Optional<Subject> findSubjectByName(String name) {
+        requireNonNull(name);
+        return subjectList.getSubjects().stream()
+                .filter(s -> s.getName().equalsIgnoreCase(name))
+                .findFirst();
+    }
 }

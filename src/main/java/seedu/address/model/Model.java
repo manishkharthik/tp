@@ -1,7 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
-// import java.util.Optional;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -164,6 +164,6 @@ public interface Model {
     Subject getSubject(String subjectName);
 
     // /* Returns subject if it exist*/
-    // Optional<Subject> findSubjectByName(String name);
+    Optional<Subject> findSubjectByName(String name);
 
 }
