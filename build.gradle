@@ -11,6 +11,21 @@ mainClassName = 'seedu.address.Main'
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
+jar {
+    archiveBaseName = 'tutortrack'
+    archiveVersion = '1.0'
+
+    manifest {
+        attributes 'Main-Class': 'seedu.address.Main'
+    }
+}
+
+shadowJar {
+    archiveBaseName = 'tutortrack'
+    archiveVersion = '1.0'
+    archiveClassifier = null
+}
+
 repositories {
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
