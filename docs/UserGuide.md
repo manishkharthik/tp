@@ -192,7 +192,9 @@ Use this command to reset any filters and see all active students after using `f
 </div>
 
 ### Editing a student : `edit`
-Edits an existing student's information in Tutor Track 
+
+Edits an existing student's information in Tutor Track
+
 **Format:** `edit [INDEX] [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
@@ -208,11 +210,13 @@ Edits an existing student's information in Tutor Track
 * If the person at `INDEX`is not yet a Student, supplying any student-specific fields will convert them into a Student.
 * Subjects are matched case-insensitively.
 
-<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
-*	Provide at least one field to change, otherwise, the command is rejected.
-*	Ensure the target `INDEX` is visible after any filters (e.g., after find); otherwise you may edit the wrong entry.
-*	Use consistent subject names to avoid near-duplicate entries (e.g., prefer Math over Mathematics if your list already uses Math).
-*	If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Provide at least one field to change, otherwise, the command is rejected.
+* Ensure the target `INDEX` is visible after any filters (e.g., after find); otherwise you may edit the wrong entry.
+* Use consistent subject names to avoid near-duplicate entries (e.g., prefer Math over Mathematics if your list already uses Math).
+* If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
+
 </div>
 
 ⸻
