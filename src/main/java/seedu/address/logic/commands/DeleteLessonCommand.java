@@ -38,18 +38,9 @@ public class DeleteLessonCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        System.out.println("=======================================");
-        System.out.println("DEBUG: DeleteLessonCommand called!");
-        System.out.println("=======================================");
         requireNonNull(model);
 
-        System.out.println("DEBUG: Trying to delete " + toDelete);
-        System.out.println("DEBUG: Model has lesson? " + model.hasLesson(toDelete));
-        System.out.println("DEBUG: Current lessons in model:");
-        model.getLessonList().forEach(System.out::println);
-
         if (!model.hasLesson(toDelete)) {
-            System.out.println("DEBUG: Lesson not found!");
             throw new CommandException(MESSAGE_LESSON_NOT_FOUND);
         }
 
