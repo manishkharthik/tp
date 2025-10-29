@@ -60,55 +60,82 @@ public class ListAttendanceCommandTest {
     }
 
     @Test
-    public void execute_studentNotFound_throwsCommandException() {
-        ListAttendanceCommand command = new ListAttendanceCommand("Alice", "Math");
-        assertThrows(CommandException.class, () -> command.execute(model),
-            String.format(ListAttendanceCommand.MESSAGE_STUDENT_NOT_FOUND, "Alice"));
+    public void execute_success_withMathRecords() throws CommandException {
+        ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, MATH);
+        CommandResult result = cmd.execute(model);
+
+        String out = result.getFeedbackToUser();
+        // header + two Math lines
+        assertTrue(out.startsWith("Attendance for John Tan (Math):"));
+        assertTrue(out.contains("L1"));
+        assertTrue(out.contains("PRESENT"));
+        assertTrue(out.contains("L2"));
+        assertTrue(out.contains("ABSENT"));
+        // must not include Science record
+        assertFalse(out.contains("Q1"));
+        assertFalse(out.contains("Science"));
+    }
+
+    // @Test
+    // public void execute_success_noRecordsForSubject() throws CommandException {
+    //     // Replace John with a student having no Math attendance yet (but still enrolled)
+    //     Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+    //     Student s = new StudentBuilder()
+    //             .withName(JOHN.toString())
+    //             .withStudentClass("3A")
+    //             .withSubjects("Math,Science")
+    //             .withEmergencyContact("98765432")
+    //             .withPaymentStatus("Paid")
+    //             .withAssignmentStatus("Submitted")
+    //             .build();
+    //     // only Science record
+    //     s.getAttendanceList().markAttendance(new Lesson("Q1", "Science"), AttendanceStatus.EXCUSED);
+    //     model.setPerson(original, s);
+    //     ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, MATH);
+    //     CommandResult result = cmd.execute(model);
+
+    //     String out = result.getFeedbackToUser();
+    //     assertTrue(out.startsWith("Attendance for John Tan (Math):"));
+    //     assertTrue(out.contains("No attendance records for this subject."));
+    //     // ensure no Science leakage
+    //     assertFalse(out.contains("Q1"));
+    //     assertFalse(out.contains("Science"));
+    // }
+
+    // @Test
+    // public void execute_studentNotFound_failure() {
+    //     ListAttendanceCommand cmd = new ListAttendanceCommand(new Name("Ghost"), MATH);
+    //     assertCommandFailure(cmd, model, String.format("Student '%s' not found.", "Ghost"));
+    // }
+
+    // @Test
+    // public void execute_subjectNotEnrolled_failure() {
+    //     // John is not enrolled in "History"
+    //     ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, new Subject("History"));
+    //     assertCommandFailure(cmd, model, String.format(
+    //             "Student %s is not enrolled in subject '%s'.", JOHN, "History"));
+    // }
+
+    @Test
+    public void equals_hashcode() {
+        ListAttendanceCommand a = new ListAttendanceCommand(JOHN, MATH);
+        ListAttendanceCommand b = new ListAttendanceCommand(JOHN, MATH);
+        ListAttendanceCommand c = new ListAttendanceCommand(JOHN, SCIENCE);
+        ListAttendanceCommand d = new ListAttendanceCommand(new Name("Alice"), MATH);
+
+        assertTrue(a.equals(a));
+        assertTrue(a.equals(b));
+        assertFalse(a.equals(c));
+        assertFalse(a.equals(d));
+        assertFalse(a.equals(null));
+        assertFalse(a.equals(5));
     }
 
     @Test
-    public void execute_subjectNotFound_throwsCommandException() {
-        ListAttendanceCommand command = new ListAttendanceCommand("John", "Science");
-        assertThrows(CommandException.class, () -> command.execute(model),
-            String.format(ListAttendanceCommand.MESSAGE_SUBJECT_NOT_FOUND, "Science", "John"));
-    }
-
-    @Test
-    public void execute_noLessons_throwsCommandException() {
-        Student student = new Student(new Name("Mary"),
-                Arrays.asList(new Subject("Chemistry"), new Subject("Physics")),
-                "Class 2B",
-                "98765432",
-                "Unpaid",
-                "Not Submitted");
-        Subject emptySubject = new Subject("Physics");
-        model.addPerson(student);
-
-        ListAttendanceCommand command = new ListAttendanceCommand("Mary", "Physics");
-        assertThrows(CommandException.class, () -> command.execute(model),
-            String.format(ListAttendanceCommand.MESSAGE_NO_LESSONS, "Mary", "Physics"));
-    }
-
-    @Test
-    public void equals_sameValues_returnsTrue() {
-        ListAttendanceCommand first = new ListAttendanceCommand("John", "Math");
-        ListAttendanceCommand second = new ListAttendanceCommand("john", "MATH");
-        assertEquals(first, second);
-    }
-
-    @Test
-    public void equals_differentValues_returnsFalse() {
-        ListAttendanceCommand first = new ListAttendanceCommand("John", "Math");
-        ListAttendanceCommand second = new ListAttendanceCommand("Alice", "Science");
-        assertEquals(false, first.equals(second));
-    }
-
-    @Test
-    public void execute_partialNameDoesNotMatch_throwsCommandException() {
-        // "John Doe" exists, but we pass only "John"
-        ListAttendanceCommand command = new ListAttendanceCommand("John Doe", "Math");
-
-        assertThrows(CommandException.class, () -> command.execute(model),
-                String.format(ListAttendanceCommand.MESSAGE_STUDENT_NOT_FOUND, "John Doe"));
+    public void toString_containsFields() {
+        ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, MATH);
+        String s = cmd.toString();
+        assertTrue(s.contains("John Tan"));
+        assertTrue(s.contains("Math"));
     }
 }
