@@ -91,7 +91,6 @@ public class ListAttendanceCommandTest {
     //     // only Science record
     //     s.getAttendanceList().markAttendance(new Lesson("Q1", "Science"), AttendanceStatus.EXCUSED);
     //     model.setPerson(original, s);
-
     //     ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, MATH);
     //     CommandResult result = cmd.execute(model);
 
