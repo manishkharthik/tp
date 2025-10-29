@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 
+// import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -25,18 +26,15 @@ public class ListAttendanceCommand extends Command {
             + PREFIX_NAME + "NAME "
             + PREFIX_SUBJECTS + "SUBJECT\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John "
+            + PREFIX_NAME + "John Tan "
             + PREFIX_SUBJECTS + "Math";
-
-    public static final String MESSAGE_SUCCESS = "Attendance for %s (%s):\n%s";
-    public static final String MESSAGE_NO_RECORDS = "No attendance records found for %s.";
 
     private final Name name;
     private final Subject subject;
 
     /**
      * Constructs a ListAttendanceCommand to list attendance for the specified student and subject.
-     * Example: listattendance n/John s/Math
+     * Example: listattendance n/John Tan s/Math
      */
     public ListAttendanceCommand(Name name, Subject subject) {
         requireNonNull(name);
@@ -49,7 +47,7 @@ public class ListAttendanceCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // 1️⃣ Find the student
+        // Find the student
         Person foundPerson = model.getFilteredPersonList().stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
@@ -62,7 +60,7 @@ public class ListAttendanceCommand extends Command {
 
         Student student = (Student) foundPerson;
 
-        // 2️⃣ Check subject enrollment
+        // Check subject enrollment
         boolean enrolled = student.getSubjects().stream()
                 .anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
         if (!enrolled) {
@@ -70,21 +68,24 @@ public class ListAttendanceCommand extends Command {
                     Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
 
-        // 3️⃣ Gather attendance records for that subject
+        // Gather attendance records for that subject
         StringBuilder sb = new StringBuilder();
         student.getAttendanceList().getStudentAttendance().stream()
                 .filter(r -> r.getLesson().getSubject().equalsIgnoreCase(subject.getName()))
                 .forEach(r -> sb.append(String.format("%s %s\n",
                         r.getLesson().getName(), r.getStatus())));
 
-        // 4️⃣ If no records exist
+        // If no records exist
         if (sb.length() == 0) {
-            throw new CommandException(String.format(MESSAGE_NO_RECORDS, subject.getName()));
+            throw new CommandException(String.format(
+                Messages.MESSAGE_NO_ATTENDANCE_RECORDS,
+                student.getName(),
+                subject.getName()));
         }
 
-        // 5️⃣ Return formatted result
+        // Return formatted result
         return new CommandResult(String.format(
-                MESSAGE_SUCCESS,
+                Messages.MESSAGE_LIST_ATTENDANCE_HEADER,
                 student.getName(),
                 subject.getName(),
                 sb.toString().trim()
@@ -102,7 +103,8 @@ public class ListAttendanceCommand extends Command {
         }
 
         ListAttendanceCommand o = (ListAttendanceCommand) other;
-        return name.equals(o.name) && subject.equals(o.subject);
+        return name.equals(o.name)
+            && subject.getName().equalsIgnoreCase(o.subject.getName());
     }
 
     @Override

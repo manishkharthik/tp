@@ -33,7 +33,7 @@ public class MarkAttendanceCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Tan "
             + PREFIX_SUBJECTS + "Math "
-            + PREFIX_LESSON + "Lesson 5 "
+            + PREFIX_LESSON + "Algebra "
             + PREFIX_STATUS + "PRESENT";
 
     private final Name name;
