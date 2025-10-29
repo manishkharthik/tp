@@ -230,21 +230,6 @@ Cautions & Tips:
   </tr>
 </table>
 
-3.	Convert a Person to a Student (add class, subjects, payment status)
-* Command: `edit 3 c/4C s/Math, Physics pay/Paid`
-  
-  <table>
-  <tr>
-    <td><img src="images/editStudent3_command_before.png" alt="Student 3 Before" width="420"></td>
-    <td><img src="images/editStudent3_command_after.png" alt="Student 3 After" width="420"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 3a: Person before editing</em></td>
-    <td align="center"><em>Figure 3b: Converted to Student with class, subjects, and payment status</em></td>
-  </tr>
-</table>
-
-
 ### Locating students by name: `find`
 
 Finds students whose names contain any of the given keywords.
