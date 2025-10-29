@@ -8,7 +8,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.attendance.AttendanceStatus;
 
 /**
- * Represents a Lesson in the address book.
+ * Represents a Lesson in the TutorTrack.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Lesson {
