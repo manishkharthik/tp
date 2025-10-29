@@ -295,12 +295,25 @@ Examples:
     <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
   </tr>
 </table>
+
 * `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
- ![Before delete: result for 'find John'](images/deletecommand_find_before.png)
- ![After delete: result for 'delete 2'](images/deletecommand_find_after.png)
-* `delete 3` where there are only 2 or fewer students results in the following error message:
-   **"The person index provided is invalid"**
- ![result for 'delete 3' on a student list of only two people](images/deletecommand_error.png)
+<table>
+  <tr>
+    <td><img src="images/deletecommand_find_before.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/deletecommand_find_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
+    <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+  </tr>
+</table>
+
+* `delete 5` where there are only 2 or fewer students results in the following error message:
+  **"The person index provided is invalid"**
+  <figure>
+    <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
+    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
+  </figure>
 
 ### Archiving a student : `archive`
 
@@ -327,15 +340,15 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
     <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 10a: Student List before archiving Sarah Lim</em></td>
-    <td align="center"><em>Figure 10b: Student List once Sarah is in the archive student list</em></td>
+    <td align="center"><em>Figure 12a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 12b: Student List once Sarah is in the archive student list</em></td>
   </tr>
 </table>
 
 * `find Gary` followed by `archive 1` archives the 1st student in the filtered results.
 <figure>
   <img src="images/findStudent2_command_view.png" alt="Find Student 2" width="600"/>
-    <figcaption><em>Figure 11a: Find the desired student</em></figcaption>
+    <figcaption><em>Figure 13a: Find the desired student</em></figcaption>
   </figure>
   <table>
   <tr>
@@ -343,8 +356,8 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
     <td><img src="images/archiveStudent2_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 11b: Index is specified based on the filtered student list (1 in this case)</em></td>
-    <td align="center"><em>Figure 11b: John gets successfully archived</em></td>
+    <td align="center"><em>Figure 13b: Index is specified based on the filtered student list (1 in this case)</em></td>
+    <td align="center"><em>Figure 13c: John gets successfully archived</em></td>
   </tr>
 </table>
 
@@ -365,7 +378,7 @@ Use this to view or verify students who have been archived previously.
   Shows all archived students with their full details.
   <figure>
   <img src="images/listarchive.png" alt="Archive List" width="600"/>
-    <figcaption><em>Figure 12: Archive student list with all archived students</em></figcaption>
+    <figcaption><em>Figure 14: Archive student list with all archived students</em></figcaption>
   </figure>
 
 ### Unarchiving students : `unarchive`
@@ -383,7 +396,7 @@ Unarchives students. Use this to unarchive students that have been archived to b
 * `unarchive 1` unarchives index 1 `John Tan`.
 <figure>
     <img src="images/unarchive.png" alt="Unarchive" width="600"/>
-    <figcaption><em>Figure 13a: Unarchiving a student from the archive student list</em>
+    <figcaption><em>Figure 15a: Unarchiving a student from the archive student list</em>
     </figcaption>
 </figure>
 
@@ -391,7 +404,7 @@ Unarchives students. Use this to unarchive students that have been archived to b
 
 <figure>
     <img src="images/unarchive_error.png" alt="Student 2 Archive Command" width="600"/>
-    <figcaption><em>Figure 13b: Error message when unarchiving invalid index</em>
+    <figcaption><em>Figure 15b: Error message when unarchiving invalid index</em>
     </figcaption>
 </figure>
 
@@ -415,8 +428,8 @@ Deletes **all current students** from the student list. This action is **irrever
     <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 14a: Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 14b: Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 16a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 16b: Student List once all students have been cleared out</em></td>
   </tr>
 </table>
 
@@ -445,8 +458,8 @@ Deletes **all archived students** from the student list. This action is **irreve
     <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 15a: Archive Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 15b: Archive Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 17a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 17b: Archive Student List once all students have been cleared out</em></td>
   </tr>
 </table>
 
