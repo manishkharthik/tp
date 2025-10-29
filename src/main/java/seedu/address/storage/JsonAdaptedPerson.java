@@ -1,13 +1,12 @@
 package seedu.address.storage;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -61,7 +60,7 @@ public class JsonAdaptedPerson {
 
     // Student-only fields
     private final String studentClass;
-    private final List<Subject> subjects;
+    private final List<JsonAdaptedSubject> subjects;
     private final String emergencyContact;
     private final String paymentStatus;
     private final String assignmentStatus;
@@ -81,7 +80,7 @@ public class JsonAdaptedPerson {
             @JsonProperty("address") String address,
             @JsonProperty("tags") List<JsonAdaptedTag> tags,
             @JsonProperty("class") String studentClass,
-            @JsonProperty("subjects") List<Subject> subjects,
+            @JsonProperty("subjects") List<JsonAdaptedSubject> subjects,
             @JsonProperty("emergencyContact") String emergencyContact,
             @JsonProperty("paymentStatus") String paymentStatus,
             @JsonProperty("assignmentStatus") String assignmentStatus,
@@ -118,31 +117,37 @@ public class JsonAdaptedPerson {
     }
 
     /**
-     * Converts a given {@link Person} (or {@link Student}) into this Jackson-friendly class.
+     * Converts a given {@link Person} (or {@link Student}) model object into this Jackson-friendly class.
      */
     public JsonAdaptedPerson(Person source) {
-        requireNonNull(source, "source person must not be null");
-
-        this.type = (source instanceof Student) ? TYPE_STUDENT : TYPE_PERSON;
+        this.type = (source instanceof Student) ? "student" : "person";
         this.name = source.getName().fullName;
         this.phone = source.getPhone().value;
         this.email = source.getEmail().value;
         this.address = source.getAddress().value;
-
         source.getTags().forEach(tag -> this.tagged.add(new JsonAdaptedTag(tag)));
 
         if (source instanceof Student) {
             Student s = (Student) source;
             this.studentClass = s.getStudentClass();
-            this.subjects = new ArrayList<>(s.getSubjects());
+
+            this.subjects = s.getSubjects().stream()
+                    .map(JsonAdaptedSubject::new)
+                    .collect(Collectors.toList());
+
             this.emergencyContact = s.getEmergencyContact();
             this.paymentStatus = s.getPaymentStatus();
             this.assignmentStatus = s.getAssignmentStatus();
+
             this.attendanceList = new ArrayList<>();
             s.getAttendanceList().getStudentAttendance().forEach(record ->
-                this.attendanceList.add(record.getLesson().getName()
-                        + "|" + record.getLesson().getSubject()
-                        + "|" + record.getStatus().name())
+                    this.attendanceList.add(
+                            record.getLesson().getName()
+                                    + "|"
+                                    + record.getLesson().getSubject()
+                                    + "|"
+                                    + record.getStatus().name()
+                    )
             );
         } else {
             this.studentClass = null;
@@ -154,8 +159,6 @@ public class JsonAdaptedPerson {
         }
 
         this.isArchived = false;
-
-        assert this.tagged != null : "tagged list must be initialised";
     }
 
     @JsonProperty("type")
@@ -194,8 +197,16 @@ public class JsonAdaptedPerson {
     }
 
     @JsonProperty("subjects")
-    public List<Subject> getSubjects() {
-        return (subjects == null) ? null : Collections.unmodifiableList(subjects);
+    public List<Subject> getSubjects() throws IllegalValueException {
+        if (subjects == null) {
+            return null;
+        }
+
+        List<Subject> modelSubjects = new ArrayList<>();
+        for (JsonAdaptedSubject jsonSubject : subjects) {
+            modelSubjects.add(jsonSubject.toModelType());
+        }
+        return Collections.unmodifiableList(modelSubjects);
     }
 
     @JsonProperty("emergencyContact")
@@ -222,6 +233,12 @@ public class JsonAdaptedPerson {
         return isArchived;
     }
 
+    /**
+     * Returns the subjects as JsonAdaptedSubject list (for testing).
+     */
+    public List<JsonAdaptedSubject> getSubjectsAsJsonAdapted() {
+        return (subjects == null) ? null : Collections.unmodifiableList(subjects);
+    }
 
     /**
      * Converts this JSON Object into a {@link Person} or {@link Student}.
@@ -233,7 +250,14 @@ public class JsonAdaptedPerson {
         AttendanceList modelAttendance = parseAttendance(attendanceList);
 
         if (isStudentLike()) {
-            return buildStudent(base, modelAttendance);
+            List<Subject> modelSubjects = new ArrayList<>();
+            if (subjects != null) {
+                for (JsonAdaptedSubject jsonSubject : subjects) {
+                    modelSubjects.add(jsonSubject.toModelType());
+                }
+            }
+
+            return buildStudent(base, modelAttendance, modelSubjects);
         }
 
         return new Person(base.name, base.phone, base.email, base.address, base.tagSet);
@@ -343,19 +367,20 @@ public class JsonAdaptedPerson {
         return result;
     }
 
-    private Person buildStudent(BaseFields base, AttendanceList attendance) {
+    private Student buildStudent(BaseFields base, AttendanceList modelAttendance, List<Subject> modelSubjects)
+            throws IllegalValueException {
+
         Student student = new Student(
                 base.name,
-                subjects,
+                modelSubjects,
                 studentClass,
                 emergencyContact,
                 paymentStatus,
                 assignmentStatus);
 
-        attendance.getStudentAttendance()
+        modelAttendance.getStudentAttendance()
                 .forEach(r -> student.getAttendanceList().markAttendance(r.getLesson(), r.getStatus()));
 
-        assert student.getAttendanceList() != null : "Student attendance list should be initialized";
         return student;
     }
 

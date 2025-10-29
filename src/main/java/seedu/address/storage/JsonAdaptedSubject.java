@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -9,40 +10,37 @@ import seedu.address.model.subject.Subject;
 /**
  * Jackson-friendly version of {@link Subject}.
  */
-class JsonAdaptedSubject {
+public class JsonAdaptedSubject {
 
-    private final String subjectName;
+    private final String name;
 
     /**
-     * Constructs a {@code JsonAdaptedSubject} with the given {@code subjectName}.
+     * Constructs a {@code JsonAdaptedSubject} with the given subject name.
      */
     @JsonCreator
-    public JsonAdaptedSubject(String subjectName) {
-        this.subjectName = subjectName;
+    public JsonAdaptedSubject(@JsonProperty("name") String name) {
+        this.name = name;
     }
 
     /**
      * Converts a given {@code Subject} into this class for Jackson use.
      */
-    public JsonAdaptedSubject(Subject subject) {
-        this.subjectName = subject.getName();
+    public JsonAdaptedSubject(Subject source) {
+        name = source.getName();
     }
 
     @JsonValue
     public String getSubjectName() {
-        return this.subjectName;
+        return this.name;
     }
 
     /**
      * Converts this Jackson-friendly adapted subject object into the model's {@code Subject} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted subject.
      */
     public Subject toModelType() throws IllegalValueException {
-        if (!Subject.isValidSubjectName(this.subjectName)) {
-            throw new IllegalValueException(Subject.MESSAGE_CONSTRAINTS);
+        if (name == null) {
+            throw new IllegalValueException("Subject name is missing!");
         }
-        return new Subject(this.subjectName);
+        return new Subject(name);
     }
-
 }
