@@ -60,8 +60,11 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.
+   <figure>
+      <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
+      <figcaption><em>Figure 1: TutorTrack GUI</em></figcaption>
+    </figure>
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
@@ -109,8 +112,10 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 ### Viewing help : `help`
 
 Shows a message with a link to access the full help page.
-
-![help command](images/helpcommand.png)
+  <figure>
+    <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
+    <figcaption><em>Figure 2: Help Window</em></figcaption>
+  </figure>
 
 **Format:** `help`
 
@@ -143,15 +148,21 @@ You cannot add a student with the same name and class as an existing student.
 </div>
 
 **Examples:**
-* `add n/John Tan c/3B s/Math s/Science ec/91234567` (add command without optional fields)
-  * Adds John Tan from class 3B (uses default values for optional fields)
+* `add n/John Tan c/3B s/Math s/Science ec/91234567` 
+  * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
 
-  ![result for 'add n/John Tan...'](images/addcommand_compulsory.png)
+  <figure>
+    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
+    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+  </figure>
 
 * `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
-  * Adds Sarah Lim from class 2A
+  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
 
-  ![result for 'add n/Sarah Lim...'](images/addcommand_optional.png)
+  <figure>
+    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
+    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
+  </figure> 
 
 ---
 
@@ -159,7 +170,10 @@ You cannot add a student with the same name and class as an existing student.
 
 Shows a list of all active (non-archived) students in the Tutor Track.
 
-![list command](images/listcommand.png)
+<figure>
+    <img src="images/listcommand.png" alt="List" width="600"/>
+    <figcaption><em>Figure 4: Sample student list shown after the list Command is called</em></figcaption>
+  </figure>
 
 **Format:** `list`
 
@@ -205,28 +219,28 @@ Cautions & Tips:
 
 **Examples:**
 1. Changing a student's class and subjects
-* Command: `edit 1 c/CS2103 s/Math, CS`
+* Command: `edit 1 c/CS2103 s/CS`
   <table>
   <tr>
-    <td><img src="images/editStudent1_command_before.png" alt="Student 1 Before" width="420"></td>
-    <td><img src="images/editStudent1_command_after.png" alt="Student 1 After" width="420"></td>
+    <td><img src="images/editcommand1_before.png" alt="Student 1 Before" width="540" height="200"></td>
+    <td><img src="images/editcommand1_after.png" alt="Student 1 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 1a: Before editing</em></td>
-    <td align="center"><em>Figure 1b: After editing class & subjects</em></td>
+    <td align="center"><em>Figure 5a: Before editing fields</em></td>
+    <td align="center"><em>Figure 5b: After editing class & subjects</em></td>
   </tr>
 </table>
 
 2.	Changing a student's payment status
-* Command: `edit 2 pay/Pending`
+* Command: `edit 2 ps/Pending`
   <table>
   <tr>
-    <td><img src="images/editStudent2_command_before.png" alt="Student 2 Before" width="420"></td>
-    <td><img src="images/editStudent2_command_after.png" alt="Student 2 After" width="420"></td>
+    <td><img src="images/editcommand2_before.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/editcommand2_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 2a: Before editing</em></td>
-    <td align="center"><em>Figure 2b: After setting Payment Status to “Pending”</em></td>
+    <td align="center"><em>Figure 6a: Before editing fields</em></td>
+    <td align="center"><em>Figure 6b: After setting Payment Status to “Pending”</em></td>
   </tr>
 </table>
 
@@ -246,10 +260,16 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 * `find John` returns `John Teo` and `John Tan`
 
-  ![result for 'find alex david'](images/findcommand_multiple.png)
+  <figure>
+    <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
+    <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
+  </figure>
 
 * `find InvalidStudentName` returns an empty list of students since no student is named `InvalidStudentName`<br>
-  ![result for 'find alex david'](images/findcommand_invalid_person.png)
+  <figure>
+    <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
+    <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
+  </figure>
 
 ### Deleting a student : `delete`
 
@@ -265,8 +285,16 @@ Format: `delete INDEX`
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd student in the student list.
- ![Before delete: result for 'list'](images/deletecommand_list_before.png)
- ![After delete: result for 'delete 2'](images/deletecommand_list_after.png)
+<table>
+  <tr>
+    <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
+    <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+  </tr>
+</table>
 * `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
  ![Before delete: result for 'find John'](images/deletecommand_find_before.png)
  ![After delete: result for 'delete 2'](images/deletecommand_find_after.png)
@@ -293,30 +321,32 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
 
 **Examples:**
 * `archive 3` archives the 3rd student in the list.
-<figure>
-  <img src="images/archiveStudent1_command_before.png" alt="Student 1 Before" width="600"/>
-    <figcaption><em>Before archiving the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/archiveStudent1_command_after.png" alt="Student 1 After" width="600"/>
-    <figcaption><em>After archiving the student</em>
-    </figcaption>
-  </figure>
+<table>
+  <tr>
+    <td><img src="images/archiveStudent1_command_before.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 10a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 10b: Student List once Sarah is in the archive student list</em></td>
+  </tr>
+</table>
 
 * `find Gary` followed by `archive 1` archives the 1st student in the filtered results.
 <figure>
-  <img src="images/findStudent2_command.png" alt="Find Student 2" width="600"/>
-    <figcaption><em>Find the desired student</em></figcaption>
+  <img src="images/findStudent2_command_view.png" alt="Find Student 2" width="600"/>
+    <figcaption><em>Figure 11a: Find the desired student</em></figcaption>
   </figure>
-  <figure>
-    <img src="images/archiveStudent2_command_view.png" alt="Student 2 Archive Command" width="600"/>
-    <figcaption><em>Input for archiving Gary</em>
-    </figcaption>
-  </figure>
-  <figure>
-  <img src="images/archiveStudent2_command_after.png" alt="Student 2 Archive After" width="600"/>
-    <figcaption><em>Once student has been archived</em></figcaption>
-  </figure>
+  <table>
+  <tr>
+    <td><img src="images/archiveStudent2_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/archiveStudent2_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 11b: Index is specified based on the filtered student list (1 in this case)</em></td>
+    <td align="center"><em>Figure 11b: John gets successfully archived</em></td>
+  </tr>
+</table>
 
 ### Viewing archived students : `listarchive`
 
@@ -334,8 +364,8 @@ Use this to view or verify students who have been archived previously.
 * `listarchive`
   Shows all archived students with their full details.
   <figure>
-  <img src="images/listArchive_command.png" alt="Archive List" width="600"/>
-    <figcaption><em>Archive List with all archived students</em></figcaption>
+  <img src="images/listarchive.png" alt="Archive List" width="600"/>
+    <figcaption><em>Figure 12: Archive student list with all archived students</em></figcaption>
   </figure>
 
 ### Unarchiving students : `unarchive`
@@ -352,20 +382,16 @@ Unarchives students. Use this to unarchive students that have been archived to b
 **Example:**
 * `unarchive 1` unarchives index 1 `John Tan`.
 <figure>
-  <img src="images/unarchive_before.png" alt="Student 1 Before" width="1907"/>
-    <figcaption><em>Before unarchiving the student at index 1</em></figcaption>
-</figure>
-<figure>
-    <img src="images/unarchive_after.png" alt="Student 2 Archive Command" width="1911"/>
-    <figcaption><em>After unarchiving John Tan</em>
+    <img src="images/unarchive.png" alt="Unarchive" width="600"/>
+    <figcaption><em>Figure 13a: Unarchiving a student from the archive student list</em>
     </figcaption>
 </figure>
 
 * unarchiving an invalid index displays an error message.
 
 <figure>
-    <img src="images/unarchive_error.png" alt="Student 2 Archive Command" width="1909"/>
-    <figcaption><em>Error message when unarchiving invalid index</em>
+    <img src="images/unarchive_error.png" alt="Student 2 Archive Command" width="600"/>
+    <figcaption><em>Figure 13b: Error message when unarchiving invalid index</em>
     </figcaption>
 </figure>
 
@@ -383,19 +409,16 @@ Deletes **all current students** from the student list. This action is **irrever
 **Example:**
 * `clearcurrent`
   Removes every student from the current list.
-  <figure>
-    <img src="images/currentclear_command_before.png" alt="Student List before clearing" width="600"/>
-    <figcaption><em>Student List before clearing</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/currentclear_command_view.png" alt="Clearcurrent Command" width="600"/>
-    <figcaption><em>Clearcurrent Command</em>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="images/currentclear_command_after.png" alt="Student List after clearing" width="600"/>
-    <figcaption><em>Student List after clearing</em></figcaption>
-  </figure>
+  <table>
+  <tr>
+    <td><img src="images/currentclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 14a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 14b: Student List once all students have been cleared out</em></td>
+  </tr>
+</table>
 
 
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
@@ -416,19 +439,16 @@ Deletes **all archived students** from the student list. This action is **irreve
 **Example:**
 * `cleararchive`
   Removes every student from the archived list.
-  <figure>
-    <img src="images/archiveclear_command_before.png" alt="Student List before clearing" width="600"/>
-    <figcaption><em>Student List before clearing</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/archiveclear_command_view.png" alt="Clearcurrent Command" width="600"/>
-    <figcaption><em>Clearcurrent Command</em>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="images/archiveclear_command_after.png" alt="Student List after clearing" width="600"/>
-    <figcaption><em>Student List after clearing</em></figcaption>
-  </figure>
+  <table>
+  <tr>
+    <td><img src="images/archiveclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 15a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 15b: Archive Student List once all students have been cleared out</em></td>
+  </tr>
+</table>
 
 
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
