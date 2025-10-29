@@ -258,14 +258,14 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
   e.g. `find john tan` will return `john tan` and not `john wee`.
 
 Examples:
-* `find John` returns `John Teo` and `John Tan`
+* `find john` returns `John Tan` and `John Lee`
 
   <figure>
     <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
     <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
-* `find InvalidStudentName` returns an empty list of students since no student is named `InvalidStudentName`<br>
+* `find alice` returns an empty list of students if there is no student named `alice`<br>
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
     <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
@@ -284,7 +284,7 @@ Format: `delete INDEX`
 * If the provided index is invalid (e.g., out of range), an error message will be shown.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd student in the student list.
+* `list` followed by `delete 3` deletes the 3rd student in the student list.
 <table>
   <tr>
     <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
@@ -299,8 +299,8 @@ Examples:
 * `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
 <table>
   <tr>
-    <td><img src="images/deletecommand_find_before.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/deletecommand_find_after.png" alt="Student 2 After" width="540" height="200"></td>
+    <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
     <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
@@ -333,7 +333,7 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
 * You can use `listarchive` to view all archived students or restore them in future versions.
 
 **Examples:**
-* `archive 3` archives the 3rd student in the list.
+* `archive 2` archives the 2nd student in the list.
 <table>
   <tr>
     <td><img src="images/archiveStudent1_command_before.png" alt="Student 2 Before" width="540" height="200"></td>
@@ -345,7 +345,7 @@ Archived students are **not deleted** and can be viewed anytime using `listarchi
   </tr>
 </table>
 
-* `find Gary` followed by `archive 1` archives the 1st student in the filtered results.
+* `find John` followed by `archive 1` archives the 1st student in the filtered results.
 <figure>
   <img src="images/findStudent2_command_view.png" alt="Find Student 2" width="600"/>
     <figcaption><em>Figure 13a: Find the desired student</em></figcaption>
@@ -393,7 +393,7 @@ Unarchives students. Use this to unarchive students that have been archived to b
 * If the provided index is invalid (e.g out of range), an error message will be shown.
 
 **Example:**
-* `unarchive 1` unarchives index 1 `John Tan`.
+* `unarchive 1` unarchives index 1 `Sarah Lim`.
 <figure>
     <img src="images/unarchive.png" alt="Unarchive" width="600"/>
     <figcaption><em>Figure 15a: Unarchiving a student from the archive student list</em>
