@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 
-import seedu.address.commons.util.ToStringBuilder;
+// import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -77,7 +77,10 @@ public class ListAttendanceCommand extends Command {
 
         // If no records exist
         if (sb.length() == 0) {
-            throw new CommandException(String.format(Messages.MESSAGE_NO_ATTENDANCE_RECORDS, subject.getName()));
+            throw new CommandException(String.format(
+                Messages.MESSAGE_NO_ATTENDANCE_RECORDS,
+                student.getName(),
+                subject.getName()));
         }
 
         // Return formatted result
@@ -100,7 +103,8 @@ public class ListAttendanceCommand extends Command {
         }
 
         ListAttendanceCommand o = (ListAttendanceCommand) other;
-        return name.equals(o.name) && subject.equals(o.subject);
+        return name.equals(o.name)
+            && subject.getName().equalsIgnoreCase(o.subject.getName());
     }
 
     @Override

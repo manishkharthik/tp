@@ -2,13 +2,14 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-// import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -24,9 +25,8 @@ import seedu.address.testutil.StudentBuilder;
 /**
  * Integration and unit tests for {@code ListAttendanceCommand}.
  *
- * Assumes ListAttendanceCommand prints:
- *   Header: "Attendance for {name} ({subject}):"
- *   Empty:  "No attendance records for this subject."
+ * Current behavior under test:
+ *  - When no records exist for the subject, the command THROWS with MESSAGE_NO_ATTENDANCE_RECORDS.
  */
 public class ListAttendanceCommandTest {
 
@@ -76,45 +76,41 @@ public class ListAttendanceCommandTest {
         assertFalse(out.contains("Science"));
     }
 
-    // @Test
-    // public void execute_success_noRecordsForSubject() throws CommandException {
-    //     // Replace John with a student having no Math attendance yet (but still enrolled)
-    //     Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-    //     Student s = new StudentBuilder()
-    //             .withName(JOHN.toString())
-    //             .withStudentClass("3A")
-    //             .withSubjects("Math,Science")
-    //             .withEmergencyContact("98765432")
-    //             .withPaymentStatus("Paid")
-    //             .withAssignmentStatus("Submitted")
-    //             .build();
-    //     // only Science record
-    //     s.getAttendanceList().markAttendance(new Lesson("Q1", "Science"), AttendanceStatus.EXCUSED);
-    //     model.setPerson(original, s);
-    //     ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, MATH);
-    //     CommandResult result = cmd.execute(model);
+    @Test
+    public void execute_noRecordsForSubject_failure() {
+        // Replace John with a student having no Math attendance yet (but still enrolled)
+        Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student s = new StudentBuilder()
+                .withName(JOHN.toString())
+                .withStudentClass("3A")
+                .withSubjects("Math,Science")
+                .withEmergencyContact("98765432")
+                .withPaymentStatus("Paid")
+                .withAssignmentStatus("Submitted")
+                .build();
+        // only Science record
+        s.getAttendanceList().markAttendance(new Lesson("Q1", "Science"), AttendanceStatus.EXCUSED);
+        model.setPerson(original, s);
 
-    //     String out = result.getFeedbackToUser();
-    //     assertTrue(out.startsWith("Attendance for John Tan (Math):"));
-    //     assertTrue(out.contains("No attendance records for this subject."));
-    //     // ensure no Science leakage
-    //     assertFalse(out.contains("Q1"));
-    //     assertFalse(out.contains("Science"));
-    // }
+        ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, MATH);
+        assertCommandFailure(cmd, model,
+            String.format(Messages.MESSAGE_NO_ATTENDANCE_RECORDS, JOHN, MATH.getName()));
+    }
 
-    // @Test
-    // public void execute_studentNotFound_failure() {
-    //     ListAttendanceCommand cmd = new ListAttendanceCommand(new Name("Ghost"), MATH);
-    //     assertCommandFailure(cmd, model, String.format("Student '%s' not found.", "Ghost"));
-    // }
+    @Test
+    public void execute_studentNotFound_failure() {
+        ListAttendanceCommand cmd = new ListAttendanceCommand(new Name("Ghost"), MATH);
+        assertCommandFailure(cmd, model,
+                String.format(Messages.MESSAGE_STUDENT_NOT_FOUND, new Name("Ghost")));
+    }
 
-    // @Test
-    // public void execute_subjectNotEnrolled_failure() {
-    //     // John is not enrolled in "History"
-    //     ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, new Subject("History"));
-    //     assertCommandFailure(cmd, model, String.format(
-    //             "Student %s is not enrolled in subject '%s'.", JOHN, "History"));
-    // }
+    @Test
+    public void execute_subjectNotEnrolled_failure() {
+        Subject history = new Subject("History");
+        ListAttendanceCommand cmd = new ListAttendanceCommand(JOHN, history);
+        assertCommandFailure(cmd, model,
+                String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, JOHN, history));
+    }
 
     @Test
     public void equals_hashcode() {
