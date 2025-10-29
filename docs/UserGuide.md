@@ -72,7 +72,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
-   * `clear` : Deletes all students.
+   * `clearcurrent` : Deletes all students in the current list.
 
    * `exit` : Exits the app.
 
@@ -369,31 +369,31 @@ Unarchives students. Use this to unarchive students that have been archived to b
     </figcaption>
 </figure>
 
-### Clearing all entries : `clear`
+### Clearing all current student entries : `clearcurrent`
 
-Deletes **all students** from the active address book. This action is **irreversible**
+Deletes **all current students** from the student list. This action is **irreversible**
 
-**Format:** `clear`
+**Format:** `clearcurrent`
 
 **Details:**
-* Permanently deletes all student records from the **main list**.
+* Permanently deletes all student records from the **current list**.
 * Does **not** affect archived students.
 * The data file is automatically updated after the operation.
 
 **Example:**
-* `clear`
+* `clearcurrent`
   Removes every student from the current list.
   <figure>
-    <img src="images/clear_command_before.png" alt="Student List before clearing" width="600"/>
+    <img src="images/currentclear_command_before.png" alt="Student List before clearing" width="600"/>
     <figcaption><em>Student List before clearing</em></figcaption>
   </figure>
   <figure>
-    <img src="images/clear_command_view.png" alt="Clear Command" width="600"/>
-    <figcaption><em>Clear Command</em>
+    <img src="images/currentclear_command_view.png" alt="Clearcurrent Command" width="600"/>
+    <figcaption><em>Clearcurrent Command</em>
     </figcaption>
   </figure>
   <figure>
-    <img src="images/clear_command_after.png" alt="Student List after clearing" width="600"/>
+    <img src="images/currentclear_command_after.png" alt="Student List after clearing" width="600"/>
     <figcaption><em>Student List after clearing</em></figcaption>
   </figure>
 
@@ -401,6 +401,39 @@ Deletes **all students** from the active address book. This action is **irrevers
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
 This command cannot be undone. All active records will be permanently deleted.
 Archived records are not affected by this command.</div>
+
+### Clearing all archived student entries : `cleararchive`
+
+Deletes **all archived students** from the student list. This action is **irreversible**
+
+**Format:** `cleararchive`
+
+**Details:**
+* Permanently deletes all student records from the **archived list**.
+* Does **not** affect current students.
+* The data file is automatically updated after the operation.
+
+**Example:**
+* `cleararchive`
+  Removes every student from the archived list.
+  <figure>
+    <img src="images/archiveclear_command_before.png" alt="Student List before clearing" width="600"/>
+    <figcaption><em>Student List before clearing</em></figcaption>
+  </figure>
+  <figure>
+    <img src="images/archiveclear_command_view.png" alt="Clearcurrent Command" width="600"/>
+    <figcaption><em>Clearcurrent Command</em>
+    </figcaption>
+  </figure>
+  <figure>
+    <img src="images/archiveclear_command_after.png" alt="Student List after clearing" width="600"/>
+    <figcaption><em>Student List after clearing</em></figcaption>
+  </figure>
+
+
+<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
+This command cannot be undone. All active records will be permanently deleted.
+Current records are not affected by this command.</div>
 
 ### Exiting the program : `exit`
 
