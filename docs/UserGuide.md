@@ -179,58 +179,71 @@ Use this command to reset any filters and see all active students after using `f
 
 ### Editing a student : `edit`
 
-Edits an existing student in the address book.
+Format: `edit [INDEX] [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
-Format: `edit [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
+Description:
+*	Edits the student at the given `INDEX` (as shown in the current student list). `INDEX` is a positive integer.
+*	Provide at least one field to change, otherwise, the command is rejected.
+*	Existing values are replaced by the new ones you supply.
+* If the person at `INDEX`is not yet a Student, supplying any student-specific fields will convert them into a Student.
+*	Student-specific fields:
+	*	`c/` — class (e.g., `3A`)
+	*	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
+	*	`ec/` — emergency contact (numbers only)
+	*	`ps/` — payment status (e.g., Paid, Pending, Overdue)
+	*	`as/` — assignment status (e.g., Submitted, Incomplete, Not Submitted)
+* Notes:
+  * Some screenshots may show the aliases pay/ and asg/; in this version, use ps/ and as/.
+  * Subjects are matched case-insensitively.
 
-* Edits the student at the specified `INDEX`. The index refers to the index number shown in the displayed student list. The index **must be a positive integer** 1, 2, 3, …​
-* All fields are optional, but at least one of them needs to be provided
-* Existing values will be updated to the input values.
-* When you edit a Person (not originally a Student) with Student fields, they will be converted to Students, with their relevant fields updated to match Student fields.
-* You can also edit **student-specific details**, such as:
-  - `c/` → Student class
-  - `s/` → Subject(s) (you may specify multiple)
-  - `ec/` → Emergency contact
-  - `pay/` → Payment status (e.g. `Paid`, `Pending`, `Overdue`)
-  - `asg/` → Assignment status (e.g. `Submitted`, `Incomplete`, `Not Submitted`)
+Cautions & Tips:
+*	Ensure the target `INDEX` is visible after any filters (e.g., after find); otherwise you may edit the wrong entry.
+*	Use consistent subject names to avoid near-duplicate entries (e.g., prefer Math over Mathematics if your list already uses Math).
+*	If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
+
+⸻
 
 **Examples:**
-* `edit 1 c/CS2103 s/Math, CS`
-  Edits the **phone number** and **email address** of the 1st student.
-  <figure>
-    <img src="images/editStudent1_command_before.png" alt="Student 1 Before" width="600"/>
-    <figcaption><em>Before editing the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent1_command_after.png" alt="Student 1 After" width="600"/>
-    <figcaption><em>After editing the student</em></figcaption>
-  </figure>
+1. Changing a student's class and subjects
+* Command: `edit 1 c/CS2103 s/Math, CS`
+  <table>
+  <tr>
+    <td><img src="images/editStudent1_command_before.png" alt="Student 1 Before" width="420"></td>
+    <td><img src="images/editStudent1_command_after.png" alt="Student 1 After" width="420"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 1a: Before editing</em></td>
+    <td align="center"><em>Figure 1b: After editing class & subjects</em></td>
+  </tr>
+</table>
 
-* `edit 2 pay/Pending`
-  Edits the **Payment Status** of the 2nd student and clears all existing tags.
-  <figure>
-    <img src="images/editStudent2_command_before.png" alt="Student 2 Before" width="600"/>
-    <figcaption><em>Before editing the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent2_command_after.png" alt="Student 2 After" width="600"/>
-    <figcaption><em>After editing the student</em></figcaption>
-  </figure>
-* `edit 3 c/4C s/Math, Physics pay/Paid`
-  Updates the class, subjects, and payment status of a Person, making them into a Student.
-  <figure>
-    <img src="images/editStudent3_command_before.png" alt="Student 3 Before" width="600"/>
-    <figcaption><em>Before editing the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent3_command_view.png" alt="Student 3 Command" width="600"/>
-    <figcaption><em>Input for editing the student</em>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent3_command_after.png" alt="Student 3 After" width="600"/>
-    <figcaption><em>After editing the student</em></figcaption>
-  </figure>
+2.	Changing a student's payment status
+* Command: `edit 2 pay/Pending`
+  <table>
+  <tr>
+    <td><img src="images/editStudent2_command_before.png" alt="Student 2 Before" width="420"></td>
+    <td><img src="images/editStudent2_command_after.png" alt="Student 2 After" width="420"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 2a: Before editing</em></td>
+    <td align="center"><em>Figure 2b: After setting Payment Status to “Pending”</em></td>
+  </tr>
+</table>
+
+3.	Convert a Person to a Student (add class, subjects, payment status)
+* Command: `edit 3 c/4C s/Math, Physics pay/Paid`
+  
+  <table>
+  <tr>
+    <td><img src="images/editStudent3_command_before.png" alt="Student 3 Before" width="420"></td>
+    <td><img src="images/editStudent3_command_after.png" alt="Student 3 After" width="420"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 3a: Person before editing</em></td>
+    <td align="center"><em>Figure 3b: Converted to Student with class, subjects, and payment status</em></td>
+  </tr>
+</table>
+
 
 ### Locating students by name: `find`
 
