@@ -25,8 +25,6 @@ import seedu.address.testutil.StudentBuilder;
 /**
  * Integration and unit tests for {@code ListAttendanceCommand}.
  *
- * Current behavior under test:
- *  - When no records exist for the subject, the command THROWS with MESSAGE_NO_ATTENDANCE_RECORDS.
  */
 public class ListAttendanceCommandTest {
 
