@@ -1,48 +1,55 @@
 package seedu.address.logic.parser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.ListAttendanceCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Name;
+import seedu.address.model.subject.Subject;
 
+/**
+ * Unit tests for {@link ListAttendanceCommandParser}.
+ */
 public class ListAttendanceCommandParserTest {
 
     private final ListAttendanceCommandParser parser = new ListAttendanceCommandParser();
 
     @Test
-    public void parse_validArgs_returnsListAttendanceCommand() throws Exception {
-        // Typical input
-        String input = " n/John s/Math";
-        ListAttendanceCommand command = parser.parse(input);
-
-        assertEquals(new ListAttendanceCommand("John", "Math"), command);
+    public void parse_validArgs_success() {
+        String input = " n/John Tan s/Math ";
+        ListAttendanceCommand expected =
+                new ListAttendanceCommand(new Name("John Tan"), new Subject("Math"));
+        assertParseSuccess(parser, input, expected);
     }
 
     @Test
-    public void parse_missingStudentPrefix_throwsParseException() {
-        // Missing "n/"
-        String input = " John s/Math";
-        assertThrows(ParseException.class, () -> parser.parse(input));
+    public void parse_missingName_failure() {
+        String input = " s/Math ";
+        assertParseFailure(parser, input,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_missingSubjectPrefix_throwsParseException() {
-        // Missing "s/"
-        String input = " n/John Math";
-        assertThrows(ParseException.class, () -> parser.parse(input));
+    public void parse_missingSubject_failure() {
+        String input = " n/John Tan ";
+        assertParseFailure(parser, input,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_missingBothPrefixes_throwsParseException() {
-        String input = " John Math";
-        assertThrows(ParseException.class, () -> parser.parse(input));
+    public void parse_nonEmptyPreamble_failure() {
+        String input = " blah n/John Tan s/Math ";
+        assertParseFailure(parser, input,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_emptyArgs_throwsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(""));
+    public void parse_duplicatePrefixes_failure() {
+        String input = " n/John Tan n/Jane s/Math ";
+        assertParseFailure(parser, input,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
     }
 }
