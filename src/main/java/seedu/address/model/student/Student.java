@@ -14,7 +14,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.subject.Subject;
 
 /**
- * Represents a student in the address book.
+ * Represents a student in the TutorTrack.
  */
 public class Student extends Person {
 
