@@ -1,102 +1,112 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 
-import java.util.Optional;
-
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.lesson.Lesson;
-import seedu.address.model.lesson.LessonList;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
 import seedu.address.model.subject.Subject;
 
 /**
- * Lists all attendance records for a given student and subject.
+ * Lists a student's attendance records for a given subject.
+ * Example: listattendance n/John s/Math
  */
 public class ListAttendanceCommand extends Command {
 
-    public static final String COMMAND_WORD = "listAttendance";
+    public static final String COMMAND_WORD = "listattendance";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists attendance records for a student in a subject.\n"
-            + "Parameters: n/STUDENT_NAME s/SUBJECT\n"
-            + "Example: " + COMMAND_WORD + " n/John s/Math";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists attendance for a student. "
+            + "Parameters: "
+            + PREFIX_NAME + "NAME "
+            + PREFIX_SUBJECTS + "SUBJECT\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "John "
+            + PREFIX_SUBJECTS + "Math";
 
-    public static final String MESSAGE_SUCCESS = "Attendance for %1$s in %2$s:\n%3$s";
-    public static final String MESSAGE_STUDENT_NOT_FOUND = "Student '%1$s' not found.";
-    public static final String MESSAGE_SUBJECT_NOT_FOUND = "Subject '%1$s' not found for student '%2$s'.";
-    public static final String MESSAGE_NO_LESSONS = "No lessons found for %1$s in %2$s.";
+    public static final String MESSAGE_SUCCESS = "Attendance for %s (%s):\n%s";
+    public static final String MESSAGE_NO_RECORDS = "No attendance records found for %s.";
 
-    private final String studentName;
-    private final String subjectName;
+    private final Name name;
+    private final Subject subject;
 
     /**
-     * Creates a {@code ListAttendanceCommand} to list attendance for the specified student and subject.
-     *
-     * @param studentName the name of the student whose attendance is to be listed
-     * @param subjectName the name of the subject for which attendance is to be listed
+     * Constructs a ListAttendanceCommand to list attendance for the specified student and subject.
+     * Example: listattendance n/John s/Math
      */
-    public ListAttendanceCommand(String studentName, String subjectName) {
-        requireNonNull(studentName);
-        requireNonNull(subjectName);
-        this.studentName = studentName.trim();
-        this.subjectName = subjectName.trim();
+    public ListAttendanceCommand(Name name, Subject subject) {
+        requireNonNull(name);
+        requireNonNull(subject);
+        this.name = name;
+        this.subject = subject;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Find student (case-insensitive)
-        Optional<Student> studentOpt = model.getFilteredPersonList().stream()
-                .filter(p -> p instanceof Student
-                        && ((Student) p).getName().fullName.equalsIgnoreCase(studentName))
-                .map(p -> (Student) p)
-                .findFirst();
+        // 1️⃣ Find the student
+        Person foundPerson = model.getFilteredPersonList().stream()
+                .filter(p -> p.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() ->
+                        new CommandException(String.format(Messages.MESSAGE_STUDENT_NOT_FOUND, name)));
 
-        if (studentOpt.isEmpty()) {
-            throw new CommandException(String.format(MESSAGE_STUDENT_NOT_FOUND, studentName));
+        if (!(foundPerson instanceof Student)) {
+            throw new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_STUDENT, name));
         }
 
-        Student student = studentOpt.get();
+        Student student = (Student) foundPerson;
 
-        // Find subject (case-insensitive)
-        Optional<Subject> subjectOpt = student.getSubjects().stream()
-                .filter(s -> s.getName().equalsIgnoreCase(subjectName))
-                .findFirst();
-
-        if (subjectOpt.isEmpty()) {
-            throw new CommandException(String.format(MESSAGE_SUBJECT_NOT_FOUND, subjectName, studentName));
+        // 2️⃣ Check subject enrollment
+        boolean enrolled = student.getSubjects().stream()
+                .anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
+        if (!enrolled) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
 
-        Subject subject = subjectOpt.get();
-        LessonList lessonList = subject.getLessons();
-        String formatted = lessonList.getFormattedAttendance();
-
-        // Check if lessons exist
-        if (lessonList.getLessons().isEmpty()) {
-            throw new CommandException(String.format(MESSAGE_NO_LESSONS, studentName, subjectName));
-        }
-
-        // Build output like "L1 Absent"
+        // 3️⃣ Gather attendance records for that subject
         StringBuilder sb = new StringBuilder();
-        for (Lesson lesson : lessonList.getLessons()) {
-            sb.append(lesson.getName())
-              .append(" ")
-              .append(lesson.getAttendanceStatus().toString())
-                .append("\n");
+        student.getAttendanceList().getStudentAttendance().stream()
+                .filter(r -> r.getLesson().getSubject().equalsIgnoreCase(subject.getName()))
+                .forEach(r -> sb.append(String.format("%s %s\n",
+                        r.getLesson().getName(), r.getStatus())));
+
+        // 4️⃣ If no records exist
+        if (sb.length() == 0) {
+            throw new CommandException(String.format(MESSAGE_NO_RECORDS, subject.getName()));
         }
 
+        // 5️⃣ Return formatted result
         return new CommandResult(String.format(
-            MESSAGE_SUCCESS, studentName, subjectName, formatted
+                MESSAGE_SUCCESS,
+                student.getName(),
+                subject.getName(),
+                sb.toString().trim()
         ));
     }
 
     @Override
     public boolean equals(Object other) {
-        return other == this
-                || (other instanceof ListAttendanceCommand
-                && studentName.equalsIgnoreCase(((ListAttendanceCommand) other).studentName)
-                && subjectName.equalsIgnoreCase(((ListAttendanceCommand) other).subjectName));
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof ListAttendanceCommand)) {
+            return false;
+        }
+
+        ListAttendanceCommand o = (ListAttendanceCommand) other;
+        return name.equals(o.name) && subject.equals(o.subject);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s{name=%s, subject=%s}", getClass().getSimpleName(), name, subject);
     }
 }
