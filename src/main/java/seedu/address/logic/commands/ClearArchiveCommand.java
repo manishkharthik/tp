@@ -7,16 +7,16 @@ import seedu.address.model.Model;
 /**
  * Clears the address book.
  */
-public class ClearCommand extends Command {
+public class ClearArchiveCommand extends Command {
 
-    public static final String COMMAND_WORD = "clearcurrent";
-    public static final String MESSAGE_SUCCESS = "Current students have been cleared!";
+    public static final String COMMAND_WORD = "cleararchive";
+    public static final String MESSAGE_SUCCESS = "Archived students have been cleared!";
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
         assert model != null : "Model should not be null";
-        model.clearCurrentStudents();
+        model.clearArchivedStudents();
         CommandResult result = new CommandResult(MESSAGE_SUCCESS);
         assert result != null : "CommandResult should not be null";
 

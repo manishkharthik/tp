@@ -225,6 +225,16 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void clearCurrentStudents() {
+        addressBook.clearCurrentStudents();
+    }
+
+    @Override
+    public void clearArchivedStudents() {
+        addressBook.clearArchivedStudents();
+    }
+
+    @Override
     public Subject getSubject(String subjectName) {
         requireNonNull(subjectName);
         if (!hasSubject(subjectName)) {
