@@ -11,7 +11,7 @@ import seedu.address.model.lesson.exceptions.DuplicateLessonException;
 import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 
 /**
- * Represents a Subject in the address book.
+ * Represents a Subject in the TutorTrack.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 

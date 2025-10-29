@@ -12,7 +12,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
 /**
- * Archives a person identified using it's displayed index from the address book.
+ * Archives a person identified using it's displayed index from the TutorTrack.
  */
 public class ArchiveCommand extends Command {
 

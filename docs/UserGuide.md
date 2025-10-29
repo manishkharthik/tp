@@ -68,7 +68,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
    * `list` : Lists all students.
 
-   * `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` : Adds a student named `John Tan` to the Address Book.
+   * `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` : Adds a student named `John Tan` to the Tutor Track.
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
@@ -120,7 +120,7 @@ Shows a message with a link to access the full help page.
 
 ### Adding a student: `add`
 
-Adds a new student to the address book with their academic and contact information.
+Adds a new student to the Tutor Track with their academic and contact information.
 
 **Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
@@ -157,7 +157,7 @@ You cannot add a student with the same name and class as an existing student.
 
 ### Listing all students : `list`
 
-Shows a list of all active (non-archived) students in the address book.
+Shows a list of all active (non-archived) students in the Tutor Track.
 
 ![list command](images/listcommand.png)
 
@@ -276,7 +276,7 @@ Examples:
 
 ### Archiving a student : `archive`
 
-Archives the specified student from the address book.
+Archives the specified student from the Tutor Track.
 
 Format: `archive INDEX`
 
