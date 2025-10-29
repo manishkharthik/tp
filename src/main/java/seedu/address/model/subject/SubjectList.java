@@ -17,7 +17,7 @@ public class SubjectList {
     private final List<Subject> subjects;
 
     /**
-     * Creates a SubjectList for the address book.
+     * Creates a SubjectList for the TutorTrack.
      */
     public SubjectList() {
         this.subjects = new ArrayList<>();

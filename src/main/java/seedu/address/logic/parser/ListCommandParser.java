@@ -2,29 +2,28 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import seedu.address.logic.commands.ListArchiveCommand;
+import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Parse the ListArchive command.
+ * Parse the List command.
  */
-public class ListArchiveCommandParser implements Parser<ListArchiveCommand> {
-
+public class ListCommandParser implements Parser<ListCommand> {
     /**
-     * Parses the given {@code String} of arguments in the context of the ListArchiveCommand
-     * and returns a ListArchiveCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the ListCommand
+     * and returns a ListCommand object for execution.
      * @throws ParseException if the user input does not conform to the expected format
      */
     @Override
-    public ListArchiveCommand parse(String args) throws ParseException {
+    public ListCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
 
         if (!trimmedArgs.isEmpty()) {
             throw new ParseException(
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ListArchiveCommand.MESSAGE_USAGE));
+                    ListCommand.MESSAGE_USAGE));
         }
 
-        return new ListArchiveCommand();
+        return new ListCommand();
     }
 }

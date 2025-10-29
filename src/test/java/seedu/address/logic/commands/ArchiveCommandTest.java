@@ -73,7 +73,7 @@ public class ArchiveCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         Index outOfBoundIndex = INDEX_SECOND_PERSON;
-        // ensures that outOfBoundIndex is still in bounds of address book list
+        // ensures that outOfBoundIndex is still in bounds of TutorTrack list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
 
         ArchiveCommand archiveCommand = new ArchiveCommand(outOfBoundIndex);
@@ -212,7 +212,7 @@ public class ArchiveCommandTest {
 
     @Test
     public void execute_filteredListEmpty_throwsCommandException() {
-        // Ensure address book has data
+        // Ensure TutorTrack has data
         Model nonEmpty = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         // Hide everyone in the filtered view
         nonEmpty.updateFilteredPersonList(p -> false);

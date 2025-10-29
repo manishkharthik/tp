@@ -11,7 +11,7 @@ import seedu.address.model.lesson.exceptions.DuplicateLessonException;
 import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 
 /**
- * Represents a Subject in the address book.
+ * Represents a Subject in the TutorTrack.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 
@@ -26,7 +26,7 @@ public class Subject {
 
     /**
      * Creates a Subject object.
-     *
+     * Initializes an empty LessonList for it.
      * @param name The name of the subject.
      */
     public Subject(String name) {
@@ -38,6 +38,22 @@ public class Subject {
 
         this.name = name.trim();
         this.lessonList = new LessonList(name.trim());
+    }
+
+    /**
+     * Creates a Subject with both a name and an existing LessonList.
+     * @param name The name of the subject.
+     * @param lessonList The lesson list associated with the subject.
+     */
+    public Subject(String name, LessonList lessonList) {
+        requireNonNull(name);
+        requireNonNull(lessonList);
+
+        assert name != null : "Subject name cannot be null";
+        assert !name.trim().isEmpty() : "Subject name cannot be blank";
+
+        this.name = name;
+        this.lessonList = lessonList;
     }
 
     public String getName() {

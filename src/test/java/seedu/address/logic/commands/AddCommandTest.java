@@ -434,6 +434,16 @@ public class AddCommandTest {
         public Optional<Subject> findSubjectByName(String name) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void clearCurrentStudents() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void clearArchivedStudents() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

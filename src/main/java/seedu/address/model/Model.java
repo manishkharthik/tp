@@ -70,6 +70,16 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
+     * Clears the current students list.
+     */
+    void clearCurrentStudents();
+
+    /**
+     * Clears the archived students list.
+     */
+    void clearArchivedStudents();
+
+    /**
      * Archives the given person.
      * The person must exist in the address book.
      */

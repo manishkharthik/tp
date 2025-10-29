@@ -20,7 +20,7 @@ import seedu.address.model.subject.Subject;
 import seedu.address.model.subject.SubjectList;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the TutorTrack data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
@@ -43,7 +43,7 @@ public class ModelManager implements Model {
     public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(addressBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with TutorTrack: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
@@ -226,6 +226,16 @@ public class ModelManager implements Model {
     public void deleteLesson(Lesson lesson) {
         requireNonNull(lesson);
         lessonList.deleteLesson(lesson);
+    }
+
+    @Override
+    public void clearCurrentStudents() {
+        addressBook.clearCurrentStudents();
+    }
+
+    @Override
+    public void clearArchivedStudents() {
+        addressBook.clearArchivedStudents();
     }
 
     @Override
