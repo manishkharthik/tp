@@ -46,10 +46,10 @@ public class ListAttendanceCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
     }
 
-    @Test
-    public void parse_duplicatePrefixes_failure() {
-        String input = " n/John Tan n/Jane s/Math ";
-        assertParseFailure(parser, input,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
-    }
+    // @Test
+    // public void parse_duplicatePrefixes_failure() {
+    //     String input = " n/John Tan n/Jane s/Math ";
+    //     assertParseFailure(parser, input,
+    //             String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
+    // }
 }

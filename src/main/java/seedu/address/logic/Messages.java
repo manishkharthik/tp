@@ -27,6 +27,8 @@ public class Messages {
     public static final String MESSAGE_SUBJECT_NOT_FOUND = "Subject '%s' not found.";
     public static final String MESSAGE_LESSON_NOT_FOUND =
         "Lesson '%1$s' does not exist in subject '%2$s'. Please add it first using addlesson.";
+    public static final String MESSAGE_INVALID_STATUS =
+        "Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

@@ -31,6 +31,8 @@ public class ListAttendanceCommandParser implements Parser<ListAttendanceCommand
                     MESSAGE_INVALID_COMMAND_FORMAT, ListAttendanceCommand.MESSAGE_USAGE));
         }
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_SUBJECTS);
+
         // Extract values
         String nameString = argMultimap.getValue(PREFIX_NAME).get().trim();
         String subjectString = argMultimap.getValue(PREFIX_SUBJECTS).get().trim();

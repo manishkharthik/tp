@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 
 import java.util.stream.Stream;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.MarkAttendanceCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.attendance.AttendanceStatus;
@@ -45,7 +46,7 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
         try {
             status = AttendanceStatus.valueOf(rawStatus);
         } catch (IllegalArgumentException ex) {
-            throw new ParseException("Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.");
+            throw new ParseException(Messages.MESSAGE_INVALID_STATUS);
         }
 
         return new MarkAttendanceCommand(name, subject, lesson, status);
