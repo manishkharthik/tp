@@ -42,7 +42,6 @@ public class MarkAttendanceCommandTest {
     public void setUp() {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
-        // Ensure the first person is a Student so we never hit ClassCastException
         Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Student student0 = new StudentBuilder()
                 .withName(original.getName().toString())
@@ -54,7 +53,6 @@ public class MarkAttendanceCommandTest {
                 .build();
         model.setPerson(original, student0);
 
-        // Also ensure the second person is a Student (for equals() variety checks)
         Person original2 = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         Student student1 = new StudentBuilder()
                 .withName(original2.getName().toString())
@@ -139,10 +137,8 @@ public class MarkAttendanceCommandTest {
         Name name = p.getName();
         Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
 
-        // First mark PRESENT
         new MarkAttendanceCommand(name, SUBJECT, lesson, AttendanceStatus.PRESENT).execute(model);
 
-        // Then mark ABSENT for same lesson -> should update, not add a duplicate
         new MarkAttendanceCommand(name, SUBJECT, lesson, AttendanceStatus.ABSENT).execute(model);
 
         Student studentNow = (Student) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
