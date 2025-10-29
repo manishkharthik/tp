@@ -84,25 +84,15 @@ public class MarkAttendanceCommand extends Command {
                     String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
 
-        // Subject canonicalSubject = model.findSubjectByName(subject.getName())
-        //     .orElseThrow(() -> new CommandException(
-        //         String.format(Messages.MESSAGE_SUBJECT_NOT_FOUND, subject.getName())));
+        Subject canonicalSubject = model.findSubjectByName(subject.getName())
+            .orElseThrow(() -> new CommandException(
+                String.format(Messages.MESSAGE_SUBJECT_NOT_FOUND, subject.getName())));
 
-        // // Verify lesson exists
-        // if (!canonicalSubject.containsLesson(lesson)) {
-        //     throw new CommandException(String.format(
-        //         Messages.MESSAGE_LESSON_NOT_FOUND, lesson.getName(), canonicalSubject.getName()));
-        // }
-
-        // // Check that the lesson exists in the subject (uncommented out for now until fix for lesson is made)
-        // Lesson lessonToCheck = new Lesson(lesson.getName(), subject.getName());
-        // if (!subject.containsLesson(lessonToCheck)) {
-        //     throw new CommandException(String.format(
-        //             Messages.MESSAGE_LESSON_NOT_FOUND,
-        //             lesson.getName(),
-        //             subject.getName()
-        //     ));
-        // }
+        // Verify lesson exists
+        if (!canonicalSubject.containsLesson(lesson)) {
+            throw new CommandException(String.format(
+                Messages.MESSAGE_LESSON_NOT_FOUND, lesson.getName(), canonicalSubject.getName()));
+        }
 
         // Mark attendance
         student.getAttendanceList().markAttendance(lesson, status);

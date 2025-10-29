@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Nested;
@@ -426,6 +427,11 @@ public class AddCommandTest {
 
         @Override
         public Subject getSubject(String subjectName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<Subject> findSubjectByName(String name) {
             throw new AssertionError("This method should not be called.");
         }
     }
