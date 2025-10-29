@@ -41,6 +41,9 @@ public class MarkAttendanceCommand extends Command {
     private final Lesson lesson;
     private final AttendanceStatus status;
 
+    /**
+     * Constructs a MarkAttendanceCommand to mark attendance for the specified student, subject, lesson, and status.
+     */
     public MarkAttendanceCommand(Name name, Subject subject, Lesson lesson, AttendanceStatus status) {
         requireNonNull(name);
         requireNonNull(subject);
@@ -80,7 +83,7 @@ public class MarkAttendanceCommand extends Command {
             throw new CommandException(
                     String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
-        
+
         // Subject canonicalSubject = model.findSubjectByName(subject.getName())
         //     .orElseThrow(() -> new CommandException(
         //         String.format(Messages.MESSAGE_SUBJECT_NOT_FOUND, subject.getName())));

@@ -34,6 +34,10 @@ public class ListAttendanceCommand extends Command {
     private final Name name;
     private final Subject subject;
 
+    /**
+     * Constructs a ListAttendanceCommand to list attendance for the specified student and subject.
+     * Example: listattendance n/John s/Math
+     */
     public ListAttendanceCommand(Name name, Subject subject) {
         requireNonNull(name);
         requireNonNull(subject);

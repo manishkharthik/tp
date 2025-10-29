@@ -49,7 +49,7 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
         }
 
         return new MarkAttendanceCommand(name, subject, lesson, status);
-        }
+    }
 
     private static boolean arePrefixesPresent(ArgumentMultimap map, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(p -> map.getValue(p).isPresent());

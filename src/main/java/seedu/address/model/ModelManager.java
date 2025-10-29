@@ -252,7 +252,7 @@ public class ModelManager implements Model {
         logger.info("Unarchiving person: " + target.getName());
         addressBook.unarchivePerson(target);
     }
-    
+
     // @Override
     // public Optional<Subject> findSubjectByName(String name) {
     //     requireNonNull(name);
