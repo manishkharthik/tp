@@ -27,13 +27,15 @@ public class ListLessonsCommandTest {
     @Test
     public void execute_subjectFound_listsLessons() {
         String subject = "Math";
-        // Assume the subject exists in the model (add a lesson to ensure this)
         model.addLesson(new seedu.address.model.lesson.Lesson("Algebra", "Math"));
         expectedModel.addLesson(new seedu.address.model.lesson.Lesson("Algebra", "Math"));
 
         ListLessonsCommand command = new ListLessonsCommand(subject);
-        String expectedMessage = String.format(ListLessonsCommand.MESSAGE_SUCCESS, subject);
-        System.out.println(expectedMessage);
+        String expectedMessage = String.format(
+            ListLessonsCommand.MESSAGE_SUCCESS,
+            subject,
+            "1. Algebra"
+        );
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
