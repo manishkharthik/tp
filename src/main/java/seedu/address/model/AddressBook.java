@@ -240,9 +240,25 @@ public class AddressBook implements ReadOnlyAddressBook {
         return persons.asUnmodifiableObservableList();
     }
 
+    /**
+     * Deletes all current students from the student list.
+     * Archived students are not affected.
+     */
+    public void clearCurrentStudents() {
+        persons.setPersons(List.of());
+    }
+
     @Override
     public ObservableList<Person> getArchivedPersonList() {
         return archivedPersons.asUnmodifiableObservableList();
+    }
+
+    /**
+     * Deletes all archived students from the student list.
+     * Current students are not affected.
+     */
+    public void clearArchivedStudents() {
+        archivedPersons.setPersons(List.of());
     }
 
     @Override
