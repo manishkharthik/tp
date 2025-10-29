@@ -245,7 +245,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Archived students are not affected.
      */
     public void clearCurrentStudents() {
-        persons.setPersons(List.of()); 
+        persons.setPersons(List.of());
     }
 
     @Override
