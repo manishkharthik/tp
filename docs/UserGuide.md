@@ -57,9 +57,9 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutortrack.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.
    <figure>
       <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
@@ -496,15 +496,15 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TutorTrack data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TutorTrack data are saved automatically as a JSON file `[JAR file location]/data/tutortrack.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, TutorTrack will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -515,8 +515,41 @@ _Details coming soon ..._
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**Q**: How do I transfer my data to another computer?
+**A**: Install TutorTrack on the other computer and copy your data file from the old computer to the new one:
+
+1. On the source computer, locate the data file at `[JAR file location]/data/tutortrack.json` (or the folder you used to run the app).
+2. Make a backup copy (for example, `tutortrack.json.bak`).
+3. Install and run TutorTrack on the destination computer once (this creates an initial empty data file), then exit the app.
+4. Overwrite the newly-created `tutortrack.json` with your backed-up file.
+5. Start TutorTrack — your data should appear.
+
+Notes:
+- The data file is JSON; keep the filename and structure unchanged when copying.
+- If you're switching between different app versions (or custom builds), check compatibility before overwriting.
+
+**Q**: Where is the data file stored on Windows, macOS and Linux?
+**A**: By default TutorTrack saves data next to the JAR you run, in a `data` folder (for example, `C:\path\to\folder\data\tutortrack.json` on Windows). If you launched TutorTrack from a different folder, look for `data/tutortrack.json` in that folder.
+
+**Q**: How do I back up my data?
+**A**: Copy the `data/tutortrack.json` file to a safe location (external drive, encrypted cloud storage, or another folder). Keep dated backups so you can revert to an earlier copy if needed.
+
+**Q**: What if I accidentally corrupt the data file?
+**A**: If the data file is invalid JSON or malformed, TutorTrack may start with an empty data file. To recover:
+
+1. Replace `data/tutortrack.json` with your most recent backup.
+2. If no backup exists and you understand JSON, try to repair the file manually using a JSON validator/editor.
+3. If repair isn't possible, you'll need to re-create the records in the app.
+
+**Q**: The app window opens off-screen (multi-monitor issue). What do I do?
+**A**: If the app was moved to a secondary monitor and that monitor was later removed, the window may open off-screen. To fix this:
+
+- Close TutorTrack.
+- Delete `preferences.json` in the same folder as the app (this resets window position preferences).
+- Restart TutorTrack — the window will open on the primary display.
+
+**Q**: The Help Window is minimized and doesn't re-open. How can I restore it?
+**A**: Use your OS window manager (Alt+Tab, or click the taskbar/dock icon) to restore the Help window. If that fails, restart TutorTrack.
 
 --------------------------------------------------------------------------------------------------------------------
 
