@@ -13,7 +13,7 @@ import seedu.address.model.lesson.Lesson;
  */
 public class AddLessonCommand extends Command {
 
-    public static final String COMMAND_WORD = "AddLesson";
+    public static final String COMMAND_WORD = "addlesson";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a lesson to a subject. "
             + "Parameters: "

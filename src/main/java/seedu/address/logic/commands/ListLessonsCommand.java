@@ -15,7 +15,7 @@ import seedu.address.model.subject.Subject;
  */
 public class ListLessonsCommand extends Command {
 
-    public static final String COMMAND_WORD = "ListLessons";
+    public static final String COMMAND_WORD = "listlessons";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all lessons in a subject. "
             + "Parameters: "
