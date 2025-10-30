@@ -503,7 +503,7 @@ Deletes **all current students** from the student list. This action is **irrever
     <td align="center"><em>Figure 16a: Student List before it is cleared</em></td>
     <td align="center"><em>Figure 16b: Student List once all students have been cleared out</em></td>
   </tr>
-</table>
+  </table>
 
 
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
