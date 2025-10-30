@@ -23,7 +23,7 @@ public class AddLessonCommand extends Command {
             + PREFIX_SUBJECTS + "Mathematics "
             + PREFIX_NAME + "Algebra";
 
-    public static final String MESSAGE_SUCCESS = "New lesson added: %1$s";
+    public static final String MESSAGE_SUCCESS = "New %2$s - %1$s lesson added";
     public static final String MESSAGE_DUPLICATE_LESSON = "This lesson already exists in this subject";
 
     private final Lesson toAdd;
@@ -45,7 +45,8 @@ public class AddLessonCommand extends Command {
         }
 
         model.addLesson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd.getName(), toAdd.getSubject()));
     }
 
     @Override
