@@ -33,10 +33,11 @@ public class AddLessonCommandTest {
 
     @Test
     public void execute_validLesson_success() {
-        Lesson lesson = new Lesson("Math", "Algebra");
+        Lesson lesson = new Lesson("Algebra", "Math");
         AddLessonCommand addLessonCommand = new AddLessonCommand(lesson);
 
-        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS, lesson);
+        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS,
+                lesson.getName(), lesson.getSubject());
         expectedModel.addLesson(lesson);
 
         assertCommandSuccess(addLessonCommand, model, expectedMessage, expectedModel);
@@ -53,17 +54,17 @@ public class AddLessonCommandTest {
 
     @Test
     public void execute_emptyAddressBook_success() {
-        model = new ModelManager(); // start with no data
+        model = new ModelManager();
         expectedModel = new ModelManager();
-        Lesson lesson = new Lesson("Science", "Physics");
+        Lesson lesson = new Lesson("Physics", "Science");
 
         AddLessonCommand command = new AddLessonCommand(lesson);
         expectedModel.addLesson(lesson);
 
-        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS, lesson);
+        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS,
+                lesson.getName(), lesson.getSubject());
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
-
 
     @Test
     public void equals() {

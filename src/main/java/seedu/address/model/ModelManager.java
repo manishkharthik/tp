@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -49,10 +48,9 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         this.lessonList = this.addressBook.getLessonList();
         this.subjectList = this.addressBook.getSubjectList();
-        ObservableList<Lesson> observableLessons = FXCollections.observableList(this.lessonList.getInternalList());
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList());
-        filteredLessons = new FilteredList<>(observableLessons);
+        filteredLessons = new FilteredList<>(this.lessonList.asObservableList());
     }
 
     public ModelManager() {

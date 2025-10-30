@@ -97,7 +97,7 @@ public class MarkAttendanceCommand extends Command {
         String feedback = String.format(
                 Messages.MESSAGE_SUCCESS,
                 student.getName(),
-                subject,
+                subject.getName(),
                 lesson.getName(),
                 status
         );

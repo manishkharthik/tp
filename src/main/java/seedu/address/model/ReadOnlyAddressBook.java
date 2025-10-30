@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
 import seedu.address.model.subject.SubjectList;
 
@@ -21,4 +22,9 @@ public interface ReadOnlyAddressBook {
     ObservableList<Person> getArchivedPersonList();
 
     SubjectList getSubjectList();
+
+    /**
+     * Returns the LessonList object.
+     */
+    LessonList getLessonList();
 }
