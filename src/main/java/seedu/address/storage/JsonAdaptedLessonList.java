@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.lesson.LessonList;
 
 /**
@@ -42,7 +43,7 @@ public class JsonAdaptedLessonList {
     /**
      * Converts this Jackson-friendly adapted lesson list object into the model's {@code LessonList}.
      */
-    public LessonList toModelType() {
+    public LessonList toModelType() throws IllegalValueException {
         LessonList lessonList = new LessonList(subject);
         for (JsonAdaptedLesson jsonLesson : lessons) {
             lessonList.addLesson(jsonLesson.toModelType());

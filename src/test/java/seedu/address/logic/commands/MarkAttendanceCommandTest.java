@@ -68,6 +68,28 @@ public class MarkAttendanceCommandTest {
     }
 
     @Test
+    public void execute_validStudentFilteredList_success() {
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Name nameOfPersonToMark = personToMark.getName();
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
+        AttendanceStatus status = AttendanceStatus.ABSENT;
+
+        MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, lesson, status);
+
+        String expectedMessage = String.format(
+                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT.getName(), LESSON_NAME, status);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
+        Student expectedStudent = (Student) expectedModel.getFilteredPersonList().get(0);
+        expectedStudent.getAttendanceList().markAttendance(lesson, status);
+
+        assertCommandSuccess(cmd, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_validStudentUnfilteredList_success() {
         Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Name nameOfPersonToMark = personToMark.getName();
@@ -77,7 +99,7 @@ public class MarkAttendanceCommandTest {
         MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, lesson, status);
 
         String expectedMessage = String.format(
-                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
+                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT.getName(), LESSON_NAME, status);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         Student expectedStudent = (Student) expectedModel.getFilteredPersonList()
@@ -96,28 +118,6 @@ public class MarkAttendanceCommandTest {
                 AttendanceStatus.PRESENT);
 
         assertCommandFailure(cmd, model, String.format(Messages.MESSAGE_STUDENT_NOT_FOUND, invalidName));
-    }
-
-    @Test
-    public void execute_validStudentFilteredList_success() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-
-        Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Name nameOfPersonToMark = personToMark.getName();
-        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
-        AttendanceStatus status = AttendanceStatus.ABSENT;
-
-        MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, lesson, status);
-
-        String expectedMessage = String.format(
-                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
-        Student expectedStudent = (Student) expectedModel.getFilteredPersonList().get(0);
-        expectedStudent.getAttendanceList().markAttendance(lesson, status);
-
-        assertCommandSuccess(cmd, model, expectedMessage, expectedModel);
     }
 
     @Test

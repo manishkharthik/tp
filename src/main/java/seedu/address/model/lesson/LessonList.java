@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.lesson.exceptions.DuplicateLessonException;
 import seedu.address.model.lesson.exceptions.LessonNotFoundException;
@@ -20,6 +22,7 @@ public class LessonList {
      * Creates an empty LessonList.
      */
     private final List<Lesson> lessons;
+    private final ObservableList<Lesson> observableLessons;
     private final String subject;
 
     /**
@@ -38,7 +41,9 @@ public class LessonList {
         Objects.requireNonNull(subject);
         this.subject = subject;
         this.lessons = new ArrayList<>();
+        this.observableLessons = FXCollections.observableArrayList(lessons);
     }
+
 
     /**
      * Returns true if the list contains an equivalent lesson.
@@ -61,6 +66,7 @@ public class LessonList {
             throw new DuplicateLessonException();
         }
         lessons.add(lesson);
+        observableLessons.add(lesson);
     }
 
     /**
@@ -91,6 +97,7 @@ public class LessonList {
         if (!lessons.remove(lesson)) {
             throw new LessonNotFoundException();
         }
+        observableLessons.remove(lesson);
     }
 
     /**
@@ -144,6 +151,26 @@ public class LessonList {
      */
     public String getSubject() {
         return subject;
+    }
+
+    /**
+     * Returns an unmodifiable view of the observable lesson list.
+     */
+    public ObservableList<Lesson> asObservableList() {
+        return FXCollections.unmodifiableObservableList(observableLessons);
+    }
+
+    /**
+     * Replaces the contents of the lesson list with the given lessons.
+     */
+    public void setLessons(List<Lesson> lessons) {
+        Objects.requireNonNull(lessons);
+        this.lessons.clear();
+        this.observableLessons.clear();
+        for (Lesson lesson : lessons) {
+            this.lessons.add(lesson);
+            this.observableLessons.add(lesson);
+        }
     }
 
     @Override

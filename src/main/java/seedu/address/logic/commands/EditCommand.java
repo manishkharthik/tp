@@ -81,7 +81,9 @@ public class EditCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownList = model.isViewingArchived()
+            ? model.getFilteredArchivedPersonList()
+            : model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
             LOGGER.fine(() -> "Invalid index for edit: " + index.getZeroBased()
@@ -94,13 +96,22 @@ public class EditCommand extends Command {
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+        boolean isDuplicate = model.isViewingArchived()
+            ? (!personToEdit.isSamePerson(editedPerson) && model.hasArchivedPerson(editedPerson))
+            : (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson));
+
+        if (isDuplicate) {
             LOGGER.fine("Edit would create a duplicate person; aborting.");
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        if (model.isViewingArchived()) {
+            model.setArchivedPerson(personToEdit, editedPerson);
+            model.updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        } else {
+            model.setPerson(personToEdit, editedPerson);
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        }
 
         LOGGER.fine(() -> "Edit successful: " + editedPerson);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));

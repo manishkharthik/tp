@@ -400,6 +400,36 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
+        public boolean isViewingArchived() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setViewingArchived(boolean isViewingArchived) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasArchivedPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addArchivedPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteArchivedPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setArchivedPerson(Person target, Person editedPerson) {
+            throw new AssertionError("This method should not be called.");
+        }
+
         @Test
         public void execute_validPerson_assertionsPass() throws CommandException {
             ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
@@ -462,6 +492,36 @@ public class AddCommandTest {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
+
+        @Override
+        public boolean isViewingArchived() {
+            return false;
+        }
+
+        @Override
+        public void setViewingArchived(boolean isViewingArchived) {
+            // leave blank
+        }
+
+        @Override
+        public boolean hasArchivedPerson(Person person) {
+            return false;
+        }
+
+        @Override
+        public void addArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void deleteArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void setArchivedPerson(Person target, Person editedPerson) {
+            // leave blank
+        }
     }
 
     /**
@@ -490,6 +550,36 @@ public class AddCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public boolean isViewingArchived() {
+            return false;
+        }
+
+        @Override
+        public void setViewingArchived(boolean isViewingArchived) {
+            // leave blank
+        }
+
+        @Override
+        public boolean hasArchivedPerson(Person person) {
+            return false;
+        }
+
+        @Override
+        public void addArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void deleteArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void setArchivedPerson(Person target, Person editedPerson) {
+            // leave blank
         }
     }
 }

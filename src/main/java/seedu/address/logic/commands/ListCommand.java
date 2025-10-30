@@ -25,6 +25,7 @@ public class ListCommand extends Command {
         assert model != null : "Model should not be null";
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.setViewingArchived(false);
 
         CommandResult result = new CommandResult(MESSAGE_SUCCESS);
         assert result != null : "CommandResult should not be null";

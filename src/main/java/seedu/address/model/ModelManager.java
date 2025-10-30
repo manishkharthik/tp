@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -36,6 +35,7 @@ public class ModelManager implements Model {
     private final FilteredList<Lesson> filteredLessons;
     private final LessonList lessonList;
     private final SubjectList subjectList;
+    private boolean isViewingArchived = false;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -49,10 +49,9 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         this.lessonList = this.addressBook.getLessonList();
         this.subjectList = this.addressBook.getSubjectList();
-        ObservableList<Lesson> observableLessons = FXCollections.observableList(this.lessonList.getInternalList());
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList());
-        filteredLessons = new FilteredList<>(observableLessons);
+        filteredLessons = new FilteredList<>(this.lessonList.asObservableList());
     }
 
     public ModelManager() {
@@ -113,8 +112,21 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasArchivedPerson(Person person) {
+        requireNonNull(person);
+        return addressBook.hasArchivedPerson(person);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+    }
+
+    @Override
+    public void deleteArchivedPerson(Person target) {
+        requireNonNull(target);
+        addressBook.removeArchivedPerson(target);
+        updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
@@ -129,10 +141,32 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addArchivedPerson(Person person) {
+        requireNonNull(person);
+        addressBook.addArchivedPerson(person);
+        updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setArchivedPerson(Person target, Person editedPerson) {
+        requireAllNonNull(target, editedPerson);
+        addressBook.setArchivedPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setViewingArchived(boolean isViewingArchived) {
+        this.isViewingArchived = isViewingArchived;
+    }
+
+    @Override
+    public boolean isViewingArchived() {
+        return isViewingArchived;
     }
 
     //=========== Filtered Person List Accessors =============================================================
