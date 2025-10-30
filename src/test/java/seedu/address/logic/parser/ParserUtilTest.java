@@ -265,7 +265,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseAssignmentStatus_valid_returnsTrimmedValue() throws Exception {
-        assertEquals("Submitted", ParserUtil.parseAssignmentStatus(" Submitted "));
+        assertEquals("Completed", ParserUtil.parseAssignmentStatus(" Completed "));
     }
 
     @Test
