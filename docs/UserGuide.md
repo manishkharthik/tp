@@ -74,7 +74,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
   or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)￼
   or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before the moving on to the next instruction.
 
@@ -101,7 +101,6 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
-
 
 ## Features
 
@@ -265,70 +264,96 @@ Edits an existing student's information in Tutor Track
 
 ### Locating students by name: `find`
 
+
 Finds students whose names contain any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+**Format:** `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* students matching all keywords will be returned (i.e. `AND` search).
-  e.g. `find john tan` will return `john tan` and not `john wee`.
+**Parameters:**
+* `KEYWORD` — any part of a student's name (case-insensitive)
+* Multiple keywords can be supplied, separated by spaces (e.g., `find John Tan`)
+* Only full words are matched (e.g., `Han` will not match `Hans`)
 
-Examples:
-* `find john` returns `John Tan` and `John Lee`
+**Description**:
+* Returns students whose names contain all supplied keywords (AND search)
+* The search is case-insensitive. e.g., `hans` matches `Hans`
+* The order of keywords does not matter. e.g., `Hans Bo` matches `Bo Hans`
+* Only the name field is searched
+* If no students match, an empty list is shown
 
+⸻
+
+**Examples:**
+1. Finding multiple students
+* Command: `find john`
   <figure>
     <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
     <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
-* `find alice` returns an empty list of students if there is no student named `alice`<br>
+2. No matching students
+* Command: `find alice`
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
     <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
   </figure>
 
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* Only students matching all keywords are shown; partial matches are not included.
+* If you intend to search by other fields (e.g., subject, class), use the appropriate command or filter.
+
+</div>
+
 ### Deleting a student : `delete`
+
 
 Deletes the specified student from the student list.
 
-Format: `delete INDEX`
+**Format:** `delete INDEX`
 
+**Parameters:**
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer)
+
+**Description:**
 * Deletes the student at the specified `INDEX`. This action is **irreversible**
-* The index refers to the index number shown in the displayed student list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index refers to the index number shown in the displayed student list
 * The command works on the last shown list of students, which may be filtered (e.g., after using `find`)
-* If the provided index is invalid (e.g., out of range), an error message will be shown.
+* If the provided index is invalid (e.g., out of range), an error message will be shown
 
-Examples:
-* `list` followed by `delete 3` deletes the 3rd student in the student list.
-<table>
-  <tr>
-    <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
-    <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
-  </tr>
-</table>
+⸻
 
-* `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
-<table>
-  <tr>
-    <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
-    <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
-  </tr>
-</table>
+**Examples:**
+1. Deleting a student from the main list
+* Command: `list` followed by `delete 3`
+  <table>
+    <tr>
+      <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+    </tr>
+  </table>
 
-* `delete 5` where there are only 2 or fewer students results in the following error message:
-  **"The person index provided is invalid"**
+2. Deleting a student from a filtered list
+* Command: `find John` followed by `delete 2`
+  <table>
+    <tr>
+      <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+    </tr>
+  </table>
+
+3. Invalid index
+* Command: `delete 5` (when there are only 2 or fewer students)
+  **Error:** "The person index provided is invalid"
   <figure>
     <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
     <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
@@ -434,6 +459,14 @@ Command: `listattendance n/John Tan s/Math`
 </div>
 
 ---
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* Deleting a student is permanent and cannot be undone.
+* The index must be a positive integer and refer to a visible student.
+
+</div>
 
 ### Archiving a student : `archive`
 
