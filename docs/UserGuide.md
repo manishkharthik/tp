@@ -52,21 +52,30 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have Java 17 or above installed on your computer.
+    *	**Windows users:**
+    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows)￼ or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/)￼.
+    *	**macOS users:**
+  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)￼,
+  or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)￼
+  or [Adoptium Temurin 17 (macOS)](https://adoptium.net/temurin/releases/).
+    *	**Linux users:**
+  You can install via your package manager (e.g., ```sudo apt install openjdk-17-jdk```)
+  or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)￼
+  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
 
 2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack.
+3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before the moving on to the next instruction.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutortrack.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.
+4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar tutortrack.jar` command to run the application.<br>
+   A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.
    <figure>
       <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
       <figcaption><em>Figure 1: TutorTrack GUI</em></figcaption>
     </figure>
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type a command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all students.
