@@ -5,10 +5,20 @@ title: User Guide
 
 ## Welcome to TutorTrack
 
-TutorTrack is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorTrack can get your student management tasks done faster than traditional GUI apps.
+TutorTrack is a **student management application designed for private tutors and tutoring centers** who need to **efficiently organize and track their students' information**. Whether you're managing a handful of students or dozens across multiple subjects, TutorTrack helps you stay on top of contact details, attendance records, payment status, and academic progress.
 
-TutorTrack is designed to help you, as a tutor, efficiently organise and track your students. This includes adding, deleteing and archiving students as well as a students studental information such as name, subjects, payment status, attendance and much more.
+Built for tutors who prefer typing over clicking, TutorTrack is **optimized for use via a Command Line Interface (CLI)** while still providing the benefits of a Graphical User Interface (GUI). If you can type fast, TutorTrack can get your student management tasks done faster than traditional point-and-click applications.
 
+### Key Features
+With TutorTrack, you can:
+* **Manage student profiles** - Add, edit, delete, and archive student information including contact details, emergency contacts, and assigned classes
+* **Track subjects and lessons** - Organize students by subjects and maintain lesson records
+* **Monitor attendance** - Mark and view attendance for individual lessons
+* **Track payments** - Keep tabs on payment status for each student
+* **Monitor assignments** - Track assignment completion status
+* **Search and filter** - Quickly find students by name, subject, class, or other criteria
+
+TutorTrack is perfect for independent tutors, tutoring center staff, and educational coordinators who want a fast, keyboard-driven way to manage their students without the complexity of traditional administrative software.
 * Table of Contents
 {:toc}
 
@@ -16,10 +26,10 @@ TutorTrack is designed to help you, as a tutor, efficiently organise and track y
 
 ## Using this guide
 
-* If you are new to TutorTrack, start with the Quick Start section to get set up and running in minutes.
-* If you need help with specific commands, refer to the Command Summary for a concise overview.
-* If you want a deeper understanding of a particular feature, explore the relevant section under Features.
-* If you are a developer seeking technical or implementation details, check out our Developer Guide for architecture and design information.
+* If you are new to TutorTrack, start with the [Quick Start](#quick-start) section to get set up and running in minutes.
+* If you need help with specific commands, refer to the [Command Summary](#command-summary) for a concise overview.
+* If you want a deeper understanding of a particular feature, explore the relevant section under [Features](#features).
+* If you are a developer seeking technical or implementation details, check out our [Developer Guide](https://ay2526s1-cs2103t-w13-2.github.io/tp/DeveloperGuide.html#model-component) for architecture and design information.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -321,96 +331,145 @@ Examples:
 
 ### Archiving a student : `archive`
 
-Archives the specified student from the Tutor Track.
-
-Format: `archive INDEX`
-
-Moves a student into the **archive list**.
-Archived students are **not deleted** and can be viewed anytime using `listarchive`.
+Moves a student from your active list into the archive list in Tutor Track.
 
 **Format:** `archive INDEX`
 
-**Details:**
-* Archives the student at the specified `INDEX` (from the currently displayed list).
-* The index must be a **positive integer**.
+**Parameters:**
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer)
+
+**Description:**
+* Archives the student at the specified `INDEX`.
+* Archived students are **not deleted** — they remain in the system and can be viewed using `listarchive`.
 * Archived students are hidden from the main student list but **preserved** in the data file.
-* You can use `listarchive` to view all archived students or restore them in future versions.
+* Use this for students you're no longer actively tutoring but want to keep records for.
+
+⸻
 
 **Examples:**
-* `archive 2` archives the 2nd student in the list.
-<table>
+1. Archiving a student from the main list
+* Command: `archive 2`
+  <table>
   <tr>
     <td><img src="images/archiveStudent1_command_before.png" alt="Student 2 Before" width="540" height="200"></td>
     <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
     <td align="center"><em>Figure 12a: Student List before archiving Sarah Lim</em></td>
-    <td align="center"><em>Figure 12b: Student List once Sarah is in the archive student list</em></td>
+    <td align="center"><em>Figure 12b: Student List after Sarah is archived</em></td>
   </tr>
-</table>
+  </table>
 
-* `find John` followed by `archive 1` archives the 1st student in the filtered results.
-<figure>
-  <img src="images/findStudent2_command_view.png" alt="Find Student 2" width="600"/>
-    <figcaption><em>Figure 13a: Find the desired student</em></figcaption>
-  </figure>
+2. Archiving a student from filtered results
+* Command: `find John` followed by `archive 1`
   <table>
   <tr>
-    <td><img src="images/archiveStudent2_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/archiveStudent2_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+    <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 13b: Index is specified based on the filtered student list (1 in this case)</em></td>
-    <td align="center"><em>Figure 13c: John gets successfully archived</em></td>
+    <td align="center"><em>Figure 13a: Find the desired student</em></td>
   </tr>
-</table>
+  </table>
+  <table>
+  <tr>
+    <td><img src="images/archiveStudent2_command_view.png" alt="Archive Command" width="540" height="200"></td>
+    <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 13b: Index is based on filtered list (1 in this case)</em></td>
+    <td align="center"><em>Figure 13c: John is successfully archived</em></td>
+  </tr>
+  </table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* The `INDEX` refers to the position in the **displayed list**, not the complete list of all students.
+
+</div>
 
 ### Viewing archived students : `listarchive`
 
-Displays **all archived students** in the system.
-Use this to view or verify students who have been archived previously.
+Displays all archived students in Tutor Track for recordkeeping and reference.
 
 **Format:** `listarchive`
 
-**Details:**
-* Displays a list of all archived students.
-* This command has no parameters.
-* Archived students retain all their details (class, subjects, attendance, payment, etc.) for recordkeeping.
+**Parameters:**
+* This command takes no parameters.
+
+**Description:**
+* Displays a list of all students who have been archived.
+* Archived students retain all their details (class, subjects, attendance, payment status, assignment status, etc.).
+* Use this command to view or verify students who are no longer actively being tutored.
+
+⸻
 
 **Example:**
-* `listarchive`
-  Shows all archived students with their full details.
-  <figure>
-  <img src="images/listarchive.png" alt="Archive List" width="600"/>
-    <figcaption><em>Figure 14: Archive student list with all archived students</em></figcaption>
-  </figure>
+1. Viewing all archived students
+* Command: `listarchive`
+  <table>
+  <tr>
+    <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 14: Archive student list showing all archived students</em></td>
+  </tr>
+  </table>
 
-### Unarchiving students : `unarchive`
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
 
-Unarchives students. Use this to unarchive students that have been archived to bring them back to the main list.
+* Archived students are separate from your active student list and won't appear in regular `list` or `find` commands.
+* To move a student back to your active list, use the `unarchive` command.
 
-**Format** `unarchive INDEX`
+</div>
 
-**Details:**
-* Unarchives at the student at the specified `INDEX` (from the archive list).
-* The index must be a **positive integer**.
-* If the provided index is invalid (e.g out of range), an error message will be shown.
+### Unarchiving a student : `unarchive`
 
-**Example:**
-* `unarchive 1` unarchives index 1 `Sarah Lim`.
-<figure>
-    <img src="images/unarchive.png" alt="Unarchive" width="600"/>
-    <figcaption><em>Figure 15a: Unarchiving a student from the archive student list</em>
-    </figcaption>
-</figure>
+Moves a student from the archive list back to your active student list in Tutor Track.
 
-* unarchiving an invalid index displays an error message.
+**Format:** `unarchive INDEX`
 
-<figure>
-    <img src="images/unarchive_error.png" alt="Student 2 Archive Command" width="600"/>
-    <figcaption><em>Figure 15b: Error message when unarchiving invalid index</em>
-    </figcaption>
-</figure>
+**Parameters:**
+* `INDEX` — the position of the student in the archive list (must be a positive integer)
+
+**Description:**
+* Unarchives the student at the specified `INDEX` from the archive list.
+* The student will be moved back to your main active student list.
+* Use `listarchive` first to view archived students and identify the correct `INDEX`.
+* All student details (subjects, attendance, payment status, etc.) are preserved when unarchiving.
+
+⸻
+
+**Examples:**
+1. Unarchiving a student from the archive list
+* Command: `unarchive 1`
+  <table>
+  <tr>
+    <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 15a: Unarchiving Sarah Lim from the archive list</em></td>
+  </tr>
+  </table>
+
+2. Attempting to unarchive with an invalid index
+* Command: `unarchive 2`
+  <table>
+  <tr>
+    <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 15b: Error message when using an invalid index</em></td>
+  </tr>
+  </table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* The `INDEX` refers to the position in the **archive list**, not the main student list.
+* Use `listarchive` to see the archive list and verify the correct index before unarchiving.
+* If the index is out of range, an error message will be displayed.
+
+</div>
 
 ### Clearing all current student entries : `clearcurrent`
 
