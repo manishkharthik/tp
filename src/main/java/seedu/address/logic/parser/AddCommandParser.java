@@ -30,7 +30,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
                 args,
                 PREFIX_NAME, PREFIX_CLASS, PREFIX_SUBJECTS, PREFIX_EMERGENCY_CONTACT,
-                // NOTE: removed PREFIX_ATTENDANCE
                 PREFIX_PAYMENT_STATUS, PREFIX_ASSIGNMENT_STATUS, PREFIX_TAG
         );
 
@@ -63,8 +62,13 @@ public class AddCommandParser implements Parser<AddCommand> {
                         new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE))));
 
         // Optional status fields
-        String paymentStatus = argMultimap.getValue(PREFIX_PAYMENT_STATUS).orElse("");
-        String assignmentStatus = argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).orElse("");
+        String paymentStatus = argMultimap.getValue(PREFIX_PAYMENT_STATUS).isPresent()
+                ? ParserUtil.parsePaymentStatus(argMultimap.getValue(PREFIX_PAYMENT_STATUS).get())
+                : "Unpaid";
+
+        String assignmentStatus = argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).isPresent()
+                ? ParserUtil.parseAssignmentStatus(argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).get())
+                : "Uncompleted";
 
         // Optional tags (if still supported)
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));

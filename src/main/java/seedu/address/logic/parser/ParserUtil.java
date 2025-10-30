@@ -213,16 +213,38 @@ public class ParserUtil {
         }
     }
 
-    /** Parses payment status (free-form). */
-    public static String parsePaymentStatus(String status) throws ParseException {
-        requireNonNull(status);
-        return status.trim();
+    /**
+     * Parses a {@code String paymentStatus} into a valid payment status.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code paymentStatus} is invalid.
+     */
+    public static String parsePaymentStatus(String paymentStatus) throws ParseException {
+        requireNonNull(paymentStatus);
+        String trimmed = paymentStatus.trim();
+
+        if (!trimmed.equalsIgnoreCase("Paid") && !trimmed.equalsIgnoreCase("Unpaid")) {
+            throw new ParseException("Payment status must be either 'Paid' or 'Unpaid'");
+        }
+
+        return trimmed.substring(0, 1).toUpperCase() + trimmed.substring(1).toLowerCase();
     }
 
-    /** Parses assignment status (free-form). */
-    public static String parseAssignmentStatus(String status) throws ParseException {
-        requireNonNull(status);
-        return status.trim();
+    /**
+     * Parses a {@code String assignmentStatus} into a valid assignment status.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code assignmentStatus} is invalid.
+     */
+    public static String parseAssignmentStatus(String assignmentStatus) throws ParseException {
+        requireNonNull(assignmentStatus);
+        String trimmed = assignmentStatus.trim();
+
+        if (!trimmed.equalsIgnoreCase("Completed") && !trimmed.equalsIgnoreCase("Uncompleted")) {
+            throw new ParseException("Assignment status must be either 'Completed' or 'Uncompleted'");
+        }
+
+        return trimmed.substring(0, 1).toUpperCase() + trimmed.substring(1).toLowerCase();
     }
 
     /** Parses optional free-form status. */
