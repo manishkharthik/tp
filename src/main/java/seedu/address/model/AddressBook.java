@@ -97,23 +97,43 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Replaces the given person {@code target} in the current list with {@code editedPerson}.
+     * {@code target} must exist in the current list.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the current list.
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
-
         persons.setPerson(target, editedPerson);
     }
 
     /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * {@code key} must exist in the address book.
+     * Replaces the given person {@code target} in the archived list with {@code editedPerson}.
+     * {@code target} must exist in the archived list.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the archived list.
+     */
+    public void setArchivedPerson(Person target, Person editedPerson) {
+        requireNonNull(editedPerson);
+        archivedPersons.setPerson(target, editedPerson);
+    }
+
+    /**
+     * Removes {@code key} from this {@code current list}.
+     * {@code key} must exist in the current list.
      */
     public void removePerson(Person key) {
+        requireNonNull(key);
         persons.remove(key);
     }
+
+    /**
+     * Removes {@code key} from this {@code archived list}.
+     * {@code key} must exist in the current list.
+     */
+    public void removeArchivedPerson(Person key) {
+        requireNonNull(key);
+        archivedPersons.remove(key);
+    }
+
 
     /**
      * Archives {@code key} from this {@code AddressBook}.

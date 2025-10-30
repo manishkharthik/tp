@@ -59,15 +59,25 @@ public interface Model {
     ReadOnlyAddressBook getAddressBook();
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if a student with the same identity as {@code person} exists in the address book.
      */
     boolean hasPerson(Person person);
 
     /**
-     * Deletes the given person.
+     * Returns true if an archived student with the same identity as {@code person} exists in the address book.
+     */
+    boolean hasArchivedPerson(Person person);
+
+    /**
+     * Deletes the given person from the current list
      * The person must exist in the address book.
      */
     void deletePerson(Person target);
+
+    /**
+     * Deletes the given person from the archived list
+     */
+    void deleteArchivedPerson(Person target);
 
     /**
      * Clears the current students list.
@@ -86,19 +96,44 @@ public interface Model {
     void archivePerson(Person target);
 
     /**
-     * Adds the given person.
+     * Adds the given person to the current list
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Adds the given person to the archived list
+     * {@code person} must not already exist in the address book.
+     */
+    void addArchivedPerson(Person person);
+
+    /**
+     * Replaces the given person {@code target} in current with {@code editedPerson}.
+     * {@code target} must exist in the current list.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the current list.
      */
     void setPerson(Person target, Person editedPerson);
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /**
+     * Replaces the given person {@code target} in archived list with {@code editedPerson}.
+     * {@code target} must exist in the archived list.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the archived list.
+     */
+    void setArchivedPerson(Person target, Person editedPerson);
+
+    /*
+     * Toggles based on whether current or archived list of students are being displayed
+     */
+    void setViewingArchived(boolean isViewingArchived);
+
+    /*
+     * Checks whether current or archived list of students are being accessed
+     */
+    public boolean isViewingArchived();
+
+    /*
+     * Returns an unmodifiable view of the filtered person list
+     */
     ObservableList<Person> getFilteredPersonList();
 
     /**

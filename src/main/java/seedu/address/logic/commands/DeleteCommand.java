@@ -34,15 +34,24 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownList = model.isViewingArchived()
+            ? model.getFilteredArchivedPersonList()
+            : model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
         Person studentToDelete = lastShownList.get(targetIndex.getZeroBased());
-        model.deletePerson(studentToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_STUDENT_SUCCESS, Messages.format(studentToDelete)));
+        if (model.isViewingArchived()) {
+            model.deleteArchivedPerson(studentToDelete);
+            return new CommandResult(
+                String.format("Deleted archived student: %s", Messages.format(studentToDelete)));
+        } else {
+            model.deletePerson(studentToDelete);
+            return new CommandResult(
+                String.format(MESSAGE_DELETE_STUDENT_SUCCESS, Messages.format(studentToDelete)));
+        }
     }
 
     @Override
