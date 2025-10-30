@@ -58,8 +58,9 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException("At least one subject must be provided using " + PREFIX_SUBJECTS);
         }
 
-        String emergencyContact = argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).orElseThrow(() ->
-                new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE)));
+        String emergencyContact = ParserUtil.parseEmergencyContact(
+                argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).orElseThrow(() ->
+                        new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE))));
 
         // Optional status fields
         String paymentStatus = argMultimap.getValue(PREFIX_PAYMENT_STATUS).orElse("");
@@ -67,7 +68,6 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         // Optional tags (if still supported)
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        // NB: tagList is parsed to validate input; Student currently doesn’t store tags.
 
         // Construct Student (AttendanceList is created internally by Student)
         Student student = new Student(
