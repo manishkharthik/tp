@@ -35,6 +35,7 @@ public class ModelManager implements Model {
     private final FilteredList<Lesson> filteredLessons;
     private final LessonList lessonList;
     private final SubjectList subjectList;
+    private boolean isViewingArchived = false;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -111,8 +112,21 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasArchivedPerson(Person person) {
+        requireNonNull(person);
+        return addressBook.hasArchivedPerson(person);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+    }
+
+    @Override
+    public void deleteArchivedPerson(Person target) {
+        requireNonNull(target);
+        addressBook.removeArchivedPerson(target);
+        updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
@@ -127,10 +141,32 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addArchivedPerson(Person person) {
+        requireNonNull(person);
+        addressBook.addArchivedPerson(person);
+        updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setArchivedPerson(Person target, Person editedPerson) {
+        requireAllNonNull(target, editedPerson);
+        addressBook.setArchivedPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setViewingArchived(boolean isViewingArchived) {
+        this.isViewingArchived = isViewingArchived;
+    }
+
+    @Override
+    public boolean isViewingArchived() {
+        return isViewingArchived;
     }
 
     //=========== Filtered Person List Accessors =============================================================
