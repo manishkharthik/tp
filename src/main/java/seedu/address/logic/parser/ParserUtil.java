@@ -172,7 +172,7 @@ public class ParserUtil {
     /** Parses emergency contact, basic digit check. */
     public static String parseEmergencyContact(String contact) throws ParseException {
         requireNonNull(contact);
-        String trimmed = contact.trim().split("\\s+")[0];
+        String trimmed = contact.trim();
         // Tighten to match Student's assertion
         if (!trimmed.matches("\\d{8}")) {
             throw new ParseException("Emergency contact must be exactly 8 digits.");
