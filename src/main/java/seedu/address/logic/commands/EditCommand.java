@@ -49,10 +49,13 @@ public class EditCommand extends Command {
             + "[" + PREFIX_SUBJECTS + "SUBJECTS] "
             + "[" + PREFIX_EMERGENCY_CONTACT + "EMERGENCY CONTACT] "
             + "[" + PREFIX_PAYMENT_STATUS + "PAYMENT STATUS] "
-            + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT STATUS]...\n"
+            + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT STATUS]\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_CLASS + "3A"
-            + PREFIX_SUBJECTS + "Maths, Science";
+            + PREFIX_CLASS + "3A "
+            + PREFIX_SUBJECTS + "Maths, Science "
+            + PREFIX_EMERGENCY_CONTACT + "91221231 "
+            + PREFIX_PAYMENT_STATUS + "Paid "
+            + PREFIX_ASSIGNMENT_STATUS + "Completed ";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
