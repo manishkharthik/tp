@@ -359,6 +359,107 @@ Deletes the specified student from the student list.
     <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
   </figure>
 
+### Marking attendance: `markattendance`
+
+Marks a student’s attendance for a specific lesson.
+
+**Format:** `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS`
+
+**Parameters:**
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
+- `l/` — lesson name (must exist for the given subject).  
+- `st/` — attendance status. One of: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.
+
+**Description:**
+- Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.  
+- The student **must already be a Student** (not a generic Person), must be **enrolled** in the specified subject, and the lesson must **exist** for that subject.  
+- Subject matching is **case-insensitive** (e.g., `math` matches `Math`).  
+- On success, a confirmation message summarises: student, subject, lesson, and status.
+
+---
+
+**Examples**
+
+1. **Mark John Tan present for Algebra (Math)**  
+
+Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
+
+<figure>
+  <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
+  <figcaption><em>Figure 9: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
+</figure>
+
+
+2. **Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)**  
+
+Command: 
+1. `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT`
+2. `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED`
+
+<table>
+  <tr>
+    <td><img src="images/attendance_change_before.png" alt="Change Status Before" width="540" height="220"></td>
+    <td><img src="images/attendance_change_after.png" alt="Change Status After" width="540" height="220"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 10a: Before editing attendance (status: ABSENT)</em></td>
+    <td align="center"><em>Figure 10b: After changing status to “EXCUSED”</em></td>
+  </tr>
+</table>
+
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution**
+
+- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.  
+- The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.  
+- The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.  
+- Use the exact lesson name you created (spelling/spacing must match).  
+- Allowed statuses are exactly: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.  
+</div>
+
+---
+
+### Viewing attendance records: `listattendance`
+
+Displays a student’s attendance records for a specific subject.
+
+**Format:** `listattendance n/NAME s/SUBJECT`
+
+**Parameters:**
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
+
+**Description:**
+- Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.  
+- The student must already be a **Student** (not a generic Person) and must be **enrolled** in the specified subject.  
+- Each record line displays the **Lesson name** and its **attendance status** (e.g., `Algebra PRESENT`, `Calculus LATE`).  
+- If no attendance records exist for that subject, an error message will be shown.  
+
+---
+
+**Example**
+
+**List John Tan’s attendance for Math**  
+
+Command: `listattendance n/John Tan s/Math`
+
+<figure>
+  <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
+  <figcaption><em>Figure 11: Listing attendance for John Tan’s Math lessons</em></figcaption>
+</figure>
+
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution**
+
+- The student is searched **only within the currently displayed list**. Ensure the target student is visible before running the command.  
+- The student must be **enrolled** in the specified subject; otherwise, the command will fail.  
+- If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.  
+- Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).  
+</div>
+
+---
+
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
 
 * Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
@@ -578,16 +679,18 @@ Format: `exit`
 ## Command Summary
 
 | Action | Format, Examples (if necessary) |
-|--------|------------------|
+|--------|---------------------------------|
 | **Help** | `help` |
 | **Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` |
 | **List** | `list` |
 | **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Pending as/Completed` |
 | **Find** | `find KEYWORD [MORE_KEYWORDS]` |
 | **Delete** | `delete INDEX` <br> e.g., `delete 2` |
-| **Archive** | `archive INDEX`<br> e.g., `archive 3` |
+| **Archive** | `archive INDEX` <br> e.g., `archive 3` |
 | **List Archived** | `listarchive` |
 | **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1` |
+| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT` |
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math` |
 | **Clear** | `clear` |
 | **Exit** | `exit` |
 
