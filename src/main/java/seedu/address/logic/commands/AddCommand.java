@@ -30,12 +30,13 @@ public class AddCommand extends Command {
             + "[" + PREFIX_PAYMENT_STATUS + "PAYMENT_STATUS] "
             + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT_STATUS]\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Tan "
+            + PREFIX_NAME + " \"John Tan\" "
             + PREFIX_CLASS + "3B "
             + PREFIX_SUBJECTS + "Math s/Science "
             + PREFIX_EMERGENCY_CONTACT + "91234567 "
             + PREFIX_PAYMENT_STATUS + "Paid "
-            + PREFIX_ASSIGNMENT_STATUS + "Completed";
+            + PREFIX_ASSIGNMENT_STATUS + "Completed" + "\n"
+            + "Note: Use quotes for names with special characters, optional to use quotes for regular names";
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student already exists in the student list";
