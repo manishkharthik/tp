@@ -75,10 +75,10 @@ public class AddressBookParser {
             return new ArchiveCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
+            return new ClearCommand(arguments);
 
         case ClearArchiveCommand.COMMAND_WORD:
-            return new ClearArchiveCommand();
+            return new ClearArchiveCommand(arguments);
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
@@ -87,10 +87,10 @@ public class AddressBookParser {
             return new ListCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
+            return new ExitCommand(arguments);
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
+            return new HelpCommand(arguments);
 
         case ListArchiveCommand.COMMAND_WORD:
             return new ListArchiveCommandParser().parse(arguments);

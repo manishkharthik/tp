@@ -25,7 +25,7 @@ public class AddCommand extends Command {
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_CLASS + "CLASS "
-            + PREFIX_SUBJECTS + "SUBJECT [s/SUBJECT]... "
+            + PREFIX_SUBJECTS + "SUBJECT [s/MORE_SUBJECTS]... "
             + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT "
             + "[" + PREFIX_PAYMENT_STATUS + "PAYMENT_STATUS] "
             + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT_STATUS]\n"

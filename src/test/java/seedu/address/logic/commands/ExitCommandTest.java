@@ -18,13 +18,13 @@ public class ExitCommandTest {
     @Test
     public void execute_exit_success() {
         CommandResult expectedCommandResult = new CommandResult(MESSAGE_EXIT_ACKNOWLEDGEMENT, false, true);
-        assertCommandSuccess(new ExitCommand(), model, expectedCommandResult, expectedModel);
+        assertCommandSuccess(new ExitCommand(""), model, expectedCommandResult, expectedModel);
     }
 
     @Test
     public void equals() {
-        ExitCommand command1 = new ExitCommand();
-        ExitCommand command2 = new ExitCommand();
+        ExitCommand command1 = new ExitCommand("");
+        ExitCommand command2 = new ExitCommand("");
 
         // same object → true
         assertTrue(command1.equals(command1));
@@ -42,7 +42,7 @@ public class ExitCommandTest {
 
     @Test
     public void toStringMethod() {
-        ExitCommand exitCommand = new ExitCommand();
+        ExitCommand exitCommand = new ExitCommand("");
         String expected = ExitCommand.class.getCanonicalName();
         assertEquals(expected, exitCommand.toString());
     }
