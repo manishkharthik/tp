@@ -15,6 +15,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 
 /**
  * Marks a student's attendance for a specified lesson.
@@ -32,26 +33,25 @@ public class MarkAttendanceCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Tan "
             + PREFIX_SUBJECTS + "Math "
-            + PREFIX_LESSON + "Lesson 5 "
+            + PREFIX_LESSON + "Algebra "
             + PREFIX_STATUS + "PRESENT";
 
-
     private final Name name;
-    private final String subject;
-    private final String lessonName;
+    private final Subject subject;
+    private final Lesson lesson;
     private final AttendanceStatus status;
 
     /**
-     * Creates a MarkAttendanceCommand to update a student's attendance record.
+     * Constructs a MarkAttendanceCommand to mark attendance for the specified student, subject, lesson, and status.
      */
-    public MarkAttendanceCommand(Name name, String subject, String lessonName, AttendanceStatus status) {
+    public MarkAttendanceCommand(Name name, Subject subject, Lesson lesson, AttendanceStatus status) {
         requireNonNull(name);
         requireNonNull(subject);
-        requireNonNull(lessonName);
+        requireNonNull(lesson);
         requireNonNull(status);
         this.name = name;
-        this.subject = subject.trim();
-        this.lessonName = lessonName.trim();
+        this.subject = subject;
+        this.lesson = lesson;
         this.status = status;
     }
 
@@ -61,10 +61,10 @@ public class MarkAttendanceCommand extends Command {
         assert model != null : "Model should not be null";
         assert name != null : "Name cannot be null";
         assert subject != null : "Subject cannot be null";
-        assert lessonName != null : "Lesson name cannot be null";
+        assert lesson != null : "Lesson name cannot be null";
         assert status != null : "Status cannot be null";
 
-        // Find student by name in the filtered list
+        // Find student by name
         Person foundPerson = model.getFilteredPersonList().stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
@@ -76,22 +76,29 @@ public class MarkAttendanceCommand extends Command {
 
         Student student = (Student) foundPerson;
 
-        // Check if the student is enrolled in the given subject
-        boolean enrolled = student.getSubjects().stream().anyMatch(s -> s.equalsIgnoreCase(subject));
+        // Check the student is enrolled in the subject
+        boolean enrolled = student.getSubjects().stream()
+                .anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
         if (!enrolled) {
             throw new CommandException(
-                String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
+                    String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
         }
 
-        // Create a Lesson object and mark attendance
-        Lesson lesson = new Lesson(lessonName, subject);
+        // Check the lesson exists in the model
+        if (!model.hasLesson(new Lesson(lesson.getName(), subject.getName()))) {
+            throw new CommandException(String.format(
+                Messages.MESSAGE_LESSON_NOT_FOUND, lesson.getName(), subject.getName()));
+        }
+
+        // Mark attendance
         student.getAttendanceList().markAttendance(lesson, status);
 
+        // Feedback
         String feedback = String.format(
                 Messages.MESSAGE_SUCCESS,
                 student.getName(),
-                subject,
-                lessonName,
+                subject.getName(),
+                lesson.getName(),
                 status
         );
 
@@ -107,16 +114,17 @@ public class MarkAttendanceCommand extends Command {
         if (!(other instanceof MarkAttendanceCommand)) {
             return false;
         }
+
         MarkAttendanceCommand o = (MarkAttendanceCommand) other;
         return name.equals(o.name)
                 && subject.equals(o.subject)
-                && lessonName.equals(o.lessonName)
+                && lesson.equals(o.lesson)
                 && status.equals(o.status);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(name, subject, lessonName, status);
+        return java.util.Objects.hash(name, subject, lesson, status);
     }
 
     @Override
@@ -124,7 +132,7 @@ public class MarkAttendanceCommand extends Command {
         return new ToStringBuilder(this)
                 .add("name", name)
                 .add("subject", subject)
-                .add("lessonName", lessonName)
+                .add("lesson", lesson)
                 .add("status", status)
                 .toString();
     }

@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import seedu.address.model.Model;
 
 /**
- * Format full help instructions for every command for display.
+ * Formats full help instructions for every command for display.
  */
 public class HelpCommand extends Command {
 
@@ -17,5 +17,15 @@ public class HelpCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         return new CommandResult(SHOWING_HELP_MESSAGE, true, false);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this || (other instanceof HelpCommand);
+    }
+
+    @Override
+    public String toString() {
+        return HelpCommand.class.getCanonicalName();
     }
 }

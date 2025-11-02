@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -26,11 +27,17 @@ public class AddLessonCommandTest {
     }
 
     @Test
+    public void constructor_nullLesson_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddLessonCommand(null));
+    }
+
+    @Test
     public void execute_validLesson_success() {
-        Lesson lesson = new Lesson("Math", "Algebra");
+        Lesson lesson = new Lesson("Algebra", "Math");
         AddLessonCommand addLessonCommand = new AddLessonCommand(lesson);
 
-        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS, lesson);
+        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS,
+                lesson.getName(), lesson.getSubject());
         expectedModel.addLesson(lesson);
 
         assertCommandSuccess(addLessonCommand, model, expectedMessage, expectedModel);
@@ -43,6 +50,20 @@ public class AddLessonCommandTest {
         AddLessonCommand addLessonCommand = new AddLessonCommand(lesson);
 
         assertCommandFailure(addLessonCommand, model, AddLessonCommand.MESSAGE_DUPLICATE_LESSON);
+    }
+
+    @Test
+    public void execute_emptyAddressBook_success() {
+        model = new ModelManager();
+        expectedModel = new ModelManager();
+        Lesson lesson = new Lesson("Physics", "Science");
+
+        AddLessonCommand command = new AddLessonCommand(lesson);
+        expectedModel.addLesson(lesson);
+
+        String expectedMessage = String.format(AddLessonCommand.MESSAGE_SUCCESS,
+                lesson.getName(), lesson.getSubject());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test

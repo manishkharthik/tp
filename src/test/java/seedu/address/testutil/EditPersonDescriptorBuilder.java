@@ -12,6 +12,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -118,11 +119,11 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withSubjects(String csvSubjects) {
         String[] parts = csvSubjects.split(",");
-        List<String> subjects = new ArrayList<>();
+        List<Subject> subjects = new ArrayList<>();
         for (String s : parts) {
             String trimmed = s.trim();
             if (!trimmed.isEmpty()) {
-                subjects.add(trimmed);
+                subjects.add(new Subject(trimmed));
             }
         }
         descriptor.setSubjects(subjects);

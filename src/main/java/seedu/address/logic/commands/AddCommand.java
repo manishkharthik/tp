@@ -15,7 +15,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
 /**
- * Adds a student to the address book.
+ * Adds a student to the TutorTrack.
  */
 public class AddCommand extends Command {
 
@@ -56,11 +56,18 @@ public class AddCommand extends Command {
         assert model != null : "Model should not be null";
         assert toAdd != null : "Person to add should not be null";
 
-        if (model.hasPerson(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        if (model.isViewingArchived()) {
+            if (model.hasArchivedPerson(toAdd)) {
+                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            }
+            model.addArchivedPerson(toAdd);
+        } else {
+            if (model.hasPerson(toAdd)) {
+                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            }
+            model.addPerson(toAdd);
         }
 
-        model.addPerson(toAdd);
         CommandResult result = new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
         assert result != null : "CommandResult should not be null";
         return result;

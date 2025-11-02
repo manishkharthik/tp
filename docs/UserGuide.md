@@ -5,10 +5,20 @@ title: User Guide
 
 ## Welcome to TutorTrack
 
-TutorTrack is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorTrack can get your student management tasks done faster than traditional GUI apps.
+TutorTrack is a **student management application designed for private tutors and tutoring centers** who need to **efficiently organize and track their students' information**. Whether you're managing a handful of students or dozens across multiple subjects, TutorTrack helps you stay on top of contact details, attendance records, payment status, and academic progress.
 
-TutorTrack is designed to help you, as a tutor, efficiently organise and track your students. This includes adding, deleteing and archiving students as well as a students studental information such as name, subjects, payment status, attendance and much more.
+Built for tutors who prefer typing over clicking, TutorTrack is **optimized for use via a Command Line Interface (CLI)** while still providing the benefits of a Graphical User Interface (GUI). If you can type fast, TutorTrack can get your student management tasks done faster than traditional point-and-click applications.
 
+### Key Features
+With TutorTrack, you can:
+* **Manage student profiles** - Add, edit, delete, and archive student information including contact details, emergency contacts, and assigned classes
+* **Track subjects and lessons** - Organize students by subjects and maintain lesson records
+* **Monitor attendance** - Mark and view attendance for individual lessons
+* **Track payments** - Keep tabs on payment status for each student
+* **Monitor assignments** - Track assignment completion status
+* **Search and filter** - Quickly find students by name, subject, class, or other criteria
+
+TutorTrack is perfect for independent tutors, tutoring center staff, and educational coordinators who want a fast, keyboard-driven way to manage their students without the complexity of traditional administrative software.
 * Table of Contents
 {:toc}
 
@@ -16,10 +26,10 @@ TutorTrack is designed to help you, as a tutor, efficiently organise and track y
 
 ## Using this guide
 
-* If you are new to TutorTrack, start with the Quick Start section to get set up and running in minutes.
-* If you need help with specific commands, refer to the Command Summary for a concise overview.
-* If you want a deeper understanding of a particular feature, explore the relevant section under Features.
-* If you are a developer seeking technical or implementation details, check out our Developer Guide for architecture and design information.
+* If you are new to TutorTrack, start with the [Quick Start](#quick-start) section to get set up and running in minutes.
+* If you need help with specific commands, refer to the [Command Summary](#command-summary) for a concise overview.
+* If you want a deeper understanding of a particular feature, explore the relevant section under [Features](#features).
+* If you are a developer seeking technical or implementation details, check out our [Developer Guide](https://ay2526s1-cs2103t-w13-2.github.io/tp/DeveloperGuide.html#model-component) for architecture and design information.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -52,38 +62,45 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have Java 17 or above installed on your computer.
+    *	**Windows users:**
+    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows)￼ or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/)￼.
+    *	**macOS users:**
+  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)￼,
+  or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)￼
+  or [Adoptium Temurin 17 (macOS)](https://adoptium.net/temurin/releases/).
+    *	**Linux users:**
+  You can install via your package manager (e.g., ```sudo apt install openjdk-17-jdk```)
+  or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)￼
+  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before the moving on to the next instruction.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar tutortrack.jar` command to run the application.<br>
+   A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.
+   <figure>
+      <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
+      <figcaption><em>Figure 1: TutorTrack GUI</em></figcaption>
+    </figure>
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type a command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all students.
 
-   * `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed` : Adds a student named `John Tan` to the Address Book.
+   * `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` : Adds a student named `John Tan` to the Tutor Track.
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
-   * `clear` : Deletes all students.
+   * `clearcurrent` : Deletes all students in the current list.
 
    * `exit` : Exits the app.
 
 6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
-
-## Navigating the GUI
-
-(guide on how to use the GUI)
-
 
 ## Features
 
@@ -95,13 +112,10 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  e.g `n/NAME [ps/PAYMENT_STATUS]` can be used as `n/John Doe ps/Paid` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Items with `…`​ after them can be used multiple times.<br>
+  e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -112,8 +126,10 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 ### Viewing help : `help`
 
 Shows a message with a link to access the full help page.
-
-![help command](images/helpcommand.png)
+  <figure>
+    <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
+    <figcaption><em>Figure 2: Help Window</em></figcaption>
+  </figure>
 
 **Format:** `help`
 
@@ -123,24 +139,21 @@ Shows a message with a link to access the full help page.
 
 ### Adding a student: `add`
 
-Adds a new student to the address book with their academic and contact information.
+Adds a new student to the Tutor Track with their academic and contact information.
 
-![add command](images/addcommand.png)
-
-**Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]`
+**Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
-* `n/NAME` - Student's full name (required)
-* `c/CLASS` - Student's class (e.g., 3B) (required)
-* `s/SUBJECT` - Subject(s) the student is taking (at least one required, can add multiple)
-* `ec/EMERGENCY_CONTACT` - Emergency contact phone number (required)
-* `att/ATTENDANCE` - Current attendance status: Present, Absent, Late, or Excused (optional)
-* `pay/PAYMENT_STATUS` - Payment status: Paid or Unpaid (optional)
-* `asg/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (optional)
+* `n/NAME` - Student's full name (**required**)
+* `c/CLASS` - Student's class (e.g., 3B) (**required**)
+* `s/SUBJECT` - Subject(s) the student is taking (**at least one required**, use multiple `s/` prefixes to add more)
+* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number (**required**)
+* `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
+* `asg/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 * You can add multiple subjects by using multiple `s/` prefixes
-* Optional fields will use default values if not specified
+* Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified
 * Names are case-sensitive
 </div>
 
@@ -149,23 +162,32 @@ You cannot add a student with the same name and class as an existing student.
 </div>
 
 **Examples:**
-* `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed`
-    * Adds John Tan from class 3B taking Math and Science
-* `add n/Sam Lee c/3A s/Art s/History ec/98765432`
-    * Adds Sam Lee from class 3A (uses default values for optional fields)
+* `add n/John Tan c/3B s/Math s/Science ec/91234567` 
+  * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
 
-**Expected output:**
-```
-New student added: John Tan; Class: 3B; Subjects: [Math, Science]; Emergency Contact: 91234567
-```
+  <figure>
+    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
+    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+  </figure>
+
+* `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
+  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
+
+  <figure>
+    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
+    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
+  </figure> 
 
 ---
 
 ### Listing all students : `list`
 
-Shows a list of all active (non-archived) students in the address book.
+Shows a list of all active (non-archived) students in the Tutor Track.
 
-![list command](images/listcommand.png)
+<figure>
+    <img src="images/listcommand.png" alt="List" width="600"/>
+    <figcaption><em>Figure 4: Sample student list shown after the list Command is called</em></figcaption>
+  </figure>
 
 **Format:** `list`
 
@@ -185,204 +207,468 @@ Use this command to reset any filters and see all active students after using `f
 
 ### Editing a student : `edit`
 
-Edits an existing student in the address book.
+Edits an existing student's information in Tutor Track
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+**Format:** `edit [INDEX] [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
-* Edits the student at the specified `INDEX`. The index refers to the index number shown in the displayed student list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When you edit a Person (not originally a Student) with Student fields, they will be converted to Students, with their relevant fields updated to match Student fields.
-* When editing tags, the existing tags of the student will be removed i.e adding of tags is not cumulative.
-* You can remove all the student’s tags by typing `t/` without
-    specifying any tags after it.
-* You can also edit **student-specific details**, such as:
-  - `c/` → Student class
-  - `s/` → Subject(s) (you may specify multiple)
-  - `ec/` → Emergency contact
-  - `att/` → Attendance status (`Present`, `Absent`, `Late`, or `Excused`)
-  - `pay/` → Payment status (e.g. `Paid`, `Pending`, `Overdue`)
-  - `asg/` → Assignment status (e.g. `Submitted`, `Incomplete`, `Not Submitted`)
+**Parameters:**
+*	`c/` — class (e.g., `3A`)
+*	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
+*	`ec/` — emergency contact (numbers only)
+*	`ps/` — payment status (e.g., Paid, Pending, Overdue)
+*	`as/` — assignment status (e.g., Submitted, Incomplete, Not Submitted)
+
+**Description**:
+*	Edits the student at the given `INDEX` (as shown in the current student list). `INDEX` is a positive integer.
+*	Existing values are replaced by the new ones you supply.
+* If the person at `INDEX`is not yet a Student, supplying any student-specific fields will convert them into a Student.
+* Subjects are matched case-insensitively.
+
+⸻
 
 **Examples:**
-* `edit 1 c/CS2103 s/Math, CS`
-  Edits the **phone number** and **email address** of the 1st student.
-  <figure>
-    <img src="images/editStudent1_command_before.png" alt="Student 1 Before" width="600"/>
-    <figcaption><em>Before editing the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent1_command_after.png" alt="Student 1 After" width="600"/>
-    <figcaption><em>After editing the student</em></figcaption>
-  </figure>
+1. Changing a student's class and subjects
+* Command: `edit 1 c/CS2103 s/CS`
+  <table>
+  <tr>
+    <td><img src="images/editcommand1_before.png" alt="Student 1 Before" width="540" height="200"></td>
+    <td><img src="images/editcommand1_after.png" alt="Student 1 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 5a: Before editing fields</em></td>
+    <td align="center"><em>Figure 5b: After editing class & subjects</em></td>
+  </tr>
+</table>
 
-* `edit 2 pay/Pending`
-  Edits the **Payment Status** of the 2nd student and clears all existing tags.
-  <figure>
-    <img src="images/editStudent2_command_before.png" alt="Student 2 Before" width="600"/>
-    <figcaption><em>Before editing the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent2_command_after.png" alt="Student 2 After" width="600"/>
-    <figcaption><em>After editing the student</em></figcaption>
-  </figure>
-* `edit 3 c/4C s/Math, Physics pay/Paid`
-  Updates the class, subjects, and payment status of a Person, making them into a Student.
-  <figure>
-    <img src="images/editStudent3_command_before.png" alt="Student 3 Before" width="600"/>
-    <figcaption><em>Before editing the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent3_command_view.png" alt="Student 3 Command" width="600"/>
-    <figcaption><em>Input for editing the student</em>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="images/editStudent3_command_after.png" alt="Student 3 After" width="600"/>
-    <figcaption><em>After editing the student</em></figcaption>
-  </figure>
+2.	Changing a student's payment status
+* Command: `edit 2 ps/Pending`
+  <table>
+  <tr>
+    <td><img src="images/editcommand2_before.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/editcommand2_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 6a: Before editing fields</em></td>
+    <td align="center"><em>Figure 6b: After setting Payment Status to “Pending”</em></td>
+  </tr>
+</table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Provide at least one field to change, otherwise, the command is rejected.
+* Ensure the target `INDEX` is visible after any filters (e.g., after find); otherwise you may edit the wrong entry.
+* Use consistent subject names to avoid near-duplicate entries (e.g., prefer Math over Mathematics if your list already uses Math).
+* If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
+
+</div>
 
 ### Locating students by name: `find`
 
+
 Finds students whose names contain any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+**Format:** `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* students matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+**Parameters:**
+* `KEYWORD` — any part of a student's name (case-insensitive)
+* Multiple keywords can be supplied, separated by spaces (e.g., `find John Tan`)
+* Only full words are matched (e.g., `Han` will not match `Hans`)
 
-Examples:
-* `find John` returns `John Teo` and `John Tan`
-* `find Teo Tan` also returns `John Teo` and `John Tan`<br>
+**Description**:
+* Returns students whose names contain all supplied keywords (AND search)
+* The search is case-insensitive. e.g., `hans` matches `Hans`
+* The order of keywords does not matter. e.g., `Hans Bo` matches `Bo Hans`
+* Only the name field is searched
+* If no students match, an empty list is shown
 
-  ![result for 'find alex david'](images/findcommand_multiple.png)
+⸻
 
-* `find InvalidStudentName` returns an empty list of students since no student is named `InvalidStudentName`<br>
-  ![result for 'find alex david'](images/findcommand_invalid_person.png)
+**Examples:**
+1. Finding multiple students
+* Command: `find john`
+  <figure>
+    <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
+    <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
+  </figure>
+
+2. No matching students
+* Command: `find alice`
+  <figure>
+    <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
+    <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
+  </figure>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* Only students matching all keywords are shown; partial matches are not included.
+* If you intend to search by other fields (e.g., subject, class), use the appropriate command or filter.
+
+</div>
 
 ### Deleting a student : `delete`
 
+
 Deletes the specified student from the student list.
 
-Format: `delete INDEX`
+**Format:** `delete INDEX`
 
+**Parameters:**
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer)
+
+**Description:**
 * Deletes the student at the specified `INDEX`. This action is **irreversible**
-* The index refers to the index number shown in the displayed student list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index refers to the index number shown in the displayed student list
 * The command works on the last shown list of students, which may be filtered (e.g., after using `find`)
-* If the provided index is invalid (e.g., out of range), an error message will be shown.
+* If the provided index is invalid (e.g., out of range), an error message will be shown
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd student in the student list.
- ![Before delete: result for 'list'](images/deletecommand_list_before.png)
- ![After delete: result for 'delete 2'](images/deletecommand_list_after.png)
-* `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
- ![Before delete: result for 'find John'](images/deletecommand_find_before.png)
- ![After delete: result for 'delete 2'](images/deletecommand_find_after.png)
-* `delete 3` where there are only 2 or fewer students results in the following error message:
-   **"The person index provided is invalid"**
- ![result for 'delete 3' on a student list of only two people](images/deletecommand_error.png)
+⸻
+
+**Examples:**
+1. Deleting a student from the main list
+* Command: `list` followed by `delete 3`
+  <table>
+    <tr>
+      <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+    </tr>
+  </table>
+
+2. Deleting a student from a filtered list
+* Command: `find John` followed by `delete 2`
+  <table>
+    <tr>
+      <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+    </tr>
+  </table>
+
+3. Invalid index
+* Command: `delete 5` (when there are only 2 or fewer students)
+  **Error:** "The person index provided is invalid"
+  <figure>
+    <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
+    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
+  </figure>
+
+### Marking attendance: `markattendance`
+
+Marks a student’s attendance for a specific lesson.
+
+**Format:** `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS`
+
+**Parameters:**
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
+- `l/` — lesson name (must exist for the given subject).  
+- `st/` — attendance status. One of: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.
+
+**Description:**
+- Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.  
+- The student **must already be a Student** (not a generic Person), must be **enrolled** in the specified subject, and the lesson must **exist** for that subject.  
+- Subject matching is **case-insensitive** (e.g., `math` matches `Math`).  
+- On success, a confirmation message summarises: student, subject, lesson, and status.
+
+---
+
+**Examples**
+
+1. **Mark John Tan present for Algebra (Math)**  
+
+Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
+
+<figure>
+  <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
+  <figcaption><em>Figure 9: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
+</figure>
+
+
+2. **Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)**  
+
+Command: 
+1. `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT`
+2. `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED`
+
+<table>
+  <tr>
+    <td><img src="images/attendance_change_before.png" alt="Change Status Before" width="540" height="220"></td>
+    <td><img src="images/attendance_change_after.png" alt="Change Status After" width="540" height="220"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 10a: Before editing attendance (status: ABSENT)</em></td>
+    <td align="center"><em>Figure 10b: After changing status to “EXCUSED”</em></td>
+  </tr>
+</table>
+
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution**
+
+- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.  
+- The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.  
+- The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.  
+- Use the exact lesson name you created (spelling/spacing must match).  
+- Allowed statuses are exactly: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.  
+</div>
+
+---
+
+### Viewing attendance records: `listattendance`
+
+Displays a student’s attendance records for a specific subject.
+
+**Format:** `listattendance n/NAME s/SUBJECT`
+
+**Parameters:**
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
+
+**Description:**
+- Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.  
+- The student must already be a **Student** (not a generic Person) and must be **enrolled** in the specified subject.  
+- Each record line displays the **Lesson name** and its **attendance status** (e.g., `Algebra PRESENT`, `Calculus LATE`).  
+- If no attendance records exist for that subject, an error message will be shown.  
+
+---
+
+**Example**
+
+**List John Tan’s attendance for Math**  
+
+Command: `listattendance n/John Tan s/Math`
+
+<figure>
+  <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
+  <figcaption><em>Figure 11: Listing attendance for John Tan’s Math lessons</em></figcaption>
+</figure>
+
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution**
+
+- The student is searched **only within the currently displayed list**. Ensure the target student is visible before running the command.  
+- The student must be **enrolled** in the specified subject; otherwise, the command will fail.  
+- If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.  
+- Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).  
+</div>
+
+---
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* Deleting a student is permanent and cannot be undone.
+* The index must be a positive integer and refer to a visible student.
+
+</div>
 
 ### Archiving a student : `archive`
 
-Archives the specified student from the address book.
-
-Format: `archive INDEX`
-
-Moves a student into the **archive list**.
-Archived students are **not deleted** and can be viewed anytime using `listarchive`.
+Moves a student from your active list into the archive list in Tutor Track.
 
 **Format:** `archive INDEX`
 
-**Details:**
-* Archives the student at the specified `INDEX` (from the currently displayed list).
-* The index must be a **positive integer**.
+**Parameters:**
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer)
+
+**Description:**
+* Archives the student at the specified `INDEX`.
+* Archived students are **not deleted** — they remain in the system and can be viewed using `listarchive`.
 * Archived students are hidden from the main student list but **preserved** in the data file.
-* You can use `listarchive` to view all archived students or restore them in future versions.
+* Use this for students you're no longer actively tutoring but want to keep records for.
+
+⸻
 
 **Examples:**
-* `archive 3` archives the 3rd student in the list.
-<figure>
-  <img src="images/archiveStudent1_command_before.png" alt="Student 1 Before" width="600"/>
-    <figcaption><em>Before archiving the student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/archiveStudent1_command_after.png" alt="Student 1 After" width="600"/>
-    <figcaption><em>After archiving the student</em>
-    </figcaption>
-  </figure>
+1. Archiving a student from the main list
+* Command: `archive 2`
+  <table>
+  <tr>
+    <td><img src="images/archiveStudent1_command_before.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 12a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 12b: Student List after Sarah is archived</em></td>
+  </tr>
+  </table>
 
-* `find Gary` followed by `archive 1` archives the 1st student in the filtered results.
-<figure>
-  <img src="images/findStudent2_command.png" alt="Find Student 2" width="600"/>
-    <figcaption><em>Find the desired student</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/archiveStudent2_command_view.png" alt="Student 2 Archive Command" width="600"/>
-    <figcaption><em>Input for archiving Gary</em>
-    </figcaption>
-  </figure>
-  <figure>
-  <img src="images/archiveStudent2_command_after.png" alt="Student 2 Archive After" width="600"/>
-    <figcaption><em>Once student has been archived</em></figcaption>
-  </figure>
+2. Archiving a student from filtered results
+* Command: `find John` followed by `archive 1`
+  <table>
+  <tr>
+    <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 13a: Find the desired student</em></td>
+  </tr>
+  </table>
+  <table>
+  <tr>
+    <td><img src="images/archiveStudent2_command_view.png" alt="Archive Command" width="540" height="200"></td>
+    <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 13b: Index is based on filtered list (1 in this case)</em></td>
+    <td align="center"><em>Figure 13c: John is successfully archived</em></td>
+  </tr>
+  </table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* The `INDEX` refers to the position in the **displayed list**, not the complete list of all students.
+
+</div>
 
 ### Viewing archived students : `listarchive`
 
-Displays **all archived students** in the system.
-Use this to view or verify students who have been archived previously.
+Displays all archived students in Tutor Track for recordkeeping and reference.
 
 **Format:** `listarchive`
 
-**Details:**
-* Displays a list of all archived students.
-* This command has no parameters.
-* Archived students retain all their details (class, subjects, attendance, payment, etc.) for recordkeeping.
+**Parameters:**
+* This command takes no parameters.
+
+**Description:**
+* Displays a list of all students who have been archived.
+* Archived students retain all their details (class, subjects, attendance, payment status, assignment status, etc.).
+* Use this command to view or verify students who are no longer actively being tutored.
+
+⸻
 
 **Example:**
-* `listarchive`
-  Shows all archived students with their full details.
-  <figure>
-  <img src="images/listArchive_command.png" alt="Archive List" width="600"/>
-    <figcaption><em>Archive List with all archived students</em></figcaption>
-  </figure>
+1. Viewing all archived students
+* Command: `listarchive`
+  <table>
+  <tr>
+    <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 14: Archive student list showing all archived students</em></td>
+  </tr>
+  </table>
 
-### Clearing all entries : `clear`
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
 
-Deletes **all students** from the active address book.
+* Archived students are separate from your active student list and won't appear in regular `list` or `find` commands.
+* To move a student back to your active list, use the `unarchive` command.
 
-**Format:**
+</div>
+
+### Unarchiving a student : `unarchive`
+
+Moves a student from the archive list back to your active student list in Tutor Track.
+
+**Format:** `unarchive INDEX`
+
+**Parameters:**
+* `INDEX` — the position of the student in the archive list (must be a positive integer)
+
+**Description:**
+* Unarchives the student at the specified `INDEX` from the archive list.
+* The student will be moved back to your main active student list.
+* Use `listarchive` first to view archived students and identify the correct `INDEX`.
+* All student details (subjects, attendance, payment status, etc.) are preserved when unarchiving.
+
+⸻
+
+**Examples:**
+1. Unarchiving a student from the archive list
+* Command: `unarchive 1`
+  <table>
+  <tr>
+    <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 15a: Unarchiving Sarah Lim from the archive list</em></td>
+  </tr>
+  </table>
+
+2. Attempting to unarchive with an invalid index
+* Command: `unarchive 2`
+  <table>
+  <tr>
+    <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 15b: Error message when using an invalid index</em></td>
+  </tr>
+  </table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* The `INDEX` refers to the position in the **archive list**, not the main student list.
+* Use `listarchive` to see the archive list and verify the correct index before unarchiving.
+* If the index is out of range, an error message will be displayed.
+
+</div>
+
+### Clearing all current student entries : `clearcurrent`
+
+Deletes **all current students** from the student list. This action is **irreversible**
+
+**Format:** `clearcurrent`
 
 **Details:**
-* Permanently deletes all student records from the **main list**.
+* Permanently deletes all student records from the **current list**.
 * Does **not** affect archived students.
 * The data file is automatically updated after the operation.
 
 **Example:**
-* `clear`
+* `clearcurrent`
   Removes every student from the current list.
-  <figure>
-    <img src="images/clear_command_before.png" alt="Student List before clearing" width="600"/>
-    <figcaption><em>Student List before clearing</em></figcaption>
-  </figure>
-  <figure>
-    <img src="images/clear_command_view.png" alt="Clear Command" width="600"/>
-    <figcaption><em>Clear Command</em>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="images/clear_command_after.png" alt="Student List after clearing" width="600"/>
-    <figcaption><em>Student List after clearing</em></figcaption>
-  </figure>
+  <table>
+  <tr>
+    <td><img src="images/currentclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 16a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 16b: Student List once all students have been cleared out</em></td>
+  </tr>
+  </table>
 
 
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
 This command cannot be undone. All active records will be permanently deleted.
 Archived records are not affected by this command.</div>
+
+### Clearing all archived student entries : `cleararchive`
+
+Deletes **all archived students** from the student list. This action is **irreversible**
+
+**Format:** `cleararchive`
+
+**Details:**
+* Permanently deletes all student records from the **archived list**.
+* Does **not** affect current students.
+* The data file is automatically updated after the operation.
+
+**Example:**
+* `cleararchive`
+  Removes every student from the archived list.
+  <table>
+  <tr>
+    <td><img src="images/archiveclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 17a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 17b: Archive Student List once all students have been cleared out</em></td>
+  </tr>
+</table>
+
+
+<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
+This command cannot be undone. All active records will be permanently deleted.
+Current records are not affected by this command.</div>
 
 ### Exiting the program : `exit`
 
@@ -392,29 +678,33 @@ Format: `exit`
 
 ## Command Summary
 
-| Action | Format, Examples |
-|--------|------------------|
-| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed` |
-| **Delete** | `delete INDEX` <br> e.g., `delete 2` |
-| **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS] [t/TAG]...`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math s/Science pay/Pending` |
-| **Archive** | `archive INDEX`<br> e.g., `archive 3` |
-| **List Archived** | `listarchive` |
-| **Clear** | `clear` |
-| **List** | `list` |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]` |
+| Action | Format, Examples (if necessary) |
+|--------|---------------------------------|
 | **Help** | `help` |
+| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` |
+| **List** | `list` |
+| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Pending as/Completed` |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]` |
+| **Delete** | `delete INDEX` <br> e.g., `delete 2` |
+| **Archive** | `archive INDEX` <br> e.g., `archive 3` |
+| **List Archived** | `listarchive` |
+| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1` |
+| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT` |
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math` |
+| **Clear** | `clear` |
+| **Exit** | `exit` |
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TutorTrack data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TutorTrack data are saved automatically as a JSON file `[JAR file location]/data/tutortrack.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, TutorTrack will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -425,8 +715,41 @@ _Details coming soon ..._
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**Q**: How do I transfer my data to another computer?
+**A**: Install TutorTrack on the other computer and copy your data file from the old computer to the new one:
+
+1. On the source computer, locate the data file at `[JAR file location]/data/tutortrack.json` (or the folder you used to run the app).
+2. Make a backup copy (for example, `tutortrack.json.bak`).
+3. Install and run TutorTrack on the destination computer once (this creates an initial empty data file), then exit the app.
+4. Overwrite the newly-created `tutortrack.json` with your backed-up file.
+5. Start TutorTrack — your data should appear.
+
+Notes:
+- The data file is JSON; keep the filename and structure unchanged when copying.
+- If you're switching between different app versions (or custom builds), check compatibility before overwriting.
+
+**Q**: Where is the data file stored on Windows, macOS and Linux?
+**A**: By default TutorTrack saves data next to the JAR you run, in a `data` folder (for example, `C:\path\to\folder\data\tutortrack.json` on Windows). If you launched TutorTrack from a different folder, look for `data/tutortrack.json` in that folder.
+
+**Q**: How do I back up my data?
+**A**: Copy the `data/tutortrack.json` file to a safe location (external drive, encrypted cloud storage, or another folder). Keep dated backups so you can revert to an earlier copy if needed.
+
+**Q**: What if I accidentally corrupt the data file?
+**A**: If the data file is invalid JSON or malformed, TutorTrack may start with an empty data file. To recover:
+
+1. Replace `data/tutortrack.json` with your most recent backup.
+2. If no backup exists and you understand JSON, try to repair the file manually using a JSON validator/editor.
+3. If repair isn't possible, you'll need to re-create the records in the app.
+
+**Q**: The app window opens off-screen (multi-monitor issue). What do I do?
+**A**: If the app was moved to a secondary monitor and that monitor was later removed, the window may open off-screen. To fix this:
+
+- Close TutorTrack.
+- Delete `preferences.json` in the same folder as the app (this resets window position preferences).
+- Restart TutorTrack — the window will open on the primary display.
+
+**Q**: The Help Window is minimized and doesn't re-open. How can I restore it?
+**A**: Use your OS window manager (Alt+Tab, or click the taskbar/dock icon) to restore the Help window. If that fails, restart TutorTrack.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -436,18 +759,4 @@ _Details coming soon ..._
 
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
---------------------------------------------------------------------------------------------------------------------
-
-## Command summary
-
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [att/ATTENDANCE] [pay/PAYMENT_STATUS] [asg/ASSIGNMENT_STATUS]​` <br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 att/Present pay/Paid asg/Completed`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List** | `list`
-**Help** | `help`
-**Archive** | `archive INDEX`<br> e.g., `archive 4`
-**ViewArchived** | `listarchive`
+------------------------------------------------------------------------------------------------------------

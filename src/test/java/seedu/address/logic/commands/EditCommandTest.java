@@ -23,6 +23,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.StudentBuilder;
@@ -84,7 +85,7 @@ public class EditCommandTest {
         assertTrue(edited instanceof Student);
         Student s = (Student) edited;
         assertEquals("2A", s.getStudentClass());
-        assertEquals(List.of("English"), s.getSubjects());
+        assertEquals(List.of(new Subject("English")), s.getSubjects());
         assertEquals("88888881", s.getEmergencyContact());
         assertEquals("Pending", s.getPaymentStatus());
     }
@@ -106,7 +107,7 @@ public class EditCommandTest {
 
         Student edited = (Student) model.getFilteredPersonList().get(studentIndex.getZeroBased());
         assertEquals("3B", edited.getStudentClass());
-        assertEquals(List.of("Math", "Physics"), edited.getSubjects());
+        assertEquals(List.of(new Subject("Math"), new Subject("Physics")), edited.getSubjects());
         assertEquals("Unpaid", edited.getPaymentStatus());
         assertEquals(existingStudent.getName(), edited.getName());
     }

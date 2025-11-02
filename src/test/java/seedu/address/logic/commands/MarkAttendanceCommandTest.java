@@ -25,6 +25,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.testutil.StudentBuilder;
 
 /**
@@ -32,7 +33,7 @@ import seedu.address.testutil.StudentBuilder;
  */
 public class MarkAttendanceCommandTest {
 
-    private static final String SUBJECT = "Math";
+    private static final Subject SUBJECT = new Subject("Math");
     private static final String LESSON_NAME = "L1";
 
     private Model model;
@@ -41,7 +42,6 @@ public class MarkAttendanceCommandTest {
     public void setUp() {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
-        // Ensure the first person is a Student so we never hit ClassCastException
         Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Student student0 = new StudentBuilder()
                 .withName(original.getName().toString())
@@ -53,7 +53,6 @@ public class MarkAttendanceCommandTest {
                 .build();
         model.setPerson(original, student0);
 
-        // Also ensure the second person is a Student (for equals() variety checks)
         Person original2 = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         Student student1 = new StudentBuilder()
                 .withName(original2.getName().toString())
@@ -64,19 +63,43 @@ public class MarkAttendanceCommandTest {
                 .withAssignmentStatus("Submitted")
                 .build();
         model.setPerson(original2, student1);
+
+        model.addLesson(new Lesson(LESSON_NAME, SUBJECT.getName()));
+    }
+
+    @Test
+    public void execute_validStudentFilteredList_success() {
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Name nameOfPersonToMark = personToMark.getName();
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
+        AttendanceStatus status = AttendanceStatus.ABSENT;
+
+        MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, lesson, status);
+
+        String expectedMessage = String.format(
+                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT.getName(), LESSON_NAME, status);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
+        Student expectedStudent = (Student) expectedModel.getFilteredPersonList().get(0);
+        expectedStudent.getAttendanceList().markAttendance(lesson, status);
+
+        assertCommandSuccess(cmd, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_validStudentUnfilteredList_success() {
         Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Name nameOfPersonToMark = personToMark.getName();
-        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT);
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
         AttendanceStatus status = AttendanceStatus.PRESENT;
 
-        MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
+        MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, lesson, status);
 
         String expectedMessage = String.format(
-                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
+                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT.getName(), LESSON_NAME, status);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         Student expectedStudent = (Student) expectedModel.getFilteredPersonList()
@@ -89,38 +112,20 @@ public class MarkAttendanceCommandTest {
     @Test
     public void execute_invalidStudentUnfilteredList_throwsCommandException() {
         Name invalidName = INVALID_PERSON.getName();
-        MarkAttendanceCommand cmd = new MarkAttendanceCommand(invalidName, SUBJECT, LESSON_NAME,
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
+
+        MarkAttendanceCommand cmd = new MarkAttendanceCommand(invalidName, SUBJECT, lesson,
                 AttendanceStatus.PRESENT);
 
         assertCommandFailure(cmd, model, String.format(Messages.MESSAGE_STUDENT_NOT_FOUND, invalidName));
     }
 
     @Test
-    public void execute_validStudentFilteredList_success() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-
-        Person personToMark = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Name nameOfPersonToMark = personToMark.getName();
-        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT);
-        AttendanceStatus status = AttendanceStatus.ABSENT;
-
-        MarkAttendanceCommand cmd = new MarkAttendanceCommand(nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
-
-        String expectedMessage = String.format(
-                Messages.MESSAGE_SUCCESS, nameOfPersonToMark, SUBJECT, LESSON_NAME, status);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
-        Student expectedStudent = (Student) expectedModel.getFilteredPersonList().get(0);
-        expectedStudent.getAttendanceList().markAttendance(lesson, status);
-
-        assertCommandSuccess(cmd, model, expectedMessage, expectedModel);
-    }
-
-    @Test
     public void execute_invalidStudentFilteredList_throwsCommandException() {
         Name invalidName = INVALID_PERSON.getName();
-        MarkAttendanceCommand cmd = new MarkAttendanceCommand(invalidName, SUBJECT, LESSON_NAME,
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
+
+        MarkAttendanceCommand cmd = new MarkAttendanceCommand(invalidName, SUBJECT, lesson,
                 AttendanceStatus.PRESENT);
 
         assertCommandFailure(cmd, model, String.format(Messages.MESSAGE_STUDENT_NOT_FOUND, invalidName));
@@ -130,13 +135,11 @@ public class MarkAttendanceCommandTest {
     public void execute_updatesExistingRecord_success() throws CommandException {
         Person p = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Name name = p.getName();
-        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT);
+        Lesson lesson = new Lesson(LESSON_NAME, SUBJECT.getName());
 
-        // First mark PRESENT
-        new MarkAttendanceCommand(name, SUBJECT, LESSON_NAME, AttendanceStatus.PRESENT).execute(model);
+        new MarkAttendanceCommand(name, SUBJECT, lesson, AttendanceStatus.PRESENT).execute(model);
 
-        // Then mark ABSENT for same lesson -> should update, not add a duplicate
-        new MarkAttendanceCommand(name, SUBJECT, LESSON_NAME, AttendanceStatus.ABSENT).execute(model);
+        new MarkAttendanceCommand(name, SUBJECT, lesson, AttendanceStatus.ABSENT).execute(model);
 
         Student studentNow = (Student) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
@@ -158,12 +161,19 @@ public class MarkAttendanceCommandTest {
         Student student2 = (Student) model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         Name name2 = student2.getName();
 
-        MarkAttendanceCommand a = new MarkAttendanceCommand(name1, "Math", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand b = new MarkAttendanceCommand(name1, "Math", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand c = new MarkAttendanceCommand(name2, "Math", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand d = new MarkAttendanceCommand(name1, "Physics", "L1", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand e = new MarkAttendanceCommand(name1, "Math", "L2", AttendanceStatus.PRESENT);
-        MarkAttendanceCommand f = new MarkAttendanceCommand(name1, "Math", "L1", AttendanceStatus.ABSENT);
+        Subject math = SUBJECT;
+        Subject physics = new Subject("Physics");
+
+        Lesson l1Math = new Lesson("L1", "Math");
+        Lesson l2Math = new Lesson("L2", "Math");
+        Lesson l1Physics = new Lesson("L1", "Physics");
+
+        MarkAttendanceCommand a = new MarkAttendanceCommand(name1, math, l1Math, AttendanceStatus.PRESENT);
+        MarkAttendanceCommand b = new MarkAttendanceCommand(name1, math, l1Math, AttendanceStatus.PRESENT);
+        MarkAttendanceCommand c = new MarkAttendanceCommand(name2, math, l1Math, AttendanceStatus.PRESENT);
+        MarkAttendanceCommand d = new MarkAttendanceCommand(name1, physics, l1Physics, AttendanceStatus.PRESENT);
+        MarkAttendanceCommand e = new MarkAttendanceCommand(name1, math, l2Math, AttendanceStatus.PRESENT);
+        MarkAttendanceCommand f = new MarkAttendanceCommand(name1, math, l1Math, AttendanceStatus.ABSENT);
 
         assertTrue(a.equals(a));
         assertTrue(a.equals(b));

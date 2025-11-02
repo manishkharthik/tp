@@ -1,11 +1,12 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ASSIGNMENT_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -28,10 +30,11 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the details of an existing person in the address book.
+ * Edits the details of an existing person in the TutorTrack.
  */
 public class EditCommand extends Command {
 
@@ -42,23 +45,28 @@ public class EditCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
-            + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_CLASS + "CLASS] "
+            + "[" + PREFIX_SUBJECTS + "SUBJECTS] "
+            + "[" + PREFIX_EMERGENCY_CONTACT + "EMERGENCY CONTACT] "
+            + "[" + PREFIX_PAYMENT_STATUS + "PAYMENT STATUS] "
+            + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT STATUS]\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + PREFIX_CLASS + "3A "
+            + PREFIX_SUBJECTS + "Maths, Science "
+            + PREFIX_EMERGENCY_CONTACT + "91221231 "
+            + PREFIX_PAYMENT_STATUS + "Paid "
+            + PREFIX_ASSIGNMENT_STATUS + "Completed ";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the tutor track.";
 
+    private static final Logger LOGGER = Logger.getLogger(EditCommand.class.getName());
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index                of the person in the filtered person list to edit
+     * @param index of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
@@ -72,27 +80,46 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+
+        List<Person> lastShownList = model.isViewingArchived()
+            ? model.getFilteredArchivedPersonList()
+            : model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
+            LOGGER.fine(() -> "Invalid index for edit: " + index.getZeroBased()
+                    + " (size=" + lastShownList.size() + ")");
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
+        LOGGER.fine(() -> "Editing person: " + personToEdit);
+
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+        boolean isDuplicate = model.isViewingArchived()
+            ? (!personToEdit.isSamePerson(editedPerson) && model.hasArchivedPerson(editedPerson))
+            : (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson));
+
+        if (isDuplicate) {
+            LOGGER.fine("Edit would create a duplicate person; aborting.");
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        if (model.isViewingArchived()) {
+            model.setArchivedPerson(personToEdit, editedPerson);
+            model.updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        } else {
+            model.setPerson(personToEdit, editedPerson);
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        }
+
+        LOGGER.fine(() -> "Edit successful: " + editedPerson);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
     /** Creates and returns a {@code Person} edited with {@code editPersonDescriptor}. */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        assert personToEdit != null;
+        assert personToEdit != null : "personToEdit must not be null";
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
 
@@ -102,8 +129,10 @@ public class EditCommand extends Command {
                 || editPersonDescriptor.getPaymentStatus().isPresent()
                 || editPersonDescriptor.getAssignmentStatus().isPresent();
 
+        // If the existing record is a Student, or student-only fields are being edited,
+        // construct a Student and preserve attendance (EditCommand does not change attendance).
         if (personToEdit instanceof Student || editingStudentFields) {
-            List<String> updatedSubjects;
+            List<Subject> updatedSubjects;
             String updatedStudentClass;
             String updatedEmergencyContact;
             String updatedPaymentStatus;
@@ -116,31 +145,54 @@ public class EditCommand extends Command {
                 updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse(s.getEmergencyContact());
                 updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse(s.getPaymentStatus());
                 updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse(s.getAssignmentStatus());
+
+                Student edited = new Student(
+                        updatedName,
+                        updatedSubjects,
+                        updatedStudentClass,
+                        updatedEmergencyContact,
+                        updatedPaymentStatus,
+                        updatedAssignmentStatus
+                );
+                // Preserve existing attendance explicitly
+                copyAttendance(s.getAttendanceList(), edited.getAttendanceList());
+                assert edited.getAttendanceList() != null : "Student attendance list should be preserved";
+                return edited;
             } else {
+                // Converting a Person to a Student because student-only fields are provided.
                 updatedSubjects = editPersonDescriptor.getSubjects().orElse(List.of());
                 updatedStudentClass = editPersonDescriptor.getStudentClass().orElse("");
                 updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse("");
                 updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse("");
                 updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse("");
-            }
 
-            // Note: AttendanceList is NOT edited via EditCommand.
-            return new Student(
-                    updatedName,
-                    updatedSubjects,
-                    updatedStudentClass,
-                    updatedEmergencyContact,
-                    updatedPaymentStatus,
-                    updatedAssignmentStatus
-            );
+                return new Student(
+                        updatedName,
+                        updatedSubjects,
+                        updatedStudentClass,
+                        updatedEmergencyContact,
+                        updatedPaymentStatus,
+                        updatedAssignmentStatus
+                );
+            }
         }
 
+        // Otherwise, keep as Person
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        Person edited = new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        assert edited != null : "edited Person must not be null";
+        return edited;
+    }
+
+    private static void copyAttendance(AttendanceList from, AttendanceList to) {
+        if (from == null || to == null) {
+            return;
+        }
+        from.getStudentAttendance().forEach(r -> to.markAttendance(r.getLesson(), r.getStatus()));
     }
 
     @Override
@@ -149,7 +201,6 @@ public class EditCommand extends Command {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof EditCommand)) {
             return false;
         }
@@ -174,7 +225,7 @@ public class EditCommand extends Command {
         private Set<Tag> tags;
 
         // Student-only (excluding attendance)
-        private List<String> subjects;
+        private List<Subject> subjects;
         private String studentClass;
         private String emergencyContact;
         private AttendanceList attendanceList;
@@ -250,12 +301,12 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
-        public void setSubjects(List<String> subjects) {
-            this.subjects = subjects;
+        public void setSubjects(List<Subject> subjects) {
+            this.subjects = (subjects == null) ? null : List.copyOf(subjects);
         }
 
-        public Optional<List<String>> getSubjects() {
-            return Optional.ofNullable(subjects);
+        public Optional<List<Subject>> getSubjects() {
+            return (subjects == null) ? Optional.empty() : Optional.of(List.copyOf(subjects));
         }
 
         public void setStudentClass(String studentClass) {

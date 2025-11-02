@@ -2,7 +2,6 @@ package seedu.address.model.subject;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -12,18 +11,22 @@ import seedu.address.model.lesson.exceptions.DuplicateLessonException;
 import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 
 /**
- * Represents a Subject in the address book.
+ * Represents a Subject in the TutorTrack.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 
 //@TODO: Wire up between subject and lessonlist functions
 public class Subject {
+
+    public static final String MESSAGE_CONSTRAINTS = "Subject names should not be empty";
+    public static final String VALIDATION_REGEX = ".+";
+
     private final String name;
     private final LessonList lessonList;
 
     /**
      * Creates a Subject object.
-     *
+     * Initializes an empty LessonList for it.
      * @param name The name of the subject.
      */
     public Subject(String name) {
@@ -37,15 +40,31 @@ public class Subject {
         this.lessonList = new LessonList(name.trim());
     }
 
+    /**
+     * Creates a Subject with both a name and an existing LessonList.
+     * @param name The name of the subject.
+     * @param lessonList The lesson list associated with the subject.
+     */
+    public Subject(String name, LessonList lessonList) {
+        requireNonNull(name);
+        requireNonNull(lessonList);
+
+        assert name != null : "Subject name cannot be null";
+        assert !name.trim().isEmpty() : "Subject name cannot be blank";
+
+        this.name = name;
+        this.lessonList = lessonList;
+    }
+
     public String getName() {
         assert name != null : "Subject name is null";
         assert !name.trim().isEmpty() : "Subject name is empty";
         return name;
     }
 
-    public List<Lesson> getLessons() {
+    public LessonList getLessons() {
         assert lessonList != null : "Lesson list is null";
-        return lessonList.getLessons();
+        return lessonList;
     }
 
     /**
@@ -97,6 +116,28 @@ public class Subject {
         assert otherSubject.name != null : "Other subject's name is null";
 
         return otherSubject.getName().equals(getName());
+    }
+
+    /**
+     * Returns true if the subject name equals the given string, ignoring case.
+     */
+    public boolean equalsIgnoreCase(String otherName) {
+        if (otherName == null) {
+            return false;
+        }
+
+        // Assert that both names are valid before comparison
+        assert name != null : "Current subject's name is null";
+        assert otherName != null : "Other subject's name is null";
+
+        return name.equalsIgnoreCase(otherName);
+    }
+
+    /**
+     * Returns true if a given string is a valid subject name.
+     */
+    public static boolean isValidSubjectName(String test) {
+        return test.matches(VALIDATION_REGEX);
     }
 
     @Override

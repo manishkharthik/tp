@@ -13,7 +13,7 @@ import seedu.address.model.lesson.Lesson;
  */
 public class AddLessonCommand extends Command {
 
-    public static final String COMMAND_WORD = "AddLesson";
+    public static final String COMMAND_WORD = "addlesson";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a lesson to a subject. "
             + "Parameters: "
@@ -23,7 +23,7 @@ public class AddLessonCommand extends Command {
             + PREFIX_SUBJECTS + "Mathematics "
             + PREFIX_NAME + "Algebra";
 
-    public static final String MESSAGE_SUCCESS = "New lesson added: %1$s";
+    public static final String MESSAGE_SUCCESS = "New %2$s - %1$s lesson added";
     public static final String MESSAGE_DUPLICATE_LESSON = "This lesson already exists in this subject";
 
     private final Lesson toAdd;
@@ -45,12 +45,13 @@ public class AddLessonCommand extends Command {
         }
 
         model.addLesson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd.getName(), toAdd.getSubject()));
     }
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
+        return other == this
                 || (other instanceof AddLessonCommand // instanceof handles nulls
                 && toAdd.equals(((AddLessonCommand) other).toAdd));
     }

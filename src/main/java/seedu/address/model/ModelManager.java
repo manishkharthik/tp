@@ -4,10 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -15,9 +15,11 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
+import seedu.address.model.subject.Subject;
+import seedu.address.model.subject.SubjectList;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the TutorTrack data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
@@ -32,6 +34,8 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredArchivedPersons;
     private final FilteredList<Lesson> filteredLessons;
     private final LessonList lessonList;
+    private final SubjectList subjectList;
+    private boolean isViewingArchived = false;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -39,15 +43,15 @@ public class ModelManager implements Model {
     public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(addressBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with TutorTrack: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         this.lessonList = this.addressBook.getLessonList();
-        ObservableList<Lesson> observableLessons = FXCollections.observableList(this.lessonList.getInternalList());
+        this.subjectList = this.addressBook.getSubjectList();
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList());
-        filteredLessons = new FilteredList<>(observableLessons);
+        filteredLessons = new FilteredList<>(this.lessonList.asObservableList());
     }
 
     public ModelManager() {
@@ -108,8 +112,21 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasArchivedPerson(Person person) {
+        requireNonNull(person);
+        return addressBook.hasArchivedPerson(person);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+    }
+
+    @Override
+    public void deleteArchivedPerson(Person target) {
+        requireNonNull(target);
+        addressBook.removeArchivedPerson(target);
+        updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
@@ -124,10 +141,32 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addArchivedPerson(Person person) {
+        requireNonNull(person);
+        addressBook.addArchivedPerson(person);
+        updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setArchivedPerson(Person target, Person editedPerson) {
+        requireAllNonNull(target, editedPerson);
+        addressBook.setArchivedPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setViewingArchived(boolean isViewingArchived) {
+        this.isViewingArchived = isViewingArchived;
+    }
+
+    @Override
+    public boolean isViewingArchived() {
+        return isViewingArchived;
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -224,11 +263,49 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void clearCurrentStudents() {
+        addressBook.clearCurrentStudents();
+    }
+
+    @Override
+    public void clearArchivedStudents() {
+        addressBook.clearArchivedStudents();
+    }
+
+    @Override
+    public Subject getSubject(String subjectName) {
+        requireNonNull(subjectName);
+        if (!hasSubject(subjectName)) {
+            throw new IllegalArgumentException("Subject not found: " + subjectName);
+        }
+
+        // Create a Subject object with the lessons that belong to this subject
+        Subject subject = new Subject(subjectName);
+
+        // Add all lessons that belong to this subject
+        for (Lesson lesson : lessonList.getInternalList()) {
+            if (lesson.getSubject().equals(subjectName)) {
+                subject.addLesson(lesson);
+            }
+        }
+
+        return subject;
+    }
+
+    @Override
     public void unarchivePerson(Person target) {
         requireNonNull(target);
         assert target != null : "Person to unarchive should not be null";
 
         logger.info("Unarchiving person: " + target.getName());
         addressBook.unarchivePerson(target);
+    }
+
+    @Override
+    public Optional<Subject> findSubjectByName(String name) {
+        requireNonNull(name);
+        return subjectList.getSubjects().stream()
+                .filter(s -> s.getName().equalsIgnoreCase(name))
+                .findFirst();
     }
 }

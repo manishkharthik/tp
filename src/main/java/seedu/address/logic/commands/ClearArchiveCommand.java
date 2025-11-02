@@ -1,0 +1,36 @@
+package seedu.address.logic.commands;
+
+import static java.util.Objects.requireNonNull;
+
+import seedu.address.model.Model;
+
+/**
+ * Clears the address book.
+ */
+public class ClearArchiveCommand extends Command {
+
+    public static final String COMMAND_WORD = "cleararchive";
+    public static final String MESSAGE_SUCCESS = "Archived students have been cleared!";
+
+    @Override
+    public CommandResult execute(Model model) {
+        requireNonNull(model);
+        assert model != null : "Model should not be null";
+        model.clearArchivedStudents();
+        CommandResult result = new CommandResult(MESSAGE_SUCCESS);
+        assert result != null : "CommandResult should not be null";
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // All ClearCommand instances are functionally identical
+        return other instanceof ClearCommand;
+    }
+
+    @Override
+    public int hashCode() {
+        return ClearCommand.class.hashCode();
+    }
+}

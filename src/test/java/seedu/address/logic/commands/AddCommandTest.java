@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Nested;
@@ -28,6 +29,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -85,11 +87,17 @@ public class AddCommandTest {
     @Test
     public void execute_studentWithMultipleSubjects_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student studentWithMultipleSubjects = new Student(new Name("John"),
-                new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567",
-                "Paid", "Completed");
-
+        Student studentWithMultipleSubjects = new Student(
+            new Name("John"),
+            new ArrayList<>(Arrays.asList(
+                new Subject("Math"),
+                new Subject("Science")
+            )),
+            "3A",
+            "91234567",
+            "Paid",
+            "Completed"
+        );
         CommandResult commandResult = new AddCommand(studentWithMultipleSubjects).execute(modelStub);
 
         String successPrefix = String.format(AddCommand.MESSAGE_SUCCESS.split(": ")[0]);
@@ -106,15 +114,28 @@ public class AddCommandTest {
     @Test
     public void execute_addToNonEmptyList_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student existingStudent = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567",
+        Student existingStudent = new Student(
+            new Name("John"),
+            new ArrayList<>(Arrays.asList(
+                new Subject("Math"),
+                new Subject("Science")
+            )),
+            "3A",
+            "91234567",
                 "Paid", "Completed");
 
         modelStub.addPerson(existingStudent);
 
-        Student newStudent = new Student(new Name("Bob"), new ArrayList<>(Arrays.asList("Math", "Science")),
-                "3A", "91234567",
-                "Paid", "Completed");
+        Student newStudent = new Student(
+            new Name("Bob"),
+            new ArrayList<>(Arrays.asList(
+                new Subject("Math"),
+                new Subject("Science")
+            )),
+            "3A",
+            "91234567",
+            "Paid",
+            "Completed");
 
         CommandResult commandResult = new AddCommand(newStudent).execute(modelStub);
 
@@ -141,11 +162,15 @@ public class AddCommandTest {
     @Test
     public void execute_addStudentWithSameNameDifferentDetails_success() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Student student1 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
+        Student student1 = new Student(
+            new Name("John"),
+            new ArrayList<>(Arrays.asList(
+                new Subject("Math"), new Subject("Science"))),
                 "3A", "91234567",
                 "Paid", "Completed");
 
-        Student student2 = new Student(new Name("John"), new ArrayList<>(Arrays.asList("Math", "Science")),
+        Student student2 = new Student(new Name("John"), new ArrayList<>(Arrays.asList(
+                new Subject("Math"), new Subject("Science"))),
                 "3B", "91234568",
                 "Paid", "Completed");
 
@@ -156,6 +181,30 @@ public class AddCommandTest {
         assertFalse(student1.isSameStudent(student2)); // Verify they're different students
         assertTrue(modelStub.personsAdded.contains(student1));
         assertTrue(modelStub.personsAdded.contains(student2));
+    }
+
+    @Test
+    public void execute_modelThrowsException_propagatesCommandException() {
+        Model modelStub = new ModelStub() {
+            @Override
+            public void addPerson(Person person) {
+                throw new AssertionError("Simulated model failure");
+            }
+
+            @Override
+            public boolean hasPerson(Person person) {
+                return false;
+            }
+
+            @Override
+            public ReadOnlyAddressBook getAddressBook() {
+                return new AddressBook();
+            }
+        };
+
+        Person person = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(person);
+        assertThrows(AssertionError.class, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -172,6 +221,17 @@ public class AddCommandTest {
 
         assertThrows(NullPointerException.class, () -> addCommand.execute(null));
     }
+
+    @Test
+    public void execute_commandIsImmutable_afterExecution() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
+        AddCommand command = new AddCommand(validPerson);
+
+        command.execute(modelStub);
+        assertEquals(validPerson, new PersonBuilder(validPerson).build());
+    }
+
 
     @Test
     public void hashCodeMethod() {
@@ -206,8 +266,8 @@ public class AddCommandTest {
         assertTrue(AddCommand.MESSAGE_USAGE.contains("s/")); // subjects
         assertTrue(AddCommand.MESSAGE_USAGE.contains("ec/")); // emergency contact
         // removed: attendance prefix assertion (feature not in constructor anymore)
-        assertTrue(AddCommand.MESSAGE_USAGE.contains("pay/")); // payment status
-        assertTrue(AddCommand.MESSAGE_USAGE.contains("asg/")); // assignment status
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("ps/")); // payment status
+        assertTrue(AddCommand.MESSAGE_USAGE.contains("as/")); // assignment status
     }
 
     @Test
@@ -340,6 +400,36 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
+        public boolean isViewingArchived() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setViewingArchived(boolean isViewingArchived) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasArchivedPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addArchivedPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteArchivedPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setArchivedPerson(Person target, Person editedPerson) {
+            throw new AssertionError("This method should not be called.");
+        }
+
         @Test
         public void execute_validPerson_assertionsPass() throws CommandException {
             ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
@@ -364,6 +454,26 @@ public class AddCommandTest {
         public void addLesson(Lesson lesson) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public Subject getSubject(String subjectName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<Subject> findSubjectByName(String name) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void clearCurrentStudents() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void clearArchivedStudents() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -381,6 +491,36 @@ public class AddCommandTest {
         public boolean hasPerson(Person person) {
             requireNonNull(person);
             return this.person.isSamePerson(person);
+        }
+
+        @Override
+        public boolean isViewingArchived() {
+            return false;
+        }
+
+        @Override
+        public void setViewingArchived(boolean isViewingArchived) {
+            // leave blank
+        }
+
+        @Override
+        public boolean hasArchivedPerson(Person person) {
+            return false;
+        }
+
+        @Override
+        public void addArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void deleteArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void setArchivedPerson(Person target, Person editedPerson) {
+            // leave blank
         }
     }
 
@@ -410,6 +550,36 @@ public class AddCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public boolean isViewingArchived() {
+            return false;
+        }
+
+        @Override
+        public void setViewingArchived(boolean isViewingArchived) {
+            // leave blank
+        }
+
+        @Override
+        public boolean hasArchivedPerson(Person person) {
+            return false;
+        }
+
+        @Override
+        public void addArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void deleteArchivedPerson(Person person) {
+            // leave blank
+        }
+
+        @Override
+        public void setArchivedPerson(Person target, Person editedPerson) {
+            // leave blank
         }
     }
 }

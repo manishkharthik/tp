@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -132,22 +134,42 @@ public class ParserUtil {
         return tagSet;
     }
 
-    /** Parses comma-separated subjects into {@code List<String>}. */
-    public static List<String> parseSubjects(String csvSubjects) throws ParseException {
-        requireNonNull(csvSubjects);
-        String trimmed = csvSubjects.trim();
-        if (trimmed.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] parts = trimmed.split(",");
-        List<String> subjects = new ArrayList<>();
-        for (String part : parts) {
-            String s = part.trim();
-            if (!s.isEmpty()) {
-                subjects.add(s);
+    /**
+     * Parse subject tokens supporting both "s/Math s/Science" & "s/Math, Science"
+     * Mixed forms are also supported: s/Math, Science s/English
+     * Empty parts are ignored and if no subjects are provided, we throw with constraints.
+     */
+    public static List<Subject> parseSubjects(Collection<String> subjects) throws ParseException {
+        requireNonNull(subjects, "subjects must not be null");
+        List<Subject> result = new ArrayList<>();
+        Set<String> seenLower = new HashSet<>();
+        boolean sawNonEmpty = false;
+        for (String token : subjects) {
+            if (token == null) {
+                continue;
+            }
+            for (String part : token.split(",")) {
+                String name = part.trim();
+                if (!name.isEmpty()) {
+                    sawNonEmpty = true;
+                    String lower = name.toLowerCase();
+                    if (seenLower.add(lower)) {
+                        result.add(new Subject(name));
+                    }
+                }
             }
         }
-        return subjects;
+        if (!sawNonEmpty) {
+            throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
+        }
+        return result;
+    }
+
+    /**
+     * Returns true if all of the specified prefixes contain non-empty values in the given ArgumentMultimap.
+     */
+    public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Arrays.stream(prefixes).allMatch(p -> argumentMultimap.getValue(p).isPresent());
     }
 
     /** Parses class string (non-empty). */
@@ -163,7 +185,7 @@ public class ParserUtil {
     /** Parses emergency contact, basic digit check. */
     public static String parseEmergencyContact(String contact) throws ParseException {
         requireNonNull(contact);
-        String trimmed = contact.trim().split("\\s+")[0];
+        String trimmed = contact.trim();
         // Tighten to match Student's assertion
         if (!trimmed.matches("\\d{8}")) {
             throw new ParseException("Emergency contact must be exactly 8 digits.");
@@ -204,16 +226,38 @@ public class ParserUtil {
         }
     }
 
-    /** Parses payment status (free-form). */
-    public static String parsePaymentStatus(String status) throws ParseException {
-        requireNonNull(status);
-        return status.trim();
+    /**
+     * Parses a {@code String paymentStatus} into a valid payment status.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code paymentStatus} is invalid.
+     */
+    public static String parsePaymentStatus(String paymentStatus) throws ParseException {
+        requireNonNull(paymentStatus);
+        String trimmed = paymentStatus.trim();
+
+        if (!trimmed.equalsIgnoreCase("Paid") && !trimmed.equalsIgnoreCase("Unpaid")) {
+            throw new ParseException("Payment status must be either 'Paid' or 'Unpaid'");
+        }
+
+        return trimmed.substring(0, 1).toUpperCase() + trimmed.substring(1).toLowerCase();
     }
 
-    /** Parses assignment status (free-form). */
-    public static String parseAssignmentStatus(String status) throws ParseException {
-        requireNonNull(status);
-        return status.trim();
+    /**
+     * Parses a {@code String assignmentStatus} into a valid assignment status.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code assignmentStatus} is invalid.
+     */
+    public static String parseAssignmentStatus(String assignmentStatus) throws ParseException {
+        requireNonNull(assignmentStatus);
+        String trimmed = assignmentStatus.trim();
+
+        if (!trimmed.equalsIgnoreCase("Completed") && !trimmed.equalsIgnoreCase("Incomplete")) {
+            throw new ParseException("Assignment status must be either 'Completed' or 'Incomplete'");
+        }
+
+        return trimmed.substring(0, 1).toUpperCase() + trimmed.substring(1).toLowerCase();
     }
 
     /** Parses optional free-form status. */

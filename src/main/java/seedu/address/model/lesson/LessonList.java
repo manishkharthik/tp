@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.lesson.exceptions.DuplicateLessonException;
 import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 
@@ -19,6 +22,7 @@ public class LessonList {
      * Creates an empty LessonList.
      */
     private final List<Lesson> lessons;
+    private final ObservableList<Lesson> observableLessons;
     private final String subject;
 
     /**
@@ -37,7 +41,9 @@ public class LessonList {
         Objects.requireNonNull(subject);
         this.subject = subject;
         this.lessons = new ArrayList<>();
+        this.observableLessons = FXCollections.observableArrayList(lessons);
     }
+
 
     /**
      * Returns true if the list contains an equivalent lesson.
@@ -60,6 +66,7 @@ public class LessonList {
             throw new DuplicateLessonException();
         }
         lessons.add(lesson);
+        observableLessons.add(lesson);
     }
 
     /**
@@ -90,6 +97,7 @@ public class LessonList {
         if (!lessons.remove(lesson)) {
             throw new LessonNotFoundException();
         }
+        observableLessons.remove(lesson);
     }
 
     /**
@@ -102,10 +110,67 @@ public class LessonList {
     }
 
     /**
+     * Marks attendance for a given lesson name.
+     * Returns a new LessonList with updated attendance.
+     */
+    public LessonList markAttendance(String lessonName, AttendanceStatus status) {
+        Objects.requireNonNull(lessonName);
+        Objects.requireNonNull(status);
+
+        LessonList updated = new LessonList(this.subject);
+        for (Lesson lesson : lessons) {
+            if (lesson.getName().equalsIgnoreCase(lessonName)) {
+                updated.addLesson(new Lesson(lesson.getName(), lesson.getSubject(), status));
+            } else {
+                updated.addLesson(lesson);
+            }
+        }
+        return updated;
+    }
+
+    /**
+     * Returns a formatted string of all lessons and their attendance.
+     */
+    public String getFormattedAttendance() {
+        if (lessons.isEmpty()) {
+            return "No lessons found for subject: " + subject;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Lesson lesson : lessons) {
+            sb.append(lesson.getName())
+            .append(" ")
+            .append(lesson.getAttendanceStatus().toString())
+                .append("\n");
+        }
+        return sb.toString().trim();
+    }
+
+    /**
      * Returns the subject this list represents.
      */
     public String getSubject() {
         return subject;
+    }
+
+    /**
+     * Returns an unmodifiable view of the observable lesson list.
+     */
+    public ObservableList<Lesson> asObservableList() {
+        return FXCollections.unmodifiableObservableList(observableLessons);
+    }
+
+    /**
+     * Replaces the contents of the lesson list with the given lessons.
+     */
+    public void setLessons(List<Lesson> lessons) {
+        Objects.requireNonNull(lessons);
+        this.lessons.clear();
+        this.observableLessons.clear();
+        for (Lesson lesson : lessons) {
+            this.lessons.add(lesson);
+            this.observableLessons.add(lesson);
+        }
     }
 
     @Override

@@ -10,6 +10,9 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
+import seedu.address.model.subject.SubjectList;
 
 /**
  * Wraps all data at the address-book level
@@ -20,6 +23,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     private final UniquePersonList persons;
     private final UniquePersonList archivedPersons;
     private final LessonList lessonList;
+    private final SubjectList subjectList;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -32,6 +36,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons = new UniquePersonList();
         archivedPersons = new UniquePersonList();
         lessonList = new LessonList();
+        subjectList = new SubjectList();
     }
 
     public AddressBook() {}
@@ -62,6 +67,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         setPersons(newData.getPersonList());
         setArchivedPersons(newData.getArchivedPersonList());
+        lessonList.setLessons(newData.getLessonList().getInternalList());
     }
 
     //// person-level operations
@@ -80,26 +86,55 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addPerson(Person p) {
         persons.add(p);
+        if (p instanceof Student) {
+            Student s = (Student) p;
+            List<Subject> subjects = s.getSubjects();
+            for (int i = 0; i < subjects.size(); i++) {
+                if (!subjectList.contains(subjects.get(i))) {
+                    subjectList.addSubject(new Subject(subjects.get(i).getName()));
+                }
+            }
+        }
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Replaces the given person {@code target} in the current list with {@code editedPerson}.
+     * {@code target} must exist in the current list.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the current list.
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
-
         persons.setPerson(target, editedPerson);
     }
 
     /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * {@code key} must exist in the address book.
+     * Replaces the given person {@code target} in the archived list with {@code editedPerson}.
+     * {@code target} must exist in the archived list.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the archived list.
+     */
+    public void setArchivedPerson(Person target, Person editedPerson) {
+        requireNonNull(editedPerson);
+        archivedPersons.setPerson(target, editedPerson);
+    }
+
+    /**
+     * Removes {@code key} from this {@code current list}.
+     * {@code key} must exist in the current list.
      */
     public void removePerson(Person key) {
+        requireNonNull(key);
         persons.remove(key);
     }
+
+    /**
+     * Removes {@code key} from this {@code archived list}.
+     * {@code key} must exist in the current list.
+     */
+    public void removeArchivedPerson(Person key) {
+        requireNonNull(key);
+        archivedPersons.remove(key);
+    }
+
 
     /**
      * Archives {@code key} from this {@code AddressBook}.
@@ -184,6 +219,34 @@ public class AddressBook implements ReadOnlyAddressBook {
         return lessonList;
     }
 
+    //// subject-level operations
+
+    /**
+     * Adds a subject to the address book.
+     * The subject must not already exist in the address book.
+     */
+    public void addSubject(Subject subject) {
+        requireNonNull(subject);
+        subjectList.addSubject(subject);
+    }
+
+    /**
+     * Deletes the given subject from the address book.
+     * The subject must exist in the address book.
+     */
+    public void deleteSubject(Subject subject) {
+        requireNonNull(subject);
+        subjectList.deleteSubject(subject);
+    }
+
+    /**
+     * Returns the SubjectList object.
+     */
+    @Override
+    public SubjectList getSubjectList() {
+        return subjectList;
+    }
+
     //// util methods
 
     @Override
@@ -198,9 +261,25 @@ public class AddressBook implements ReadOnlyAddressBook {
         return persons.asUnmodifiableObservableList();
     }
 
+    /**
+     * Deletes all current students from the student list.
+     * Archived students are not affected.
+     */
+    public void clearCurrentStudents() {
+        persons.setPersons(List.of());
+    }
+
     @Override
     public ObservableList<Person> getArchivedPersonList() {
         return archivedPersons.asUnmodifiableObservableList();
+    }
+
+    /**
+     * Deletes all archived students from the student list.
+     * Current students are not affected.
+     */
+    public void clearArchivedStudents() {
+        archivedPersons.setPersons(List.of());
     }
 
     @Override

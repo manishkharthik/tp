@@ -13,54 +13,45 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 
-/**
- * An Immutable AddressBook that is serializable to JSON format.
- */
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
-
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedPerson> archivedPersons = new ArrayList<>();
+    private final List<JsonAdaptedSubject> subjectList = new ArrayList<>();
+    private final List<JsonAdaptedLesson> lessons = new ArrayList<>();
 
-    /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
-     */
     @JsonCreator
     public JsonSerializableAddressBook(
             @JsonProperty("persons") List<JsonAdaptedPerson> persons,
-            @JsonProperty("students") List<JsonAdaptedPerson> students) {
+            @JsonProperty("students") List<JsonAdaptedPerson> students,
+            @JsonProperty("archivedPersons") List<JsonAdaptedPerson> archivedPersons,
+            @JsonProperty("lessons") List<JsonAdaptedLesson> lessons) {
         if (persons != null) {
             this.persons.addAll(persons);
         } else if (students != null) {
-            // Allow alternate top-level key "students" for backward/forward compatibility
             this.persons.addAll(students);
         }
         if (archivedPersons != null) {
             this.archivedPersons.addAll(archivedPersons);
         }
+        if (lessons != null) {
+            this.lessons.addAll(lessons);
+        }
     }
 
-    /**
-     * Converts a given {@code ReadOnlyAddressBook} into this class for Jackson use.
-     *
-     * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
-     */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream()
-                .map(JsonAdaptedPerson::new)
-                .collect(Collectors.toList()));
+                .map(JsonAdaptedPerson::new).collect(Collectors.toList()));
         archivedPersons.addAll(source.getArchivedPersonList().stream()
-                .map(JsonAdaptedPerson::new)
-                .collect(Collectors.toList()));
+                .map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        subjectList.addAll(source.getSubjectList().getSubjects().stream()
+                .map(JsonAdaptedSubject::new).collect(Collectors.toList()));
+        lessons.addAll(source.getLessonList().getInternalList().stream()
+                .map(JsonAdaptedLesson::new).collect(Collectors.toList()));
     }
 
-    /**
-     * Converts this address book into the model's {@code AddressBook} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated.
-     */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
@@ -70,7 +61,6 @@ class JsonSerializableAddressBook {
             }
             addressBook.addPerson(person);
         }
-
         for (JsonAdaptedPerson jsonAdaptedPerson : archivedPersons) {
             Person person = jsonAdaptedPerson.toModelType();
             if (addressBook.hasArchivedPerson(person)) {
@@ -78,7 +68,9 @@ class JsonSerializableAddressBook {
             }
             addressBook.addArchivedPerson(person);
         }
+        for (JsonAdaptedLesson jsonAdaptedLesson : lessons) {
+            addressBook.addLesson(jsonAdaptedLesson.toModelType());
+        }
         return addressBook;
     }
-
 }

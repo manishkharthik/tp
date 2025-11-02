@@ -18,6 +18,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
@@ -200,20 +201,21 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseSubjects_emptyString_returnsEmptyList() throws Exception {
-        assertTrue(ParserUtil.parseSubjects("   ").isEmpty());
+    public void parseSubjects_emptyString_throwsParserException() throws Exception {
+        assertThrows(ParseException.class,
+            "Subject names should not be empty", () -> ParserUtil.parseSubjects(Arrays.asList("  ")));
     }
 
     @Test
     public void parseSubjects_validCommaSeparated_returnsList() throws Exception {
-        assertEquals(Arrays.asList("Math", "Science"),
-                ParserUtil.parseSubjects("Math, Science"));
+        assertEquals(Arrays.asList(new Subject("Math"), new Subject("Science")),
+                ParserUtil.parseSubjects(Arrays.asList("Math, Science")));
     }
 
     @Test
     public void parseSubjects_withExtraSpaces_returnsTrimmedList() throws Exception {
-        assertEquals(Arrays.asList("Math", "English"),
-                ParserUtil.parseSubjects("  Math ,  English  "));
+        assertEquals(Arrays.asList(new Subject("Math"), new Subject("Science")),
+                ParserUtil.parseSubjects(Arrays.asList("   Math  ,  Science  ")));
     }
 
     @Test
@@ -242,10 +244,10 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () -> ParserUtil.parseEmergencyContact("12"));
     }
 
-    // @Test
-    // public void parseEmergencyContact_valid_returnsTrimmedValue() throws Exception {
-    //     assertEquals("987654", ParserUtil.parseEmergencyContact(" 987654 "));
-    // }
+    @Test
+    public void parseEmergencyContact_valid_returnsTrimmedValue() throws Exception {
+        assertEquals("91234567", ParserUtil.parseEmergencyContact(" 91234567 "));
+    }
 
     @Test
     public void parsePaymentStatus_null_throwsNullPointerException() {
@@ -264,7 +266,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseAssignmentStatus_valid_returnsTrimmedValue() throws Exception {
-        assertEquals("Submitted", ParserUtil.parseAssignmentStatus(" Submitted "));
+        assertEquals("Completed", ParserUtil.parseAssignmentStatus(" Completed "));
     }
 
     @Test

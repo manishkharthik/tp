@@ -9,6 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -17,6 +18,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Name;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -29,7 +31,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
                 args,
                 PREFIX_NAME, PREFIX_CLASS, PREFIX_SUBJECTS, PREFIX_EMERGENCY_CONTACT,
-                // NOTE: removed PREFIX_ATTENDANCE
                 PREFIX_PAYMENT_STATUS, PREFIX_ASSIGNMENT_STATUS, PREFIX_TAG
         );
 
@@ -53,25 +54,32 @@ public class AddCommandParser implements Parser<AddCommand> {
                 new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE)));
 
         List<String> subjects = argMultimap.getAllValues(PREFIX_SUBJECTS);
-        if (subjects.isEmpty()) {
-            throw new ParseException("At least one subject must be provided using " + PREFIX_SUBJECTS);
+        List<Subject> subjectList = new ArrayList<>();
+
+        if (!subjects.isEmpty() && (!(subjects.size() == 1) || !subjects.get(0).trim().isEmpty())) {
+            subjectList = ParserUtil.parseSubjects(subjects);
         }
 
-        String emergencyContact = argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).orElseThrow(() ->
-                new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE)));
+        String emergencyContact = ParserUtil.parseEmergencyContact(
+                argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).orElseThrow(() ->
+                        new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE))));
 
         // Optional status fields
-        String paymentStatus = argMultimap.getValue(PREFIX_PAYMENT_STATUS).orElse("");
-        String assignmentStatus = argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).orElse("");
+        String paymentStatus = argMultimap.getValue(PREFIX_PAYMENT_STATUS).isPresent()
+                ? ParserUtil.parsePaymentStatus(argMultimap.getValue(PREFIX_PAYMENT_STATUS).get())
+                : "Unpaid";
+
+        String assignmentStatus = argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).isPresent()
+                ? ParserUtil.parseAssignmentStatus(argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).get())
+                : "Incomplete";
 
         // Optional tags (if still supported)
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        // NB: tagList is parsed to validate input; Student currently doesn’t store tags.
 
         // Construct Student (AttendanceList is created internally by Student)
         Student student = new Student(
                 name,
-                subjects,
+                subjectList,
                 studentClass,
                 emergencyContact,
                 paymentStatus,

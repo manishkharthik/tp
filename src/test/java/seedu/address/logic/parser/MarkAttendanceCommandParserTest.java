@@ -6,9 +6,11 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import org.junit.jupiter.api.Test;
 
+// import seedu.address.logic.Messages;
 import seedu.address.logic.commands.MarkAttendanceCommand;
 import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.person.Name;
+import seedu.address.model.subject.Subject;
 
 /**
  * Unit tests for {@link MarkAttendanceCommandParser}.
@@ -21,7 +23,8 @@ public class MarkAttendanceCommandParserTest {
     public void parse_validArgs_returnsMarkAttendanceCommand() {
         String userInput = " n/John Tan s/Math l/L1 st/PRESENT ";
         MarkAttendanceCommand expected =
-                new MarkAttendanceCommand(new Name("John Tan"), "Math", "L1", AttendanceStatus.PRESENT);
+            new MarkAttendanceCommand(new Name("John Tan"), new Subject("Math"),
+                    new seedu.address.model.lesson.Lesson("L1", "Math"), AttendanceStatus.PRESENT);
 
         assertParseSuccess(parser, userInput, expected);
     }
@@ -57,8 +60,7 @@ public class MarkAttendanceCommandParserTest {
     // @Test
     // public void parse_invalidStatus_throwsParseException() {
     //     String userInput = "n/John Tan s/Math l/L1 st/INVALID";
-    //     assertParseFailure(parser, userInput,
-    //             "Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.");
+    //     assertParseFailure(parser, userInput, Messages.MESSAGE_INVALID_STATUS);
     // }
 
     @Test

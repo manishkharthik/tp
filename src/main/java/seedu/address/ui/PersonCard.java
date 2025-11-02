@@ -17,13 +17,9 @@ public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
 
-    /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
-     * As a consequence, UI elements' variable names cannot be set to such keywords
-     * or an exception will be thrown by JavaFX during runtime.
-     *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
-     */
+    private static final String PLACEHOLDER_PHONE = "000";
+    private static final String PLACEHOLDER_EMAIL = "placeholder@example.com";
+    private static final String PLACEHOLDER_ADDRESS = "N/A";
 
     public final Person person;
 
@@ -60,9 +56,12 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
+
+        // Hide placeholder values for phone, email, address
+        setLabelOrHide(phone, person.getPhone().value, PLACEHOLDER_PHONE);
+        setLabelOrHide(address, person.getAddress().value, PLACEHOLDER_ADDRESS);
+        setLabelOrHide(email, person.getEmail().value, PLACEHOLDER_EMAIL);
+
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
@@ -73,7 +72,9 @@ public class PersonCard extends UiPart<Region> {
                 studentClass.setText("Class: " + s.getStudentClass());
             }
             if (subjects != null) {
-                subjects.setText("Subjects: " + String.join(", ", s.getSubjects()));
+                subjects.setText("Subjects: " + String.join(", ", s.getSubjects().stream()
+                        .map(subj -> subj.getName())
+                        .toList()));
             }
             if (emergencyContact != null) {
                 emergencyContact.setText("Emergency: " + s.getEmergencyContact());
@@ -84,6 +85,46 @@ public class PersonCard extends UiPart<Region> {
             if (assignmentStatus != null) {
                 assignmentStatus.setText("Assignment: " + s.getAssignmentStatus());
             }
+        } else {
+            hideLabel(studentClass);
+            hideLabel(subjects);
+            hideLabel(emergencyContact);
+            hideLabel(paymentStatus);
+            hideLabel(assignmentStatus);
         }
+    }
+
+    /**
+     * Sets the label text if value is not a placeholder, otherwise hides the label.
+     */
+    private void setLabelOrHide(Label label, String value, String placeholder) {
+        if (label == null) {
+            return;
+        }
+
+        if (isPlaceholder(value, placeholder)) {
+            hideLabel(label);
+        } else {
+            label.setText(value);
+            label.setVisible(true);
+            label.setManaged(true);
+        }
+    }
+
+    /**
+     * Hides a label from display.
+     */
+    private void hideLabel(Label label) {
+        if (label != null) {
+            label.setVisible(false);
+            label.setManaged(false);
+        }
+    }
+
+    /**
+     * Checks if a value is a placeholder.
+     */
+    private boolean isPlaceholder(String value, String placeholder) {
+        return placeholder.equals(value);
     }
 }

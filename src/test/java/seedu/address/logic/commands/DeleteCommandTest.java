@@ -75,7 +75,7 @@ public class DeleteCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         Index outOfBoundIndex = INDEX_SECOND_PERSON;
-        // ensures that outOfBoundIndex is still in bounds of address book list
+        // ensures that outOfBoundIndex is still in bounds of TutorTrack list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
@@ -192,6 +192,15 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = new DeleteCommand(largeIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    /**
+     * Tests executing delete command with null model
+     */
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        DeleteCommand cmd = new DeleteCommand(INDEX_FIRST_PERSON);
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> cmd.execute(null));
     }
 
     /**

@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -44,5 +46,22 @@ public class AddCommandIntegrationTest {
         assertCommandFailure(new AddCommand(personInList), model,
                 AddCommand.MESSAGE_DUPLICATE_PERSON);
     }
+
+    @Test
+    public void execute_newPerson_modelUpdatedCorrectly() {
+        Person validPerson = new PersonBuilder().withName("Alice Example").build();
+        AddCommand addCommand = new AddCommand(validPerson);
+
+        assertCommandSuccess(addCommand, model,
+                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
+                model);
+        assertTrue(model.hasPerson(validPerson));
+    }
+
+    @Test
+    public void constructor_nullPerson_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddCommand(null));
+    }
+
 
 }

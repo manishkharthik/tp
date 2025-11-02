@@ -58,7 +58,7 @@ public class EditCommandParserTest {
     private static final String EMERGENCY_DESC = " " + PREFIX_EMERGENCY_CONTACT + "98765432";
     private static final String ATTENDANCE_DESC = " " + PREFIX_ATTENDANCE + "PRESENT";
     private static final String PAYMENT_DESC = " " + PREFIX_PAYMENT_STATUS + "Paid";
-    private static final String ASSIGNMENT_DESC = " " + PREFIX_ASSIGNMENT_STATUS + "Submitted";
+    private static final String ASSIGNMENT_DESC = " " + PREFIX_ASSIGNMENT_STATUS + "Completed";
 
     private static final String INVALID_CLASS_DESC = " " + PREFIX_CLASS + " ";
     private static final String INVALID_EMERGENCY_DESC = " " + PREFIX_EMERGENCY_CONTACT + "abc";
@@ -280,7 +280,7 @@ public class EditCommandParserTest {
         String userInput = index.getOneBased() + ASSIGNMENT_DESC;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-                .withAssignmentStatus("Submitted").build();
+                .withAssignmentStatus("Completed").build();
         EditCommand expectedCommand = new EditCommand(index, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);

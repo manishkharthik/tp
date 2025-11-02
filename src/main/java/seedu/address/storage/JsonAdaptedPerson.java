@@ -1,9 +1,12 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,24 +22,33 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.student.Student;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
  * Jackson-friendly version of {@link Person} and its subclass {@link Student}.
- * <p>
- * This class serves as an intermediate representation between the JSON data stored on disk
- * and the model layer. It supports both {@code Person} and {@code Student} objects through
- * the use of a discriminator field ("type") and conditional inclusion of student-specific attributes.
- * <p>
- * Fields annotated with {@link JsonProperty} map directly to JSON keys when serializing and deserializing.
- * Any null values are omitted for backward compatibility with earlier AddressBook versions.
+ *
+ * <p>This class is converts the data from the model layer to JSON stored on the disk.
+ * It supports both {@code Person} and {@code Student} data storage.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
 
-    // Discriminator to preserve type information
+    private static final Logger LOGGER = Logger.getLogger(JsonAdaptedPerson.class.getName());
+
+    private static final String TYPE_PERSON = "person";
+    private static final String TYPE_STUDENT = "student";
+
+    private static final String ATTENDANCE_DELIMITER_REGEX = "\\|";
+    private static final int ATTENDANCE_FIELDS = 3;
+
+    private static final String MESSAGE_INVALID_ATTENDANCE = "Invalid attendance record: %s";
+    private static final String MESSAGE_INVALID_ATTENDANCE_LESSON = "Invalid attendance record (bad lesson): %s";
+    private static final String MESSAGE_INVALID_ATTENDANCE_STATUS = "Invalid attendance record (bad status): %s";
+
+    // Ensures distinction between Students and Persons can be established
     private final String type;
 
     // Base fields
@@ -48,7 +60,7 @@ public class JsonAdaptedPerson {
 
     // Student-only fields
     private final String studentClass;
-    private final List<String> subjects;
+    private final List<JsonAdaptedSubject> subjects;
     private final String emergencyContact;
     private final String paymentStatus;
     private final String assignmentStatus;
@@ -57,9 +69,7 @@ public class JsonAdaptedPerson {
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given JSON properties.
-     * <p>
-     * This constructor is called by Jackson during deserialization.
-     * The "type" field determines whether to later reconstruct a {@link Person} or {@link Student} model object.
+     * Called by Jackson during deserialization.
      */
     @JsonCreator
     public JsonAdaptedPerson(
@@ -70,28 +80,40 @@ public class JsonAdaptedPerson {
             @JsonProperty("address") String address,
             @JsonProperty("tags") List<JsonAdaptedTag> tags,
             @JsonProperty("class") String studentClass,
-            @JsonProperty("subjects") List<String> subjects,
+            @JsonProperty("subjects") List<JsonAdaptedSubject> subjects,
             @JsonProperty("emergencyContact") String emergencyContact,
             @JsonProperty("paymentStatus") String paymentStatus,
             @JsonProperty("assignmentStatus") String assignmentStatus,
             @JsonProperty("attendanceList") List<String> attendanceList,
             @JsonProperty("isArchived") Boolean isArchived) {
-        this.type = (type == null) ? "person" : type;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.isArchived = (isArchived != null) ? isArchived : false;
+
+        this.type = normalizeType(type);
+        this.name = trimOrNull(name);
+        this.phone = trimOrNull(phone);
+        this.email = trimOrNull(email);
+        this.address = trimOrNull(address);
+
         if (tags != null) {
             this.tagged.addAll(tags);
         }
-        this.studentClass = studentClass;
+
+        this.studentClass = trimOrNull(studentClass);
         this.subjects = (subjects == null) ? null : new ArrayList<>(subjects);
-        this.emergencyContact = emergencyContact;
-        this.paymentStatus = paymentStatus;
-        this.assignmentStatus = assignmentStatus;
+        this.emergencyContact = trimOrNull(emergencyContact);
+        this.paymentStatus = trimOrNull(paymentStatus);
+        this.assignmentStatus = trimOrNull(assignmentStatus);
         this.attendanceList = (attendanceList == null) ? null : new ArrayList<>(attendanceList);
 
+        this.isArchived = (isArchived != null) ? isArchived : false;
+
+        if (type == null || type.isBlank()) {
+            LOGGER.fine("Missing 'type' in JSON; defaulting to 'person'.");
+        }
+        if (this.isArchived) {
+            LOGGER.fine("Loaded archived flag = true for JsonAdaptedPerson.");
+        }
+
+        assert this.tagged != null : "tagged list must be initialised";
     }
 
     /**
@@ -104,22 +126,28 @@ public class JsonAdaptedPerson {
         this.email = source.getEmail().value;
         this.address = source.getAddress().value;
         source.getTags().forEach(tag -> this.tagged.add(new JsonAdaptedTag(tag)));
+
         if (source instanceof Student) {
             Student s = (Student) source;
             this.studentClass = s.getStudentClass();
-            this.subjects = new ArrayList<>(s.getSubjects());
+
+            this.subjects = s.getSubjects().stream()
+                    .map(JsonAdaptedSubject::new)
+                    .collect(Collectors.toList());
+
             this.emergencyContact = s.getEmergencyContact();
             this.paymentStatus = s.getPaymentStatus();
             this.assignmentStatus = s.getAssignmentStatus();
+
             this.attendanceList = new ArrayList<>();
             s.getAttendanceList().getStudentAttendance().forEach(record ->
-                this.attendanceList.add(
-                    record.getLesson().getName()
-                    + "|"
-                    + record.getLesson().getSubject()
-                    + "|"
-                    + record.getStatus().name()
-                )
+                    this.attendanceList.add(
+                            record.getLesson().getName()
+                                    + "|"
+                                    + record.getLesson().getSubject()
+                                    + "|"
+                                    + record.getStatus().name()
+                    )
             );
         } else {
             this.studentClass = null;
@@ -129,70 +157,143 @@ public class JsonAdaptedPerson {
             this.assignmentStatus = null;
             this.attendanceList = null;
         }
+
         this.isArchived = false;
     }
 
-    @JsonProperty("type") public String getType() {
+    @JsonProperty("type")
+    public String getType() {
         return type;
     }
 
-    @JsonProperty("name") public String getName() {
+    @JsonProperty("name")
+    public String getName() {
         return name;
     }
 
-    @JsonProperty("phone") public String getPhone() {
+    @JsonProperty("phone")
+    public String getPhone() {
         return phone;
     }
 
-    @JsonProperty("email") public String getEmail() {
+    @JsonProperty("email")
+    public String getEmail() {
         return email;
     }
 
-    @JsonProperty("address") public String getAddress() {
+    @JsonProperty("address")
+    public String getAddress() {
         return address;
     }
 
-    @JsonProperty("tags") public List<JsonAdaptedTag> getTags() {
-        return tagged;
+    @JsonProperty("tags")
+    public List<JsonAdaptedTag> getTags() {
+        return Collections.unmodifiableList(tagged);
     }
 
-    @JsonProperty("class") public String getStudentClass() {
+    @JsonProperty("class")
+    public String getStudentClass() {
         return studentClass;
     }
 
-    @JsonProperty("subjects") public List<String> getSubjects() {
-        return subjects;
+    @JsonProperty("subjects")
+    public List<Subject> getSubjects() throws IllegalValueException {
+        if (subjects == null) {
+            return null;
+        }
+
+        List<Subject> modelSubjects = new ArrayList<>();
+        for (JsonAdaptedSubject jsonSubject : subjects) {
+            modelSubjects.add(jsonSubject.toModelType());
+        }
+        return Collections.unmodifiableList(modelSubjects);
     }
 
-    @JsonProperty("emergencyContact") public String getEmergencyContact() {
+    @JsonProperty("emergencyContact")
+    public String getEmergencyContact() {
         return emergencyContact;
     }
 
-    @JsonProperty("paymentStatus") public String getPaymentStatus() {
+    @JsonProperty("paymentStatus")
+    public String getPaymentStatus() {
         return paymentStatus;
     }
 
-    @JsonProperty("assignmentStatus") public String getAssignmentStatus() {
+    @JsonProperty("assignmentStatus")
+    public String getAssignmentStatus() {
         return assignmentStatus;
     }
 
-    @JsonProperty("attendanceList") public List<String> getAttendanceList() {
-        return attendanceList;
+    @JsonProperty("attendanceList")
+    public List<String> getAttendanceList() {
+        return (attendanceList == null) ? null : Collections.unmodifiableList(attendanceList);
+    }
+
+    public boolean isArchived() {
+        return isArchived;
     }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's {@link Person} or {@link Student} object.
-     * <p>
-     * Validation checks are performed to ensure all required base fields are present.
-     * If any student-related fields or a "student" type discriminator are detected,
-     * a {@code Student} instance is constructed instead of a {@code Person}.
+     * Returns the subjects as JsonAdaptedSubject list (for testing).
+     */
+    public List<JsonAdaptedSubject> getSubjectsAsJsonAdapted() {
+        return (subjects == null) ? null : Collections.unmodifiableList(subjects);
+    }
+
+    /**
+     * Converts this JSON Object into a {@link Person} or {@link Student}.
      *
-     * @return a fully constructed {@code Person} or {@code Student} instance.
      * @throws IllegalValueException if any required field is missing or invalid.
      */
     public Person toModelType() throws IllegalValueException {
+        BaseFields base = parseBaseFields();
+        AttendanceList modelAttendance = parseAttendance(attendanceList);
 
-        // === Validation and construction for base fields ===
+        if (isStudentLike()) {
+            List<Subject> modelSubjects = new ArrayList<>();
+            if (subjects != null) {
+                for (JsonAdaptedSubject jsonSubject : subjects) {
+                    modelSubjects.add(jsonSubject.toModelType());
+                }
+            }
+
+            return buildStudent(base, modelAttendance, modelSubjects);
+        }
+
+        return new Person(base.name, base.phone, base.email, base.address, base.tagSet);
+    }
+
+    private static String normalizeType(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return TYPE_PERSON;
+        }
+        String normalized = raw.trim().toLowerCase();
+        if (!TYPE_PERSON.equals(normalized) && !TYPE_STUDENT.equals(normalized)) {
+            LOGGER.warning(() -> "Unknown 'type' = " + raw + "; defaulting to 'person'.");
+            return TYPE_PERSON;
+        }
+        return normalized;
+    }
+
+    private static String trimOrNull(String s) {
+        if (s == null) {
+            return null;
+        }
+        String t = s.trim();
+        return t.isEmpty() ? null : t;
+    }
+
+    private boolean isStudentLike() {
+        return TYPE_STUDENT.equalsIgnoreCase(type)
+                || studentClass != null
+                || subjects != null
+                || emergencyContact != null
+                || paymentStatus != null
+                || assignmentStatus != null
+                || attendanceList != null;
+    }
+
+    private BaseFields parseBaseFields() throws IllegalValueException {
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
@@ -206,90 +307,135 @@ public class JsonAdaptedPerson {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
         }
 
-        final Name modelName;
-        final Phone modelPhone;
-        final Email modelEmail;
-        final Address modelAddress;
-        try {
-            modelName = new Name(name);
-        } catch (Exception e) {
-            // Keep the message aligned with your model’s constraints if available.
-            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
-        }
-        try {
-            modelPhone = new Phone(phone);
-        } catch (Exception e) {
-            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
-        }
-        try {
-            modelEmail = new Email(email);
-        } catch (Exception e) {
-            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
-        }
-        try {
-            modelAddress = new Address(address);
-        } catch (Exception e) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
-        }
+        Name modelName = createName(name);
+        Phone modelPhone = createPhone(phone);
+        Email modelEmail = createEmail(email);
+        Address modelAddress = createAddress(address);
 
-        final List<Tag> modelTags = new ArrayList<>();
+        List<Tag> modelTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
+            if (tag == null) {
+                LOGGER.warning("Encountered null JsonAdaptedTag; skipping.");
+                continue;
+            }
             modelTags.add(tag.toModelType());
         }
-        final Set<Tag> modelTagSet = new HashSet<>(modelTags);
+        Set<Tag> tagSet = new HashSet<>(modelTags);
 
-        AttendanceList modelAttendanceList = new AttendanceList();
-        if (attendanceList != null) {
-            for (String recordString : attendanceList) {
-                // Expect exactly "lessonName|subject|STATUS"
-                String[] parts = recordString.split("\\|", -1);
-                if (parts.length != 3 || parts[0].isEmpty() || parts[1].isEmpty() || parts[2].isEmpty()) {
-                    throw new IllegalValueException("Invalid attendance record: " + recordString);
-                }
-                final Lesson lesson;
-                final AttendanceStatus status;
-                try {
-                    lesson = new Lesson(parts[0], parts[1]);
-                } catch (Exception e) {
-                    throw new IllegalValueException("Invalid attendance record (bad lesson): " + recordString);
-                }
-                try {
-                    status = AttendanceStatus.valueOf(parts[2]);
-                } catch (Exception e) {
-                    throw new IllegalValueException("Invalid attendance record (bad status): " + recordString);
-                }
-                modelAttendanceList.markAttendance(lesson, status);
-            }
-        }
+        assert modelName != null && modelPhone != null && modelEmail != null && modelAddress != null
+                : "Base model fields must not be null after parsing";
 
-        // === Determine whether to construct a Student ===
-        boolean hasStudentBits =
-                "student".equalsIgnoreCase(type)
-                        || studentClass != null
-                        || subjects != null
-                        || emergencyContact != null
-                        || paymentStatus != null
-                        || assignmentStatus != null
-                        || attendanceList != null;
-
-        if (hasStudentBits) {
-            // Validate student-specific fields
-            Student student = new Student(
-                    modelName,
-                    subjects,
-                    studentClass,
-                    emergencyContact,
-                    paymentStatus,
-                    assignmentStatus);
-            modelAttendanceList.getStudentAttendance()
-                    .forEach(r -> student.getAttendanceList().markAttendance(r.getLesson(), r.getStatus()));
-            return student;
-        }
-
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTagSet);
+        return new BaseFields(modelName, modelPhone, modelEmail, modelAddress, tagSet);
     }
 
-    public boolean isArchived() {
-        return isArchived;
+    private AttendanceList parseAttendance(List<String> encoded) throws IllegalValueException {
+        AttendanceList result = new AttendanceList();
+        if (encoded == null) {
+            return result;
+        }
+
+        for (String recordString : encoded) {
+            if (recordString == null || recordString.isBlank()) {
+                throw new IllegalValueException(String.format(MESSAGE_INVALID_ATTENDANCE, recordString));
+            }
+            String[] parts = recordString.split(ATTENDANCE_DELIMITER_REGEX, -1);
+            if (parts.length != ATTENDANCE_FIELDS
+                    || parts[0].isEmpty()
+                    || parts[1].isEmpty()
+                    || parts[2].isEmpty()) {
+                throw new IllegalValueException(String.format(MESSAGE_INVALID_ATTENDANCE, recordString));
+            }
+
+            final Lesson lesson;
+            try {
+                lesson = new Lesson(parts[0], parts[1]);
+            } catch (RuntimeException ex) {
+                LOGGER.warning(() -> "Bad attendance lesson in '" + recordString + "': " + ex.getMessage());
+                throw new IllegalValueException(String.format(MESSAGE_INVALID_ATTENDANCE_LESSON, recordString));
+            }
+
+            final AttendanceStatus status;
+            try {
+                status = AttendanceStatus.valueOf(parts[2]);
+            } catch (RuntimeException ex) {
+                LOGGER.warning(() -> "Bad attendance status in '" + recordString + "': " + ex.getMessage());
+                throw new IllegalValueException(String.format(MESSAGE_INVALID_ATTENDANCE_STATUS, recordString));
+            }
+
+            result.markAttendance(lesson, status);
+        }
+        return result;
+    }
+
+    private Student buildStudent(BaseFields base, AttendanceList modelAttendance, List<Subject> modelSubjects)
+            throws IllegalValueException {
+
+        Student student = new Student(
+                base.name,
+                modelSubjects,
+                studentClass,
+                emergencyContact,
+                paymentStatus,
+                assignmentStatus);
+
+        modelAttendance.getStudentAttendance()
+                .forEach(r -> student.getAttendanceList().markAttendance(r.getLesson(), r.getStatus()));
+
+        return student;
+    }
+
+    private Name createName(String raw) throws IllegalValueException {
+        try {
+            return new Name(raw);
+        } catch (RuntimeException ex) {
+            LOGGER.fine(() -> "Invalid name: " + ex.getMessage());
+            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    private Phone createPhone(String raw) throws IllegalValueException {
+        try {
+            return new Phone(raw);
+        } catch (RuntimeException ex) {
+            LOGGER.fine(() -> "Invalid phone: " + ex.getMessage());
+            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    private Email createEmail(String raw) throws IllegalValueException {
+        try {
+            return new Email(raw);
+        } catch (RuntimeException ex) {
+            LOGGER.fine(() -> "Invalid email: " + ex.getMessage());
+            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    private Address createAddress(String raw) throws IllegalValueException {
+        try {
+            return new Address(raw);
+        } catch (RuntimeException ex) {
+            LOGGER.fine(() -> "Invalid address: " + ex.getMessage());
+            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    /**
+     * Private internal class to access base fields more cleanly.
+     */
+    private static final class BaseFields {
+        private final Name name;
+        private final Phone phone;
+        private final Email email;
+        private final Address address;
+        private final Set<Tag> tagSet;
+
+        private BaseFields(Name name, Phone phone, Email email, Address address, Set<Tag> tagSet) {
+            this.name = name;
+            this.phone = phone;
+            this.email = email;
+            this.address = address;
+            this.tagSet = tagSet;
+        }
     }
 }
