@@ -174,13 +174,16 @@ public class AddCommandTest {
                 "3B", "91234568",
                 "Paid", "Completed");
 
-        new AddCommand(student1).execute(modelStub);
-        CommandResult commandResult = new AddCommand(student2).execute(modelStub);
+        CommandResult r1 = new AddCommand(student1).execute(modelStub);
+        assertTrue(r1.getFeedbackToUser().contains("New student added"));
+        assertEquals(1, modelStub.personsAdded.size());
 
-        assertEquals(2, modelStub.personsAdded.size());
-        assertFalse(student1.isSameStudent(student2)); // Verify they're different students
-        assertTrue(modelStub.personsAdded.contains(student1));
-        assertTrue(modelStub.personsAdded.contains(student2));
+        assertThrows(CommandException.class,
+            AddCommand.MESSAGE_DUPLICATE_PERSON, () -> new AddCommand(student2).execute(modelStub));
+
+        assertEquals(1, modelStub.personsAdded.size());
+
+        assertTrue(student1.getName().fullName.equalsIgnoreCase(student2.getName().fullName));
     }
 
     @Test
