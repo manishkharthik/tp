@@ -75,10 +75,10 @@ public class AddressBookParser {
             return new ArchiveCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
+            return new ClearCommand(arguments);
 
         case ClearArchiveCommand.COMMAND_WORD:
-            return new ClearArchiveCommand();
+            return new ClearArchiveCommand(arguments);
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);

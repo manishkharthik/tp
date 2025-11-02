@@ -628,6 +628,7 @@ Deletes **all current students** from the student list. This action is **irrever
 
 **Details:**
 * Permanently deletes all student records from the **current list**.
+* No extra params should be added, simply `clearcurrent`
 * Does **not** affect archived students.
 * The data file is automatically updated after the operation.
 
@@ -658,6 +659,7 @@ Deletes **all archived students** from the student list. This action is **irreve
 
 **Details:**
 * Permanently deletes all student records from the **archived list**.
+* No extra params should be added, simply `cleararchive`
 * Does **not** affect current students.
 * The data file is automatically updated after the operation.
 
