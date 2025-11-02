@@ -77,7 +77,12 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public boolean hasPerson(Person person) {
         requireNonNull(person);
-        return persons.contains(person);
+        return persons.asUnmodifiableObservableList().stream().anyMatch(existing -> {
+            if (existing instanceof Student && person instanceof Student) {
+                return ((Student) existing).isSameStudent((Student) person);
+            }
+            return existing.isSamePerson(person);
+        });
     }
 
     /**
