@@ -9,7 +9,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -54,10 +53,13 @@ public class AddCommandParser implements Parser<AddCommand> {
                 new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE)));
 
         List<String> subjects = argMultimap.getAllValues(PREFIX_SUBJECTS);
-        List<Subject> subjectList = new ArrayList<>();
-
-        if (!subjects.isEmpty() && (!(subjects.size() == 1) || !subjects.get(0).trim().isEmpty())) {
-            subjectList = ParserUtil.parseSubjects(subjects);
+        List<Subject> subjectList;
+        if (!subjects.isEmpty() && subjects.size() == 1 && subjects.get(0).trim().isEmpty()) {
+            throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
+        }
+        subjectList = ParserUtil.parseSubjects(subjects);
+        if (subjectList.isEmpty()) {
+            throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
         }
 
         String emergencyContact = ParserUtil.parseEmergencyContact(

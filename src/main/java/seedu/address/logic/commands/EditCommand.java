@@ -118,7 +118,8 @@ public class EditCommand extends Command {
     }
 
     /** Creates and returns a {@code Person} edited with {@code editPersonDescriptor}. */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Person createEditedPerson(Person personToEdit,
+        EditPersonDescriptor editPersonDescriptor) throws CommandException {
         assert personToEdit != null : "personToEdit must not be null";
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
@@ -145,7 +146,9 @@ public class EditCommand extends Command {
                 updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse(s.getEmergencyContact());
                 updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse(s.getPaymentStatus());
                 updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse(s.getAssignmentStatus());
-
+                if (updatedSubjects.isEmpty()) {
+                    throw new CommandException(Subject.MESSAGE_CONSTRAINTS);
+                }
                 Student edited = new Student(
                         updatedName,
                         updatedSubjects,
@@ -165,7 +168,9 @@ public class EditCommand extends Command {
                 updatedEmergencyContact = editPersonDescriptor.getEmergencyContact().orElse("");
                 updatedPaymentStatus = editPersonDescriptor.getPaymentStatus().orElse("");
                 updatedAssignmentStatus = editPersonDescriptor.getAssignmentStatus().orElse("");
-
+                if (updatedSubjects.isEmpty()) {
+                    throw new CommandException(Subject.MESSAGE_CONSTRAINTS);
+                }
                 return new Student(
                         updatedName,
                         updatedSubjects,
