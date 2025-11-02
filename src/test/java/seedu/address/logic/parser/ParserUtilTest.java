@@ -201,20 +201,21 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseSubjects_emptyString_returnsEmptyList() throws Exception {
-        assertTrue(ParserUtil.parseSubjects("   ").isEmpty());
+    public void parseSubjects_emptyString_throwsParserException() throws Exception {
+        assertThrows(ParseException.class,
+            "Subject names should not be empty", () -> ParserUtil.parseSubjects(Arrays.asList("  ")));
     }
 
     @Test
     public void parseSubjects_validCommaSeparated_returnsList() throws Exception {
         assertEquals(Arrays.asList(new Subject("Math"), new Subject("Science")),
-                ParserUtil.parseSubjects("Math, Science"));
+                ParserUtil.parseSubjects(Arrays.asList("Math, Science")));
     }
 
     @Test
     public void parseSubjects_withExtraSpaces_returnsTrimmedList() throws Exception {
-        assertEquals(Arrays.asList(new Subject("Math"), new Subject("English")),
-                ParserUtil.parseSubjects("  Math ,  English  "));
+        assertEquals(Arrays.asList(new Subject("Math"), new Subject("Science")),
+                ParserUtil.parseSubjects(Arrays.asList("   Math  ,  Science  ")));
     }
 
     @Test
