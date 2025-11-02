@@ -203,7 +203,7 @@ public class ParserUtilTest {
     @Test
     public void parseSubjects_emptyString_throwsParserException() throws Exception {
         assertThrows(ParseException.class,
-            "Subject names should not be empty", () -> ParserUtil.parseSubjects(Arrays.asList("  ")));
+                Subject.MESSAGE_CONSTRAINTS, () -> ParserUtil.parseSubjects(Arrays.asList("  ")));
     }
 
     @Test

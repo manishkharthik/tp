@@ -151,10 +151,17 @@ public class ParserUtil {
             if (token == null) {
                 continue;
             }
+
             for (String part : token.split(",")) {
                 String name = part.trim();
+
                 if (!name.isEmpty()) {
                     sawNonEmpty = true;
+
+                    if (!Subject.isValidSubjectName(name)) {
+                        throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
+                    }
+
                     String lower = name.toLowerCase();
                     if (seenLower.add(lower)) {
                         result.add(new Subject(name));
