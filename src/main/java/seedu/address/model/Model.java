@@ -181,6 +181,16 @@ public interface Model {
      */
     void deleteLesson(Lesson lesson);
 
+    /**
+     * Clears the lesson list
+     */
+    void clearLessons();
+
+    /**
+     * Clears the subject list
+     */
+    void clearSubjects();
+
     /** Returns an unmodifiable view of the filtered lesson list */
     ObservableList<Lesson> getFilteredLessonList();
 

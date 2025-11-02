@@ -126,6 +126,10 @@ public class SubjectList {
         subjects.add(created);
         return created;
     }
+
+    public void clear() {
+        subjects.clear();
+    }
     @Override
     public String toString() {
         return "Subjects:  " + subjects.toString();

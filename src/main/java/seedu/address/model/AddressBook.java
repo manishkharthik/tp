@@ -279,6 +279,20 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.setPersons(List.of());
     }
 
+    /**
+     * Deletes all lessons from the lesson list
+     */
+    public void clearLessons() {
+        lessonList.setLessons(List.of());
+    }
+
+    /**
+     * Deletes all subjects from the subject list
+     */
+    public void clearSubjects() {
+        subjectList.clear();
+    }
+
     @Override
     public ObservableList<Person> getArchivedPersonList() {
         return archivedPersons.asUnmodifiableObservableList();
