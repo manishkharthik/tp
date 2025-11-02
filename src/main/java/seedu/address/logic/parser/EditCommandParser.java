@@ -24,6 +24,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -74,10 +75,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         List<String> subjects = argMultimap.getAllValues(PREFIX_SUBJECTS);
         if (!subjects.isEmpty()) {
             if (subjects.size() == 1 && subjects.get(0).trim().isEmpty()) {
-                descriptor.setSubjects(Collections.emptyList());
-            } else {
-                descriptor.setSubjects(ParserUtil.parseSubjects(subjects));
+                throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
             }
+            descriptor.setSubjects(ParserUtil.parseSubjects(subjects));
         }
         parseAndSet(argMultimap, PREFIX_EMERGENCY_CONTACT, ParserUtil::parseEmergencyContact,
                 descriptor::setEmergencyContact);
