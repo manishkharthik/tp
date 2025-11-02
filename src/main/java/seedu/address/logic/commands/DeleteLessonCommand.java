@@ -13,7 +13,7 @@ import seedu.address.model.lesson.Lesson;
  */
 public class DeleteLessonCommand extends Command {
 
-    public static final String COMMAND_WORD = "DeleteLesson";
+    public static final String COMMAND_WORD = "deletelesson";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes a lesson from a subject. "
             + "Parameters: "

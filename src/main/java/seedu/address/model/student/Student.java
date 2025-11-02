@@ -1,5 +1,7 @@
 package seedu.address.model.student;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -127,6 +129,12 @@ public class Student extends Person {
     public int getStudentId() {
         assert id > 0 : "Student ID must be positive";
         return id;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        requireNonNull(subjects);
+        this.subjects.clear();
+        this.subjects.addAll(subjects);
     }
 
     /**
