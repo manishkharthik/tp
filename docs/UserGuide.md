@@ -170,6 +170,7 @@ You cannot add a student with the same name and class as an existing student.
 
 * If a name contains `s/o` or `d/o`, wrap the entire name in quotes: `n/"Name s/o Parent"`
 * Quotes are optional for regular names without special characters
+* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
 
 </div>
 * `add n/John Tan c/3B s/Math s/Science ec/91234567` 

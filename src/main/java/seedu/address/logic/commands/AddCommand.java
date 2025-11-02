@@ -40,6 +40,9 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student already exists in the student list";
+    public static final String MESSAGE_UNABLE_ARCHIVE =
+        "Cannot add a student while viewing the archived list.\n"
+        + "Use the 'archive' command to move an existing student to the archive.";
 
     private final Person toAdd;
 
@@ -58,10 +61,7 @@ public class AddCommand extends Command {
         assert toAdd != null : "Person to add should not be null";
 
         if (model.isViewingArchived()) {
-            if (model.hasArchivedPerson(toAdd)) {
-                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-            }
-            model.addArchivedPerson(toAdd);
+            throw new CommandException(MESSAGE_UNABLE_ARCHIVE);
         } else {
             if (model.hasPerson(toAdd)) {
                 throw new CommandException(MESSAGE_DUPLICATE_PERSON);
