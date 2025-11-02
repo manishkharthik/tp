@@ -94,7 +94,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
-   * `clearcurrent` : Deletes all students in the current list.
+   * `clearcurrent` : Deletes all students, lessons and subjects in the current list.
 
    * `exit` : Exits the app.
 
@@ -189,6 +189,48 @@ You cannot add a student with the same name and class as an existing student.
 
 ---
 
+### Adding a lesson : 'addlesson'
+
+Adds a new lesson to a subject in Tutor Track.
+
+**Format:** `add s/SUBJECT n/LESSON.`
+
+**Parameters:**
+* `s/SUBJECT` - Subject that is being added (e.g., Math) (**required**)
+* `n/LESSON` - Lesson name (e.g, Algebra) (**required**)
+
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+  You can add multiple lessons by using multiple `n/` prefixes.
+</div>
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
+</div>
+
+**Examples:**
+* `addlesson n/Math s/AlgebraI` - Adds AlgebraI lessons in Math subject.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+Only one lesson in one lesson can be added. To add multiple lessons, use the command multiple times.
+</div>
+TODO: CHANGE COMMANDS AND IMAGE ACCORDINGLY
+* `add n/John Tan c/3B s/Math s/Science ec/91234567` 
+  * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
+
+  <figure>
+    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
+    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+  </figure>
+
+* `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
+  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
+
+  <figure>
+    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
+    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
+  </figure> 
+
 ### Listing all students : `list`
 
 Shows a list of all active (non-archived) students in the Tutor Track.
@@ -213,6 +255,8 @@ Listed all students
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use this command to reset any filters and see all active students after using `find` or other filtering commands.
 </div>
+
+### Listing all lessons in a subject : 'listlessons'
 
 ### Editing a student : `edit`
 
@@ -316,7 +360,6 @@ Finds students whose names contain any of the given keywords.
 
 ### Deleting a student : `delete`
 
-
 Deletes the specified student from the student list.
 
 **Format:** `delete INDEX`
@@ -366,6 +409,61 @@ Deletes the specified student from the student list.
     <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
     <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
   </figure>
+
+### Deleting a lesson : 'deletelesson'
+
+Deletes the specified lesson from the lesson list.
+
+**Format:** `delete s/SUBJECT n/LESSON`
+
+**Parameters:**
+* `s/SUBJECT` — the subject of the lesson to be deleted.
+* `n/LESSON` — the lesson to be deleted.
+
+**Description:**
+* Deletes the lesson in a specified subject. This action is **irreversible**
+
+⸻
+
+**Examples:**
+TODO: CHANGE THE FOLLOWING BELOW
+1. Deleting a student from the main list
+* Command: `list` followed by `delete 3`
+  <table>
+    <tr>
+      <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+    </tr>
+  </table>
+
+2. Deleting a student from a filtered list
+* Command: `find John` followed by `delete 2`
+  <table>
+    <tr>
+      <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+    </tr>
+  </table>
+
+3. Invalid index
+* Command: `delete 5` (when there are only 2 or fewer students)
+  **Error:** "The person index provided is invalid"
+  <figure>
+    <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
+    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
+  </figure>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+This command only deletes one lesson from one subject. To delete multiple lessons, run this command multiple times.
+</div>
 
 ### Marking attendance: `markattendance`
 
@@ -632,7 +730,7 @@ Deletes **all current students** from the student list. This action is **irrever
 
 **Example:**
 * `clearcurrent`
-  Removes every student from the current list.
+  Removes every student, lesson and subject from the current list.
   <table>
   <tr>
     <td><img src="images/currentclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
@@ -651,7 +749,7 @@ Archived records are not affected by this command.</div>
 
 ### Clearing all archived student entries : `cleararchive`
 
-Deletes **all archived students** from the student list. This action is **irreversible**
+Deletes **all archived students, lessons and subjects** from the archived list. This action is **irreversible**
 
 **Format:** `cleararchive`
 
@@ -673,7 +771,7 @@ Deletes **all archived students** from the student list. This action is **irreve
     <td align="center"><em>Figure 17a: Archive Student List before it is cleared</em></td>
     <td align="center"><em>Figure 17b: Archive Student List once all students have been cleared out</em></td>
   </tr>
-</table>
+  </table>
 
 
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
