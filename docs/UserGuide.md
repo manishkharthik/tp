@@ -147,7 +147,7 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 * `n/NAME` - Student's full name (**required**)
 * `c/CLASS` - Student's class (e.g., 3B) (**required**)
 * `s/SUBJECT` - Subject(s) the student is taking (**at least one required**, use multiple `s/` prefixes to add more)
-* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number (**required**)
+* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (**required**)
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
 * `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
