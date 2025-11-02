@@ -150,8 +150,7 @@ public class Student extends Person {
         assert otherStudent.getName() != null : "Other student's name is null";
         assert otherStudent.getStudentClass() != null : "Other student's class is null";
 
-        return otherStudent.getName().equals(getName())
-                && otherStudent.getStudentClass().equals(getStudentClass());
+        return getName().fullName.equalsIgnoreCase(otherStudent.getName().fullName);
     }
 
     /**
