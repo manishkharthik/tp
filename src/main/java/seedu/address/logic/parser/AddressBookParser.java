@@ -87,10 +87,10 @@ public class AddressBookParser {
             return new ListCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
+            return new ExitCommand(arguments);
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
+            return new HelpCommand(arguments);
 
         case ListArchiveCommand.COMMAND_WORD:
             return new ListArchiveCommandParser().parse(arguments);
