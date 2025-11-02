@@ -134,22 +134,35 @@ public class ParserUtil {
         return tagSet;
     }
 
-    /** Parses comma-separated subjects into {@code List<String>}. */
-    public static List<Subject> parseSubjects(String csvSubjects) throws ParseException {
-        requireNonNull(csvSubjects);
-        String trimmed = csvSubjects.trim();
-        if (trimmed.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] parts = trimmed.split(",");
-        List<Subject> subjects = new ArrayList<>();
-        for (String part : parts) {
-            String s = part.trim();
-            if (!s.isEmpty()) {
-                subjects.add(new Subject(s));
+    /**
+     * Parse subject tokens supporting both "s/Math s/Science" & "s/Math, Science"
+     * Mixed forms are also supported: s/Math, Science s/English
+     * Empty parts are ignored and if no subjects are provided, we throw with constraints.
+     */
+    public static List<Subject> parseSubjects(Collection<String> subjects) throws ParseException {
+        requireNonNull(subjects, "subjects must not be null");
+        List<Subject> result = new ArrayList<>();
+        Set<String> seenLower = new HashSet<>();
+        boolean sawNonEmpty = false;
+        for (String token : subjects) {
+            if (token == null) {
+                continue;
+            }
+            for (String part : token.split(",")) {
+                String name = part.trim();
+                if (!name.isEmpty()) {
+                    sawNonEmpty = true;
+                    String lower = name.toLowerCase();
+                    if (seenLower.add(lower)) {
+                        result.add(new Subject(name));
+                    }
+                }
             }
         }
-        return subjects;
+        if (!sawNonEmpty) {
+            throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
+        }
+        return result;
     }
 
     /**
