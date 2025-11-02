@@ -240,8 +240,8 @@ public class ParserUtil {
         requireNonNull(assignmentStatus);
         String trimmed = assignmentStatus.trim();
 
-        if (!trimmed.equalsIgnoreCase("Completed") && !trimmed.equalsIgnoreCase("Uncompleted")) {
-            throw new ParseException("Assignment status must be either 'Completed' or 'Uncompleted'");
+        if (!trimmed.equalsIgnoreCase("Completed") && !trimmed.equalsIgnoreCase("Incomplete")) {
+            throw new ParseException("Assignment status must be either 'Completed' or 'Incomplete'");
         }
 
         return trimmed.substring(0, 1).toUpperCase() + trimmed.substring(1).toLowerCase();

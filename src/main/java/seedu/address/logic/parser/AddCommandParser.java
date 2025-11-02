@@ -68,7 +68,7 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         String assignmentStatus = argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).isPresent()
                 ? ParserUtil.parseAssignmentStatus(argMultimap.getValue(PREFIX_ASSIGNMENT_STATUS).get())
-                : "Uncompleted";
+                : "Incomplete";
 
         // Optional tags (if still supported)
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
