@@ -149,7 +149,7 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 * `s/SUBJECT` - Subject(s) the student is taking (**at least one required**, use multiple `s/` prefixes to add more)
 * `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number (**required**)
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
-* `asg/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
+* `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 * You can add multiple subjects by using multiple `s/` prefixes
@@ -162,6 +162,16 @@ You cannot add a student with the same name and class as an existing student.
 </div>
 
 **Examples:**
+* `add n/"Rahit s/o Kumar" c/3B s/Math ec/12345678` - Adds a student with s/o in name
+* `add n/"Sarah d/o Ali" c/4A s/Science ec/87654321` - Adds a student with d/o in name
+* `add n/John Tan c/3B s/Math ec/12345678` - Regular name without quotes
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+* If a name contains `s/o` or `d/o`, wrap the entire name in quotes: `n/"Name s/o Parent"`
+* Quotes are optional for regular names without special characters
+
+</div>
 * `add n/John Tan c/3B s/Math s/Science ec/91234567` 
   * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
 
