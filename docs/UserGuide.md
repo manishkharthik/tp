@@ -11,12 +11,12 @@ Built for tutors who prefer typing over clicking, TutorTrack is **optimized for 
 
 ### Key Features
 With TutorTrack, you can:
-* **Manage student profiles** - Add, edit, delete, and archive student information including contact details, emergency contacts, and assigned classes
+* **Manage student profiles** - Add, edit, delete, and archive student information including emergency contacts, and assigned classes
 * **Track subjects and lessons** - Organize students by subjects and maintain lesson records
 * **Monitor attendance** - Mark and view attendance for individual lessons
 * **Track payments** - Keep tabs on payment status for each student
 * **Monitor assignments** - Track assignment completion status
-* **Search and filter** - Quickly find students by name, subject, class, or other criteria
+* **Search and filter** - Quickly find students by name 
 
 TutorTrack is perfect for independent tutors, tutoring center staff, and educational coordinators who want a fast, keyboard-driven way to manage their students without the complexity of traditional administrative software.
 * Table of Contents
@@ -37,24 +37,24 @@ TutorTrack is perfect for independent tutors, tutoring center staff, and educati
 
 While exploring TutorTrack, you will encounter several icons and terms used throughout this guide. The following tables explain their meanings to help you navigate the guide more effectively.
 
-| Term | Meaning |
-|:-----|:--------|
-| **GUI** | *Graphical User Interface* — The visual interface of TutorTrack that displays students, subjects, and command results. |
-| **CLI** | *Command Line Interface* — The text-based interface where users type commands to perform actions in TutorTrack. |
-| **Command** | A text instruction entered by the user to perform an operation in TutorTrack (e.g., `add`, `delete`, `archive`). |
-| **Parameter** | Information provided to a command to specify details. For example, in `add n/John Tan c/3B`, `n/John Tan` and `c/3B` are parameters. |
-| **Case-sensitive** | When the casing of letters matters. For example, `add` is valid but `ADD` is not. |
-| **Case-insensitive** | When the casing of letters does not matter. For example, `john` and `John` are treated as the same. |
-| **Index** | The position number of a student as shown in the current displayed list (1-indexed). |
-| **Mainstream OS** | Commonly used operating systems supported by TutorTrack — Windows, macOS, Linux, and Unix. |
-| **Tutor** | An individual providing academic tutoring services. Tutors are the primary users of TutorTrack. |
-| **Student** | A learner receiving academic tutoring. Each student has unique information (e.g., name, contact, subjects) and associated records (e.g., attendance, payments, academic performance). |
-| **Parent Contact** | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes. |
-| **Attendance** | The attendance record associated with a student, tracking presence, lateness, or absence for lessons. |
-| **AttendanceStatus** | The recorded attendance status for a student during a lesson — can be **Present**, **Absent**, **Late**, or **Excused**. |
-| **Archive** | A status indicating whether a student is **active** (currently enrolled or assigned to a tutor) or **archived** (no longer active but retained for recordkeeping). |
-| **Subject Enrollment** | The mapping between students and the subjects they are studying. A student may be enrolled in multiple subjects. |
-| **Payment Status** | The record indicating whether a student’s payment for tuition or lessons is **Paid**, **Unpaid**, or **Pending**. |
+| Term                   | Meaning                                                                                                                                                                               |
+|:-----------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **GUI**                | *Graphical User Interface* — The visual interface of TutorTrack that displays students, subjects, and command results.                                                                |
+| **CLI**                | *Command Line Interface* — The text-based interface where users type commands to perform actions in TutorTrack.                                                                       |
+| **Command**            | A text instruction entered by the user to perform an operation in TutorTrack (e.g., `add`, `delete`, `archive`).                                                                      |
+| **Parameter**          | Information provided to a command to specify details. For example, in `add n/John Tan c/3B`, `n/John Tan` and `c/3B` are parameters.                                                  |
+| **Case-sensitive**     | When the casing of letters matters. For example, `add` is valid but `ADD` is not.                                                                                                     |
+| **Case-insensitive**   | When the casing of letters does not matter. For example, `john` and `John` are treated as the same.                                                                                   |
+| **Index**              | The position number of a student as shown in the current displayed list (1-indexed).                                                                                                  |
+| **Mainstream OS**      | Commonly used operating systems supported by TutorTrack — Windows, macOS, Linux, and Unix.                                                                                            |
+| **Tutor**              | An individual providing academic tutoring services. Tutors are the primary users of TutorTrack.                                                                                       |
+| **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, contact, subjects) and associated records (e.g., attendance, payments, academic performance). |
+| **Parent Contact**     | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes.                                              |
+| **Attendance**         | The attendance record associated with a student, tracking presence, lateness, or absence for lessons.                                                                                 |
+| **Attendance Status**  | The recorded attendance status for a student during a lesson — can be **Present**, **Absent**, **Late**, or **Excused**.                                                              |
+| **Archive**            | A status indicating whether a student is **active** (currently enrolled or assigned to a tutor) or **archived** (no longer active but retained for recordkeeping).                    |
+| **Subject Enrollment** | The mapping between students and the subjects they are studying. A student may be enrolled in multiple subjects.                                                                      |
+| **Payment Status**     | The record indicating whether a student’s payment for tuition or lessons is **Paid**, **Unpaid**.                                                                                     |
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -117,14 +117,12 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 * Items with `…`​ after them can be used multiple times.<br>
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
 ### Viewing help : `help`
-
 Shows a message with a link to access the full help page.
   <figure>
     <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
@@ -152,9 +150,9 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 * `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-* You can add multiple subjects by using multiple `s/` prefixes
-* Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified
-* Names are case-sensitive
+  You can add multiple subjects by using multiple `s/` prefixes.
+  Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
+  Names are case-sensitive
 </div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
@@ -226,14 +224,13 @@ Edits an existing student's information in Tutor Track
 *	`c/` — class (e.g., `3A`)
 *	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
 *	`ec/` — emergency contact (numbers only)
-*	`ps/` — payment status (e.g., Paid, Pending, Overdue)
-*	`as/` — assignment status (e.g., Submitted, Incomplete, Not Submitted)
+*	`ps/` — payment status (e.g., Paid or Pending)
+*	`as/` — assignment status (e.g., Submitted or Incomplete)
 
 **Description**:
 *	Edits the student at the given `INDEX` (as shown in the current student list). `INDEX` is a positive integer.
 *	Existing values are replaced by the new ones you supply.
-* If the person at `INDEX`is not yet a Student, supplying any student-specific fields will convert them into a Student.
-* Subjects are matched case-insensitively.
+  * Subjects are matched case-insensitively.
 
 ⸻
 
@@ -331,7 +328,7 @@ Deletes the specified student from the student list.
 * Deletes the student at the specified `INDEX`. This action is **irreversible**
 * The index refers to the index number shown in the displayed student list
 * The command works on the last shown list of students, which may be filtered (e.g., after using `find`)
-* If the provided index is invalid (e.g., out of range), an error message will be shown
+* If the provided index is not an integer, negative or out of range, an error message will be shown
 
 ⸻
 
@@ -629,6 +626,7 @@ Deletes **all current students** from the student list. This action is **irrever
 
 **Details:**
 * Permanently deletes all student records from the **current list**.
+* No extra params should be added, simply `clearcurrent`
 * Does **not** affect archived students.
 * The data file is automatically updated after the operation.
 
@@ -659,6 +657,7 @@ Deletes **all archived students** from the student list. This action is **irreve
 
 **Details:**
 * Permanently deletes all student records from the **archived list**.
+* No extra params should be added, simply `cleararchive`
 * Does **not** affect current students.
 * The data file is automatically updated after the operation.
 
@@ -689,21 +688,24 @@ Format: `exit`
 
 ## Command Summary
 
-| Action | Format, Examples (if necessary) |
-|--------|---------------------------------|
-| **Help** | `help` |
-| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` |
-| **List** | `list` |
+| Action | Format, Examples (if necessary)                                                                                                                                                                             |
+|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help** | `help`                                                                                                                                                                                                      |
+| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/MORE_SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed`        |
+| **List** | `list`                                                                                                                                                                                                      |
 | **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Pending as/Completed` |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]` |
-| **Delete** | `delete INDEX` <br> e.g., `delete 2` |
-| **Archive** | `archive INDEX` <br> e.g., `archive 3` |
-| **List Archived** | `listarchive` |
-| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1` |
-| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT` |
-| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math` |
-| **Clear** | `clear` |
-| **Exit** | `exit` |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]`                                                                                                                                                                              |
+| **Delete** | `delete INDEX` <br> e.g., `delete 2`                                                                                                                                                                        |
+| **Archive** | `archive INDEX` <br> e.g., `archive 3`                                                                                                                                                                      |
+| **List Archived** | `listarchive`                                                                                                                                                                                               |
+| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                                  |
+| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                     |
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                             
+| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                                  
+| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                          
+| **Clear** | `clearcurrent`                                                                                                                                                                                              
+| **Clear Archive**| `cleararchive`                                                                                                                                                                                              
+| **Exit** | `exit`                                                                                                                                                                                                      |
 
 ### Saving the data
 

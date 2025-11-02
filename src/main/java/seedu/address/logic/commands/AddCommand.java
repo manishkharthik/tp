@@ -25,7 +25,7 @@ public class AddCommand extends Command {
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_CLASS + "CLASS "
-            + PREFIX_SUBJECTS + "SUBJECT [s/SUBJECT]... "
+            + PREFIX_SUBJECTS + "SUBJECT [s/MORE_SUBJECTS]... "
             + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT "
             + "[" + PREFIX_PAYMENT_STATUS + "PAYMENT_STATUS] "
             + "[" + PREFIX_ASSIGNMENT_STATUS + "ASSIGNMENT_STATUS]\n"
@@ -60,6 +60,12 @@ public class AddCommand extends Command {
         assert model != null : "Model should not be null";
         assert toAdd != null : "Person to add should not be null";
 
+        String duplicateLocation = model.checkDuplicateStudentLocation(toAdd);
+        if (duplicateLocation != null) {
+            throw new CommandException(String.format(
+                "Duplicate student detected! A student with the same name already exists in the %s.",
+                duplicateLocation));
+        }
         if (model.isViewingArchived()) {
             throw new CommandException(MESSAGE_UNABLE_ARCHIVE);
         } else {

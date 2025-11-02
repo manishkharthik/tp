@@ -25,7 +25,7 @@ public class ClearCommandTest {
         Model model = new ModelManager();
         Model expectedModel = new ModelManager();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(""), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
@@ -34,12 +34,12 @@ public class ClearCommandTest {
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setAddressBook(new AddressBook());
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(""), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
     public void execute_nullModel_throwsNullPointerException() {
-        ClearCommand command = new ClearCommand();
+        ClearCommand command = new ClearCommand("");
         org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> command.execute(null));
     }
 
@@ -48,7 +48,7 @@ public class ClearCommandTest {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         assertFalse(model.getFilteredPersonList().isEmpty(), "Person list should start non-empty");
 
-        new ClearCommand().execute(model);
+        new ClearCommand("").execute(model);
 
         assertTrue(model.getFilteredPersonList().isEmpty(), "Person list should be empty after clear");
     }
@@ -56,7 +56,7 @@ public class ClearCommandTest {
     @Test
     public void execute_clearTwice_success() throws CommandException {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        ClearCommand command = new ClearCommand();
+        ClearCommand command = new ClearCommand("");
 
         command.execute(model);
         command.execute(model);
@@ -66,25 +66,25 @@ public class ClearCommandTest {
 
     @Test
     public void equals_sameInstance_returnsTrue() {
-        ClearCommand clearCommand = new ClearCommand();
+        ClearCommand clearCommand = new ClearCommand("");
         assertTrue(clearCommand.equals(clearCommand));
     }
 
     @Test
     public void equals_differentInstances_returnsTrue() {
-        assertTrue(new ClearCommand().equals(new ClearCommand()));
+        assertTrue(new ClearCommand("").equals(new ClearCommand("")));
     }
 
     @Test
     public void equals_differentObject_returnsFalse() {
-        assertFalse(new ClearCommand().equals(1));
-        assertFalse(new ClearCommand().equals(null));
+        assertFalse(new ClearCommand("").equals(1));
+        assertFalse(new ClearCommand("").equals(null));
     }
 
     @Test
     public void execute_returnsExpectedMessage() throws CommandException {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        CommandResult result = new ClearCommand().execute(model);
+        CommandResult result = new ClearCommand("").execute(model);
 
         assertNotNull(result);
         assertEquals(ClearCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());

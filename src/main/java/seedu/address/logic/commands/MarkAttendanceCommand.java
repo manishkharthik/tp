@@ -81,7 +81,7 @@ public class MarkAttendanceCommand extends Command {
                 .anyMatch(s -> s.equalsIgnoreCase(subject.getName()));
         if (!enrolled) {
             throw new CommandException(
-                    String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject));
+                    String.format(Messages.MESSAGE_SUBJECT_NOT_ENROLLED, student.getName(), subject.getName()));
         }
 
         // Check the lesson exists in the model

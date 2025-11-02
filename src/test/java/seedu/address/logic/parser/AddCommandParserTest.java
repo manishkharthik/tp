@@ -17,12 +17,11 @@ public class AddCommandParserTest {
     private static final String CLASS = "3B";
     private static final String SUBJECTS = "Math s/Science";
     private static final String EMERGENCY_CONTACT = "91234567";
-    private static final String ATTENDANCE = "Present";
     private static final String PAYMENT_STATUS = "Paid";
     private static final String ASSIGNMENT_STATUS = "Completed";
 
     private static final String VALID_FULL_COMMAND =
-            NAME + CLASS + SUBJECTS + EMERGENCY_CONTACT + ATTENDANCE + PAYMENT_STATUS + ASSIGNMENT_STATUS;
+            NAME + CLASS + SUBJECTS + EMERGENCY_CONTACT + PAYMENT_STATUS + ASSIGNMENT_STATUS;
 
     @Test
     public void parse_missingCompulsoryFields_failure() {
@@ -39,15 +38,6 @@ public class AddCommandParserTest {
 
         // missing emergency contact
         assertParseFailure(parser, "add" + NAME + CLASS + SUBJECTS, expectedMessage);
-    }
-
-    @Test
-    public void parse_invalidAttendance_failure() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
-        assertParseFailure(parser,
-            "add n/John Tan c/3B s/Math s/Science ec/91234567 att/Late pay/Paid asg/Completed",
-            expectedMessage
-        );
     }
 
     @Test

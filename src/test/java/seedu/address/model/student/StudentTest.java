@@ -255,7 +255,7 @@ public class StudentTest {
     }
 
     @Test
-    public void isSameStudent_sameNameDifferentClass_returnsFalse() {
+    public void isSameStudent_sameNameDifferentClass_returnsTrue() {
         Student sameNameDifferentClass = new Student(
                 validName,
                 validSubjects,
@@ -263,7 +263,7 @@ public class StudentTest {
                 validEmergencyContact,
                 validPaymentStatus,
                 validAssignmentStatus);
-        assertFalse(baseStudent.isSameStudent(sameNameDifferentClass));
+        assertTrue(baseStudent.isSameStudent(sameNameDifferentClass));
     }
 
     @Test
@@ -315,7 +315,7 @@ public class StudentTest {
     }
 
     @Test
-    public void isSameStudent_otherHasDifferentClass_returnsFalse() {
+    public void isSameStudent_otherHasDifferentClass_returnsTrue() {
         Student otherStudent = new Student(
                 validName,
                 validSubjects,
@@ -323,7 +323,7 @@ public class StudentTest {
                 validEmergencyContact,
                 validPaymentStatus,
                 validAssignmentStatus);
-        assertFalse(baseStudent.isSameStudent(otherStudent));
+        assertTrue(baseStudent.isSameStudent(otherStudent));
     }
 
     // Test cases for getter method assertions
