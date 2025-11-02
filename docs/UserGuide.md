@@ -117,8 +117,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 * Items with `…`​ after them can be used multiple times.<br>
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
