@@ -68,6 +68,12 @@ public interface Model {
      */
     boolean hasArchivedPerson(Person person);
 
+    boolean hasSameStudentInCurrent(Person toAdd);
+
+    boolean hasSameStudentInArchive(Person toAdd);
+
+    String checkDuplicateStudentLocation(Person toAdd);
+
     /**
      * Deletes the given person from the current list
      * The person must exist in the address book.

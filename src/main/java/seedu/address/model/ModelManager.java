@@ -15,6 +15,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
+import seedu.address.model.student.Student;
 import seedu.address.model.subject.Subject;
 import seedu.address.model.subject.SubjectList;
 
@@ -145,6 +146,34 @@ public class ModelManager implements Model {
         requireNonNull(person);
         addressBook.addArchivedPerson(person);
         updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
+    public boolean hasSameStudentInCurrent(Person toAdd) {
+        requireNonNull(toAdd);
+        return addressBook.getPersonList().stream()
+                .filter(existing -> existing instanceof Student)
+                .anyMatch(existing -> ((Student) existing).isSameStudent((Student) toAdd));
+    }
+
+    @Override
+    public boolean hasSameStudentInArchive(Person toAdd) {
+        requireNonNull(toAdd);
+        return addressBook.getArchivedPersonList().stream()
+                .filter(existing -> existing instanceof Student)
+                .anyMatch(existing -> ((Student) existing).isSameStudent((Student) toAdd));
+    }
+
+    @Override
+    public String checkDuplicateStudentLocation(Person toAdd) {
+        requireNonNull(toAdd);
+        if (hasSameStudentInCurrent(toAdd)) {
+            return "current list";
+        } else if (hasSameStudentInArchive(toAdd)) {
+            return "archived list";
+        } else {
+            return null;
+        }
     }
 
     @Override

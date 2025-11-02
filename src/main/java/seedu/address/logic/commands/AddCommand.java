@@ -60,6 +60,12 @@ public class AddCommand extends Command {
         assert model != null : "Model should not be null";
         assert toAdd != null : "Person to add should not be null";
 
+        String duplicateLocation = model.checkDuplicateStudentLocation(toAdd);
+        if (duplicateLocation != null) {
+            throw new CommandException(String.format(
+                "Duplicate student detected! A student with the same name already exists in the %s.",
+                duplicateLocation));
+        }
         if (model.isViewingArchived()) {
             throw new CommandException(MESSAGE_UNABLE_ARCHIVE);
         } else {
