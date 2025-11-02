@@ -15,7 +15,8 @@ Class UserPrefs
 Class UniquePersonList
 Class Person
 Class Student
-Class StudentList
+Class CurrentStudentList
+Class ArchivedStudentList
 Class Address
 Class Email
 Class Name
@@ -44,9 +45,12 @@ ModelManager -left-> "1" AddressBook
 ModelManager -right-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
-AddressBook *--> "1" UniquePersonList
-AddressBook *--> "1" UniquePersonList : archivedPersons
-UniquePersonList --> "~* all" Person
+AddressBook *--> "1" CurrentStudentList : currentStudents
+AddressBook *--> "1" ArchivedStudentList : archivedStudents
+
+CurrentStudentList *--> "*" Student : students
+ArchivedStudentList *--> "*" Student : students
+
 Person <|-- Student
 Person *--> Name
 Person *--> Phone

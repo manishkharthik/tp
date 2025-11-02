@@ -62,21 +62,30 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have Java 17 or above installed on your computer.
+    *	**Windows users:**
+    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows)￼ or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/)￼.
+    *	**macOS users:**
+  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)￼,
+  or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)￼
+  or [Adoptium Temurin 17 (macOS)](https://adoptium.net/temurin/releases/).
+    *	**Linux users:**
+  You can install via your package manager (e.g., ```sudo apt install openjdk-17-jdk```)
+  or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)￼
+  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack.
+3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before the moving on to the next instruction.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutortrack.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.
+4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar tutortrack.jar` command to run the application.<br>
+   A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.
    <figure>
       <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
       <figcaption><em>Figure 1: TutorTrack GUI</em></figcaption>
     </figure>
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type a command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all students.
@@ -92,11 +101,6 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
-
-## Navigating the GUI
-
-(guide on how to use the GUI)
-
 
 ## Features
 
@@ -143,9 +147,9 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 * `n/NAME` - Student's full name (**required**)
 * `c/CLASS` - Student's class (e.g., 3B) (**required**)
 * `s/SUBJECT` - Subject(s) the student is taking (**at least one required**, use multiple `s/` prefixes to add more)
-* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number (**required**)
+* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (**required**)
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
-* `asg/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
+* `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 * You can add multiple subjects by using multiple `s/` prefixes
@@ -158,6 +162,17 @@ You cannot add a student with the same name and class as an existing student.
 </div>
 
 **Examples:**
+* `add n/"Rahit s/o Kumar" c/3B s/Math ec/12345678` - Adds a student with s/o in name
+* `add n/"Sarah d/o Ali" c/4A s/Science ec/87654321` - Adds a student with d/o in name
+* `add n/John Tan c/3B s/Math ec/12345678` - Regular name without quotes
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+* If a name contains `s/o` or `d/o`, wrap the entire name in quotes: `n/"Name s/o Parent"`
+* Quotes are optional for regular names without special characters
+* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
+
+</div>
 * `add n/John Tan c/3B s/Math s/Science ec/91234567` 
   * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
 
@@ -260,74 +275,209 @@ Edits an existing student's information in Tutor Track
 
 ### Locating students by name: `find`
 
+
 Finds students whose names contain any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+**Format:** `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* students matching all keywords will be returned (i.e. `AND` search).
-  e.g. `find john tan` will return `john tan` and not `john wee`.
+**Parameters:**
+* `KEYWORD` — any part of a student's name (case-insensitive)
+* Multiple keywords can be supplied, separated by spaces (e.g., `find John Tan`)
+* Only full words are matched (e.g., `Han` will not match `Hans`)
 
-Examples:
-* `find john` returns `John Tan` and `John Lee`
+**Description**:
+* Returns students whose names contain all supplied keywords (AND search)
+* The search is case-insensitive. e.g., `hans` matches `Hans`
+* The order of keywords does not matter. e.g., `Hans Bo` matches `Bo Hans`
+* Only the name field is searched
+* If no students match, an empty list is shown
 
+⸻
+
+**Examples:**
+1. Finding multiple students
+* Command: `find john`
   <figure>
     <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
     <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
-* `find alice` returns an empty list of students if there is no student named `alice`<br>
+2. No matching students
+* Command: `find alice`
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
     <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
   </figure>
 
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* Only students matching all keywords are shown; partial matches are not included.
+* If you intend to search by other fields (e.g., subject, class), use the appropriate command or filter.
+
+</div>
+
 ### Deleting a student : `delete`
+
 
 Deletes the specified student from the student list.
 
-Format: `delete INDEX`
+**Format:** `delete INDEX`
 
+**Parameters:**
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer)
+
+**Description:**
 * Deletes the student at the specified `INDEX`. This action is **irreversible**
-* The index refers to the index number shown in the displayed student list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index refers to the index number shown in the displayed student list
 * The command works on the last shown list of students, which may be filtered (e.g., after using `find`)
-* If the provided index is invalid (e.g., out of range), an error message will be shown.
+* If the provided index is invalid (e.g., out of range), an error message will be shown
 
-Examples:
-* `list` followed by `delete 3` deletes the 3rd student in the student list.
-<table>
-  <tr>
-    <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
-    <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
-  </tr>
-</table>
+⸻
 
-* `find John` followed by `delete 2` deletes the 2nd student in the results of the `find` command.
-<table>
-  <tr>
-    <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
-    <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
-  </tr>
-</table>
+**Examples:**
+1. Deleting a student from the main list
+* Command: `list` followed by `delete 3`
+  <table>
+    <tr>
+      <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+    </tr>
+  </table>
 
-* `delete 5` where there are only 2 or fewer students results in the following error message:
-  **"The person index provided is invalid"**
+2. Deleting a student from a filtered list
+* Command: `find John` followed by `delete 2`
+  <table>
+    <tr>
+      <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
+      <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+    </tr>
+  </table>
+
+3. Invalid index
+* Command: `delete 5` (when there are only 2 or fewer students)
+  **Error:** "The person index provided is invalid"
   <figure>
     <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
     <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
   </figure>
+
+### Marking attendance: `markattendance`
+
+Marks a student’s attendance for a specific lesson.
+
+**Format:** `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS`
+
+**Parameters:**
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
+- `l/` — lesson name (must exist for the given subject).  
+- `st/` — attendance status. One of: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.
+
+**Description:**
+- Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.  
+- The student **must already be a Student** (not a generic Person), must be **enrolled** in the specified subject, and the lesson must **exist** for that subject.  
+- Subject matching is **case-insensitive** (e.g., `math` matches `Math`).  
+- On success, a confirmation message summarises: student, subject, lesson, and status.
+
+---
+
+**Examples**
+
+1. **Mark John Tan present for Algebra (Math)**  
+
+Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
+
+<figure>
+  <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
+  <figcaption><em>Figure 9: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
+</figure>
+
+
+2. **Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)**  
+
+Command: 
+1. `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT`
+2. `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED`
+
+<table>
+  <tr>
+    <td><img src="images/attendance_change_before.png" alt="Change Status Before" width="540" height="220"></td>
+    <td><img src="images/attendance_change_after.png" alt="Change Status After" width="540" height="220"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 10a: Before editing attendance (status: ABSENT)</em></td>
+    <td align="center"><em>Figure 10b: After changing status to “EXCUSED”</em></td>
+  </tr>
+</table>
+
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution**
+
+- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.  
+- The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.  
+- The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.  
+- Use the exact lesson name you created (spelling/spacing must match).  
+- Allowed statuses are exactly: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.  
+</div>
+
+---
+
+### Viewing attendance records: `listattendance`
+
+Displays a student’s attendance records for a specific subject.
+
+**Format:** `listattendance n/NAME s/SUBJECT`
+
+**Parameters:**
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
+
+**Description:**
+- Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.  
+- The student must already be a **Student** (not a generic Person) and must be **enrolled** in the specified subject.  
+- Each record line displays the **Lesson name** and its **attendance status** (e.g., `Algebra PRESENT`, `Calculus LATE`).  
+- If no attendance records exist for that subject, an error message will be shown.  
+
+---
+
+**Example**
+
+**List John Tan’s attendance for Math**  
+
+Command: `listattendance n/John Tan s/Math`
+
+<figure>
+  <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
+  <figcaption><em>Figure 11: Listing attendance for John Tan’s Math lessons</em></figcaption>
+</figure>
+
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution**
+
+- The student is searched **only within the currently displayed list**. Ensure the target student is visible before running the command.  
+- The student must be **enrolled** in the specified subject; otherwise, the command will fail.  
+- If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.  
+- Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).  
+</div>
+
+---
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* Deleting a student is permanent and cannot be undone.
+* The index must be a positive integer and refer to a visible student.
+
+</div>
 
 ### Archiving a student : `archive`
 
@@ -494,7 +644,7 @@ Deletes **all current students** from the student list. This action is **irrever
     <td align="center"><em>Figure 16a: Student List before it is cleared</em></td>
     <td align="center"><em>Figure 16b: Student List once all students have been cleared out</em></td>
   </tr>
-</table>
+  </table>
 
 
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
@@ -540,16 +690,18 @@ Format: `exit`
 ## Command Summary
 
 | Action | Format, Examples (if necessary) |
-|--------|------------------|
+|--------|---------------------------------|
 | **Help** | `help` |
 | **Add** | `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` |
 | **List** | `list` |
-| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math s/Science ps/Pending` |
+| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Pending as/Completed` |
 | **Find** | `find KEYWORD [MORE_KEYWORDS]` |
 | **Delete** | `delete INDEX` <br> e.g., `delete 2` |
-| **Archive** | `archive INDEX`<br> e.g., `archive 3` |
+| **Archive** | `archive INDEX` <br> e.g., `archive 3` |
 | **List Archived** | `listarchive` |
 | **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1` |
+| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT` |
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math` |
 | **Clear** | `clear` |
 | **Exit** | `exit` |
 

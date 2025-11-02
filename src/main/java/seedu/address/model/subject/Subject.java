@@ -18,8 +18,9 @@ import seedu.address.model.lesson.exceptions.LessonNotFoundException;
 //@TODO: Wire up between subject and lessonlist functions
 public class Subject {
 
-    public static final String MESSAGE_CONSTRAINTS = "Subject names should not be empty";
-    public static final String VALIDATION_REGEX = ".+";
+    public static final String MESSAGE_CONSTRAINTS = "Subject names should not be empty and alphanumeric. "
+            + "\nFor multiple subjects, use multiple tags. \nE.g add n/John Tan s/Math s/Science";
+    public static final String VALIDATION_REGEX = "[A-Za-z0-9]+";
 
     private final String name;
     private final LessonList lessonList;

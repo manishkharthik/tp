@@ -56,6 +56,9 @@ public class ParserUtil {
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
+        if (trimmedName.startsWith("\"") && trimmedName.endsWith("\"")) {
+            trimmedName = trimmedName.substring(1, trimmedName.length() - 1);
+        }
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -148,10 +151,17 @@ public class ParserUtil {
             if (token == null) {
                 continue;
             }
+
             for (String part : token.split(",")) {
                 String name = part.trim();
+
                 if (!name.isEmpty()) {
                     sawNonEmpty = true;
+
+                    if (!Subject.isValidSubjectName(name)) {
+                        throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
+                    }
+
                     String lower = name.toLowerCase();
                     if (seenLower.add(lower)) {
                         result.add(new Subject(name));
@@ -186,9 +196,14 @@ public class ParserUtil {
     public static String parseEmergencyContact(String contact) throws ParseException {
         requireNonNull(contact);
         String trimmed = contact.trim();
-        // Tighten to match Student's assertion
-        if (!trimmed.matches("\\d{8}")) {
+        if (!trimmed.matches("\\d+")) {
+            throw new ParseException("Emergency contact must contain only numbers (0–9).");
+        }
+        if (trimmed.length() != 8) {
             throw new ParseException("Emergency contact must be exactly 8 digits.");
+        }
+        if (!trimmed.matches("^[689]\\d{7}$")) {
+            throw new ParseException("Emergency contact must start with 6, 8, or 9 (Singapore format).");
         }
         return trimmed;
     }
@@ -253,8 +268,8 @@ public class ParserUtil {
         requireNonNull(assignmentStatus);
         String trimmed = assignmentStatus.trim();
 
-        if (!trimmed.equalsIgnoreCase("Completed") && !trimmed.equalsIgnoreCase("Uncompleted")) {
-            throw new ParseException("Assignment status must be either 'Completed' or 'Uncompleted'");
+        if (!trimmed.equalsIgnoreCase("Completed") && !trimmed.equalsIgnoreCase("Incomplete")) {
+            throw new ParseException("Assignment status must be either 'Completed' or 'Incomplete'");
         }
 
         return trimmed.substring(0, 1).toUpperCase() + trimmed.substring(1).toLowerCase();
