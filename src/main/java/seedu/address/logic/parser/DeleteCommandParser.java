@@ -17,17 +17,20 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+        throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
         try {
-            Index index = ParserUtil.parseIndex(args);
-            return new DeleteCommand(index);
-        } catch (ParseException pe) {
-            String trimmedArgs = args.trim();
-            if (trimmedArgs.matches("-?\\d+")) {
-                throw new ParseException("Invalid index! Index must be a positive integer.");
-            } else {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
+            int indexValue = Integer.parseInt(trimmedArgs);
+            if (indexValue <= 0) {
+                throw new ParseException("The person index must be a positive integer");
             }
+            Index index = Index.fromOneBased(indexValue);
+            return new DeleteCommand(index);
+        } catch (NumberFormatException nfe) {
+            throw new ParseException("The person index provided is invalid");
         }
     }
 }
