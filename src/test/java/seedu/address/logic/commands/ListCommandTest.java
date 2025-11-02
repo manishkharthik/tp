@@ -52,7 +52,7 @@ public class ListCommandTest {
         assertTrue(listCommand1.equals(listCommand2));
 
         // different type
-        assertFalse(listCommand1.equals(new HelpCommand()));
+        assertFalse(listCommand1.equals(new HelpCommand("")));
 
         // null
         assertFalse(listCommand1.equals(null));
