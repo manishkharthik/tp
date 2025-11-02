@@ -189,9 +189,14 @@ public class ParserUtil {
     public static String parseEmergencyContact(String contact) throws ParseException {
         requireNonNull(contact);
         String trimmed = contact.trim();
-        // Tighten to match Student's assertion
-        if (!trimmed.matches("\\d{8}")) {
+        if (!trimmed.matches("\\d+")) {
+            throw new ParseException("Emergency contact must contain only numbers (0–9).");
+        }
+        if (trimmed.length() != 8) {
             throw new ParseException("Emergency contact must be exactly 8 digits.");
+        }
+        if (!trimmed.matches("^[689]\\d{7}$")) {
+            throw new ParseException("Emergency contact must start with 6, 8, or 9 (Singapore format).");
         }
         return trimmed;
     }
