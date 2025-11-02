@@ -330,7 +330,7 @@ Deletes the specified student from the student list.
 * Deletes the student at the specified `INDEX`. This action is **irreversible**
 * The index refers to the index number shown in the displayed student list
 * The command works on the last shown list of students, which may be filtered (e.g., after using `find`)
-* If the provided index is invalid (e.g., out of range), an error message will be shown
+* If the provided index is not an integer, negative or out of range, an error message will be shown
 
 ⸻
 
