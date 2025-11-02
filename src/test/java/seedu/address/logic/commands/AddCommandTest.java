@@ -433,6 +433,21 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
+        public boolean hasSameStudentInCurrent(Person person) {
+            return false;
+        }
+
+        @Override
+        public boolean hasSameStudentInArchive(Person person) {
+            return false;
+        }
+
+        @Override
+        public String checkDuplicateStudentLocation(Person person) {
+            return null;
+        }
+
         @Test
         public void execute_validPerson_assertionsPass() throws CommandException {
             ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
