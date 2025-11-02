@@ -13,10 +13,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-//import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-//import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,7 +24,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-//import seedu.address.model.subject.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -58,7 +55,6 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         assert index != null : "Index must be parsed";
 
-        // Reject duplicate single-occurrence prefixes early (subjects/tags can repeat)
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                 PREFIX_CLASS, PREFIX_EMERGENCY_CONTACT,
