@@ -139,10 +139,10 @@ Shows a message with a link to access the full help page.
 
 Adds a new student to the Tutor Track with their academic and contact information.
 
-**Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
+**Format:** `add n/"NAME" c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
-* `n/NAME` - Student's full name (**required**)
+* `n/"NAME"` - Student's full name in quotes (**required**)
 * `c/CLASS` - Student's class (e.g., 3B) (**required**)
 * `s/SUBJECT` - Subject(s) the student is taking (**at least one required**, use multiple `s/` prefixes to add more)
 * `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (**required**)
@@ -155,19 +155,28 @@ Adds a new student to the Tutor Track with their academic and contact informatio
   Names are case-sensitive
 </div>
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-You cannot add a student with the same name and class as an existing student.
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
+Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  
+
+This means you cannot add another student if a student with the same name (regardless of case) already exists in the list.
+
+For example:
+`add n/"John Tan" c/3B s/Math ec/12345678`
+followed by
+`add n/"john tan" c/3B s/Math ec/12345678`
+will not work, because “John Tan” and “john tan” are considered the same student.
+
+When this happens, TutorTrack will display an alert message to alert user that that student has already been added.
 </div>
 
 **Examples:**
 * `add n/"Rahit s/o Kumar" c/3B s/Math ec/12345678` - Adds a student with s/o in name
 * `add n/"Sarah d/o Ali" c/4A s/Science ec/87654321` - Adds a student with d/o in name
-* `add n/John Tan c/3B s/Math ec/12345678` - Regular name without quotes
+* `add n/"John Tan" c/3B s/Math ec/12345678` - Regular name
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 
-* If a name contains `s/o` or `d/o`, wrap the entire name in quotes: `n/"Name s/o Parent"`
-* Quotes are optional for regular names without special characters
+* Quotes are required for all names (regular names and those with special characters)
 * When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
 
 </div>
@@ -264,7 +273,7 @@ Only one subject's lesson list can be viewed for each listlessons command
 
 Edits an existing student's information in Tutor Track
 
-**Format:** `edit [INDEX] [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
+**Format:** `edit [INDEX] [n/"NAME"] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
 *	`c/` — class (e.g., `3A`)
