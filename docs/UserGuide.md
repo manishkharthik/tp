@@ -1,3 +1,4 @@
+<!-- trigger rebuild -->
 ---
 layout: page
 title: User Guide
@@ -61,7 +62,6 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 
 --------------------------------------------------------------------------------------------------------------------
-
 
 ## Quick start
 
