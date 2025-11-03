@@ -126,31 +126,6 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
-### Viewing help : `help`
-
-Shows a message with a link to access the full help page.
-
-**Format:** `help`
-
-**Parameters:**
-* This command takes no parameters.
-
-**Description:** 
-* Upon using this command, a help window opens with a link to this user guide.
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-No extra params should be added, simply `help`
-</div>
-
-**Example:**
-1. Using help command
-* Command: `help` 
-  <figure>
-    <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
-    <figcaption><em>Figure 2: Help Window</em></figcaption>
-  </figure>
----
-
 ### Adding a student: `add`
 
 Adds a new student to the TutorTrack with their academic and contact information.
@@ -209,90 +184,6 @@ When this happens, TutorTrack will display an alert message to alert user that t
 
 ---
 
-### Adding a lesson : `addlesson`
-
-Adds a new lesson to a subject in TutorTrack.
-
-**Format:** `addlesson s/SUBJECT n/LESSON`
-
-**Parameters:**
-* `s/SUBJECT` - The subject the lesson belongs to (e.g., `Math`) (**required**)
-* `n/LESSON` - Lesson name (e.g, `Algebra`) (**required**)
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
-</div>
-
-**Example:**
-1. Adds the Algebra lesson in Math subject.
-* Command: `addlesson s/Math n/Algebra`
-  <figure>
-    <img src="images/addlesson.png" alt="Add lesson" width="600"/>
-    <figcaption><em>Figure 4: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
-  </figure>
-  
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
-</div>
-
-### Listing all students : `list`
-
-Shows a list of all active (non-archived) students in the TutorTrack.
-
-<figure>
-    <img src="images/listcommand.png" alt="List" width="600"/>
-    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
-  </figure>
-
-**Format:** `list`
-
-**Parameters:**
-* This command takes no parameters.
-
-**Description:**
-* Displays all students who have not been archived
-* Returns you to the active student view if you were viewing archived students
-* Students are shown with their index numbers, names, classes, and other details
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-No extra params should be added, simply `list`
-
-</div>
-
-**Example:**
-1. Listing all current students
-* Command: `list`
-<figure>
-    <img src="images/listcommand.png" alt="List" width="600"/>
-    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
-</figure>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use this command to reset any filters and see all active students after using `find` or other filtering commands.
-</div>
-
-### Listing all lessons in a subject : `listlessons`
-
-Shows the list of lessons that falls under the specified subject.
-
-**Format:** `listlessons s/SUBJECT`
-
-**Parameters:**
-* `s/SUBJECT` - Subject whose lesson list needs to be viewed (e.g., `Math`) (**required**)
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-Only one subject's lesson list can be viewed for each listlessons command
-</div>
-
-**Example:**
-1. List all the lessons currently in Math's lesson list
-* Command: `listlessons s/Math`
-  <figure>
-    <img src="images/listlessons.png" alt="Add lesson" width="600"/>
-    <figcaption><em>Figure 6: An example of a user viewing all lessons in the Math lesson list.</em></figcaption>
-  </figure>
-
 ### Editing a student : `edit`
 
 Edits an existing student's information in TutorTrack
@@ -349,6 +240,8 @@ Edits an existing student's information in TutorTrack
 * If you intend to clear a field, use the app’s documented “clear” variant (if supported) rather than leaving the prefix empty.
 
 </div>
+
+---
 
 ### Locating students by name: `find`
 
@@ -445,6 +338,333 @@ Deletes the specified student from the student list.
     <figcaption><em>Figure 13: An example of an invalid delete command</em></figcaption>
   </figure>
 
+---
+
+### Archiving a student : `archive`
+
+Moves a student from your active list into the archive list in TutorTrack.
+
+**Format:** `archive INDEX`
+
+**Parameters:**
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer) (**required**)
+
+**Description:**
+* Archives the student at the specified `INDEX`.
+* Archived students are **not deleted** — they remain in the system and can be viewed using `listarchive`.
+* Archived students are hidden from the main student list but **preserved** in the data file.
+* Use this for students you're no longer actively tutoring but want to keep records for.
+
+⸻
+
+**Examples:**
+1. Archiving a student from the main list
+* Command: `archive 2`
+  <table>
+  <tr>
+    <td><img src="images/archiveStudent1_command_before.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 18a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 18b: Student List after Sarah is archived</em></td>
+  </tr>
+  </table>
+
+2. Archiving a student from filtered results
+* Command: `find John` followed by `archive 1`
+  <table>
+  <tr>
+    <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 19a: Find the desired student</em></td>
+  </tr>
+  </table>
+  <table>
+  <tr>
+    <td><img src="images/archiveStudent2_command_view.png" alt="Archive Command" width="540" height="200"></td>
+    <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 19b: Index is based on filtered list (1 in this case)</em></td>
+    <td align="center"><em>Figure 19c: John is successfully archived</em></td>
+  </tr>
+  </table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
+* The `INDEX` refers to the position in the **displayed list**, not the complete list of all students.
+
+</div>
+
+---
+
+### Unarchiving a student : `unarchive`
+
+Moves a student from the archive list back to your active student list in TutorTrack.
+
+**Format:** `unarchive INDEX`
+
+**Parameters:**
+* `INDEX` — the position of the student in the archive list (must be a positive integer) (**required**)
+
+**Description:**
+* Unarchives the student at the specified `INDEX` from the archive list.
+* The student will be moved back to your main active student list.
+* Use `listarchive` first to view archived students and identify the correct `INDEX`.
+* All student details (subjects, attendance, payment status, etc.) are preserved when unarchiving.
+
+⸻
+
+**Examples:**
+1. Unarchiving a student from the archive list
+* Command: `unarchive 1`
+  <table>
+  <tr>
+    <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 21a: Unarchiving Sarah Lim from the archive list</em></td>
+  </tr>
+  </table>
+
+2. Attempting to unarchive with an invalid index
+* Command: `unarchive 2`
+  <table>
+  <tr>
+    <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 21b: Error message when using an invalid index</em></td>
+  </tr>
+  </table>
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+
+* The `INDEX` refers to the position in the **archive list**, not the main student list.
+* Use `listarchive` to see the archive list and verify the correct index before unarchiving.
+* If the index is out of range, an error message will be displayed.
+
+</div>
+
+---
+
+### Listing all students : `list`
+
+Shows a list of all active (non-archived) students in the TutorTrack.
+
+<figure>
+    <img src="images/listcommand.png" alt="List" width="600"/>
+    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
+  </figure>
+
+**Format:** `list`
+
+**Parameters:**
+* This command takes no parameters.
+
+**Description:**
+* Displays all students who have not been archived
+* Returns you to the active student view if you were viewing archived students
+* Students are shown with their index numbers, names, classes, and other details
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `list`
+
+</div>
+
+**Example:**
+1. Listing all current students
+* Command: `list`
+<figure>
+    <img src="images/listcommand.png" alt="List" width="600"/>
+    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
+</figure>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use this command to reset any filters and see all active students after using `find` or other filtering commands.
+</div>
+
+---
+
+### Viewing archived students : `listarchive`
+
+Displays all archived students in TutorTrack for recordkeeping and reference.
+
+**Format:** `listarchive`
+
+**Parameters:**
+* This command takes no parameters.
+
+**Description:**
+* Displays a list of all students who have been archived.
+* Archived students retain all their details (class, subjects, attendance, payment status, assignment status, etc.).
+* Use this command to view or verify students who are no longer actively being tutored.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `listarchive`
+
+</div>
+
+⸻
+
+**Example:**
+1. Viewing all archived students
+* Command: `listarchive`
+  <table>
+  <tr>
+    <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 20: Archive student list showing all archived students</em></td>
+  </tr>
+  </table>
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+* Archived students are separate from your active student list and won't appear in regular `list` or `find` commands.
+* To move a student back to your active list, use the `unarchive` command.
+
+</div>
+
+---
+
+### Clearing all current student entries : `clearcurrent`
+
+Deletes **all current students** from the student list. This action is **irreversible**
+
+**Format:** `clearcurrent`
+
+**Parameters:**
+* This command takes no parameters.
+
+**Details:**
+* Permanently deletes all active student, lesson and subject records from the **current list**.
+* Does **not** affect archived students.
+* The data file is automatically updated after the operation.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `clearcurrent`
+
+</div>
+
+**Example:**
+1. Removes every student, lesson and subject from the current list.
+* Command: `clearcurrent`
+  <table>
+  <tr>
+    <td><img src="images/currentclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 22a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 22b: Student List once all students have been cleared out</em></td>
+  </tr>
+  </table>
+
+
+<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
+This command cannot be undone. All active records will be permanently deleted.
+Archived records are not affected by this command.</div>
+
+---
+
+### Clearing all archived student entries : `cleararchive`
+
+Deletes **all archived students, lessons and subjects** from the archived list. This action is **irreversible**
+
+**Format:** `cleararchive`
+
+**Parameters:**
+* This command takes no parameters.
+
+**Details:**
+* Permanently deletes all student records from the **archived list**.
+* Does **not** affect current students.
+* The data file is automatically updated after the operation.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `cleararchive`
+
+</div>
+
+**Example:**
+1. Removes every student from the archived list.
+* Command: `cleararchive`
+  <table>
+  <tr>
+    <td><img src="images/archiveclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
+    <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Figure 23a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 23b: Archive Student List once all students have been cleared out</em></td>
+  </tr>
+  </table>
+
+<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
+This command cannot be undone. All active records will be permanently deleted.
+Current records are not affected by this command.</div>
+
+---
+
+### Adding a lesson : `addlesson`
+
+Adds a new lesson to a subject in TutorTrack.
+
+**Format:** `addlesson s/SUBJECT n/LESSON`
+
+**Parameters:**
+* `s/SUBJECT` - The subject the lesson belongs to (e.g., `Math`) (**required**)
+* `n/LESSON` - Lesson name (e.g, `Algebra`) (**required**)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
+</div>
+
+**Example:**
+1. Adds the Algebra lesson in Math subject.
+* Command: `addlesson s/Math n/Algebra`
+  <figure>
+    <img src="images/addlesson.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 4: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
+  </figure>
+  
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
+</div>
+
+---
+
+### Listing all lessons in a subject : `listlessons`
+
+Shows the list of lessons that falls under the specified subject.
+
+**Format:** `listlessons s/SUBJECT`
+
+**Parameters:**
+* `s/SUBJECT` - Subject whose lesson list needs to be viewed (e.g., `Math`) (**required**)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Only one subject's lesson list can be viewed for each listlessons command
+</div>
+
+**Example:**
+1. List all the lessons currently in Math's lesson list
+* Command: `listlessons s/Math`
+  <figure>
+    <img src="images/listlessons.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 6: An example of a user viewing all lessons in the Math lesson list.</em></figcaption>
+  </figure>
+
+---
+
 ### Deleting a lesson : `deletelesson`
 
 Deletes the specified lesson from the lesson list.
@@ -471,6 +691,8 @@ Deletes the specified lesson from the lesson list.
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
 This command only deletes one lesson from one subject per deletelesson command. To delete multiple lessons, run this command multiple times.
 </div>
+
+---
 
 ### Marking attendance: `markattendance`
 
@@ -567,230 +789,34 @@ Displays a student’s attendance records for a specific subject.
 
 ---
 
-### Archiving a student : `archive`
 
-Moves a student from your active list into the archive list in TutorTrack.
 
-**Format:** `archive INDEX`
 
-**Parameters:**
-* `INDEX` — the position of the student in the currently displayed list (must be a positive integer) (**required**)
+### Viewing help : `help`
 
-**Description:**
-* Archives the student at the specified `INDEX`.
-* Archived students are **not deleted** — they remain in the system and can be viewed using `listarchive`.
-* Archived students are hidden from the main student list but **preserved** in the data file.
-* Use this for students you're no longer actively tutoring but want to keep records for.
+Shows a message with a link to access the full help page.
 
-⸻
-
-**Examples:**
-1. Archiving a student from the main list
-* Command: `archive 2`
-  <table>
-  <tr>
-    <td><img src="images/archiveStudent1_command_before.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 18a: Student List before archiving Sarah Lim</em></td>
-    <td align="center"><em>Figure 18b: Student List after Sarah is archived</em></td>
-  </tr>
-  </table>
-
-2. Archiving a student from filtered results
-* Command: `find John` followed by `archive 1`
-  <table>
-  <tr>
-    <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 19a: Find the desired student</em></td>
-  </tr>
-  </table>
-  <table>
-  <tr>
-    <td><img src="images/archiveStudent2_command_view.png" alt="Archive Command" width="540" height="200"></td>
-    <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 19b: Index is based on filtered list (1 in this case)</em></td>
-    <td align="center"><em>Figure 19c: John is successfully archived</em></td>
-  </tr>
-  </table>
-
-<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
-
-* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
-* The `INDEX` refers to the position in the **displayed list**, not the complete list of all students.
-
-</div>
-
-### Viewing archived students : `listarchive`
-
-Displays all archived students in TutorTrack for recordkeeping and reference.
-
-**Format:** `listarchive`
+**Format:** `help`
 
 **Parameters:**
 * This command takes no parameters.
 
-**Description:**
-* Displays a list of all students who have been archived.
-* Archived students retain all their details (class, subjects, attendance, payment status, assignment status, etc.).
-* Use this command to view or verify students who are no longer actively being tutored.
+**Description:** 
+* Upon using this command, a help window opens with a link to this user guide.
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-No extra params should be added, simply `listarchive`
-
-</div>
-
-⸻
-
-**Example:**
-1. Viewing all archived students
-* Command: `listarchive`
-  <table>
-  <tr>
-    <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 20: Archive student list showing all archived students</em></td>
-  </tr>
-  </table>
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-* Archived students are separate from your active student list and won't appear in regular `list` or `find` commands.
-* To move a student back to your active list, use the `unarchive` command.
-
-</div>
-
-### Unarchiving a student : `unarchive`
-
-Moves a student from the archive list back to your active student list in TutorTrack.
-
-**Format:** `unarchive INDEX`
-
-**Parameters:**
-* `INDEX` — the position of the student in the archive list (must be a positive integer) (**required**)
-
-**Description:**
-* Unarchives the student at the specified `INDEX` from the archive list.
-* The student will be moved back to your main active student list.
-* Use `listarchive` first to view archived students and identify the correct `INDEX`.
-* All student details (subjects, attendance, payment status, etc.) are preserved when unarchiving.
-
-⸻
-
-**Examples:**
-1. Unarchiving a student from the archive list
-* Command: `unarchive 1`
-  <table>
-  <tr>
-    <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 21a: Unarchiving Sarah Lim from the archive list</em></td>
-  </tr>
-  </table>
-
-2. Attempting to unarchive with an invalid index
-* Command: `unarchive 2`
-  <table>
-  <tr>
-    <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 21b: Error message when using an invalid index</em></td>
-  </tr>
-  </table>
-
-<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
-
-* The `INDEX` refers to the position in the **archive list**, not the main student list.
-* Use `listarchive` to see the archive list and verify the correct index before unarchiving.
-* If the index is out of range, an error message will be displayed.
-
-</div>
-
-### Clearing all current student entries : `clearcurrent`
-
-Deletes **all current students** from the student list. This action is **irreversible**
-
-**Format:** `clearcurrent`
-
-**Parameters:**
-* This command takes no parameters.
-
-**Details:**
-* Permanently deletes all active student, lesson and subject records from the **current list**.
-* Does **not** affect archived students.
-* The data file is automatically updated after the operation.
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-No extra params should be added, simply `clearcurrent`
-
+No extra params should be added, simply `help`
 </div>
 
 **Example:**
-1. Removes every student, lesson and subject from the current list.
-* Command: `clearcurrent`
-  <table>
-  <tr>
-    <td><img src="images/currentclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 22a: Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 22b: Student List once all students have been cleared out</em></td>
-  </tr>
-  </table>
+1. Using help command
+* Command: `help` 
+  <figure>
+    <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
+    <figcaption><em>Figure 2: Help Window</em></figcaption>
+  </figure>
 
-
-<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
-This command cannot be undone. All active records will be permanently deleted.
-Archived records are not affected by this command.</div>
-
-### Clearing all archived student entries : `cleararchive`
-
-Deletes **all archived students, lessons and subjects** from the archived list. This action is **irreversible**
-
-**Format:** `cleararchive`
-
-**Parameters:**
-* This command takes no parameters.
-
-**Details:**
-* Permanently deletes all student records from the **archived list**.
-* Does **not** affect current students.
-* The data file is automatically updated after the operation.
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-No extra params should be added, simply `cleararchive`
-
-</div>
-
-**Example:**
-1. Removes every student from the archived list.
-* Command: `cleararchive`
-  <table>
-  <tr>
-    <td><img src="images/archiveclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
-    <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 23a: Archive Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 23b: Archive Student List once all students have been cleared out</em></td>
-  </tr>
-  </table>
-
-<div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
-This command cannot be undone. All active records will be permanently deleted.
-Current records are not affected by this command.</div>
+---
 
 ### Exiting the program : `exit`
 
