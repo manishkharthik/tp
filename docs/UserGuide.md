@@ -377,14 +377,10 @@ Moves a student from your active list into the archive list in TutorTrack.
 {:start="2"}
 1. Archiving a student from filtered results
 * Command: `find John` followed by `archive 1`
-  <table>
-  <tr>
-    <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 11a: Find the desired student</em></td>
-  </tr>
-  </table>
+  <figure>
+    <img src="images/findStudent2_command_view.png" alt="Find Student" width="600"/>
+    <figcaption><em>Figure 11a: Find the desired student</em></figcaption>
+  </figure>
   <table>
   <tr>
     <td><img src="images/archiveStudent2_command_view.png" alt="Archive Command" width="540" height="200"></td>
@@ -425,26 +421,18 @@ Moves a student from the archive list back to your active student list in TutorT
 **Examples:**
 1. Unarchiving a student from the archive list
 * Command: `unarchive 1`
-  <table>
-  <tr>
-    <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 12a: Unarchiving Sarah Lim from the archive list</em></td>
-  </tr>
-  </table>
+  <figure>
+    <img src="images/unarchive.png" alt="Unarchive" width="600"/>
+    <figcaption><em>Figure 12a: Unarchiving Sarah Lim from the archive list</em></figcaption>
+  </figure>
 
 {:start="2"}
 1. Attempting to unarchive with an invalid index
 * Command: `unarchive 2`
-  <table>
-  <tr>
-    <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 12b: Error message when using an invalid index</em></td>
-  </tr>
-  </table>
+  <figure>
+    <img src="images/unarchive_error.png" alt="Unarchive Error" width="600"/>
+    <figcaption><em>Figure 12b: Error message when using an invalid index</em></figcaption>
+  </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
 
@@ -515,14 +503,10 @@ No extra params should be added, simply `listarchive`
 **Example:**
 1. Viewing all archived students
 * Command: `listarchive`
-  <table>
-  <tr>
-    <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Figure 14: Archive student list showing all archived students</em></td>
-  </tr>
-  </table>
+  <figure>
+    <img src="images/listarchive.png" alt="Archive List" width="600"/>
+    <figcaption><em>Figure 14: Archive student list showing all archived students</em></figcaption>
+  </figure>
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 
