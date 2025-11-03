@@ -82,8 +82,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                     new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE))));
         }
 
-        String studentClass = argMultimap.getValue(PREFIX_CLASS).orElseThrow(() ->
-                new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE)));
+        String studentClass = requireNonBlank(argMultimap, PREFIX_CLASS, "Class");
 
         List<String> subjects = argMultimap.getAllValues(PREFIX_SUBJECTS);
         List<Subject> subjectList;
@@ -129,6 +128,19 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+    // Add near top of AddCommandParser (private helper)
+    private static String requireNonBlank(ArgumentMultimap m, Prefix p, String fieldName) throws ParseException {
+        String value = m.getValue(p).orElseThrow(() ->
+                new ParseException(String.format("Missing required field: %s.", fieldName)));
+
+        if (value.trim().isEmpty()) {
+            throw new ParseException(
+                String.format("The field '%s' cannot be empty. Example: %s/<value>", fieldName, p.getPrefix()));
+        }
+
+        return value.trim();
     }
 
     /**
