@@ -75,7 +75,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before the moving on to the next instruction.
+3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before moving on to the next instruction.
 
 4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar tutortrack.jar` command to run the application.<br>
    A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.
@@ -89,7 +89,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
    * `list` : Lists all students.
 
-   * `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` : Adds a student named `John Tan` to the Tutor Track.
+   * `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed` : Adds a student named `John Tan` to the TutorTrack.
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
@@ -144,15 +144,15 @@ Shows a message with a link to access the full help page.
 
 ### Adding a student: `add`
 
-Adds a new student to the Tutor Track with their academic and contact information.
+Adds a new student to the TutorTrack with their academic and contact information.
 
 **Format:** `add n/"NAME" c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
 * `n/NAME` - Student's full name in quotation marks (e.g., "John Tan") (**required**)
 * `c/CLASS` - Student's class (e.g., 3B) (**required**)
-* `s/SUBJECT` - Subject(s) the student is taking (e.g., s/Math s/Science) (**at least one required**, use multiple `s/` prefixes to add more)
-* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (e.g./ 98765432) (**required**)
+* `s/SUBJECT` - Supply multiple subjects by repeating `s/` or using a comma-separated list, or a combination of both (e.g., `s/Math s/Physics` or `s/Math, Physics` or even `s/Math, Physics s/English`) (**at least 1 subject required**)
+* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (e.g. ec/98765432) (**required**)
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
 * `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
@@ -214,12 +214,12 @@ When this happens, TutorTrack will display an alert message to alert user that t
 
 ### Adding a lesson : `addlesson`
 
-Adds a new lesson to a subject in Tutor Track.
+Adds a new lesson to a subject in TutorTrack.
 
-**Format:** `addlesson s/SUBJECT n/LESSON.`
+**Format:** `addlesson s/SUBJECT n/LESSON`
 
 **Parameters:**
-* `s/SUBJECT` - Subject that is being added (e.g., Math) (**required**)
+* `s/SUBJECT` - The subject the lesson belongs to (e.g., Algebra belongs to Math) (**required**)
 * `n/LESSON` - Lesson name (e.g, Algebra) (**required**)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
@@ -242,7 +242,7 @@ Only one lesson in one subject can be added. To add multiple lessons, use the co
 
 ### Listing all students : `list`
 
-Shows a list of all active (non-archived) students in the Tutor Track.
+Shows a list of all active (non-archived) students in the TutorTrack.
 
 <figure>
     <img src="images/listcommand.png" alt="List" width="600"/>
@@ -270,7 +270,7 @@ Use this command to reset any filters and see all active students after using `f
 **Format:** `listlessons s/SUBJECT`
 
 **Parameters:**
-* `s/SUBJECT` - Subject who's lesson list needs to be viewed (**required**)
+* `s/SUBJECT` - Subject whose lesson list needs to be viewed (**required**)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 Only one subject's lesson list can be viewed for each listlessons command
@@ -280,18 +280,18 @@ Only one subject's lesson list can be viewed for each listlessons command
 * `listlessons s/Math` - List all the lessons currently in Math's lesson list.
   <figure>
     <img src="images/listlessons.png" alt="Add lesson" width="600"/>
-    <figcaption><em>Figure 6: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
+    <figcaption><em>Figure 6: An example of a user viewing all lessons in the Math lesson list.</em></figcaption>
   </figure>
 
 ### Editing a student : `edit`
 
-Edits an existing student's information in Tutor Track
+Edits an existing student's information in TutorTrack
 
 **Format:** `edit [INDEX] [n/"NAME"] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
 *	`c/` — class (e.g., `3A`)
-*	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
+*	`s/` — subject(s). Supply multiple subjects by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`(**at least 1 subject required**)
 *	`ec/` — emergency contact (numbers only)
 *	`ps/` — payment status (e.g., Paid or Unpaid)
 *	`as/` — assignment status (e.g., Completed or Incomplete)
@@ -435,11 +435,11 @@ Deletes the specified student from the student list.
     <figcaption><em>Figure 13: An example of an invalid delete command</em></figcaption>
   </figure>
 
-### Deleting a lesson : 'deletelesson'
+### Deleting a lesson : `deletelesson`
 
 Deletes the specified lesson from the lesson list.
 
-**Format:** `delete s/SUBJECT n/LESSON`
+**Format:** `deletelesson s/SUBJECT n/LESSON`
 
 **Parameters:**
 * `s/SUBJECT` — the subject of the lesson to be deleted.
@@ -452,7 +452,7 @@ Deletes the specified lesson from the lesson list.
 
 **Examples:**
 1. Deleting a lesson from the lesson list
-* Command: `delete s/Math n/Algebra`
+* Command: `deletelesson s/Math n/Algebra`
   <figure>
     <img src="images/deletelesson.png" alt="Delete Lesson" width="600"/>
     <figcaption><em>Figure 14: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
@@ -563,17 +563,9 @@ Command: `listattendance n/John Tan s/Math`
 
 ---
 
-<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
-
-* Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
-* Deleting a student is permanent and cannot be undone.
-* The index must be a positive integer and refer to a visible student.
-
-</div>
-
 ### Archiving a student : `archive`
 
-Moves a student from your active list into the archive list in Tutor Track.
+Moves a student from your active list into the archive list in TutorTrack.
 
 **Format:** `archive INDEX`
 
@@ -632,7 +624,7 @@ Moves a student from your active list into the archive list in Tutor Track.
 
 ### Viewing archived students : `listarchive`
 
-Displays all archived students in Tutor Track for recordkeeping and reference.
+Displays all archived students in TutorTrack for recordkeeping and reference.
 
 **Format:** `listarchive`
 
@@ -667,7 +659,7 @@ Displays all archived students in Tutor Track for recordkeeping and reference.
 
 ### Unarchiving a student : `unarchive`
 
-Moves a student from the archive list back to your active student list in Tutor Track.
+Moves a student from the archive list back to your active student list in TutorTrack.
 
 **Format:** `unarchive INDEX`
 
@@ -720,7 +712,7 @@ Deletes **all current students** from the student list. This action is **irrever
 **Format:** `clearcurrent`
 
 **Details:**
-* Permanently deletes all student records from the **current list**.
+* Permanently deletes all active student, lesson and subject records from the **current list**.
 * No extra params should be added, simply `clearcurrent`
 * Does **not** affect archived students.
 * The data file is automatically updated after the operation.
@@ -798,6 +790,8 @@ Format: `exit`
 | **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                          
 | **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                      
 | **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                       
+| **Delete Lessons** | `deletelesson` <br> e.g, `deletelesson s/Math n/Algebra`
+
 | **Clear** | `clearcurrent`                                                                                                                                                                                           
 | **Clear Archive**| `cleararchive`                                                                                                                                                                                           
 | **Exit** | `exit`                                                                                                                                                                                                   |
