@@ -1,0 +1,72 @@
+@startuml
+title Clear Current — Styled Like Archive Diagram
+
+skinparam defaultFontName Inter, Segoe UI, Arial
+skinparam ArrowColor Black
+skinparam ArrowThickness 1.4
+skinparam ParticipantBorderColor Black
+skinparam ParticipantBackgroundColor #3F3D9E
+skinparam ParticipantFontColor White
+skinparam SequenceLifeLineBorderColor Black
+skinparam SequenceLifeLineBackgroundColor White
+skinparam Shadowing false
+skinparam NoteBackgroundColor #FFF6D5
+skinparam NoteBorderColor #E6C773
+skinparam Sequence {
+  ParticipantPadding 10
+  BoxBorderColor Black
+}
+
+
+box "Logic" #E8E0FF
+  participant ":LogicManager" as LM
+  participant ":AddressBookParser" as Parser
+  participant ":ClearCurrentCommandParser" as CCP
+  participant "e:ClearCommand" as Cmd
+end box
+
+box "Model" #F4B6B6
+  participant ":Model" as Model
+end box
+
+participant "CommandResult" as CR #DDDDDD
+
+LM -> LM : execute(\n\"clearcurrent\"\n)
+LM -> Parser : parseCommand(\n\"clearcurrent\"\n)
+
+Parser -> CCP : parse(\n<empty args>\n)
+activate CCP
+CCP -> CCP : ensure no extra args\n(trimmed input empty)
+deactivate CCP
+Parser <-- CCP : a
+LM <-- Parser : a
+
+LM -> Cmd : execute(\nmodel\n)
+activate Cmd
+
+alt extra args present
+  Cmd --> LM : CommandException(\n\"No extra parameters allowed!\\nUse 'clearcurrent' only.\"\n)
+  deactivate Cmd
+else valid (no args)
+  Cmd -> Model : clearCurrentStudents()
+  activate Model
+  Model --> Cmd : done
+  deactivate Model
+
+  Cmd -> Model : clearLessons()
+  activate Model
+  Model --> Cmd : done
+  deactivate Model
+
+  Cmd -> Model : clearSubjects()
+  activate Model
+  Model --> Cmd : done
+  deactivate Model
+
+  Cmd -> CR : new CommandResult(\n\"Current students, lessons and subjects\nhave been cleared!\"\n)
+  deactivate Cmd
+  LM <-- Cmd : result
+  LM -> CR : result
+end
+
+@enduml

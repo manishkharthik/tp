@@ -1,0 +1,62 @@
+@startuml
+title Clear Archive — Styled Like Archive Diagram
+
+skinparam defaultFontName Inter, Segoe UI, Arial
+skinparam ArrowColor Black
+skinparam ArrowThickness 1.4
+skinparam ParticipantBorderColor Black
+skinparam ParticipantBackgroundColor #3F3D9E
+skinparam ParticipantFontColor White
+skinparam SequenceLifeLineBorderColor Black
+skinparam SequenceLifeLineBackgroundColor White
+skinparam Shadowing false
+skinparam NoteBackgroundColor #FFF6D5
+skinparam NoteBorderColor #E6C773
+skinparam Sequence {
+  ParticipantPadding 10
+  BoxBorderColor Black
+}
+
+
+box "Logic" #E8E0FF
+  participant ":LogicManager" as LM
+  participant ":AddressBookParser" as Parser
+  participant ":ClearArchiveCommandParser" as CAP
+  participant "e:ClearArchiveCommand" as Cmd
+end box
+
+box "Model" #F4B6B6
+  participant ":Model" as Model
+end box
+
+participant "CommandResult" as CR #DDDDDD
+
+LM -> LM : execute(\n\"cleararchive\"\n)
+LM -> Parser : parseCommand(\n\"cleararchive\"\n)
+
+Parser -> CAP : parse(\n<empty args>\n)
+activate CAP
+CAP -> CAP : ensure no extra args\n(trimmed input empty)
+deactivate CAP
+Parser <-- CAP : a
+LM <-- Parser : a
+
+LM -> Cmd : execute(\nmodel\n)
+activate Cmd
+
+alt extra args present
+  Cmd --> LM : CommandException(\n\"No extra parameters allowed!\\nUse 'cleararchive' only.\"\n)
+  deactivate Cmd
+else valid (no args)
+  Cmd -> Model : clearArchivedStudents()
+  activate Model
+  Model --> Cmd : done
+  deactivate Model
+
+  Cmd -> CR : new CommandResult(\n\"Archived students have been cleared!\"\n)
+  deactivate Cmd
+  LM <-- Cmd : result
+  LM -> CR : result
+end
+
+@enduml

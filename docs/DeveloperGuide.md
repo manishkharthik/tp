@@ -627,11 +627,19 @@ Given below is an example usage scenario and how the list lessons command behave
 
 **Note:** The list lessons command is case-insensitive. For example, `listlessons s/math` will match lessons with the subject "Math", "MATH", or "math".
 
+The following sequence diagram shows what happens when a user inputs the listlessons command.
+
+<img src="images/ListLessonsSequenceDiagram.png" width="600" />
+
 **Error Handling:**
 * If the user provides no subject prefix (e.g., `listlessons`), a `ParseException` is thrown with the command usage message.
 * If the subject value is empty (e.g., `listlessons s/`), a `ParseException` is thrown with the command usage message.
 * If the user provides a preamble (e.g., `listlessons extra s/Math`), a `ParseException` is thrown with the command usage message.
 * If the specified subject does not exist in the system, a `CommandException` is thrown with the message "Subject not found: [subject name]".
+
+The following activity diagram shows what happens when a user inputs the listlessons command.
+
+<img src="images/ListLessonsActivityDiagram.png" width="600" />
 
 ### Mark Student Attendance feature
 
@@ -798,8 +806,16 @@ Given below is an example usage scenario and how the clear current students comm
 
 **Note:** This command only clears the **active (non-archived) student list**, along with all lessons and subjects. Archived students remain untouched and can be viewed with the `listarchive` command. This operation cannot be undone, so use with caution.
 
+The following sequence diagram shows what happens when a user inputs the clearcurrent command.
+
+<img src="images/ClearCurrentSequenceDiagram.png" width="600" />
+
 **Error Handling:**
 * If the user provides any arguments (e.g., `clearcurrent 123` or `clearcurrent extra`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'clearcurrent' only."
+
+The following activity diagram shows what happens when a user inputs the clearcurrent command.
+
+<img src="images/ClearCurrentActivityDiagram.png" width="600" />
 
 ### Clear archived Student feature
 
@@ -835,8 +851,16 @@ Given below is an example usage scenario and how the clear archive command behav
 
 **Note:** This command only clears the **archived student list**. Current (active) students, lessons, and subjects remain untouched. This operation cannot be undone, so use with caution. Once archived students are cleared, their data cannot be recovered.
 
+The following sequence diagram shows what happens when a user inputs the cleararchive command.
+
+<img src="images/ClearArchiveSequenceDiagram.png" width="600" />
+
 **Error Handling:**
 * If the user provides any arguments (e.g., `cleararchive 123` or `cleararchive extra`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'cleararchive' only."
+
+The following activity diagram shows what happens when a user inputs the cleararchive command.
+
+<img src="images/ClearArchiveActivityDiagram.png" width="600" />
 
 ### Help feature 
 
