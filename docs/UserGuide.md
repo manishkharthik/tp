@@ -11,7 +11,7 @@ Built for tutors who prefer typing over clicking, TutorTrack is **optimized for 
 
 ### Key Features
 With TutorTrack, you can:
-* **Manage student profiles** - Add, edit, delete, and archive student information including emergency contacts, and assigned classes
+* **Manage student profiles** - Add, edit, delete, and archive student information including their name,emergency contact and assigned subjects, amongst others
 * **Track subjects and lessons** - Organize students by subjects and maintain lesson records
 * **Monitor attendance** - Mark and view attendance for individual lessons
 * **Track payments** - Keep tabs on payment status for each student
@@ -120,6 +120,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 * Items with `…`​ after them can be used multiple times.<br>
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listarchive`, `clearcurrent`, `cleararchive` and `exit`) will output an error message, ensuring only the command word is given as input<br>
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listarchive`, `clearcurrent`, `cleararchive` and `exit`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
