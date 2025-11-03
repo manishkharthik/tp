@@ -1,9 +1,3 @@
-<!-- trigger rebuild -->
----
-layout: page
-title: User Guide
----
-
 ## Welcome to TutorTrack
 
 TutorTrack is a **student management application designed for private tutors and tutoring centers** who need to **efficiently organize and track their students' information**. Whether you're managing a handful of students or dozens across multiple subjects, TutorTrack helps you stay on top of contact details, attendance records, payment status, and academic progress.
