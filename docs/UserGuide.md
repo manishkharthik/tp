@@ -94,7 +94,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
-   * `clearcurrent` : Deletes all students in the current list.
+   * `clearcurrent` : Deletes all students, lessons and subjects in the current list.
 
    * `exit` : Exits the app.
 
@@ -117,7 +117,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 * Items with `…`​ after them can be used multiple times.<br>
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will output an error message, ensuring only the command word is given as input<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clearcurrent`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -198,13 +198,41 @@ When this happens, TutorTrack will display an alert message to alert user that t
 
 ---
 
+### Adding a lesson : `addlesson`
+
+Adds a new lesson to a subject in Tutor Track.
+
+**Format:** `addlesson s/SUBJECT n/LESSON.`
+
+**Parameters:**
+* `s/SUBJECT` - Subject that is being added (e.g., Math) (**required**)
+* `n/LESSON` - Lesson name (e.g, Algebra) (**required**)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
+</div>
+
+**Examples:**
+* `addlesson s/Math n/Algebra` - Adds the Algebra lesson in Math subject.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
+</div>
+
+* `addlesson s/Math n/Algebra` 
+  <figure>
+    <img src="images/addlesson.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 4: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
+  </figure>
+ 
+
 ### Listing all students : `list`
 
 Shows a list of all active (non-archived) students in the Tutor Track.
 
 <figure>
     <img src="images/listcommand.png" alt="List" width="600"/>
-    <figcaption><em>Figure 4: Sample student list shown after the list Command is called</em></figcaption>
+    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
   </figure>
 
 **Format:** `list`
@@ -223,6 +251,24 @@ Listed all students
 Use this command to reset any filters and see all active students after using `find` or other filtering commands.
 </div>
 
+### Listing all lessons in a subject : `listlessons`
+
+**Format:** `listlessons s/SUBJECT`
+
+**Parameters:**
+* `s/SUBJECT` - Subject who's lesson list needs to be viewed (**required**)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Only one subject's lesson list can be viewed for each listlessons command
+</div>
+
+**Examples:**
+* `listlessons s/Math` - List all the lessons currently in Math's lesson list.
+  <figure>
+    <img src="images/listlessons.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 6: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
+  </figure>
+
 ### Editing a student : `edit`
 
 Edits an existing student's information in Tutor Track
@@ -233,7 +279,7 @@ Edits an existing student's information in Tutor Track
 *	`c/` — class (e.g., `3A`)
 *	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
 *	`ec/` — emergency contact (numbers only)
-*	`ps/` — payment status (e.g., Paid or Pending)
+*	`ps/` — payment status (e.g., Paid or Unpaid)
 *	`as/` — assignment status (e.g., Completed or Incomplete)
 
 **Description**:
@@ -252,21 +298,21 @@ Edits an existing student's information in Tutor Track
     <td><img src="images/editcommand1_after.png" alt="Student 1 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 5a: Before editing fields</em></td>
-    <td align="center"><em>Figure 5b: After editing class & subjects</em></td>
+    <td align="center"><em>Figure 7a: Before editing fields</em></td>
+    <td align="center"><em>Figure 7b: After editing class & subjects</em></td>
   </tr>
 </table>
 
 2.	Changing a student's payment status
-* Command: `edit 2 ps/Pending`
+* Command: `edit 2 ps/Unpaid`
   <table>
   <tr>
     <td><img src="images/editcommand2_before.png" alt="Student 2 Before" width="540" height="200"></td>
     <td><img src="images/editcommand2_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 6a: Before editing fields</em></td>
-    <td align="center"><em>Figure 6b: After setting Payment Status to “Pending”</em></td>
+    <td align="center"><em>Figure 8a: Before editing fields</em></td>
+    <td align="center"><em>Figure 8b: After setting Jerry's Payment Status to “Unpaid”</em></td>
   </tr>
 </table>
 
@@ -305,14 +351,14 @@ Finds students whose names contain any of the given keywords.
 * Command: `find john`
   <figure>
     <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
-    <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
+    <figcaption><em>Figure 9: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
 2. No matching students
 * Command: `find alice`
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
-    <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
+    <figcaption><em>Figure 10: Finding an invalid student generates the following output</em></figcaption>
   </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
@@ -324,7 +370,6 @@ Finds students whose names contain any of the given keywords.
 </div>
 
 ### Deleting a student : `delete`
-
 
 Deletes the specified student from the student list.
 
@@ -350,8 +395,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+      <td align="center"><em>Figure 11a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 11b: Student List after the command delete 3 is run</em></td>
     </tr>
   </table>
 
@@ -363,8 +408,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+      <td align="center"><em>Figure 12a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 12b: Filtered Student List after the command delete 2 is run</em></td>
     </tr>
   </table>
 
@@ -373,8 +418,35 @@ Deletes the specified student from the student list.
   **Error:** "The person index provided is invalid"
   <figure>
     <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
-    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
+    <figcaption><em>Figure 13: An example of an invalid delete command</em></figcaption>
   </figure>
+
+### Deleting a lesson : 'deletelesson'
+
+Deletes the specified lesson from the lesson list.
+
+**Format:** `delete s/SUBJECT n/LESSON`
+
+**Parameters:**
+* `s/SUBJECT` — the subject of the lesson to be deleted.
+* `n/LESSON` — the lesson to be deleted.
+
+**Description:**
+* Deletes the lesson in a specified subject. This action is **irreversible**
+
+⸻
+
+**Examples:**
+1. Deleting a lesson from the lesson list
+* Command: `delete s/Math n/Algebra`
+  <figure>
+    <img src="images/deletelesson.png" alt="Delete Lesson" width="600"/>
+    <figcaption><em>Figure 14: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
+  </figure>  
+
+<div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
+This command only deletes one lesson from one subject per deletelesson command. To delete multiple lessons, run this command multiple times.
+</div>
 
 ### Marking attendance: `markattendance`
 
@@ -404,7 +476,7 @@ Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
 
 <figure>
   <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
-  <figcaption><em>Figure 9: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
+  <figcaption><em>Figure 15: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
 </figure>
 
 
@@ -420,8 +492,8 @@ Command:
     <td><img src="images/attendance_change_after.png" alt="Change Status After" width="540" height="220"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 10a: Before editing attendance (status: ABSENT)</em></td>
-    <td align="center"><em>Figure 10b: After changing status to “EXCUSED”</em></td>
+    <td align="center"><em>Figure 16a: Before editing attendance (status: ABSENT)</em></td>
+    <td align="center"><em>Figure 16b: After changing status to “EXCUSED”</em></td>
   </tr>
 </table>
 
@@ -463,7 +535,7 @@ Command: `listattendance n/John Tan s/Math`
 
 <figure>
   <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
-  <figcaption><em>Figure 11: Listing attendance for John Tan’s Math lessons</em></figcaption>
+  <figcaption><em>Figure 17: Listing attendance for John Tan’s Math lessons</em></figcaption>
 </figure>
 
 
@@ -511,8 +583,8 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 12a: Student List before archiving Sarah Lim</em></td>
-    <td align="center"><em>Figure 12b: Student List after Sarah is archived</em></td>
+    <td align="center"><em>Figure 18a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 18b: Student List after Sarah is archived</em></td>
   </tr>
   </table>
 
@@ -523,7 +595,7 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 13a: Find the desired student</em></td>
+    <td align="center"><em>Figure 19a: Find the desired student</em></td>
   </tr>
   </table>
   <table>
@@ -532,8 +604,8 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 13b: Index is based on filtered list (1 in this case)</em></td>
-    <td align="center"><em>Figure 13c: John is successfully archived</em></td>
+    <td align="center"><em>Figure 19b: Index is based on filtered list (1 in this case)</em></td>
+    <td align="center"><em>Figure 19c: John is successfully archived</em></td>
   </tr>
   </table>
 
@@ -568,7 +640,7 @@ Displays all archived students in Tutor Track for recordkeeping and reference.
     <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 14: Archive student list showing all archived students</em></td>
+    <td align="center"><em>Figure 20: Archive student list showing all archived students</em></td>
   </tr>
   </table>
 
@@ -604,7 +676,7 @@ Moves a student from the archive list back to your active student list in Tutor 
     <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 15a: Unarchiving Sarah Lim from the archive list</em></td>
+    <td align="center"><em>Figure 21a: Unarchiving Sarah Lim from the archive list</em></td>
   </tr>
   </table>
 
@@ -615,7 +687,7 @@ Moves a student from the archive list back to your active student list in Tutor 
     <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 15b: Error message when using an invalid index</em></td>
+    <td align="center"><em>Figure 21b: Error message when using an invalid index</em></td>
   </tr>
   </table>
 
@@ -641,15 +713,15 @@ Deletes **all current students** from the student list. This action is **irrever
 
 **Example:**
 * `clearcurrent`
-  Removes every student from the current list.
+  Removes every student, lesson and subject from the current list.
   <table>
   <tr>
     <td><img src="images/currentclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
     <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 16a: Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 16b: Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 22a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 22b: Student List once all students have been cleared out</em></td>
   </tr>
   </table>
 
@@ -660,7 +732,7 @@ Archived records are not affected by this command.</div>
 
 ### Clearing all archived student entries : `cleararchive`
 
-Deletes **all archived students** from the student list. This action is **irreversible**
+Deletes **all archived students, lessons and subjects** from the archived list. This action is **irreversible**
 
 **Format:** `cleararchive`
 
@@ -679,10 +751,10 @@ Deletes **all archived students** from the student list. This action is **irreve
     <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 17a: Archive Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 17b: Archive Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 23a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 23b: Archive Student List once all students have been cleared out</em></td>
   </tr>
-</table>
+  </table>
 
 
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
@@ -697,24 +769,24 @@ Format: `exit`
 
 ## Command Summary
 
-| Action | Format, Examples (if necessary)                                                                                                                                                                             |
-|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help** | `help`                                                                                                                                                                                                      |
-| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/MORE_SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed`        |
-| **List** | `list`                                                                                                                                                                                                      |
-| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Pending as/Completed` |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]`                                                                                                                                                                              |
-| **Delete** | `delete INDEX` <br> e.g., `delete 2`                                                                                                                                                                        |
-| **Archive** | `archive INDEX` <br> e.g., `archive 3`                                                                                                                                                                      |
-| **List Archived** | `listarchive`                                                                                                                                                                                               |
-| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                                  |
-| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                     |
-| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                             
-| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                                  
-| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                          
-| **Clear** | `clearcurrent`                                                                                                                                                                                              
-| **Clear Archive**| `cleararchive`                                                                                                                                                                                              
-| **Exit** | `exit`                                                                                                                                                                                                      |
+| Action | Format, Examples (if necessary)                                                                                                                                                                          |
+|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help** | `help`                                                                                                                                                                                                   |
+| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/MORE_SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed`     |
+| **List** | `list`                                                                                                                                                                                                   |
+| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Paid as/Completed` |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]`                                                                                                                                                                           |
+| **Delete** | `delete INDEX` <br> e.g., `delete 2`                                                                                                                                                                     |
+| **Archive** | `archive INDEX` <br> e.g., `archive 3`                                                                                                                                                                   |
+| **List Archived** | `listarchive`                                                                                                                                                                                            |
+| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                               |
+| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                  |
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                          
+| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                      
+| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                       
+| **Clear** | `clearcurrent`                                                                                                                                                                                           
+| **Clear Archive**| `cleararchive`                                                                                                                                                                                           
+| **Exit** | `exit`                                                                                                                                                                                                   |
 
 ### Saving the data
 
