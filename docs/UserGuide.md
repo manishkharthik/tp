@@ -161,7 +161,7 @@ Adds a new student to the TutorTrack with their academic and contact information
 * Command: `add n/"John Tan" c/3B s/Math s/Science ec/91234567` 
   <figure>
     <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
-    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+    <figcaption><em>Figure 2a: Compulsory Fields for Adding students</em></figcaption>
   </figure>
 
 {:start="2"}
@@ -169,7 +169,7 @@ Adds a new student to the TutorTrack with their academic and contact information
 * Command: `add n/"Sarah Lim" c/2A s/English ec/98765432 ps/Paid as/Completed`
   <figure>
     <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
-    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
+    <figcaption><em>Figure 2b: Optional Fields for Adding students</em></figcaption>
   </figure> 
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
@@ -211,8 +211,8 @@ Edits an existing student's information in TutorTrack
     <td><img src="images/editcommand1_after.png" alt="Student 1 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 7a: Before editing fields</em></td>
-    <td align="center"><em>Figure 7b: After editing class & subjects</em></td>
+    <td align="center"><em>Figure 3a: Before editing fields</em></td>
+    <td align="center"><em>Figure 3b: After editing class & subjects</em></td>
   </tr>
 </table>
 
@@ -225,8 +225,8 @@ Edits an existing student's information in TutorTrack
     <td><img src="images/editcommand2_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 8a: Before editing fields</em></td>
-    <td align="center"><em>Figure 8b: After setting Jerry's Payment Status to “Unpaid”</em></td>
+    <td align="center"><em>Figure 4a: Before editing fields</em></td>
+    <td align="center"><em>Figure 4b: After setting Jerry's Payment Status to “Unpaid”</em></td>
   </tr>
 </table>
 
@@ -266,7 +266,7 @@ Finds students whose names contain any of the given keywords.
 * Command: `find john`
   <figure>
     <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
-    <figcaption><em>Figure 9: find john shows multiple students from the student list named John</em></figcaption>
+    <figcaption><em>Figure 5: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
 {:start="2"}
@@ -274,7 +274,7 @@ Finds students whose names contain any of the given keywords.
 * Command: `find alice`
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
-    <figcaption><em>Figure 10: Finding an invalid student generates the following output</em></figcaption>
+    <figcaption><em>Figure 6: Finding an invalid student generates the following output</em></figcaption>
   </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
@@ -313,8 +313,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 11a: Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 11b: Student List after the command delete 3 is run</em></td>
+      <td align="center"><em>Figure 7a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 7b: Student List after the command delete 3 is run</em></td>
     </tr>
   </table>
 
@@ -327,8 +327,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 12a: Filtered Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 12b: Filtered Student List after the command delete 2 is run</em></td>
+      <td align="center"><em>Figure 8a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 8b: Filtered Student List after the command delete 2 is run</em></td>
     </tr>
   </table>
 
@@ -338,7 +338,7 @@ Deletes the specified student from the student list.
   **Error:** "The person index provided is invalid"
   <figure>
     <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
-    <figcaption><em>Figure 13: An example of an invalid delete command</em></figcaption>
+    <figcaption><em>Figure 9: An example of an invalid delete command</em></figcaption>
   </figure>
 
 ---
@@ -369,8 +369,8 @@ Moves a student from your active list into the archive list in TutorTrack.
     <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 18a: Student List before archiving Sarah Lim</em></td>
-    <td align="center"><em>Figure 18b: Student List after Sarah is archived</em></td>
+    <td align="center"><em>Figure 10a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 10b: Student List after Sarah is archived</em></td>
   </tr>
   </table>
 
@@ -382,7 +382,7 @@ Moves a student from your active list into the archive list in TutorTrack.
     <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 19a: Find the desired student</em></td>
+    <td align="center"><em>Figure 11a: Find the desired student</em></td>
   </tr>
   </table>
   <table>
@@ -391,8 +391,8 @@ Moves a student from your active list into the archive list in TutorTrack.
     <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 19b: Index is based on filtered list (1 in this case)</em></td>
-    <td align="center"><em>Figure 19c: John is successfully archived</em></td>
+    <td align="center"><em>Figure 11b: Index is based on filtered list (1 in this case)</em></td>
+    <td align="center"><em>Figure 11c: John is successfully archived</em></td>
   </tr>
   </table>
 
@@ -430,7 +430,7 @@ Moves a student from the archive list back to your active student list in TutorT
     <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 21a: Unarchiving Sarah Lim from the archive list</em></td>
+    <td align="center"><em>Figure 12a: Unarchiving Sarah Lim from the archive list</em></td>
   </tr>
   </table>
 
@@ -442,7 +442,7 @@ Moves a student from the archive list back to your active student list in TutorT
     <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 21b: Error message when using an invalid index</em></td>
+    <td align="center"><em>Figure 12b: Error message when using an invalid index</em></td>
   </tr>
   </table>
 
@@ -481,7 +481,7 @@ No extra params should be added, simply `list`
 * Command: `list`
 <figure>
     <img src="images/listcommand.png" alt="List" width="600"/>
-    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
+    <figcaption><em>Figure 13: Sample student list shown after the list Command is called</em></figcaption>
 </figure>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -520,7 +520,7 @@ No extra params should be added, simply `listarchive`
     <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 20: Archive student list showing all archived students</em></td>
+    <td align="center"><em>Figure 14: Archive student list showing all archived students</em></td>
   </tr>
   </table>
 
@@ -562,8 +562,8 @@ No extra params should be added, simply `clearcurrent`
     <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 22a: Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 22b: Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 15a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 15b: Student List once all students have been cleared out</em></td>
   </tr>
   </table>
 
@@ -603,8 +603,8 @@ No extra params should be added, simply `cleararchive`
     <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 23a: Archive Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 23b: Archive Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 16a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 16b: Archive Student List once all students have been cleared out</em></td>
   </tr>
   </table>
 
@@ -633,7 +633,7 @@ Adding the same lesson (case-insensitive) multiple times will only result in one
 * Command: `addlesson s/Math n/Algebra`
   <figure>
     <img src="images/addlesson.png" alt="Add lesson" width="600"/>
-    <figcaption><em>Figure 4: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
+    <figcaption><em>Figure 17: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
   </figure>
   
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
@@ -660,7 +660,7 @@ Only one subject's lesson list can be viewed for each listlessons command
 * Command: `listlessons s/Math`
   <figure>
     <img src="images/listlessons.png" alt="Add lesson" width="600"/>
-    <figcaption><em>Figure 6: An example of a user viewing all lessons in the Math lesson list.</em></figcaption>
+    <figcaption><em>Figure 18: An example of a user viewing all lessons in the Math lesson list.</em></figcaption>
   </figure>
 
 ---
@@ -685,7 +685,7 @@ Deletes the specified lesson from the lesson list.
 * Command: `deletelesson s/Math n/Algebra`
   <figure>
     <img src="images/deletelesson.png" alt="Delete Lesson" width="600"/>
-    <figcaption><em>Figure 14: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
+    <figcaption><em>Figure 19: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
   </figure>  
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
@@ -720,7 +720,7 @@ Marks a student’s attendance for a specific lesson.
 * Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
 <figure>
   <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
-  <figcaption><em>Figure 15: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
+  <figcaption><em>Figure 20: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
 </figure>
 
 {:start="2"}
@@ -735,8 +735,8 @@ Commands:
     <td><img src="images/attendance_change_after.png" alt="Change Status After" width="540" height="220"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 16a: Before editing attendance (status: ABSENT)</em></td>
-    <td align="center"><em>Figure 16b: After changing status to “EXCUSED”</em></td>
+    <td align="center"><em>Figure 21a: Before editing attendance (status: ABSENT)</em></td>
+    <td align="center"><em>Figure 21b: After changing status to “EXCUSED”</em></td>
   </tr>
 </table>
 
@@ -776,7 +776,7 @@ Displays a student’s attendance records for a specific subject.
 * Command: `listattendance n/John Tan s/Math`
 <figure>
   <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
-  <figcaption><em>Figure 17: Listing attendance for John Tan’s Math lessons</em></figcaption>
+  <figcaption><em>Figure 22: Listing attendance for John Tan’s Math lessons</em></figcaption>
 </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution**
@@ -811,7 +811,7 @@ No extra params should be added, simply `help`
 * Command: `help` 
   <figure>
     <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
-    <figcaption><em>Figure 2: Help Window</em></figcaption>
+    <figcaption><em>Figure 23: Help Window</em></figcaption>
   </figure>
 
 ---
