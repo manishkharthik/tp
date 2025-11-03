@@ -117,7 +117,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 * Items with `…`​ after them can be used multiple times.<br>
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will output an error message, ensuring only the command word is given as input<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clearcurrent`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -268,8 +268,8 @@ Edits an existing student's information in Tutor Track
 *	`c/` — class (e.g., `3A`)
 *	`s/` — subject(s). Supply multiple by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`)
 *	`ec/` — emergency contact (numbers only)
-*	`ps/` — payment status (e.g., Paid or Pending)
-*	`as/` — assignment status (e.g., Submitted or Incomplete)
+*	`ps/` — payment status (e.g., Paid or Unpaid)
+*	`as/` — assignment status (e.g., Completed or Incomplete)
 
 **Description**:
 *	Edits the student at the given `INDEX` (as shown in the current student list). `INDEX` is a positive integer.
@@ -786,24 +786,24 @@ Format: `exit`
 
 ## Command Summary
 
-| Action | Format, Examples (if necessary)                                                                                                                                                                             |
-|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help** | `help`                                                                                                                                                                                                      |
-| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/MORE_SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed`        |
-| **List** | `list`                                                                                                                                                                                                      |
-| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Pending as/Completed` |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]`                                                                                                                                                                              |
-| **Delete** | `delete INDEX` <br> e.g., `delete 2`                                                                                                                                                                        |
-| **Archive** | `archive INDEX` <br> e.g., `archive 3`                                                                                                                                                                      |
-| **List Archived** | `listarchive`                                                                                                                                                                                               |
-| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                                  |
-| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                     |
-| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                             
-| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                                  
-| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                          
-| **Clear** | `clearcurrent`                                                                                                                                                                                              
-| **Clear Archive**| `cleararchive`                                                                                                                                                                                              
-| **Exit** | `exit`                                                                                                                                                                                                      |
+| Action | Format, Examples (if necessary)                                                                                                                                                                          |
+|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help** | `help`                                                                                                                                                                                                   |
+| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/MORE_SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed`     |
+| **List** | `list`                                                                                                                                                                                                   |
+| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Paid as/Completed` |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]`                                                                                                                                                                           |
+| **Delete** | `delete INDEX` <br> e.g., `delete 2`                                                                                                                                                                     |
+| **Archive** | `archive INDEX` <br> e.g., `archive 3`                                                                                                                                                                   |
+| **List Archived** | `listarchive`                                                                                                                                                                                            |
+| **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                               |
+| **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                  |
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                          
+| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                      
+| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                       
+| **Clear** | `clearcurrent`                                                                                                                                                                                           
+| **Clear Archive**| `cleararchive`                                                                                                                                                                                           
+| **Exit** | `exit`                                                                                                                                                                                                   |
 
 ### Saving the data
 
