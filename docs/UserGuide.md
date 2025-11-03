@@ -11,7 +11,7 @@ Built for tutors who prefer typing over clicking, TutorTrack is **optimized for 
 
 ### Key Features
 With TutorTrack, you can:
-* **Manage student profiles** - Add, edit, delete, and archive student information including emergency contacts, and assigned classes
+* **Manage student profiles** - Add, edit, delete, and archive student information including their name,emergency contact and assigned subjects, amongst others
 * **Track subjects and lessons** - Organize students by subjects and maintain lesson records
 * **Monitor attendance** - Mark and view attendance for individual lessons
 * **Track payments** - Keep tabs on payment status for each student
@@ -45,17 +45,16 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 | **Parameter**          | Information provided to a command to specify details. For example, in `add n/John Tan c/3B`, `n/John Tan` and `c/3B` are parameters.                                                  |
 | **Case-sensitive**     | When the casing of letters matters. For example, `add` is valid but `ADD` is not.                                                                                                     |
 | **Case-insensitive**   | When the casing of letters does not matter. For example, `john` and `John` are treated as the same.                                                                                   |
-| **Index**              | The position number of a student as shown in the current displayed list (1-indexed).                                                                                                  |
+| **Index**              | The position number of a student as shown in the current displayed list. 1-indexed format is used; meaning 1 is treated as the first entry in the list.                                                                                                |
 | **Mainstream OS**      | Commonly used operating systems supported by TutorTrack — Windows, macOS, Linux, and Unix.                                                                                            |
 | **Tutor**              | An individual providing academic tutoring services. Tutors are the primary users of TutorTrack.                                                                                       |
-| **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, contact, subjects) and associated records (e.g., attendance, payments, academic performance). |
-| **Parent Contact**     | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes.                                              |
+| **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, contact, subjects) and associated records (e.g., attendance, payments, assignment status). |                                          |
 | **Attendance**         | The attendance record associated with a student, tracking presence, lateness, or absence for lessons.                                                                                 |
 | **Attendance Status**  | The recorded attendance status for a student during a lesson — can be **Present**, **Absent**, **Late**, or **Excused**.                                                              |
 | **Archive**            | A status indicating whether a student is **active** (currently enrolled or assigned to a tutor) or **archived** (no longer active but retained for recordkeeping).                    |
 | **Subject Enrollment** | The mapping between students and the subjects they are studying. A student may be enrolled in multiple subjects.                                                                      |
-| **Payment Status**     | The record indicating whether a student’s payment for tuition or lessons is **Paid**, **Unpaid**.                                                                                     |
-
+| **Payment Status**     | The record indicating whether a student’s payment for tuition or lessons is **Paid** or **Unpaid**.                                                                                     |
+| **Assignment Status**     | The record indicating whether a student’s assignment is **Complete** or **Incomplete**.                                                                                     |
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -117,21 +116,29 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 * Items with `…`​ after them can be used multiple times.<br>
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clearcurrent`) will output an error message, ensuring only the command word is given as input<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listarchive`, `clearcurrent`, `cleararchive` and `exit`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
 ### Viewing help : `help`
 Shows a message with a link to access the full help page.
+
+**Format:** `help`
+
+**Parameters:**
+* This command takes no parameters.
+
+**Details:** 
+* A help window opens with a link to this user guide.
+* No extra params should be added, simply `help`
+
+**Example:**
+* `help` opens up a window with a link to the user guide
   <figure>
     <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
     <figcaption><em>Figure 2: Help Window</em></figcaption>
   </figure>
-
-**Format:** `help`
-
-**What happens:** A help window opens with a link to this user guide.
 
 ---
 
@@ -142,50 +149,46 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 **Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
-* `n/NAME` - Student's full name (**required**)
+* `n/NAME` - Student's full name in quotation marks (e.g., "John Tan") (**required**)
 * `c/CLASS` - Student's class (e.g., 3B) (**required**)
-* `s/SUBJECT` - Subject(s) the student is taking (**at least one required**, use multiple `s/` prefixes to add more)
-* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (**required**)
+* `s/SUBJECT` - Subject(s) the student is taking (e.g., s/Math s/Science) (**at least one required**, use multiple `s/` prefixes to add more)
+* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (e.g./ 98765432) (**required**)
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
 * `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-  You can add multiple subjects by using multiple `s/` prefixes.
-  Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
-  Names are case-sensitive
-</div>
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-You cannot add a student with the same name and class as an existing student.
-</div>
+**Details:** 
+* You can add multiple subjects by using multiple `s/` prefixes.
+* Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
+* Names are case-sensitive
+* You cannot add a student with the **same name** as an existing student
 
 **Examples:**
-* `add n/"Rahit s/o Kumar" c/3B s/Math ec/12345678` - Adds a student with s/o in name
-* `add n/"Sarah d/o Ali" c/4A s/Science ec/87654321` - Adds a student with d/o in name
-* `add n/John Tan c/3B s/Math ec/12345678` - Regular name without quotes
+* `add n/"Rahit s/o Kumar" c/3B s/Math ec/62345678` - Adds a student with s/o in name
+* `add n/"Sarah d/o Bala" c/4A s/Science ec/87654321` - Adds a student with d/o in name
+* `add n/"John Tan" c/3B s/Math ec/92345678 ps/Paid as/Completed` - Adds a student with the provided optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS)
 
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-* If a name contains `s/o` or `d/o`, wrap the entire name in quotes: `n/"Name s/o Parent"`
-* Quotes are optional for regular names without special characters
-* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
-
-</div>
-* `add n/John Tan c/3B s/Math s/Science ec/91234567` 
-  * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
+* `add n/"Jane Tan" c/3B s/Math s/Science ec/91234567` 
+  * Accounts for compulsory fields and adds Jane Tan from class 3B (uses default values for optional fields)
 
   <figure>
     <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
     <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
   </figure>
 
-* `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
+* `add n/"Sarah Lim" c/2A s/English ec/98765432 ps/Paid as/Completed`
   * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
 
   <figure>
     <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
     <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
   </figure> 
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+* Quotation marks are required for **ALL** student names, regardless of whether or not they contain special characters
+* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
+
+</div>
 
 ---
 
