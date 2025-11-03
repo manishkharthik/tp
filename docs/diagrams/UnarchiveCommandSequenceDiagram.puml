@@ -1,0 +1,81 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":UnarchiveCommandParser" as UnarchiveCommandParser LOGIC_COLOR
+participant "u:UnarchiveCommand" as UnarchiveCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("unarchive 1")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("unarchive 1")
+activate AddressBookParser
+
+create UnarchiveCommandParser
+AddressBookParser -> UnarchiveCommandParser
+activate UnarchiveCommandParser
+
+UnarchiveCommandParser -> UnarchiveCommandParser : parse("1")
+activate UnarchiveCommandParser
+
+UnarchiveCommandParser -> UnarchiveCommandParser : parseIndex("1")
+activate UnarchiveCommandParser
+UnarchiveCommandParser --> UnarchiveCommandParser : index
+deactivate UnarchiveCommandParser
+
+create UnarchiveCommand
+UnarchiveCommandParser -> UnarchiveCommand : new UnarchiveCommand(index)
+activate UnarchiveCommand
+UnarchiveCommand --> UnarchiveCommandParser : u
+deactivate UnarchiveCommand
+
+UnarchiveCommandParser --> AddressBookParser : u
+deactivate UnarchiveCommandParser
+deactivate UnarchiveCommandParser
+
+AddressBookParser --> LogicManager : u
+deactivate AddressBookParser
+
+LogicManager -> UnarchiveCommand : execute(model)
+activate UnarchiveCommand
+
+UnarchiveCommand -> Model : getFilteredArchivedPersonList()
+activate Model
+Model --> UnarchiveCommand : archivedPersonList
+deactivate Model
+
+UnarchiveCommand -> UnarchiveCommand : validateIndexRange(index, archivedPersonList.size())
+activate UnarchiveCommand
+UnarchiveCommand --> UnarchiveCommand
+deactivate UnarchiveCommand
+
+UnarchiveCommand -> Model : getArchivedPersonAt(index)
+activate Model
+Model --> UnarchiveCommand : personToUnarchive
+deactivate Model
+
+UnarchiveCommand -> Model : unarchivePerson(personToUnarchive)
+activate Model
+Model --> UnarchiveCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+UnarchiveCommand -> CommandResult : new CommandResult(successMessage)
+activate CommandResult
+CommandResult --> UnarchiveCommand : result
+deactivate CommandResult
+
+UnarchiveCommand --> LogicManager : result
+deactivate UnarchiveCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

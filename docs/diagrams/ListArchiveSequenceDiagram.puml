@@ -1,0 +1,66 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ListArchiveCommandParser" as ListArchiveCommandParser LOGIC_COLOR
+participant "la:ListArchiveCommand" as ListArchiveCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("listarchive")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("listarchive")
+activate AddressBookParser
+
+create ListArchiveCommandParser
+AddressBookParser -> ListArchiveCommandParser
+activate ListArchiveCommandParser
+
+ListArchiveCommandParser -> ListArchiveCommandParser : parse("")
+activate ListArchiveCommandParser
+
+ListArchiveCommandParser -> ListArchiveCommandParser : validateNoArguments("")
+activate ListArchiveCommandParser
+ListArchiveCommandParser --> ListArchiveCommandParser
+deactivate ListArchiveCommandParser
+
+create ListArchiveCommand
+ListArchiveCommandParser -> ListArchiveCommand : new ListArchiveCommand()
+activate ListArchiveCommand
+ListArchiveCommand --> ListArchiveCommandParser : la
+deactivate ListArchiveCommand
+
+ListArchiveCommandParser --> AddressBookParser : la
+deactivate ListArchiveCommandParser
+deactivate ListArchiveCommandParser
+
+AddressBookParser --> LogicManager : la
+deactivate AddressBookParser
+
+LogicManager -> ListArchiveCommand : execute(model)
+activate ListArchiveCommand
+
+ListArchiveCommand -> Model : updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS)
+activate Model
+Model --> ListArchiveCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+ListArchiveCommand -> CommandResult : new CommandResult(MESSAGE_SUCCESS)
+activate CommandResult
+CommandResult --> ListArchiveCommand : result
+deactivate CommandResult
+
+ListArchiveCommand --> LogicManager : result
+deactivate ListArchiveCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+start
+:User inputs listarchive command;
+
+if (Valid command format?) then (yes)
+  if (No extra parameters?) then (yes)
+    :Display all archived students;
+    :Show archived student list;
+    :Display success message;
+  else (no)
+    :Display error message\n(No extra parameters allowed);
+  endif
+else (no)
+  :Display error message\n(Invalid command format);
+endif
+
+stop
+@enduml

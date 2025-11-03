@@ -1,0 +1,94 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":DeleteLessonCommandParser" as DeleteLessonCommandParser LOGIC_COLOR
+participant ":Lesson" as Lesson LOGIC_COLOR
+participant "dl:DeleteLessonCommand" as DeleteLessonCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("deletelesson s/Math n/Algebra")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("deletelesson s/Math n/Algebra")
+activate AddressBookParser
+
+create DeleteLessonCommandParser
+AddressBookParser -> DeleteLessonCommandParser
+activate DeleteLessonCommandParser
+
+DeleteLessonCommandParser -> DeleteLessonCommandParser : parse("s/Math n/Algebra")
+activate DeleteLessonCommandParser
+
+DeleteLessonCommandParser -> DeleteLessonCommandParser : tokenize(args)
+activate DeleteLessonCommandParser
+DeleteLessonCommandParser --> DeleteLessonCommandParser : argMultimap
+deactivate DeleteLessonCommandParser
+
+DeleteLessonCommandParser -> DeleteLessonCommandParser : validatePrefixes(argMultimap)
+activate DeleteLessonCommandParser
+DeleteLessonCommandParser --> DeleteLessonCommandParser
+deactivate DeleteLessonCommandParser
+
+DeleteLessonCommandParser -> DeleteLessonCommandParser : extractValues(argMultimap)
+activate DeleteLessonCommandParser
+DeleteLessonCommandParser --> DeleteLessonCommandParser : subject = "Math", lessonName = "Algebra"
+deactivate DeleteLessonCommandParser
+
+create Lesson
+DeleteLessonCommandParser -> Lesson : new Lesson("Algebra", "Math")
+activate Lesson
+Lesson --> DeleteLessonCommandParser : lessonToDelete
+deactivate Lesson
+
+create DeleteLessonCommand
+DeleteLessonCommandParser -> DeleteLessonCommand : new DeleteLessonCommand(lessonToDelete)
+activate DeleteLessonCommand
+DeleteLessonCommand --> DeleteLessonCommandParser : dl
+deactivate DeleteLessonCommand
+
+DeleteLessonCommandParser --> AddressBookParser : dl
+deactivate DeleteLessonCommandParser
+deactivate DeleteLessonCommandParser
+
+AddressBookParser --> LogicManager : dl
+deactivate AddressBookParser
+
+LogicManager -> DeleteLessonCommand : execute(model)
+activate DeleteLessonCommand
+
+DeleteLessonCommand -> Model : hasLesson(lessonToDelete)
+activate Model
+Model --> DeleteLessonCommand : true
+deactivate Model
+
+DeleteLessonCommand -> Model : deleteLesson(lessonToDelete)
+activate Model
+Model --> DeleteLessonCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+DeleteLessonCommand -> CommandResult : new CommandResult(successMessage)
+activate CommandResult
+CommandResult --> DeleteLessonCommand : result
+deactivate CommandResult
+
+DeleteLessonCommand --> LogicManager : result
+deactivate DeleteLessonCommand
+
+LogicManager -> LogicManager : autoSave()
+activate LogicManager
+note right: Lesson list automatically\nsaved to JSON storage
+LogicManager --> LogicManager
+deactivate LogicManager
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

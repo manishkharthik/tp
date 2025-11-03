@@ -164,6 +164,9 @@ The `AddCommand` object then communicates with the `Model` API by calling the `M
 
 The method `AddCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
 
+The sequence diagram below demonstrates how the add command works.
+<img src="images/AddCommandSequenceDiagram.png" width="600" />
+
 **Example Usage:**
 
 Given below is an example usage scenario and how the add command behaves at each step.
@@ -178,7 +181,8 @@ Given below is an example usage scenario and how the add command behaves at each
 
 **Step 5.** The `CommandResult` object is returned with a success message displaying the newly added student's details.
 
-**Insert UML and sequence diagram**
+The following activity diagram demonstrates what happens when a user inputs the add command.
+<img src="images/AddCommandActivityDiagram.png" width="600" />
 
 ### Edit Student feature
 
@@ -195,6 +199,10 @@ The edit student command mechanism is facilitated by the `EditCommandParser` cla
 The `EditCommand` object then communicates with the `Model` API by calling the `Model#setPerson(Person, Person)` method, which replaces the target student with the edited version in the student list.
 
 The method `EditCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+The following sequence diagram shows what happens when a user inputs the edit command. 
+
+<img src="images/EditCommandSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -214,7 +222,9 @@ Given below is an example usage scenario and how the edit command behaves at eac
 
 **Note:** If the user provides a name field without quotes (e.g., `edit 1 n/John Tan`), a `ParseException` is thrown with the message "Name must be enclosed in quotes."
 
-**Insert UML diagram and sequence diagram here**
+The following activity diagram shows what happens when a user inputs the edit command.
+
+<img src="images/EditCommandActivityDiagram.png" width="600" />
 
 ### Delete Student feature
 
@@ -231,6 +241,10 @@ The delete student command mechanism is facilitated by the `DeleteCommandParser`
 The `DeleteCommand` object then communicates with the `Model` API by calling the `Model#deletePerson(Person)` method, which removes the specified student from the student list.
 
 The method `DeleteCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+The following activity diagram shows what happens when a user inputs the delete command.
+
+<img src="images/DeleteComandSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -251,7 +265,9 @@ Given below is an example usage scenario and how the delete command behaves at e
 * If the user provides `delete abc`, a `ParseException` is thrown with the message "The person index provided is invalid."
 * If the index is out of range (e.g., `delete 999` when there are only 10 students), a `CommandException` is thrown during execution with the message indicating an invalid person index.
 
-**Insert UML and sequence diagram**
+The following activity diagram shows what happens when a user inputs the delete command.
+
+<img src="images/DeleteCommandActivityDiagram.png" width="600" />
 
 ### Archive Student feature
 
@@ -268,6 +284,10 @@ The archive student command mechanism is facilitated by the `ArchiveCommandParse
 The `ArchiveCommand` object then communicates with the `Model` API by calling the `Model#archivePerson(Person)` method, which moves the specified student from the active student list to the archived student list.
 
 The method `ArchiveCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+The following sequence diagram shows what happens when a user inputs the archive command.
+
+<img src="images/ArchiveCommandSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -289,7 +309,9 @@ Given below is an example usage scenario and how the archive command behaves at 
 * If the user provides an invalid index format, a `ParseException` is thrown with the command usage message.
 * If the index is out of range (e.g., `archive 999` when there are only 10 students), a `CommandException` is thrown during execution with the message indicating an invalid person index.
 
-**Insert UML and sequence diagram**
+The following activity diagram shows what happens when a user inputs the archive command.
+
+<img src="images/ArchiveCommandActivityDiagram.png" width="600" />
 
 ### Unarchive Student feature
 
@@ -306,6 +328,10 @@ The unarchive student command mechanism is facilitated by the `UnarchiveCommandP
 The `UnarchiveCommand` object then communicates with the `Model` API by calling the `Model#unarchivePerson(Person)` method, which moves the specified student from the archived student list back to the active student list.
 
 The method `UnarchiveCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+The following sequence diagram shows what happens when a user inputs the unarchive command.
+
+<img src="images/UnarchiveCommandSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -329,6 +355,10 @@ Given below is an example usage scenario and how the unarchive command behaves a
 * If the user provides an invalid index format, a `ParseException` is thrown with the command usage message.
 * If the index is out of range (e.g., `unarchive 999` when there are only 3 archived students), a `CommandException` is thrown during execution with the message indicating an invalid person index.
 
+The following activity diagram shows what happens when a user inputs the unarchive command.
+
+<img src="images/UnarchiveCommandActivityDiagram.png" width="600" />
+
 ### List Archive feature
 
 The list archive feature allows tutors to list the student archive.
@@ -344,6 +374,10 @@ The list archive command mechanism is facilitated by the `ListArchiveCommandPars
 The `ListArchiveCommand` object then communicates with the `Model` API by calling the `Model#updateFilteredArchivedPersonList(Predicate)` method with a predicate that shows all archived students, effectively displaying the complete archived student list.
 
 The method `ListArchiveCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+The following sequence diagram shows what happens when a user inputs the listarchive command.
+
+<img src="images/ListArchiveSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -364,6 +398,10 @@ Given below is an example usage scenario and how the list archive command behave
 **Error Handling:**
 * If the user provides any arguments (e.g., `listarchive 123` or `listarchive extra`), a `ParseException` is thrown with the command usage message indicating that the listarchive command takes no parameters.
 
+The following activity diagram shows what happens when a user inputs the listarchive command.
+
+<img src="images/ListArchiveActivityDiagram.png" width="600" />
+
 ### Find Student feature
 
 The find feature allows tutors to find students by the student's name.
@@ -379,6 +417,10 @@ The find student command mechanism is facilitated by the `FindCommandParser` cla
 The `FindCommand` object then communicates with the `Model` API by calling the `Model#updateFilteredPersonList(Predicate)` method, which filters the student list to show only students whose names contain any of the specified keywords (case-insensitive matching).
 
 The method `FindCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command and the number of students found.
+
+The following sequence diagram shows what happens when a user inputs the find command.
+
+<img src="images/FindCommandSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -399,7 +441,9 @@ Given below is an example usage scenario and how the find command behaves at eac
 **Error Handling:**
 * If the user provides `find` with no keywords (e.g., just `find` or `find   `), a `ParseException` is thrown with the command usage message.
 
-**Insert UML and sequence diagram**
+The following activity diagram shows what happens when a user inputs the find command.
+
+<img src="images/FindCommandActivityDiagram.png" width="600" />
 
 ### Add Lesson feature
 
@@ -416,6 +460,10 @@ The add lesson command mechanism is facilitated by the `AddLessonCommandParser` 
 The `AddLessonCommand` object then communicates with the `Model` API by calling the `Model#addLesson(Lesson)` method, which adds the newly-constructed lesson to the lesson list. The lesson list is automatically persisted to storage after the command executes.
 
 The method `AddLessonCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+The following sequence diagram shows what happens when a user inputs the add lesson command.
+
+<img src="images/AddLessonCommandSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -441,6 +489,10 @@ Given below is an example usage scenario and how the add lesson command behaves 
 * If the subject or lesson name is empty (e.g., `addlesson s/ n/Algebra`), a `ParseException` is thrown with the lesson constraints message.
 * If the lesson already exists in the system, a `CommandException` is thrown with the message "This lesson already exists in this subject."
 
+The following activity diagram shows what happens when a user inputs the add lesson command.
+
+<img src="images/AddLessonCommandActivityDiagram.png" width="600" />
+
 ### Delete Lesson feature
 
 The delete lesson feature allows tutors to delete lessons from a certain subject.
@@ -456,6 +508,10 @@ The delete lesson command mechanism is facilitated by the `DeleteLessonCommandPa
 The `DeleteLessonCommand` object then communicates with the `Model` API by calling the `Model#deleteLesson(Lesson)` method, which removes the specified lesson from the lesson list. The lesson list is automatically persisted to storage after the command executes.
 
 The method `DeleteLessonCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command with a success message displaying the deleted lesson's details.
+
+The following sequence diagram shows what happens when a user inputs the delete lesson command.
+
+<img src="images/DeleteLessonSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -488,6 +544,10 @@ Given below is an example usage scenario and how the delete lesson command behav
 * If a preamble is present (e.g., `deletelesson extra s/Math n/Algebra`), a `ParseException` is thrown with the command usage message.
 * If the specified lesson doesn't exist in the system, a `CommandException` is thrown indicating the lesson was not found.
 
+The following activity diagram shows what happens when a user inputs the delete lesson command.
+
+<img src="images/DeleteLessonActivityDiagram.png" width="600" />
+
 ### List Student feature
 
 The list feature allows tutor to list the current students.
@@ -503,6 +563,10 @@ The list student command mechanism is facilitated by the `ListCommandParser` cla
 The `ListCommand` object then communicates with the `Model` API by calling the `Model#updateFilteredPersonList(Predicate)` method with a predicate that shows all students, effectively resetting any active filters from previous `find` commands.
 
 The method `ListCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+The following sequence diagram shows what happens when a user inputs the list command.
+
+<img src="images/ListStudentSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -522,6 +586,10 @@ Given below is an example usage scenario and how the list command behaves at eac
 
 **Error Handling:**
 * If the user provides any arguments (e.g., `list 123` or `list extra`), a `ParseException` is thrown with the command usage message indicating that the list command takes no parameters.
+
+The following activity diagram shows what happens when a user inputs the list command.
+
+<img src="images/ListStudentActivityDiagram.png" width="600" />
 
 ### List Lesson feature
 

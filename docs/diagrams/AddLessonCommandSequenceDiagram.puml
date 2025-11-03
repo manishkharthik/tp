@@ -1,0 +1,94 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddLessonCommandParser" as AddLessonCommandParser LOGIC_COLOR
+participant ":Lesson" as Lesson LOGIC_COLOR
+participant "al:AddLessonCommand" as AddLessonCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("addlesson s/Math n/Algebra")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("addlesson s/Math n/Algebra")
+activate AddressBookParser
+
+create AddLessonCommandParser
+AddressBookParser -> AddLessonCommandParser
+activate AddLessonCommandParser
+
+AddLessonCommandParser -> AddLessonCommandParser : parse("s/Math n/Algebra")
+activate AddLessonCommandParser
+
+AddLessonCommandParser -> AddLessonCommandParser : tokenize(args)
+activate AddLessonCommandParser
+AddLessonCommandParser --> AddLessonCommandParser : argMultimap
+deactivate AddLessonCommandParser
+
+AddLessonCommandParser -> AddLessonCommandParser : validatePrefixes(argMultimap)
+activate AddLessonCommandParser
+AddLessonCommandParser --> AddLessonCommandParser
+deactivate AddLessonCommandParser
+
+AddLessonCommandParser -> AddLessonCommandParser : extractValues(argMultimap)
+activate AddLessonCommandParser
+AddLessonCommandParser --> AddLessonCommandParser : subject = "Math", lessonName = "Algebra"
+deactivate AddLessonCommandParser
+
+create Lesson
+AddLessonCommandParser -> Lesson : new Lesson("Algebra", "Math")
+activate Lesson
+Lesson --> AddLessonCommandParser : lesson
+deactivate Lesson
+
+create AddLessonCommand
+AddLessonCommandParser -> AddLessonCommand : new AddLessonCommand(lesson)
+activate AddLessonCommand
+AddLessonCommand --> AddLessonCommandParser : al
+deactivate AddLessonCommand
+
+AddLessonCommandParser --> AddressBookParser : al
+deactivate AddLessonCommandParser
+deactivate AddLessonCommandParser
+
+AddressBookParser --> LogicManager : al
+deactivate AddressBookParser
+
+LogicManager -> AddLessonCommand : execute(model)
+activate AddLessonCommand
+
+AddLessonCommand -> Model : hasLesson(lesson)
+activate Model
+Model --> AddLessonCommand : false
+deactivate Model
+
+AddLessonCommand -> Model : addLesson(lesson)
+activate Model
+Model --> AddLessonCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+AddLessonCommand -> CommandResult : new CommandResult(successMessage)
+activate CommandResult
+CommandResult --> AddLessonCommand : result
+deactivate CommandResult
+
+AddLessonCommand --> LogicManager : result
+deactivate AddLessonCommand
+
+LogicManager -> LogicManager : autoSave()
+activate LogicManager
+note right: Lesson list automatically\nsaved to JSON storage
+LogicManager --> LogicManager
+deactivate LogicManager
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

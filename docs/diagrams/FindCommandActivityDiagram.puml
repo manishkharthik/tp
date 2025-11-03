@@ -1,0 +1,25 @@
+@startuml
+start
+:User inputs find command;
+
+if (Valid command format?) then (yes)
+  if (Keywords provided?) then (yes)
+    :Split keywords by whitespace;
+    :Create name predicate with keywords;
+    :Filter student list by predicate;
+    if (Matching students found?) then (yes)
+      :Display filtered student list;
+      :Show number of students found;
+    else (no)
+      :Display empty list;
+      :Show "0 persons listed!";
+    endif
+  else (no)
+    :Display error message\n(No keywords provided);
+  endif
+else (no)
+  :Display error message\n(Invalid command format);
+endif
+
+stop
+@enduml
