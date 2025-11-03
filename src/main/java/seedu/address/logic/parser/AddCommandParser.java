@@ -130,7 +130,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
-    // Add near top of AddCommandParser (private helper)
+    /**
+     * Retrieves the value associated with the given prefix from the ArgumentMultimap.
+     * Throws a ParseException if the value is missing or blank.
+     */
     private static String requireNonBlank(ArgumentMultimap m, Prefix p, String fieldName) throws ParseException {
         String value = m.getValue(p).orElseThrow(() ->
                 new ParseException(String.format("Missing required field: %s.", fieldName)));
@@ -139,7 +142,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(
                 String.format("The field '%s' cannot be empty. Example: %s/<value>", fieldName, p.getPrefix()));
         }
-
+        
         return value.trim();
     }
 
