@@ -265,7 +265,7 @@ public class ModelManager implements Model {
     @Override
     public void addLesson(Lesson lesson) {
         requireNonNull(lesson);
-        lessonList.addLesson(lesson);
+        addressBook.addLesson(lesson);
         updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
     }
 
@@ -288,7 +288,7 @@ public class ModelManager implements Model {
     @Override
     public void deleteLesson(Lesson lesson) {
         requireNonNull(lesson);
-        lessonList.deleteLesson(lesson);
+        addressBook.deleteLesson(lesson);
     }
 
     @Override
@@ -317,18 +317,8 @@ public class ModelManager implements Model {
         if (!hasSubject(subjectName)) {
             throw new IllegalArgumentException("Subject not found: " + subjectName);
         }
-
-        // Create a Subject object with the lessons that belong to this subject
-        Subject subject = new Subject(subjectName);
-
-        // Add all lessons that belong to this subject
-        for (Lesson lesson : lessonList.getInternalList()) {
-            if (lesson.getSubject().equals(subjectName)) {
-                subject.addLesson(lesson);
-            }
-        }
-
-        return subject;
+        return subjectList.getSubject(subjectName)
+                .orElseThrow(() -> new IllegalArgumentException("Subject not found: " + subjectName));
     }
 
     @Override
