@@ -42,13 +42,24 @@ public class AddCommandParser implements Parser<AddCommand> {
 
     @Override
     public AddCommand parse(String args) throws ParseException {
-        assertNoUnknownPrefixes(args);
+        String processedArgs = args;
+        String nameValue = null;
+        if (args.contains("n/\"")) {
+            int nameStart = args.indexOf("n/\"");
+            int quoteStart = nameStart + 3;
+            int quoteEnd = args.indexOf("\"", quoteStart);
+            if (quoteEnd == -1) {
+                throw new ParseException("Missing closing quote for name.");
+            }
+            nameValue = args.substring(quoteStart, quoteEnd);
+            processedArgs = args.substring(0, nameStart) + "n/QUOTEDNAME" + args.substring(quoteEnd + 1);
+        }
+        assertNoUnknownPrefixes(processedArgs);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args,
+                processedArgs,
                 PREFIX_NAME, PREFIX_CLASS, PREFIX_SUBJECTS, PREFIX_EMERGENCY_CONTACT,
                 PREFIX_PAYMENT_STATUS, PREFIX_ASSIGNMENT_STATUS, PREFIX_TAG
         );
-
         // Ensure required prefixes are present
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_CLASS, PREFIX_SUBJECTS, PREFIX_EMERGENCY_CONTACT)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -61,9 +72,13 @@ public class AddCommandParser implements Parser<AddCommand> {
                 PREFIX_PAYMENT_STATUS, PREFIX_ASSIGNMENT_STATUS
         );
 
-        // Parse mandatory fields
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).orElseThrow(() ->
-                new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE))));
+        Name name;
+        if (nameValue != null) {
+            name = ParserUtil.parseName(nameValue);
+        } else {
+            name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).orElseThrow(() ->
+                    new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE))));
+        }
 
         String studentClass = argMultimap.getValue(PREFIX_CLASS).orElseThrow(() ->
                 new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE)));
