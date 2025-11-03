@@ -8,6 +8,7 @@ import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.attendance.AttendanceList;
+import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -73,10 +74,7 @@ public class Student extends Person {
         assert subjects.stream().allMatch(subject -> subject != null && !subject.getName().trim().isEmpty())
                 : "Subject entries cannot be null or blank";
 
-        this.subjects = new ArrayList<>();
-        for (Subject subject : subjects) {
-            this.subjects.add(new Subject(subject.getName()));
-        }
+        this.subjects = new ArrayList<>(subjects);
         this.studentClass = trimmedStudentClass;
         this.emergencyContact = trimmedEmergencyContact;
         this.attendanceList = new AttendanceList();
@@ -129,6 +127,19 @@ public class Student extends Person {
     public int getStudentId() {
         assert id > 0 : "Student ID must be positive";
         return id;
+    }
+
+    /**
+     * Returns all lessons from all subjects this student is enrolled in.
+     */
+    public List<Lesson> getAllLessons() {
+        assert subjects != null : "Subjects list is null";
+        assert !subjects.isEmpty() : "Subjects list is empty";
+        List<Lesson> allLessons = new ArrayList<>();
+        for (Subject subject : subjects) {
+            allLessons.addAll(subject.getLessons().getLessons());
+        }
+        return allLessons;
     }
 
     public void setSubjects(List<Subject> subjects) {
