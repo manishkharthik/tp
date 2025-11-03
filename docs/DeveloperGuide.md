@@ -1001,120 +1001,364 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `TutorTrack` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a student**
-System: TutorTrack
-Use case: UC1 - Delete a student
-Actor: User
-MSS:
-   1. User chooses a student profile.
-   2. User click "delete student".
-   3. TutorTrack asks for confirmation.
-   4. User confirms.
-   5. Student is deleted.
+#### **Use case: UC1 - Add a student**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to add a new student with required details (name, class, subjects, emergency contact).
+2. TutorTrack validates the student details.
+3. TutorTrack adds the student to the student list.
+4. TutorTrack displays a success message with the student's details.
+
    Use case ends.
 
-   Extensions:
-   *a. At any time, User chooses to cancel the deletion.
-      *a1. User clicks on the back button.
-      *a2. TutorTrack cancels deletion.
-      Use case ends.
+**Extensions:**
+* 2a. The student name already exists in the system.
+   * 2a1. TutorTrack shows an error message indicating the student already exists.
 
-**Use case: Add a student**
-System: TutorTrack
-Use case: UC2 - Add a student
-Actor: User
-MSS:
-   1. User clicks on "Add student".
-   2. User fills in student particulars.
-   3. TutorTrack asks for confirmation.
-   4. User confirms.
-   5. Student is added.
+     Use case ends.
+
+* 2b. The student details are invalid (e.g., name without quotes, invalid emergency contact format).
+   * 2b1. TutorTrack shows an error message indicating which field is invalid.
+
+     Use case resumes at step 1.
+
+* 2c. Required fields are missing.
+   * 2c1. TutorTrack shows an error message indicating missing fields.
+
+     Use case resumes at step 1.
+
+---
+
+#### **Use case: UC2 - Delete a student**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to list students.
+2. TutorTrack shows a list of students.
+3. Tutor requests to delete a specific student by index.
+4. TutorTrack deletes the student.
+5. TutorTrack displays a success message with the deleted student's details.
+
    Use case ends.
 
-   Extensions:
-   *a. At any time, User chooses to cancel the addition.
-      *a1. User clicks on the back button.
-      *a2. TutorTrack cancels addition.
-      Use case ends.
+**Extensions:**
+* 2a. The list is empty.
 
-**Use case: Update student details**
-System: TutorTrack
-Use case: UC3 - Update a student
-Actor: User
-MSS:
-   1. User clicks on a student profile.
-   2. User amends the student particulars.
-   3. TutorTrack asks for confirmation.
-   4. User confirms.
-   5. Student profile is updated.
+  Use case ends.
+
+* 3a. The given index is invalid (zero, negative, or out of range).
+   * 3a1. TutorTrack shows an error message.
+
+     Use case resumes at step 2.
+
+---
+
+#### **Use case: UC3 - Edit a student**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to list students.
+2. TutorTrack shows a list of students.
+3. Tutor requests to edit a specific student by index with updated field(s).
+4. TutorTrack validates the updated details.
+5. TutorTrack updates the student's information.
+6. TutorTrack displays a success message with the updated student's details.
+
    Use case ends.
 
-   Extensions:
-   *a. At any time, User chooses to cancel the modification.
-      *a1. User clicks on the back button.
-      *a2. TutorTrack cancels modification.
-      Use case ends.
-
-**Use case: Update User availability**
-System: TutorTrack
-Use case: UC4 - Update User availability
-Actor: User
-MSS:
-   1. User clicks on their profile.
-   2. User amends their availability.
-   3. TutorTrack asks for confirmation.
-   4. User confirms.
-   5. User profile is updated.
-   Use case ends.
-
-   Extensions:
-   *a. At any time, User chooses to cancel the modification.
-      *a1. User clicks on the back button.
-      *a2. TutorTrack cancels modification.
-      Use case ends.
-
-**Use case: User share resources with Student**
-System: TutorTrack
-Use case: UC5 - Sharing resources
-Actor: User
-MSS:
-   1. User adds resources to their own folder.
-   2. User clicks on share.
-   3. User chooses which students to share it with.
-   4. System asks for confirmation.
-   5. User confirms.
-   6. Resources is shared.
-   Use case ends.
-
-Extensions:
-   *a. At any time, User chooses to cancel the upload.
-      *a1. User clicks on the back button.
-      *a2. TutorTrack cancels upload.
-      Use case ends.
-
-
-**MSS**
-
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
-
-    Use case ends.
-
-**Extensions**
-
+**Extensions:**
 * 2a. The list is empty.
 
   Use case ends.
 
 * 3a. The given index is invalid.
+   * 3a1. TutorTrack shows an error message.
 
-    * 3a1. AddressBook shows an error message.
+     Use case resumes at step 2.
 
-      Use case resumes at step 2.
+* 4a. No fields are provided for editing.
+   * 4a1. TutorTrack shows an error message indicating at least one field must be edited.
 
-*{More to be added}
+     Use case resumes at step 3.
+
+* 4b. The updated details are invalid (e.g., name without quotes, invalid format).
+   * 4b1. TutorTrack shows an error message indicating which field is invalid.
+
+     Use case resumes at step 3.
+
+* 4c. The updated name already exists for another student.
+   * 4c1. TutorTrack shows an error message indicating duplicate student.
+
+     Use case resumes at step 3.
+
+---
+
+#### **Use case: UC4 - Find students**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to find students by keyword(s).
+2. TutorTrack searches for students whose names contain any of the keywords.
+3. TutorTrack displays a filtered list of matching students.
+4. TutorTrack shows the number of students found.
+
+   Use case ends.
+
+**Extensions:**
+* 1a. No keywords are provided.
+   * 1a1. TutorTrack shows an error message.
+
+     Use case ends.
+
+* 3a. No students match the search criteria.
+   * 3a1. TutorTrack displays an empty list with "0 persons listed!".
+
+     Use case ends.
+
+---
+
+#### **Use case: UC5 - Archive a student**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to list students.
+2. TutorTrack shows a list of students.
+3. Tutor requests to archive a specific student by index.
+4. TutorTrack moves the student to the archived list.
+5. TutorTrack displays a success message with the archived student's details.
+
+   Use case ends.
+
+**Extensions:**
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+   * 3a1. TutorTrack shows an error message.
+
+     Use case resumes at step 2.
+
+---
+
+#### **Use case: UC6 - Unarchive a student**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to list archived students.
+2. TutorTrack shows a list of archived students.
+3. Tutor requests to unarchive a specific student by index.
+4. TutorTrack moves the student back to the active student list.
+5. TutorTrack displays a success message with the unarchived student's details.
+
+   Use case ends.
+
+**Extensions:**
+* 2a. The archived list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+   * 3a1. TutorTrack shows an error message.
+
+     Use case resumes at step 2.
+
+---
+
+#### **Use case: UC7 - Add a lesson**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to add a new lesson with subject and lesson name.
+2. TutorTrack validates the lesson details.
+3. TutorTrack adds the lesson to the lesson list.
+4. TutorTrack displays a success message with the lesson details.
+
+   Use case ends.
+
+**Extensions:**
+* 2a. The lesson already exists for the specified subject.
+   * 2a1. TutorTrack shows an error message indicating the lesson already exists.
+
+     Use case ends.
+
+* 2b. Required fields are missing or empty.
+   * 2b1. TutorTrack shows an error message indicating invalid lesson details.
+
+     Use case resumes at step 1.
+
+---
+
+#### **Use case: UC8 - List lessons**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to list lessons for a specific subject.
+2. TutorTrack validates that the subject exists.
+3. TutorTrack displays all lessons for the specified subject.
+4. TutorTrack shows the number of lessons found.
+
+   Use case ends.
+
+**Extensions:**
+* 2a. The specified subject does not exist.
+   * 2a1. TutorTrack shows an error message indicating subject not found.
+
+     Use case ends.
+
+* 3a. No lessons exist for the specified subject.
+   * 3a1. TutorTrack displays an empty list.
+
+     Use case ends.
+
+---
+
+#### **Use case: UC9 - Delete a lesson**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to delete a lesson by specifying subject and lesson name.
+2. TutorTrack validates that the lesson exists.
+3. TutorTrack deletes the lesson from the lesson list.
+4. TutorTrack displays a success message with the deleted lesson details.
+
+   Use case ends.
+
+**Extensions:**
+* 2a. The specified lesson does not exist.
+   * 2a1. TutorTrack shows an error message indicating lesson not found.
+
+     Use case ends.
+
+---
+
+#### **Use case: UC10 - Mark student attendance**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to mark attendance for a student by specifying name, subject, lesson, and status.
+2. TutorTrack validates that the student exists.
+3. TutorTrack validates that the student is enrolled in the specified subject.
+4. TutorTrack validates that the lesson exists for the subject.
+5. TutorTrack marks the attendance for the specified lesson.
+6. TutorTrack displays a success message confirming the attendance marking.
+
+   Use case ends.
+
+**Extensions:**
+* 2a. The specified student does not exist.
+   * 2a1. TutorTrack shows an error message indicating student not found.
+
+     Use case ends.
+
+* 3a. The student is not enrolled in the specified subject.
+   * 3a1. TutorTrack shows an error message indicating subject not found for student.
+
+     Use case ends.
+
+* 4a. The specified lesson does not exist.
+   * 4a1. TutorTrack shows an error message indicating lesson not found.
+
+     Use case ends.
+
+* 1a. Invalid attendance status provided.
+   * 1a1. TutorTrack shows an error message indicating valid statuses (PRESENT, ABSENT, EXCUSED).
+
+     Use case resumes at step 1.
+
+---
+
+#### **Use case: UC11 - List student attendance**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to view attendance for a student by specifying name and subject.
+2. TutorTrack validates that the student exists.
+3. TutorTrack validates that the student is enrolled in the specified subject.
+4. TutorTrack retrieves all attendance records for the student in that subject.
+5. TutorTrack displays the attendance information.
+
+   Use case ends.
+
+**Extensions:**
+* 2a. The specified student does not exist.
+   * 2a1. TutorTrack shows an error message indicating student not found.
+
+     Use case ends.
+
+* 3a. The student is not enrolled in the specified subject.
+   * 3a1. TutorTrack shows an error message indicating subject not found for student.
+
+     Use case ends.
+
+* 4a. No attendance records exist for the subject.
+   * 4a1. TutorTrack displays a message indicating no attendance records found.
+
+     Use case ends.
+
+---
+
+#### **Use case: UC12 - Clear current students**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to clear all current students, lessons, and subjects.
+2. TutorTrack clears the active student list, lesson list, and subject list.
+3. TutorTrack displays a success message confirming the clearance.
+
+   Use case ends.
+
+**Extensions:**
+* 1a. Extra parameters are provided.
+   * 1a1. TutorTrack shows an error message indicating no parameters allowed.
+
+     Use case ends.
+
+---
+
+#### **Use case: UC13 - Clear archived students**
+
+**System:** TutorTrack  
+**Actor:** Tutor
+
+**MSS:**
+1. Tutor requests to clear all archived students.
+2. TutorTrack clears the archived student list.
+3. TutorTrack displays a success message confirming the clearance.
+
+   Use case ends.
+
+**Extensions:**
+* 1a. Extra parameters are provided.
+   * 1a1. TutorTrack shows an error message indicating no parameters allowed.
+
+     Use case ends.
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -1125,8 +1369,6 @@ Extensions:
 6. System should be able to provide clear validation messages for required fields.
 7. System should be accessible for users with visual impairments (older tutors with difficulty reading).
 8. The system should be up during peak tutoring hours i.e 3pm - 9pm.
-
-*{More to be added}*
 
 ### Glossary
 
