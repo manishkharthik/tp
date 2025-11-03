@@ -142,7 +142,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(
                 String.format("The field '%s' cannot be empty. Example: %s/<value>", fieldName, p.getPrefix()));
         }
-        
+
         return value.trim();
     }
 
