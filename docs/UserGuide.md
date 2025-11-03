@@ -189,47 +189,33 @@ You cannot add a student with the same name and class as an existing student.
 
 ---
 
-### Adding a lesson : 'addlesson'
+### Adding a lesson : `addlesson`
 
 Adds a new lesson to a subject in Tutor Track.
 
-**Format:** `add s/SUBJECT n/LESSON.`
+**Format:** `addlesson s/SUBJECT n/LESSON.`
 
 **Parameters:**
 * `s/SUBJECT` - Subject that is being added (e.g., Math) (**required**)
 * `n/LESSON` - Lesson name (e.g, Algebra) (**required**)
-
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-  You can add multiple lessons by using multiple `n/` prefixes.
-</div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
 </div>
 
 **Examples:**
-* `addlesson n/Math s/AlgebraI` - Adds AlgebraI lessons in Math subject.
+* `addlesson s/Math n/Algebra` - Adds the Algebra lesson in Math subject.
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
-Only one lesson in one lesson can be added. To add multiple lessons, use the command multiple times.
+Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
 </div>
-TODO: CHANGE COMMANDS AND IMAGE ACCORDINGLY
-* `add n/John Tan c/3B s/Math s/Science ec/91234567` 
-  * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
 
+* `addlesson s/Math n/Algebra` 
   <figure>
-    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
-    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+    <img src="images/addlesson.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 4: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
   </figure>
-
-* `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
-  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
-
-  <figure>
-    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
-    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
-  </figure> 
+ 
 
 ### Listing all students : `list`
 
@@ -237,7 +223,7 @@ Shows a list of all active (non-archived) students in the Tutor Track.
 
 <figure>
     <img src="images/listcommand.png" alt="List" width="600"/>
-    <figcaption><em>Figure 4: Sample student list shown after the list Command is called</em></figcaption>
+    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
   </figure>
 
 **Format:** `list`
@@ -256,7 +242,23 @@ Listed all students
 Use this command to reset any filters and see all active students after using `find` or other filtering commands.
 </div>
 
-### Listing all lessons in a subject : 'listlessons'
+### Listing all lessons in a subject : `listlessons`
+
+**Format:** `listlessons s/SUBJECT`
+
+**Parameters:**
+* `s/SUBJECT` - Subject who's lesson list needs to be viewed (**required**)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Only one subject's lesson list can be viewed for each listlessons command
+</div>
+
+**Examples:**
+* `listlessons s/Math` - List all the lessons currently in Math's lesson list.
+  <figure>
+    <img src="images/listlessons.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 6: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
+  </figure>
 
 ### Editing a student : `edit`
 
@@ -287,8 +289,8 @@ Edits an existing student's information in Tutor Track
     <td><img src="images/editcommand1_after.png" alt="Student 1 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 5a: Before editing fields</em></td>
-    <td align="center"><em>Figure 5b: After editing class & subjects</em></td>
+    <td align="center"><em>Figure 7a: Before editing fields</em></td>
+    <td align="center"><em>Figure 7b: After editing class & subjects</em></td>
   </tr>
 </table>
 
@@ -300,8 +302,8 @@ Edits an existing student's information in Tutor Track
     <td><img src="images/editcommand2_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 6a: Before editing fields</em></td>
-    <td align="center"><em>Figure 6b: After setting Jerry's Payment Status to “Unpaid”</em></td>
+    <td align="center"><em>Figure 8a: Before editing fields</em></td>
+    <td align="center"><em>Figure 8b: After setting Jerry's Payment Status to “Unpaid”</em></td>
   </tr>
 </table>
 
@@ -340,14 +342,14 @@ Finds students whose names contain any of the given keywords.
 * Command: `find john`
   <figure>
     <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
-    <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
+    <figcaption><em>Figure 9: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
 2. No matching students
 * Command: `find alice`
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
-    <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
+    <figcaption><em>Figure 10: Finding an invalid student generates the following output</em></figcaption>
   </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
@@ -384,8 +386,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+      <td align="center"><em>Figure 11a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 11b: Student List after the command delete 3 is run</em></td>
     </tr>
   </table>
 
@@ -397,8 +399,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+      <td align="center"><em>Figure 12a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 12b: Filtered Student List after the command delete 2 is run</em></td>
     </tr>
   </table>
 
@@ -407,7 +409,7 @@ Deletes the specified student from the student list.
   **Error:** "The person index provided is invalid"
   <figure>
     <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
-    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
+    <figcaption><em>Figure 13: An example of an invalid delete command</em></figcaption>
   </figure>
 
 ### Deleting a lesson : 'deletelesson'
@@ -426,43 +428,15 @@ Deletes the specified lesson from the lesson list.
 ⸻
 
 **Examples:**
-TODO: CHANGE THE FOLLOWING BELOW
-1. Deleting a student from the main list
-* Command: `list` followed by `delete 3`
-  <table>
-    <tr>
-      <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
-      <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
-    </tr>
-    <tr>
-      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
-    </tr>
-  </table>
-
-2. Deleting a student from a filtered list
-* Command: `find John` followed by `delete 2`
-  <table>
-    <tr>
-      <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
-      <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
-    </tr>
-    <tr>
-      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
-    </tr>
-  </table>
-
-3. Invalid index
-* Command: `delete 5` (when there are only 2 or fewer students)
-  **Error:** "The person index provided is invalid"
+1. Deleting a lesson from the lesson list
+* Command: `delete s/Math n/Algebra`
   <figure>
-    <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
-    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
-  </figure>
+    <img src="images/deletelesson.png" alt="Delete Lesson" width="600"/>
+    <figcaption><em>Figure 14: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
+  </figure>  
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
-This command only deletes one lesson from one subject. To delete multiple lessons, run this command multiple times.
+This command only deletes one lesson from one subject per deletelesson command. To delete multiple lessons, run this command multiple times.
 </div>
 
 ### Marking attendance: `markattendance`
