@@ -1,0 +1,30 @@
+@startuml
+start
+:User inputs addlesson command;
+
+if (Valid command format?) then (yes)
+  if (Subject and lesson name prefixes present?) then (yes)
+    if (Exactly one value for each prefix?) then (yes)
+      if (Subject and lesson name not empty?) then (yes)
+        if (Lesson already exists?) then (no)
+          :Add lesson to lesson list;
+          :Save to storage;
+          :Display success message;
+        else (yes)
+          :Display error message\n(Duplicate lesson);
+        endif
+      else (no)
+        :Display error message\n(Empty subject or lesson name);
+      endif
+    else (no)
+      :Display error message\n(Only one subject and lesson allowed);
+    endif
+  else (no)
+    :Display error message\n(Missing required prefixes);
+  endif
+else (no)
+  :Display error message\n(Invalid command format);
+endif
+
+stop
+@enduml

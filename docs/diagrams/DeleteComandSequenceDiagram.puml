@@ -1,0 +1,81 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
+participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("delete 2")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("delete 2")
+activate AddressBookParser
+
+create DeleteCommandParser
+AddressBookParser -> DeleteCommandParser
+activate DeleteCommandParser
+
+DeleteCommandParser -> DeleteCommandParser : parse("2")
+activate DeleteCommandParser
+
+DeleteCommandParser -> DeleteCommandParser : validateIndex("2")
+activate DeleteCommandParser
+DeleteCommandParser --> DeleteCommandParser : index = 2
+deactivate DeleteCommandParser
+
+create DeleteCommand
+DeleteCommandParser -> DeleteCommand : new DeleteCommand(index)
+activate DeleteCommand
+DeleteCommand --> DeleteCommandParser : d
+deactivate DeleteCommand
+
+DeleteCommandParser --> AddressBookParser : d
+deactivate DeleteCommandParser
+deactivate DeleteCommandParser
+
+AddressBookParser --> LogicManager : d
+deactivate AddressBookParser
+
+LogicManager -> DeleteCommand : execute(model)
+activate DeleteCommand
+
+DeleteCommand -> Model : getFilteredPersonList()
+activate Model
+Model --> DeleteCommand : personList
+deactivate Model
+
+DeleteCommand -> DeleteCommand : validateIndexRange(index, personList.size())
+activate DeleteCommand
+DeleteCommand --> DeleteCommand
+deactivate DeleteCommand
+
+DeleteCommand -> Model : getPersonAt(index)
+activate Model
+Model --> DeleteCommand : personToDelete
+deactivate Model
+
+DeleteCommand -> Model : deletePerson(personToDelete)
+activate Model
+Model --> DeleteCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+DeleteCommand -> CommandResult : new CommandResult(successMessage)
+activate CommandResult
+CommandResult --> DeleteCommand : result
+deactivate CommandResult
+
+DeleteCommand --> LogicManager : result
+deactivate DeleteCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

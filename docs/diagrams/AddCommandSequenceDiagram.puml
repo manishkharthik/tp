@@ -1,0 +1,71 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddCommandParser" as AddCommandParser LOGIC_COLOR
+participant "a:AddCommand" as AddCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("add n/\"John Tan\" c/3B s/Math ec/91234567...")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("add n/\"John Tan\" c/3B...")
+activate AddressBookParser
+
+create AddCommandParser
+AddressBookParser -> AddCommandParser
+activate AddCommandParser
+
+AddCommandParser -> AddCommandParser : extractQuotedName(args)
+activate AddCommandParser
+AddCommandParser --> AddCommandParser : nameValue = "John Tan"
+deactivate AddCommandParser
+
+AddCommandParser -> AddCommandParser : parse("add n/\"John Tan\" c/3B...")
+activate AddCommandParser
+
+create AddCommand
+AddCommandParser -> AddCommand : new AddCommand(student)
+activate AddCommand
+AddCommand --> AddCommandParser : a
+deactivate AddCommand
+
+AddCommandParser --> AddressBookParser : a
+deactivate AddCommandParser
+deactivate AddCommandParser
+
+AddressBookParser --> LogicManager : a
+deactivate AddressBookParser
+
+LogicManager -> AddCommand : execute(model)
+activate AddCommand
+
+AddCommand -> Model : hasPerson(student)
+activate Model
+Model --> AddCommand : false
+deactivate Model
+
+AddCommand -> Model : addPerson(student)
+activate Model
+Model --> AddCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+AddCommand -> CommandResult : new CommandResult(successMessage)
+activate CommandResult
+CommandResult --> AddCommand : result
+deactivate CommandResult
+
+AddCommand --> LogicManager : result
+deactivate AddCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

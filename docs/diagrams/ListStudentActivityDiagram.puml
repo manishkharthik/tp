@@ -1,0 +1,18 @@
+@startuml
+start
+:User inputs list command;
+
+if (Valid command format?) then (yes)
+  if (No extra parameters?) then (yes)
+    :Reset all filters on student list;
+    :Display all active students;
+    :Show success message;
+  else (no)
+    :Display error message\n(No extra parameters allowed);
+  endif
+else (no)
+  :Display error message\n(Invalid command format);
+endif
+
+stop
+@enduml

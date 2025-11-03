@@ -1,0 +1,67 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ListCommandParser" as ListCommandParser LOGIC_COLOR
+participant "l:ListCommand" as ListCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("list")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("list")
+activate AddressBookParser
+
+create ListCommandParser
+AddressBookParser -> ListCommandParser
+activate ListCommandParser
+
+ListCommandParser -> ListCommandParser : parse("")
+activate ListCommandParser
+
+ListCommandParser -> ListCommandParser : validateNoArguments("")
+activate ListCommandParser
+ListCommandParser --> ListCommandParser
+deactivate ListCommandParser
+
+create ListCommand
+ListCommandParser -> ListCommand : new ListCommand()
+activate ListCommand
+ListCommand --> ListCommandParser : l
+deactivate ListCommand
+
+ListCommandParser --> AddressBookParser : l
+deactivate ListCommandParser
+deactivate ListCommandParser
+
+AddressBookParser --> LogicManager : l
+deactivate AddressBookParser
+
+LogicManager -> ListCommand : execute(model)
+activate ListCommand
+
+ListCommand -> Model : updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)
+activate Model
+note right: Removes any filters\nfrom previous find command
+Model --> ListCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+ListCommand -> CommandResult : new CommandResult(MESSAGE_SUCCESS)
+activate CommandResult
+CommandResult --> ListCommand : result
+deactivate CommandResult
+
+ListCommand --> LogicManager : result
+deactivate ListCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

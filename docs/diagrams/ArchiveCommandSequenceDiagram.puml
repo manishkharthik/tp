@@ -1,0 +1,81 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ArchiveCommandParser" as ArchiveCommandParser LOGIC_COLOR
+participant "a:ArchiveCommand" as ArchiveCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("archive 2")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("archive 2")
+activate AddressBookParser
+
+create ArchiveCommandParser
+AddressBookParser -> ArchiveCommandParser
+activate ArchiveCommandParser
+
+ArchiveCommandParser -> ArchiveCommandParser : parse("2")
+activate ArchiveCommandParser
+
+ArchiveCommandParser -> ArchiveCommandParser : parseIndex("2")
+activate ArchiveCommandParser
+ArchiveCommandParser --> ArchiveCommandParser : index
+deactivate ArchiveCommandParser
+
+create ArchiveCommand
+ArchiveCommandParser -> ArchiveCommand : new ArchiveCommand(index)
+activate ArchiveCommand
+ArchiveCommand --> ArchiveCommandParser : a
+deactivate ArchiveCommand
+
+ArchiveCommandParser --> AddressBookParser : a
+deactivate ArchiveCommandParser
+deactivate ArchiveCommandParser
+
+AddressBookParser --> LogicManager : a
+deactivate AddressBookParser
+
+LogicManager -> ArchiveCommand : execute(model)
+activate ArchiveCommand
+
+ArchiveCommand -> Model : getFilteredPersonList()
+activate Model
+Model --> ArchiveCommand : personList
+deactivate Model
+
+ArchiveCommand -> ArchiveCommand : validateIndexRange(index, personList.size())
+activate ArchiveCommand
+ArchiveCommand --> ArchiveCommand
+deactivate ArchiveCommand
+
+ArchiveCommand -> Model : getPersonAt(index)
+activate Model
+Model --> ArchiveCommand : personToArchive
+deactivate Model
+
+ArchiveCommand -> Model : archivePerson(personToArchive)
+activate Model
+Model --> ArchiveCommand
+deactivate Model
+
+create ":CommandResult" as CommandResult
+ArchiveCommand -> CommandResult : new CommandResult(successMessage)
+activate CommandResult
+CommandResult --> ArchiveCommand : result
+deactivate CommandResult
+
+ArchiveCommand --> LogicManager : result
+deactivate ArchiveCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

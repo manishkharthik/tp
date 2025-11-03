@@ -1,0 +1,25 @@
+@startuml
+start
+:User inputs add command;
+
+if (Valid command format?) then (yes)
+  if (Name enclosed in quotes?) then (yes)
+    if (All required fields present?) then (yes)
+      if (Student name already exists?) then (no)
+        :Add student to student list;
+        :Display success message;
+      else (yes)
+        :Display error message\n(Duplicate student);
+      endif
+    else (no)
+      :Display error message\n(Missing required fields);
+    endif
+  else (no)
+    :Display error message\n(Name must be in quotes);
+  endif
+else (no)
+  :Display error message\n(Invalid command format);
+endif
+
+stop
+@enduml

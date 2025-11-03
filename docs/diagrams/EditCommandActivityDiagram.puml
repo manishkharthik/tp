@@ -1,0 +1,50 @@
+@startuml
+start
+:User inputs edit command;
+
+if (Valid command format?) then (yes)
+  if (Valid index?) then (yes)
+    if (Index within range?) then (yes)
+      if (Name field provided?) then (yes)
+        if (Name enclosed in quotes?) then (yes)
+          if (At least one field to edit?) then (yes)
+            if (Valid field values?) then (yes)
+              if (Edited name creates duplicate?) then (no)
+                :Update student information;
+                :Display success message;
+              else (yes)
+                :Display error message\n(Duplicate student);
+              endif
+            else (no)
+              :Display error message\n(Invalid field values);
+            endif
+          else (no)
+            :Display error message\n(No fields to edit);
+          endif
+        else (no)
+          :Display error message\n(Name must be in quotes);
+        endif
+      else (no)
+        if (At least one field to edit?) then (yes)
+          if (Valid field values?) then (yes)
+            :Update student information;
+            :Display success message;
+          else (no)
+            :Display error message\n(Invalid field values);
+          endif
+        else (no)
+          :Display error message\n(No fields to edit);
+        endif
+      endif
+    else (no)
+      :Display error message\n(Invalid index - out of range);
+    endif
+  else (no)
+    :Display error message\n(Invalid index format);
+  endif
+else (no)
+  :Display error message\n(Invalid command format);
+endif
+
+stop
+@enduml

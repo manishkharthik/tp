@@ -1,0 +1,25 @@
+@startuml
+start
+:User inputs delete command;
+
+if (Valid command format?) then (yes)
+  if (Valid index format?) then (yes)
+    if (Index is positive integer?) then (yes)
+      if (Index within range?) then (yes)
+        :Delete student from student list;
+        :Display success message;
+      else (no)
+        :Display error message\n(Index out of range);
+      endif
+    else (no)
+      :Display error message\n(Index must be positive integer);
+    endif
+  else (no)
+    :Display error message\n(Invalid index format);
+  endif
+else (no)
+  :Display error message\n(Invalid command format);
+endif
+
+stop
+@enduml
