@@ -99,6 +99,31 @@ public class SubjectList {
     }
 
     /**
+     * Gets an existing subject by name, or creates and adds it if it doesn't exist.
+     */
+    public Subject getOrCreateSubject(String subjectName) {
+        Objects.requireNonNull(subjectName, "subjectName");
+        String trimmedName = subjectName.trim();
+        for (Subject subject : subjects) {
+            if (subject.getName().equalsIgnoreCase(trimmedName)) {
+                return subject;
+            }
+        }
+        Subject newSubject = new Subject(trimmedName);
+        subjects.add(newSubject);
+        return newSubject;
+    }
+
+    /**
+     * Gets an existing subject by name.
+     */
+    public java.util.Optional<Subject> getSubject(String subjectName) {
+        Objects.requireNonNull(subjectName, "subjectName");
+        String trimmedName = subjectName.trim();
+        return subjects.stream()
+                .filter(subject -> subject.getName().equalsIgnoreCase(trimmedName)).findFirst();
+    }
+    /**
      * Returns the {@code Subject} in this list whose name matches the given {@code name},
      * ignoring case. Returns {@code null} if no such subject exists.
      */
@@ -130,6 +155,7 @@ public class SubjectList {
     public void clear() {
         subjects.clear();
     }
+
     @Override
     public String toString() {
         return "Subjects:  " + subjects.toString();
