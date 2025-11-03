@@ -4,9 +4,12 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.attendance.AttendanceList;
+import seedu.address.model.attendance.AttendanceStatus;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonList;
 import seedu.address.model.person.Person;
@@ -91,15 +94,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * The person must not already exist in the address book.
      */
     public void addPerson(Person p) {
-        persons.add(p);
-        if (p instanceof Student) {
-            Student s = (Student) p;
-            List<Subject> resolved = new ArrayList<>();
-            for (Subject sub : s.getSubjects()) {
-                resolved.add(getOrCreateSubject(sub.getName()));
-            }
-            s.setSubjects(resolved);
-        }
+        persons.add(p instanceof Student ? replaceStudentWithSharedSubjects((Student) p) : p);
     }
 
     /**
@@ -109,7 +104,37 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
-        persons.setPerson(target, editedPerson);
+        persons.setPerson(target, editedPerson instanceof Student
+                ? replaceStudentWithSharedSubjects((Student) editedPerson)
+                : editedPerson);
+    }
+
+    private Student replaceStudentWithSharedSubjects(Student student) {
+        List<Subject> sharedSubjects = new ArrayList<>();
+        for (Subject studentSubject : student.getSubjects()) {
+            Subject sharedSubject = subjectList.getOrCreateSubject(studentSubject.getName());
+            syncLessonsToSharedSubject(studentSubject, sharedSubject);
+            sharedSubjects.add(sharedSubject);
+        }
+        Student newStudent = new Student(student.getName(), sharedSubjects, student.getStudentClass(),
+            student.getEmergencyContact(), student.getPaymentStatus(), student.getAssignmentStatus());
+        copyAttendance(student.getAttendanceList(), newStudent.getAttendanceList());
+        return newStudent;
+    }
+
+    private void syncLessonsToSharedSubject(Subject studentSubject, Subject sharedSubject) {
+        for (Lesson lesson : studentSubject.getLessons().getInternalList()) {
+            if (!sharedSubject.containsLesson(lesson)) {
+                sharedSubject.addLesson(lesson);
+            }
+            if (!lessonList.contains(lesson)) {
+                lessonList.addLesson(lesson);
+            }
+        }
+    }
+
+    private void copyAttendance(AttendanceList from, AttendanceList to) {
+        from.getStudentAttendance().forEach(record -> to.markAttendance(record.getLesson(), record.getStatus()));
     }
 
     /**
@@ -119,7 +144,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setArchivedPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
-        archivedPersons.setPerson(target, editedPerson);
+        archivedPersons.setPerson(target, editedPerson instanceof Student
+            ? replaceStudentWithSharedSubjects((Student) editedPerson) : editedPerson);
     }
 
     /**
@@ -184,7 +210,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Used during loading from storage.
      */
     public void addArchivedPerson(Person p) {
-        archivedPersons.add(p);
+        archivedPersons.add(p instanceof Student ? replaceStudentWithSharedSubjects((Student) p) : p);
     }
 
     //// lesson-level operations
@@ -205,7 +231,23 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addLesson(Lesson lesson) {
         requireNonNull(lesson);
-        lessonList.addLesson(lesson);
+        if (!lessonList.contains(lesson)) {
+            lessonList.addLesson(lesson);
+        }
+        Subject subject = subjectList.getOrCreateSubject(lesson.getSubject());
+        if (!subject.containsLesson(lesson)) {
+            subject.addLesson(lesson);
+        }
+        addLessonToStudentsForSubject(lesson, subject);
+    }
+
+    private void addLessonToStudentsForSubject(Lesson lesson, Subject subject) {
+        requireNonNull(lesson);
+        requireNonNull(subject);
+        final String subjectName = subject.getName();
+        streamAllStudents().filter(s -> s.getSubjects().stream()
+                .anyMatch(sub -> sub.getName().equalsIgnoreCase(subjectName)))
+                .forEach(s -> s.getAttendanceList().markAttendance(lesson, AttendanceStatus.ABSENT));
     }
 
     /**
@@ -214,7 +256,29 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void deleteLesson(Lesson lesson) {
         requireNonNull(lesson);
-        lessonList.deleteLesson(lesson);
+        if (lessonList.contains(lesson)) {
+            lessonList.deleteLesson(lesson);
+        }
+        subjectList.getSubject(lesson.getSubject())
+                .ifPresent(subject -> {
+                    if (subject.containsLesson(lesson)) {
+                        subject.removeLesson(lesson);
+                    }
+                });
+        removeLessonFromAllStudents(lesson);
+    }
+
+    private void removeLessonFromAllStudents(Lesson l) {
+        requireNonNull(l);
+        streamAllStudents().forEach(s -> s.getSubjects().stream()
+                .filter(sb -> sb.getName().equalsIgnoreCase(l.getSubject()))
+                .filter(sb -> sb.containsLesson(l)).forEach(sb -> sb.removeLesson(l)));
+    }
+
+    private Stream<Student> streamAllStudents() {
+        return Stream.concat(persons.asUnmodifiableObservableList().stream(),
+                archivedPersons.asUnmodifiableObservableList().stream()).filter(p -> p instanceof Student)
+                .map(p -> (Student) p);
     }
 
     /**
