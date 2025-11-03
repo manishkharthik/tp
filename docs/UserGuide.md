@@ -70,11 +70,11 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
     Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows)￼ or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/)￼.
     *	**macOS users:**
   Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)￼,
-  or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)￼
+  or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)
   or [Adoptium Temurin 17 (macOS)](https://adoptium.net/temurin/releases/).
     *	**Linux users:**
   You can install via your package manager (e.g., ```sudo apt install openjdk-17-jdk```)
-  or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)￼
+  or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)
   or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
@@ -142,8 +142,6 @@ Adds a new student to the TutorTrack with their academic and contact information
 **Description:** 
 * You can add multiple subjects by using multiple `s/` prefixes.
 * Optional fields (`PAYMENT_STATUS` and `ASSIGNMENT_STATUS`) will use the default values mentioned if not specified.
-* Names are case-sensitive
-</div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
 Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  
@@ -157,13 +155,6 @@ followed by
 will not work, because “John Tan” and “john tan” are considered the same student.
 
 When this happens, TutorTrack will display an alert message to alert user that that student has already been added.
-</div>
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-* Quotes are required for **all** names (with or without special characters)
-* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
-
 </div>
 
 **Examples:**
@@ -180,6 +171,13 @@ When this happens, TutorTrack will display an alert message to alert user that t
     <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
     <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
   </figure> 
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+* Quotes are required for **all** names (with or without special characters)
+* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
+
+</div>
 
 ---
 
@@ -453,11 +451,6 @@ Moves a student from the archive list back to your active student list in TutorT
 ### Listing all students : `list`
 
 Shows a list of all active (non-archived) students in the TutorTrack.
-
-<figure>
-    <img src="images/listcommand.png" alt="List" width="600"/>
-    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
-  </figure>
 
 **Format:** `list`
 
