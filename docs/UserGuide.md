@@ -169,7 +169,6 @@ Adds a new student to the TutorTrack with their academic and contact information
 * You can add multiple subjects by using multiple `s/` prefixes.
 * Optional fields (`PAYMENT_STATUS` and `ASSIGNMENT_STATUS`) will use the default values mentioned if not specified.
 * Names are case-sensitive
-</div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
 Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  

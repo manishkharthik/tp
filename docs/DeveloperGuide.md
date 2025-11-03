@@ -408,7 +408,7 @@ Given below is an example usage scenario and how the find command behaves at eac
 
 **Insert UML and sequence diagram**
 
-### AddLesson feature
+### Add Lesson feature
 
 The add lesson feature allows tutor to add lessons to a subject. 
 
@@ -447,6 +447,53 @@ Given below is an example usage scenario and how the add lesson command behaves 
 * If the user provides multiple values for a prefix (e.g., `addlesson s/Math s/Science n/Algebra`), a `ParseException` is thrown with the message "Only one subject and lesson is allowed."
 * If the subject or lesson name is empty (e.g., `addlesson s/ n/Algebra`), a `ParseException` is thrown with the lesson constraints message.
 * If the lesson already exists in the system, a `CommandException` is thrown with the message "This lesson already exists in this subject."
+
+### Delete Lesson feature
+
+The delete lesson feature allows tutors to delete lessons from a certain subject.
+
+#### Implementation
+
+The delete lesson command mechanism is facilitated by the `DeleteLessonCommandParser` class which implements the `Parser` interface.
+`DeleteLessonCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`DeleteLessonCommandParser` implements the following operations:
+* `DeleteLessonCommandParser#parse()` — Parses the input arguments by tokenizing them into an `ArgumentMultimap` with two required prefixes: subject (`s/`) and lesson name (`n/`). The parser validates that both prefixes are present, that no preamble exists, and that exactly one value is provided for each prefix. It extracts and trims the subject and lesson name values, ensuring neither is empty. The parser creates a `Lesson` object with the parsed values, which is then used to construct a new `DeleteLessonCommand` object.
+
+The `DeleteLessonCommand` object then communicates with the `Model` API by calling the `Model#deleteLesson(Lesson)` method, which removes the specified lesson from the lesson list. The lesson list is automatically persisted to storage after the command executes.
+
+The method `DeleteLessonCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command with a success message displaying the deleted lesson's details.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the delete lesson command behaves at each step.
+
+**Step 1.** The user executes `deletelesson s/Math n/Algebra` to delete the "Algebra" lesson from the "Math" subject.
+
+**Step 2.** The `DeleteLessonCommandParser` tokenizes the arguments and validates that both required prefixes (`s/`, `n/`) are present with exactly one value each.
+
+**Step 3.** The parser extracts and trims each value:
+- Subject: "Math"
+- Lesson name: "Algebra"
+
+**Step 4.** The parser validates that neither value is empty.
+
+**Step 5.** A `Lesson` object is created with the lesson name "Algebra" and subject "Math".
+
+**Step 6.** The `DeleteLessonCommand` checks if the lesson exists using `Model#hasLesson(Lesson)`. If the lesson doesn't exist, a `CommandException` is thrown.
+
+**Step 7.** The lesson is removed from the model via `Model#deleteLesson(Lesson)`, and the changes are automatically saved to the JSON storage file.
+
+**Step 8.** The `CommandResult` object is returned with a success message displaying the deleted lesson's name and subject.
+
+**Note:** Deleting a lesson from the lesson list does not affect individual student attendance records. Students who have attendance marked for this lesson will retain those records in their attendance history.
+
+**Error Handling:**
+* If either the subject or lesson name prefix is missing, a `ParseException` is thrown with the command usage message.
+* If multiple values are provided for a prefix (e.g., `deletelesson s/Math s/Science n/Algebra`), a `ParseException` is thrown with the message "Only one subject and one lesson name are allowed."
+* If the subject or lesson name is empty after trimming (e.g., `deletelesson s/ n/Algebra`), a `ParseException` is thrown with the command usage message.
+* If a preamble is present (e.g., `deletelesson extra s/Math n/Algebra`), a `ParseException` is thrown with the command usage message.
+* If the specified lesson doesn't exist in the system, a `CommandException` is thrown indicating the lesson was not found.
 
 ### List Student feature
 
