@@ -28,6 +28,11 @@ public class AddLessonCommandParser implements Parser<AddLessonCommand> {
                     AddLessonCommand.MESSAGE_USAGE));
         }
 
+        if (argMultimap.getAllValues(PREFIX_SUBJECTS).size() != 1
+                || argMultimap.getAllValues(PREFIX_NAME).size() != 1) {
+            throw new ParseException("Only one subject and lesson is allowed.");
+        }
+
         String subject = argMultimap.getValue(PREFIX_SUBJECTS).get().trim();
         String lessonName = argMultimap.getValue(PREFIX_NAME).get().trim();
 
