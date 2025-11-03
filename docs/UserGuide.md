@@ -166,6 +166,23 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 * `add n/"Rahit s/o Kumar" c/3B s/Math ec/62345678` - Adds a student with s/o in name
 * `add n/"Sarah d/o Bala" c/4A s/Science ec/87654321` - Adds a student with d/o in name
 * `add n/"John Tan" c/3B s/Math ec/92345678 ps/Paid as/Completed` - Adds a student with the provided optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS)
+
+* `add n/"Jane Tan" c/3B s/Math s/Science ec/91234567` 
+  * Accounts for compulsory fields and adds Jane Tan from class 3B (uses default values for optional fields)
+
+  <figure>
+    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
+    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+  </figure>
+
+* `add n/"Sarah Lim" c/2A s/English ec/98765432 ps/Paid as/Completed`
+  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
+
+  <figure>
+    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
+    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
+  </figure> 
+
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
   You can add multiple subjects by using multiple `s/` prefixes.
   Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
@@ -185,27 +202,6 @@ will not work, because “John Tan” and “john tan” are considered the same
 
 When this happens, TutorTrack will display an alert message to alert user that that student has already been added.
 </div>
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-
-* Quotes are required for all names (regular names and those with special characters)
-* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
-
-* `add n/"Jane Tan" c/3B s/Math s/Science ec/91234567` 
-  * Accounts for compulsory fields and adds Jane Tan from class 3B (uses default values for optional fields)
-
-  <figure>
-    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
-    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
-  </figure>
-
-* `add n/"Sarah Lim" c/2A s/English ec/98765432 ps/Paid as/Completed`
-  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
-
-  <figure>
-    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
-    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
-  </figure> 
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 
