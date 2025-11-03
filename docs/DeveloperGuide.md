@@ -645,6 +645,10 @@ The mark attendance command mechanism is facilitated by the `MarkAttendanceComma
 `MarkAttendanceCommandParser` implements the following operations:
 * `MarkAttendanceCommandParser#parse()` — Parses the input arguments by tokenizing them into an `ArgumentMultimap` with four required prefixes: name (`n/`), subject (`s/`), lesson (`l/`), and status (`st/`). The parser validates that all four prefixes are present, that no preamble exists, and that there are no duplicate prefixes. It extracts and trims each value, creates a `Name` object, a `Subject` object, a `Lesson` object, and converts the status string to an `AttendanceStatus` enum (case-insensitive). If the status is invalid, a `ParseException` is thrown. The parser creates a new `MarkAttendanceCommand` object with the parsed values.
 
+The following sequence diagram shows what happens when a user inputs the markattendance command.
+
+<img src="images/MarkAttendanceSequenceDiagram.png" width="600" />
+
 The `MarkAttendanceCommand` object then communicates with the `Model` API by:
 1. Finding the student by name using `Model#getFilteredPersonList()`
 2. Accessing the student's `AttendanceList`
@@ -688,6 +692,10 @@ Given below is an example usage scenario and how the mark attendance command beh
 * If the student is not found, a `CommandException` is thrown with the message "Person not found".
 * If the subject or lesson doesn't exist for the student, a `CommandException` is thrown with an appropriate error message.
 
+The following activity diagram shows what happens when a user inputs the markattendance command.
+
+<img src="images/MarkAttendanceActivityDiagram.png" width="600" />
+
 ### List Student Attendance feature
 
 The list attendance feature allows tutors to list all the student's attendance for a certain lesson.
@@ -707,6 +715,10 @@ The `ListAttendanceCommand` object then communicates with the `Model` API by:
 4. Formatting the attendance data for display
 
 The method `ListAttendanceCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command with the formatted attendance records for the specified student and subject.
+
+The following sequence diagram shows what happens when a user inputs the listattendance command.
+
+<img src="images/ListAttendanceSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 
@@ -741,6 +753,10 @@ Given below is an example usage scenario and how the list attendance command beh
 * If the student is not found, a `CommandException` is thrown with the message "Person not found".
 * If the student is not enrolled in the specified subject, a `CommandException` is thrown indicating the subject was not found for that student.
 * If there are no lessons recorded for the subject, an appropriate message is displayed.
+
+The following activity diagram shows what happens when a user inputs the listattendance command.
+
+<img src="images/ListAttendanceActivityDiagram.png" width="600" />
 
 ### Clear current Student feature
 
@@ -842,6 +858,10 @@ The method `HelpCommand#execute()` returns a `CommandResult` object with:
 * A `showHelp` flag set to `true` to trigger the help window display
 * An `exit` flag set to `false`
 
+The following sequence diagram shows what happens when a user inputs the help command.
+
+<img src="images/HelpSequenceDiagram.png" width="600" />
+
 **Example Usage:**
 
 Given below is an example usage scenario and how the help command behaves at each step.
@@ -878,6 +898,10 @@ The method `ExitCommand#execute()` returns a `CommandResult` object with:
 * A success message "Exiting Tutor Track as requested ..."
 * A `showHelp` flag set to `false`
 * An `exit` flag set to `true` to trigger application termination
+
+The following sequence diagram shows what happens when a user inputs the exit command.
+
+<img src="images/ExitSequenceDiagram.png" width="600" />
 
 **Example Usage:**
 

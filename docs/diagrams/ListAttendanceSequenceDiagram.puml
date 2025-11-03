@@ -1,0 +1,65 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ListAttendanceCommandParser" as ListAttendanceCommandParser LOGIC_COLOR
+participant "cmd:ListAttendanceCommand" as ListAttendanceCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+' User triggers command
+[-> LogicManager : execute("listattendance n/\"John Tan\" s/Math")
+activate LogicManager
+
+' Parse into a command
+LogicManager -> AddressBookParser : parseCommand("listattendance n/\"John Tan\" s/Math")
+activate AddressBookParser
+
+create ListAttendanceCommandParser
+AddressBookParser -> ListAttendanceCommandParser
+activate ListAttendanceCommandParser
+
+ListAttendanceCommandParser -> ListAttendanceCommandParser : parse(args)\n• tokenize n/ and s/\n• validate prefixes\n• trim values\n• build Name & Subject
+activate ListAttendanceCommandParser
+ListAttendanceCommandParser --> AddressBookParser : new ListAttendanceCommand(name, subject)
+deactivate ListAttendanceCommandParser
+
+deactivate AddressBookParser
+
+' Execute command
+LogicManager -> ListAttendanceCommand : execute(model)
+activate ListAttendanceCommand
+
+' Find student
+ListAttendanceCommand -> Model : getFilteredPersonList()
+activate Model
+Model --> ListAttendanceCommand : List<Person>
+deactivate Model
+
+ListAttendanceCommand -> ListAttendanceCommand : find Student by Name\n(throw if not found)
+
+' Check enrollment
+ListAttendanceCommand -> ListAttendanceCommand : verify enrolled in subject\n(throw if not enrolled)
+
+' Collect & format attendance
+ListAttendanceCommand -> ListAttendanceCommand : filter AttendanceList by subject\n• if none → throw MESSAGE_NO_ATTENDANCE_RECORDS\n• else build output lines
+
+' Build result
+create ":CommandResult" as CommandResult
+ListAttendanceCommand -> CommandResult : new CommandResult(\nformatted header + lines\n)
+activate CommandResult
+CommandResult --> ListAttendanceCommand : result
+deactivate CommandResult
+
+ListAttendanceCommand --> LogicManager : result
+deactivate ListAttendanceCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+start
+:User inputs markattendance command;
+
+if (Valid command format?) then (yes)
+  if (All required prefixes present?\n n/, s/, l/, st/) then (yes)
+    if (No duplicate prefixes?) then (yes)
+      if (Status value valid?\n{PRESENT, ABSENT, LATE, EXCUSED}) then (yes)
+        :Find person by Name in filtered list;
+        if (Person found?) then (yes)
+          if (Person is a Student?) then (yes)
+            :Check subject enrollment (case-insensitive);
+            if (Enrolled in subject?) then (yes)
+              :Check lesson exists in model\nmodel.hasLesson(new Lesson(l, s));
+              if (Lesson exists?) then (yes)
+                :Mark attendance\nAttendanceList.markAttendance(lesson, status);
+                :Display success message;
+              else (no)
+                :Display error\n(Lesson not found for subject);
+              endif
+            else (no)
+              :Display error\n(Student not enrolled in subject);
+            endif
+          else (no)
+            :Display error\n(Person is not a student);
+          endif
+        else (no)
+          :Display error\n(Student not found);
+        endif
+      else (no)
+        :Display error\n(Invalid attendance status);
+      endif
+    else (no)
+      :Display error\n(Duplicate prefixes);
+    endif
+  else (no)
+    :Display error\n(Missing required prefixes);
+  endif
+else (no)
+  :Display error\n(Invalid command format);
+endif
+
+stop
+@enduml
