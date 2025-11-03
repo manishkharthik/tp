@@ -7,12 +7,6 @@ title: Developer Guide
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Acknowledgements**
-
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
-
---------------------------------------------------------------------------------------------------------------------
-
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
@@ -154,6 +148,696 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
+### Add Student feature
+
+The add student feature allows TutorTrack to add students to a list of students.
+
+#### Implementation 
+
+The add student command mechanism is facilitated by the `AddCommandParser` class which implements the `Parser` interface.
+`AddCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`AddCommandParser` implements the following operations:
+* `AddCommandParser#parse()` — Parses the input arguments by first extracting quoted names (to handle names with `s/o` or `d/o`), then storing the prefixes and their respective values as an `ArgumentMultimap`. It creates a new `AddCommand` object with the parsed name, class, subjects, emergency contact, and optional payment status and assignment status. Names must be enclosed in quotes (e.g., `n/"John Tan"`) to ensure proper parsing, especially for names containing `s/o` or `d/o`.
+
+The `AddCommand` object then communicates with the `Model` API by calling the `Model#addPerson(Person)` method, which adds the newly-constructed student to the existing student list.
+
+The method `AddCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the add command behaves at each step.
+
+**Step 1.** The user executes `add n/"John Tan" c/3B s/Math ec/91234567 ps/Paid as/Completed` to add a new student.
+
+**Step 2.** The `AddCommandParser` extracts the quoted name `"John Tan"` and replaces it with a placeholder to avoid conflicts with the subject prefix `s/`.
+
+**Step 3.** The `ArgumentMultimap` stores the parsed values for each prefix (`c/`, `s/`, `ec/`, `ps/`, `as/`).
+
+**Step 4.** A new `Student` object is constructed with the parsed values and added to the model via `Model#addPerson(Person)`.
+
+**Step 5.** The `CommandResult` object is returned with a success message displaying the newly added student's details.
+
+**Insert UML and sequence diagram**
+
+### Edit Student feature
+
+The edit student feature allows TutorTrack to edit a current student to the input value.
+
+#### Implementation
+
+The edit student command mechanism is facilitated by the `EditCommandParser` class which implements the `Parser` interface.
+`EditCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`EditCommandParser` implements the following operations:
+* `EditCommandParser#parse()` — Parses the input arguments by first extracting the index from the preamble, then handling quoted names (to support names with `s/o` or `d/o`), and finally storing the prefixes and their respective values as an `ArgumentMultimap`. It creates a new `EditCommand` object with the parsed index and an `EditPersonDescriptor` containing the fields to be updated. Names must be enclosed in quotes (e.g., `n/"John Tan"`) to ensure proper parsing. Only the fields provided by the user are modified, while unprovided fields remain unchanged.
+
+The `EditCommand` object then communicates with the `Model` API by calling the `Model#setPerson(Person, Person)` method, which replaces the target student with the edited version in the student list.
+
+The method `EditCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the edit command behaves at each step.
+
+**Step 1.** The user executes `edit 2 n/"Sarah d/o Ali" c/4A` to edit the name and class of the 2nd student in the displayed list.
+
+**Step 2.** The `EditCommandParser` parses the index `2` from the preamble and extracts the quoted name `"Sarah d/o Ali"`, replacing it with a placeholder to avoid conflicts with the subject prefix `s/`.
+
+**Step 3.** The `ArgumentMultimap` stores the parsed values for the provided prefixes (`n/`, `c/`). Other fields are not present in the map.
+
+**Step 4.** An `EditPersonDescriptor` is created with only the name and class fields set. The descriptor preserves all other existing fields (subjects, emergency contact, payment status, etc.).
+
+**Step 5.** A new `Student` object is constructed by combining the edited fields with the original student's unchanged fields, then replaces the original student via `Model#setPerson(Person, Person)`.
+
+**Step 6.** The `CommandResult` object is returned with a success message displaying the updated student's details.
+
+**Note:** If the user provides a name field without quotes (e.g., `edit 1 n/John Tan`), a `ParseException` is thrown with the message "Name must be enclosed in quotes."
+
+**Insert UML diagram and sequence diagram here**
+
+### Delete Student feature
+
+Delete feature allows tutors to delete a student from the list of students.
+
+#### Implementation
+
+The delete student command mechanism is facilitated by the `DeleteCommandParser` class which implements the `Parser` interface.
+`DeleteCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`DeleteCommandParser` implements the following operations:
+* `DeleteCommandParser#parse()` — Parses the input arguments by extracting and validating the index. The parser ensures the index is a positive integer (greater than 0). If the index is zero, negative, or not a valid number, a `ParseException` is thrown with an appropriate error message. It creates a new `DeleteCommand` object with the parsed index.
+
+The `DeleteCommand` object then communicates with the `Model` API by calling the `Model#deletePerson(Person)` method, which removes the specified student from the student list.
+
+The method `DeleteCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the delete command behaves at each step.
+
+**Step 1.** The user executes `delete 3` to delete the 3rd student in the displayed list.
+
+**Step 2.** The `DeleteCommandParser` validates that `3` is a valid positive integer and creates an `Index` object from it.
+
+**Step 3.** The `DeleteCommand` retrieves the student at index 3 from the filtered person list in the `Model`.
+
+**Step 4.** The student is removed from the model via `Model#deletePerson(Person)`.
+
+**Step 5.** The `CommandResult` object is returned with a success message displaying the deleted student's details.
+
+**Error Handling:**
+* If the user provides `delete 0` or `delete -5`, a `ParseException` is thrown with the message "The person index must be a positive integer."
+* If the user provides `delete abc`, a `ParseException` is thrown with the message "The person index provided is invalid."
+* If the index is out of range (e.g., `delete 999` when there are only 10 students), a `CommandException` is thrown during execution with the message indicating an invalid person index.
+
+**Insert UML and sequence diagram**
+
+### Archive Student feature
+
+The archive feature allows tutors to archive students to a list archive, allowing for unarchiving in the future.
+
+#### Implementation
+
+The archive student command mechanism is facilitated by the `ArchiveCommandParser` class which implements the `Parser` interface.
+`ArchiveCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`ArchiveCommandParser` implements the following operations:
+* `ArchiveCommandParser#parse()` — Parses the input arguments by extracting and validating the index using `ParserUtil#parseIndex()`. The parser ensures the index is a positive integer. If the index is invalid (zero, negative, or not a number), a `ParseException` is thrown with the command usage message. It creates a new `ArchiveCommand` object with the parsed index.
+
+The `ArchiveCommand` object then communicates with the `Model` API by calling the `Model#archivePerson(Person)` method, which moves the specified student from the active student list to the archived student list.
+
+The method `ArchiveCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the archive command behaves at each step.
+
+**Step 1.** The user executes `archive 2` to archive the 2nd student in the displayed list.
+
+**Step 2.** The `ArchiveCommandParser` validates that `2` is a valid positive integer and creates an `Index` object from it.
+
+**Step 3.** The `ArchiveCommand` retrieves the student at index 2 from the filtered person list in the `Model`.
+
+**Step 4.** The student is moved from the active list to the archived list via `Model#archivePerson(Person)`.
+
+**Step 5.** The `CommandResult` object is returned with a success message displaying the archived student's details.
+
+**Note:** Archived students are not deleted and can be viewed using the `listarchive` command or restored using the `unarchive` command. All student details (subjects, attendance, payment status, etc.) are preserved when archiving.
+
+**Error Handling:**
+* If the user provides an invalid index format, a `ParseException` is thrown with the command usage message.
+* If the index is out of range (e.g., `archive 999` when there are only 10 students), a `CommandException` is thrown during execution with the message indicating an invalid person index.
+
+**Insert UML and sequence diagram**
+
+### Unarchive Student feature
+
+The unarchive feature allows tutors to unarchive students from the list of archive students.
+
+#### Implementation
+
+The unarchive student command mechanism is facilitated by the `UnarchiveCommandParser` class which implements the `Parser` interface.
+`UnarchiveCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`UnarchiveCommandParser` implements the following operations:
+* `UnarchiveCommandParser#parse()` — Parses the input arguments by extracting and validating the index using `ParserUtil#parseIndex()`. The parser ensures the index is a positive integer and logs the parsing process for debugging purposes. If the index is invalid (zero, negative, or not a number), a `ParseException` is thrown with the command usage message. It creates a new `UnarchiveCommand` object with the parsed index.
+
+The `UnarchiveCommand` object then communicates with the `Model` API by calling the `Model#unarchivePerson(Person)` method, which moves the specified student from the archived student list back to the active student list.
+
+The method `UnarchiveCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the unarchive command behaves at each step.
+
+**Step 1.** The user first executes `listarchive` to view all archived students.
+
+**Step 2.** The user executes `unarchive 1` to unarchive the 1st student in the archived list.
+
+**Step 3.** The `UnarchiveCommandParser` validates that `1` is a valid positive integer, logs the parsing process, and creates an `Index` object from it.
+
+**Step 4.** The `UnarchiveCommand` retrieves the student at index 1 from the filtered archived person list in the `Model`.
+
+**Step 5.** The student is moved from the archived list back to the active list via `Model#unarchivePerson(Person)`.
+
+**Step 6.** The `CommandResult` object is returned with a success message displaying the unarchived student's details.
+
+**Note:** The index refers to the position in the **archived student list**, not the active student list. Use `listarchive` to view archived students before unarchiving. All student details (subjects, attendance, payment status, etc.) are preserved when unarchiving.
+
+**Error Handling:**
+* If the user provides an invalid index format, a `ParseException` is thrown with the command usage message.
+* If the index is out of range (e.g., `unarchive 999` when there are only 3 archived students), a `CommandException` is thrown during execution with the message indicating an invalid person index.
+
+### List Archive feature
+
+The list archive feature allows tutors to list the student archive.
+
+#### Implementation
+
+The list archive command mechanism is facilitated by the `ListArchiveCommandParser` class which implements the `Parser` interface.
+`ListArchiveCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`ListArchiveCommandParser` implements the following operations:
+* `ListArchiveCommandParser#parse()` — Parses the input arguments by validating that no additional arguments are provided after the `listarchive` command. If any arguments are present, a `ParseException` is thrown with the command usage message. The parser creates a new `ListArchiveCommand` object with no parameters.
+
+The `ListArchiveCommand` object then communicates with the `Model` API by calling the `Model#updateFilteredArchivedPersonList(Predicate)` method with a predicate that shows all archived students, effectively displaying the complete archived student list.
+
+The method `ListArchiveCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the list archive command behaves at each step.
+
+**Step 1.** The user wants to view all archived students in the system.
+
+**Step 2.** The user executes `listarchive` to display the archived student list.
+
+**Step 3.** The `ListArchiveCommandParser` validates that no additional arguments were provided (the trimmed input is empty).
+
+**Step 4.** The `ListArchiveCommand` updates the filtered archived person list via `Model#updateFilteredArchivedPersonList(PREDICATE_SHOW_ALL_PERSONS)`, which displays all archived students.
+
+**Step 5.** The `CommandResult` object is returned with a success message "Listed all archived persons".
+
+**Note:** The `listarchive` command only shows archived students. Archived students retain all their details (class, subjects, attendance, payment status, etc.) for recordkeeping purposes. To move a student back to the active list, use the `unarchive` command.
+
+**Error Handling:**
+* If the user provides any arguments (e.g., `listarchive 123` or `listarchive extra`), a `ParseException` is thrown with the command usage message indicating that the listarchive command takes no parameters.
+
+### Find Student feature
+
+The find feature allows tutors to find students by the student's name.
+
+#### Implementation
+
+The find student command mechanism is facilitated by the `FindCommandParser` class which implements the `Parser` interface.
+`FindCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`FindCommandParser` implements the following operations:
+* `FindCommandParser#parse()` — Parses the input arguments by trimming whitespace and splitting the input into individual keywords using whitespace as the delimiter. If the input is empty after trimming, a `ParseException` is thrown. The parser creates a `NameContainsKeywordsPredicate` with the list of keywords, which is then used to construct a new `FindCommand` object.
+
+The `FindCommand` object then communicates with the `Model` API by calling the `Model#updateFilteredPersonList(Predicate)` method, which filters the student list to show only students whose names contain any of the specified keywords (case-insensitive matching).
+
+The method `FindCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command and the number of students found.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the find command behaves at each step.
+
+**Step 1.** The user executes `find Alex John` to find all students whose names contain either "Alex" or "John".
+
+**Step 2.** The `FindCommandParser` trims the input and splits it into keywords: `["Alex", "John"]`.
+
+**Step 3.** A `NameContainsKeywordsPredicate` is created with these keywords, which will match any student whose name contains at least one of the keywords (case-insensitive).
+
+**Step 4.** The `FindCommand` updates the filtered person list via `Model#updateFilteredPersonList(Predicate)`, filtering to show only matching students.
+
+**Step 5.** The `CommandResult` object is returned with a message indicating the number of students found (e.g., "2 persons listed!").
+
+**Note:** The find command performs case-insensitive partial matching. For example, `find alex` will match students named "Alex Yeoh", "Alexander", and "Alexandra". Multiple keywords are treated with OR logic - a student matches if their name contains any of the provided keywords.
+
+**Error Handling:**
+* If the user provides `find` with no keywords (e.g., just `find` or `find   `), a `ParseException` is thrown with the command usage message.
+
+**Insert UML and sequence diagram**
+
+### Add Lesson feature
+
+The add lesson feature allows tutor to add lessons to a subject. 
+
+#### Implementation
+
+The add lesson command mechanism is facilitated by the `AddLessonCommandParser` class which implements the `Parser` interface.
+`AddLessonCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`AddLessonCommandParser` implements the following operations:
+* `AddLessonCommandParser#parse()` — Parses the input arguments by tokenizing them into an `ArgumentMultimap` with the subject prefix (`s/`) and lesson name prefix (`n/`). The parser validates that both prefixes are present, that no preamble exists, and that exactly one value is provided for each prefix. If the subject or lesson name is empty after trimming, a `ParseException` is thrown. The parser creates a new `Lesson` object with the parsed lesson name and subject, which is then used to construct a new `AddLessonCommand` object.
+
+The `AddLessonCommand` object then communicates with the `Model` API by calling the `Model#addLesson(Lesson)` method, which adds the newly-constructed lesson to the lesson list. The lesson list is automatically persisted to storage after the command executes.
+
+The method `AddLessonCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the add lesson command behaves at each step.
+
+**Step 1.** The user executes `addlesson s/Math n/Algebra` to add a new lesson named "Algebra" under the "Math" subject.
+
+**Step 2.** The `AddLessonCommandParser` tokenizes the arguments and validates that both `s/` and `n/` prefixes are present with exactly one value each.
+
+**Step 3.** The parser trims the subject value ("Math") and lesson name value ("Algebra") to remove any extra whitespace.
+
+**Step 4.** A new `Lesson` object is created with the lesson name "Algebra" and subject "Math".
+
+**Step 5.** The `AddLessonCommand` checks if the lesson already exists using `Model#hasLesson(Lesson)`. If it's a duplicate, a `CommandException` is thrown.
+
+**Step 6.** The lesson is added to the model via `Model#addLesson(Lesson)`, and the lesson list is automatically saved to the JSON storage file.
+
+**Step 7.** The `CommandResult` object is returned with a success message displaying the added lesson's name and subject.
+
+**Error Handling:**
+* If the user provides missing prefixes (e.g., `addlesson s/Math`), a `ParseException` is thrown with the command usage message.
+* If the user provides multiple values for a prefix (e.g., `addlesson s/Math s/Science n/Algebra`), a `ParseException` is thrown with the message "Only one subject and lesson is allowed."
+* If the subject or lesson name is empty (e.g., `addlesson s/ n/Algebra`), a `ParseException` is thrown with the lesson constraints message.
+* If the lesson already exists in the system, a `CommandException` is thrown with the message "This lesson already exists in this subject."
+
+### Delete Lesson feature
+
+The delete lesson feature allows tutors to delete lessons from a certain subject.
+
+#### Implementation
+
+The delete lesson command mechanism is facilitated by the `DeleteLessonCommandParser` class which implements the `Parser` interface.
+`DeleteLessonCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`DeleteLessonCommandParser` implements the following operations:
+* `DeleteLessonCommandParser#parse()` — Parses the input arguments by tokenizing them into an `ArgumentMultimap` with two required prefixes: subject (`s/`) and lesson name (`n/`). The parser validates that both prefixes are present, that no preamble exists, and that exactly one value is provided for each prefix. It extracts and trims the subject and lesson name values, ensuring neither is empty. The parser creates a `Lesson` object with the parsed values, which is then used to construct a new `DeleteLessonCommand` object.
+
+The `DeleteLessonCommand` object then communicates with the `Model` API by calling the `Model#deleteLesson(Lesson)` method, which removes the specified lesson from the lesson list. The lesson list is automatically persisted to storage after the command executes.
+
+The method `DeleteLessonCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command with a success message displaying the deleted lesson's details.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the delete lesson command behaves at each step.
+
+**Step 1.** The user executes `deletelesson s/Math n/Algebra` to delete the "Algebra" lesson from the "Math" subject.
+
+**Step 2.** The `DeleteLessonCommandParser` tokenizes the arguments and validates that both required prefixes (`s/`, `n/`) are present with exactly one value each.
+
+**Step 3.** The parser extracts and trims each value:
+- Subject: "Math"
+- Lesson name: "Algebra"
+
+**Step 4.** The parser validates that neither value is empty.
+
+**Step 5.** A `Lesson` object is created with the lesson name "Algebra" and subject "Math".
+
+**Step 6.** The `DeleteLessonCommand` checks if the lesson exists using `Model#hasLesson(Lesson)`. If the lesson doesn't exist, a `CommandException` is thrown.
+
+**Step 7.** The lesson is removed from the model via `Model#deleteLesson(Lesson)`, and the changes are automatically saved to the JSON storage file.
+
+**Step 8.** The `CommandResult` object is returned with a success message displaying the deleted lesson's name and subject.
+
+**Note:** Deleting a lesson from the lesson list does not affect individual student attendance records. Students who have attendance marked for this lesson will retain those records in their attendance history.
+
+**Error Handling:**
+* If either the subject or lesson name prefix is missing, a `ParseException` is thrown with the command usage message.
+* If multiple values are provided for a prefix (e.g., `deletelesson s/Math s/Science n/Algebra`), a `ParseException` is thrown with the message "Only one subject and one lesson name are allowed."
+* If the subject or lesson name is empty after trimming (e.g., `deletelesson s/ n/Algebra`), a `ParseException` is thrown with the command usage message.
+* If a preamble is present (e.g., `deletelesson extra s/Math n/Algebra`), a `ParseException` is thrown with the command usage message.
+* If the specified lesson doesn't exist in the system, a `CommandException` is thrown indicating the lesson was not found.
+
+### List Student feature
+
+The list feature allows tutor to list the current students.
+
+#### Implementation
+
+The list student command mechanism is facilitated by the `ListCommandParser` class which implements the `Parser` interface.
+`ListCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`ListCommandParser` implements the following operations:
+* `ListCommandParser#parse()` — Parses the input arguments by validating that no additional arguments are provided after the `list` command. If any arguments are present, a `ParseException` is thrown with the command usage message. The parser creates a new `ListCommand` object with no parameters.
+
+The `ListCommand` object then communicates with the `Model` API by calling the `Model#updateFilteredPersonList(Predicate)` method with a predicate that shows all students, effectively resetting any active filters from previous `find` commands.
+
+The method `ListCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the list command behaves at each step.
+
+**Step 1.** The user previously executed `find Alex` which filtered the displayed student list.
+
+**Step 2.** The user executes `list` to view all students again.
+
+**Step 3.** The `ListCommandParser` validates that no additional arguments were provided (the trimmed input is empty).
+
+**Step 4.** The `ListCommand` updates the filtered person list via `Model#updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)`, which removes all filters and displays all active students.
+
+**Step 5.** The `CommandResult` object is returned with a success message "Listed all persons".
+
+**Note:** The `list` command only shows active (non-archived) students. To view archived students, use the `listarchive` command instead.
+
+**Error Handling:**
+* If the user provides any arguments (e.g., `list 123` or `list extra`), a `ParseException` is thrown with the command usage message indicating that the list command takes no parameters.
+
+### List Lesson feature
+
+The list lesson feature allows tutors to list all the lessons for a certain subject.
+
+##### Implementation
+
+The list lessons command mechanism is facilitated by the `ListLessonsCommandParser` class which implements the `Parser` interface.
+`ListLessonsCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`ListLessonsCommandParser` implements the following operations:
+* `ListLessonsCommandParser#parse()` — Parses the input arguments by tokenizing them into an `ArgumentMultimap` with the subject prefix (`s/`). The parser validates that the subject prefix is present, that no preamble exists, and that the subject value is not empty after trimming. If any validation fails, a `ParseException` is thrown with the command usage message. The parser creates a new `ListLessonsCommand` object with the parsed subject name.
+
+The `ListLessonsCommand` object then communicates with the `Model` API by calling the `Model#updateFilteredLessonList(Predicate)` method with a predicate that filters lessons by the specified subject, displaying only lessons that belong to that subject.
+
+The method `ListLessonsCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command and the number of lessons found for the subject.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the list lessons command behaves at each step.
+
+**Step 1.** The user executes `listlessons s/Math` to view all lessons under the "Math" subject.
+
+**Step 2.** The `ListLessonsCommandParser` tokenizes the arguments and validates that the `s/` prefix is present with a non-empty value.
+
+**Step 3.** The subject value "Math" is extracted and trimmed to remove any extra whitespace.
+
+**Step 4.** A new `ListLessonsCommand` is created with the subject name "Math".
+
+**Step 5.** The `ListLessonsCommand` checks if the subject exists in the system using `Model#hasSubject(String)`. If the subject doesn't exist, a `CommandException` is thrown.
+
+**Step 6.** The filtered lesson list is updated via `Model#updateFilteredLessonList(Predicate)` to show only lessons belonging to "Math".
+
+**Step 7.** The `CommandResult` object is returned with a message indicating the number of lessons found for the specified subject.
+
+**Note:** The list lessons command is case-insensitive. For example, `listlessons s/math` will match lessons with the subject "Math", "MATH", or "math".
+
+**Error Handling:**
+* If the user provides no subject prefix (e.g., `listlessons`), a `ParseException` is thrown with the command usage message.
+* If the subject value is empty (e.g., `listlessons s/`), a `ParseException` is thrown with the command usage message.
+* If the user provides a preamble (e.g., `listlessons extra s/Math`), a `ParseException` is thrown with the command usage message.
+* If the specified subject does not exist in the system, a `CommandException` is thrown with the message "Subject not found: [subject name]".
+
+### Mark Student Attendance feature
+
+The mark attendance feature allows for tutor to mark the student's attendance for a certain lesson.
+
+#### Implementation
+
+The mark attendance command mechanism is facilitated by the `MarkAttendanceCommandParser` class which implements the `Parser` interface.
+`MarkAttendanceCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`MarkAttendanceCommandParser` implements the following operations:
+* `MarkAttendanceCommandParser#parse()` — Parses the input arguments by tokenizing them into an `ArgumentMultimap` with four required prefixes: name (`n/`), subject (`s/`), lesson (`l/`), and status (`st/`). The parser validates that all four prefixes are present, that no preamble exists, and that there are no duplicate prefixes. It extracts and trims each value, creates a `Name` object, a `Subject` object, a `Lesson` object, and converts the status string to an `AttendanceStatus` enum (case-insensitive). If the status is invalid, a `ParseException` is thrown. The parser creates a new `MarkAttendanceCommand` object with the parsed values.
+
+The `MarkAttendanceCommand` object then communicates with the `Model` API by:
+1. Finding the student by name using `Model#getFilteredPersonList()`
+2. Accessing the student's `AttendanceList`
+3. Marking the attendance for the specified lesson via `AttendanceList#markAttendance(Lesson, AttendanceStatus)`
+4. Updating the student in the model to persist the changes
+
+The method `MarkAttendanceCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command with a success message showing the student name, subject, lesson, and attendance status.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the mark attendance command behaves at each step.
+
+**Step 1.** The user executes `markattendance n/"John Tan" s/Math l/Algebra st/Present` to mark John Tan as present for the Algebra lesson in Math.
+
+**Step 2.** The `MarkAttendanceCommandParser` tokenizes the arguments and validates that all required prefixes (`n/`, `s/`, `l/`, `st/`) are present with no duplicates.
+
+**Step 3.** The parser extracts and trims each value:
+- Name: "John Tan"
+- Subject: "Math"
+- Lesson: "Algebra"
+- Status: "PRESENT" (converted to uppercase)
+
+**Step 4.** A `Name` object, `Subject` object, and `Lesson` object are created. The status string "PRESENT" is converted to the `AttendanceStatus.PRESENT` enum value.
+
+**Step 5.** The `MarkAttendanceCommand` searches for the student named "John Tan" in the filtered person list. If not found, a `CommandException` is thrown.
+
+**Step 6.** The command verifies that the student is enrolled in the Math subject and that the Algebra lesson exists. If either check fails, a `CommandException` is thrown.
+
+**Step 7.** The attendance is marked via the student's `AttendanceList#markAttendance(Lesson, AttendanceStatus)` method.
+
+**Step 8.** The updated student is persisted in the model, and the changes are automatically saved to storage.
+
+**Step 9.** The `CommandResult` object is returned with a success message: "Marked attendance for John Tan for Math Algebra → PRESENT".
+
+**Note:** Valid attendance statuses are: PRESENT, ABSENT, EXCUSED (case-insensitive). Names with `s/o` or `d/o` must be enclosed in quotes.
+
+**Error Handling:**
+* If any required prefix is missing, a `ParseException` is thrown with the command usage message.
+* If duplicate prefixes are provided, a `ParseException` is thrown indicating duplicate prefixes.
+* If an invalid status is provided (e.g., `st/Maybe`), a `ParseException` is thrown with the message "Invalid attendance status".
+* If the student is not found, a `CommandException` is thrown with the message "Person not found".
+* If the subject or lesson doesn't exist for the student, a `CommandException` is thrown with an appropriate error message.
+
+### List Student Attendance feature
+
+The list attendance feature allows tutors to list all the student's attendance for a certain lesson.
+
+#### Implementation
+
+The list attendance command mechanism is facilitated by the `ListAttendanceCommandParser` class which implements the `Parser` interface.
+`ListAttendanceCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
+
+`ListAttendanceCommandParser` implements the following operations:
+* `ListAttendanceCommandParser#parse()` — Parses the input arguments by tokenizing them into an `ArgumentMultimap` with two required prefixes: name (`n/`) and subject (`s/`). The parser validates that both prefixes are present, that no preamble exists, and that there are no duplicate prefixes. It extracts and trims each value, ensuring neither the name nor subject is empty after trimming. The parser creates a `Name` object and a `Subject` object, which are then used to construct a new `ListAttendanceCommand` object.
+
+The `ListAttendanceCommand` object then communicates with the `Model` API by:
+1. Finding the student by name using `Model#getFilteredPersonList()`
+2. Verifying the student is enrolled in the specified subject
+3. Retrieving the student's attendance records for all lessons in that subject via `AttendanceList#getAttendanceForSubject(Subject)`
+4. Formatting the attendance data for display
+
+The method `ListAttendanceCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command with the formatted attendance records for the specified student and subject.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the list attendance command behaves at each step.
+
+**Step 1.** The user executes `listattendance n/"John Tan" s/Math` to view John Tan's attendance records for all Math lessons.
+
+**Step 2.** The `ListAttendanceCommandParser` tokenizes the arguments and validates that both required prefixes (`n/`, `s/`) are present with no duplicates.
+
+**Step 3.** The parser extracts and trims each value:
+- Name: "John Tan"
+- Subject: "Math"
+
+**Step 4.** The parser validates that neither value is empty and creates a `Name` object and a `Subject` object.
+
+**Step 5.** The `ListAttendanceCommand` searches for the student named "John Tan" in the filtered person list. If not found, a `CommandException` is thrown.
+
+**Step 6.** The command verifies that the student is enrolled in the Math subject. If not, a `CommandException` is thrown.
+
+**Step 7.** The attendance records for all Math lessons are retrieved from the student's `AttendanceList`.
+
+**Step 8.** The attendance data is formatted showing each lesson name and its corresponding attendance status (e.g., "Algebra: PRESENT", "Calculus: ABSENT").
+
+**Step 9.** The `CommandResult` object is returned with the formatted attendance information displayed to the user.
+
+**Note:** Names with `s/o` or `d/o` must be enclosed in quotes (e.g., `n/"Rohit s/o Kumar"`). The command displays attendance for all lessons within the specified subject.
+
+**Error Handling:**
+* If either the name or subject prefix is missing, a `ParseException` is thrown with the command usage message.
+* If duplicate prefixes are provided, a `ParseException` is thrown indicating duplicate prefixes.
+* If the name or subject value is empty after trimming (e.g., `n/ s/Math`), a `ParseException` is thrown with the command usage message.
+* If the student is not found, a `CommandException` is thrown with the message "Person not found".
+* If the student is not enrolled in the specified subject, a `CommandException` is thrown indicating the subject was not found for that student.
+* If there are no lessons recorded for the subject, an appropriate message is displayed.
+
+### Clear current Student feature
+
+The clear current student feature allows tutors to delete the list of students in the active student list.
+
+#### Implementation
+
+The clear current students command mechanism is facilitated by the `ClearCommand` class which extends the `Command` class.
+
+`ClearCommand` implements the following operations:
+* `ClearCommand#execute(Model)` — Validates that no extra arguments are provided after the `clearcurrent` command. If any arguments are present, a `CommandException` is thrown. The command then clears all current (non-archived) students, lessons, and subjects from the model by calling `Model#clearCurrentStudents()`, `Model#clearLessons()`, and `Model#clearSubjects()`. Archived students are not affected by this operation.
+
+The `ClearCommand` object communicates with the `Model` API by calling:
+1. `Model#clearCurrentStudents()` — Removes all students from the active student list
+2. `Model#clearLessons()` — Removes all lessons from the lesson list
+3. `Model#clearSubjects()` — Removes all subjects from the subject list
+
+The method `ClearCommand#execute()` returns a `CommandResult` object with a success message indicating that current students, lessons, and subjects have been cleared.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the clear current students command behaves at each step.
+
+**Step 1.** The user wants to clear all current students, lessons, and subjects from TutorTrack while preserving archived students.
+
+**Step 2.** The user executes `clearcurrent` to clear the current data.
+
+**Step 3.** The `ClearCommand` validates that no additional arguments were provided (the trimmed input is empty). If extra parameters are present, a `CommandException` is thrown.
+
+**Step 4.** The `ClearCommand` clears all current students from the active list via `Model#clearCurrentStudents()`.
+
+**Step 5.** All lessons are removed from the lesson list via `Model#clearLessons()`.
+
+**Step 6.** All subjects are removed from the subject list via `Model#clearSubjects()`.
+
+**Step 7.** The changes are automatically persisted to storage.
+
+**Step 8.** The `CommandResult` object is returned with the success message "Current students, lessons and subjects have been cleared!".
+
+**Note:** This command only clears the **active (non-archived) student list**, along with all lessons and subjects. Archived students remain untouched and can be viewed with the `listarchive` command. This operation cannot be undone, so use with caution.
+
+**Error Handling:**
+* If the user provides any arguments (e.g., `clearcurrent 123` or `clearcurrent extra`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'clearcurrent' only."
+
+### Clear archived Student feature
+
+The clear archived student feature allows tutors to delete the archived list of students.
+
+#### Implementation
+
+The clear archive command mechanism is facilitated by the `ClearArchiveCommand` class which extends the `Command` class.
+
+`ClearArchiveCommand` implements the following operations:
+* `ClearArchiveCommand#execute(Model)` — Validates that no extra arguments are provided after the `cleararchive` command. If any arguments are present, a `CommandException` is thrown. The command then clears all archived students from the model by calling `Model#clearArchivedStudents()`. Current (active) students, lessons, and subjects are not affected by this operation.
+
+The `ClearArchiveCommand` object communicates with the `Model` API by calling:
+* `Model#clearArchivedStudents()` — Removes all students from the archived student list
+
+The method `ClearArchiveCommand#execute()` returns a `CommandResult` object with a success message indicating that archived students have been cleared.
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the clear archive command behaves at each step.
+
+**Step 1.** The user wants to permanently clear all archived students from TutorTrack while keeping current students intact.
+
+**Step 2.** The user executes `cleararchive` to clear the archived student list.
+
+**Step 3.** The `ClearArchiveCommand` validates that no additional arguments were provided (the trimmed input is empty). If extra parameters are present, a `CommandException` is thrown.
+
+**Step 4.** The `ClearArchiveCommand` clears all archived students from the archived list via `Model#clearArchivedStudents()`.
+
+**Step 5.** The changes are automatically persisted to storage.
+
+**Step 6.** The `CommandResult` object is returned with the success message "Archived students have been cleared!".
+
+**Note:** This command only clears the **archived student list**. Current (active) students, lessons, and subjects remain untouched. This operation cannot be undone, so use with caution. Once archived students are cleared, their data cannot be recovered.
+
+**Error Handling:**
+* If the user provides any arguments (e.g., `cleararchive 123` or `cleararchive extra`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'cleararchive' only."
+
+### Help feature 
+
+The help feature allows tutors to see the User Guide to aid them in the usage of the app.
+
+##### Implementation
+
+#### Help Command
+
+The help command mechanism is facilitated by the `HelpCommand` class which extends the `Command` class.
+
+`HelpCommand` implements the following operations:
+* `HelpCommand#execute(Model)` — Validates that no extra arguments are provided after the `help` command. If any arguments are present, a `CommandException` is thrown. The command returns a `CommandResult` with a special flag that triggers the UI to display the help window showing program usage instructions for all available commands.
+
+The `HelpCommand` object does not interact with the `Model` API directly, as it only affects the UI layer by signaling the application to open the help window.
+
+The method `HelpCommand#execute()` returns a `CommandResult` object with:
+* A success message "Opened help window."
+* A `showHelp` flag set to `true` to trigger the help window display
+* An `exit` flag set to `false`
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the help command behaves at each step.
+
+**Step 1.** The user wants to view the program usage instructions and command reference.
+
+**Step 2.** The user executes `help` to open the help window.
+
+**Step 3.** The `HelpCommand` validates that no additional arguments were provided (the trimmed input is empty). If extra parameters are present, a `CommandException` is thrown.
+
+**Step 4.** A `CommandResult` is created with the `showHelp` flag set to `true`.
+
+**Step 5.** The UI component detects the `showHelp` flag and opens a new help window displaying comprehensive usage instructions for all TutorTrack commands.
+
+**Step 6.** The success message "Opened help window." is displayed in the result display area.
+
+**Note:** The help window contains:
+* Link to the full user guide 
+
+### Exit feature
+
+The exit feature allows users to exit the app.
+
+#### Implementation
+
+The exit command mechanism is facilitated by the `ExitCommand` class which extends the `Command` class.
+
+`ExitCommand` implements the following operations:
+* `ExitCommand#execute(Model)` — Validates that no extra arguments are provided after the `exit` command. If any arguments are present, a `CommandException` is thrown. The command returns a `CommandResult` with a special flag that triggers the application to terminate gracefully, saving all data before closing.
+
+The `ExitCommand` object does not interact with the `Model` API directly, as it only signals the application layer to initiate the shutdown sequence.
+
+The method `ExitCommand#execute()` returns a `CommandResult` object with:
+* A success message "Exiting Tutor Track as requested ..."
+* A `showHelp` flag set to `false`
+* An `exit` flag set to `true` to trigger application termination
+
+**Example Usage:**
+
+Given below is an example usage scenario and how the exit command behaves at each step.
+
+**Step 1.** The user wants to close the TutorTrack application.
+
+**Step 2.** The user executes `exit` to terminate the program.
+
+**Step 3.** The `ExitCommand` validates that no additional arguments were provided (the trimmed input is empty). If extra parameters are present, a `CommandException` is thrown.
+
+**Step 4.** A `CommandResult` is created with the `exit` flag set to `true`.
+
+**Step 5.** The UI component detects the `exit` flag and initiates the application shutdown sequence.
+
+**Step 6.** The success message "Exiting Tutor Track as requested ..." is displayed briefly in the result display area.
+
+**Step 7.** The application saves all current data (students, archived students, lessons, subjects) to storage.
+
+**Step 8.** The application window closes and the program terminates.
+
+**Note:** The exit command ensures that all data is properly saved before the application closes. Any unsaved changes are automatically persisted to the JSON storage file during the shutdown sequence.
+
+**Error Handling:**
+* If the user provides any arguments (e.g., `exit now` or `exit 123`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'exit' only."
+**Error Handling:**
+* If the user provides any arguments (e.g., `help list` or `help 123`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'help' only."
 
 ### \[Proposed\] Undo/redo feature
 
@@ -359,7 +1043,7 @@ Use case: UC3 - Update a student
 Actor: User
 MSS:
    1. User clicks on a student profile.
-   2. User ammends the student particulars.
+   2. User amends the student particulars.
    3. TutorTrack asks for confirmation.
    4. User confirms.
    5. Student profile is updated.
@@ -377,7 +1061,7 @@ Use case: UC4 - Update User availability
 Actor: User
 MSS:
    1. User clicks on their profile.
-   2. User ammends their availability.
+   2. User amends their availability.
    3. TutorTrack asks for confirmation.
    4. User confirms.
    5. User profile is updated.
@@ -446,21 +1130,47 @@ Extensions:
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Tutor**: An individual providing academic tutoring as a service who is primary user of this application
-* **Student**: A learner recieving academic tutoring, Students have unique information (name, contact, subjects) and associated records (attendance, payments, academic performance)
-* **Parent Contact**: Emergency contact of a student's parent in the form of a phone number for safety and administrative purposes
-* **Attendance**: A record A record to inidicate whether is present or absent for a given class
-* **Class Schedule**: An timetable entry that represents a class with its date and time
-* **Archive**: A status indicating whether a student is active (assigned to a class or tutor) or not
-* **Assignment**: Tasks given by tutors to students for them to complete
-* **Assignment Completion**: A record to inidicate whether tasks given by tutors to students for them to complete is completed
-* **Subject Enrollment**: The mapping between students and subjects they are learning, students may have mulitple subjects
-* **Payment Record**: A log entry for fees paid by students or parents, including amount and date, supports balance tracking
-* **Outstanding Balance**: The unpaid student fees
-* **Performance Data**: Records of a student's test scores, grades, and attendance to track a student’s academic performance over time
-* **Teaching Material**: Documents, textbooks, or resources uploaded by tutors for lessons and/or assignments
+#### User & Data Entities
+* **Tutor**: An individual providing academic tutoring as a service who is the primary user of this application
+* **Student**: A learner receiving academic tutoring; students have unique information (name, contact, subjects) and associated records (attendance, payments, academic performance)
+* **Parent Contact**: The emergency contact of a student’s parent in the form of a phone number for safety or administrative purposes
+* **Subject Enrollment**: The mapping between students and the subjects they are learning; each student can have multiple subjects
+* **Lesson**: A unit of teaching under a subject that can have associated attendance records
+* **Lesson List**: A collection of lessons linked to a specific subject
+* **Attendance**: A record indicating a student’s attendance for a given lesson
+* **Attendance Status**: A value showing attendance outcome — Present, Absent, Excused, or Late
+* **Assignment**: A task given by tutors for students to complete
+* **Assignment Completion**: A record indicating whether an assigned task has been completed
+* **Payment Record**: A log entry for student fee payments, including amount and date, supporting balance tracking
+* **Outstanding Balance**: The unpaid or pending portion of student fees
+* **Archived Student**: A student marked inactive or graduated, whose data is retained for historical reference
 
+#### Application Logic & Architecture
+* **Model**: The in-memory representation of TutorTrack’s data (students, subjects, lessons, attendance, etc.)
+* **Storage**: The component that reads and writes data between the model and the local JSON file
+* **Parser**: The logic component that interprets user input text and constructs the appropriate command for execution
+* **Command**: A text-based instruction entered by the user to perform an action (e.g., add, delete, markattendance)
+* **Command Result**: The output message displayed to the user after executing a command, indicating success or failure
+* **Command Exception**: An error thrown when a command cannot be executed due to invalid input or logical conflict (e.g., duplicate student)
+* **Predicate**: A filtering condition used to select a subset of data (e.g., students taking “Math”)
+* **TutorTrack Data File**: The local storage file that saves all user data (students, attendance, subjects, lessons)
+* **Session**: The current running instance of TutorTrack, lasting until the program is closed
+
+#### Commands & User Input
+* **Prefix**: A shorthand identifier used in command inputs to indicate different fields (e.g., n/, c/, s/)
+* **Parameter**: The value provided after a prefix in a command (e.g., n/John Tan)
+* **Invalid Command Format**: An error message shown when a command does not follow the required syntax or prefix structure
+* **Duplicate Student**: A student with the same name (case-insensitive) as an existing student; duplicates are not allowed
+* **Duplicate Lesson**: A lesson with the same name and subject as an existing lesson; duplicates are not allowed
+* **Filtered List**: A dynamically updated list that shows only entries matching search or filter conditions (e.g., find, listattendance)
+* **Command History**: The list of previously entered commands that can be navigated using arrow keys
+
+#### Interface & Environment
+* **GUI** (Graphical User Interface): The visual interface allowing users to interact via windows, buttons, and text fields
+* **CLI** (Command-Line Interface): The text-based interface where users type commands directly
+* **Class** Schedule: A timetable entry representing a class session with date and time
+* **Archive**: A status indicating whether a student is active or inactive within the system
+* **Mainstream OS**: Commonly used operating systems such as Windows, Linux, Unix, and macOS
 
 --------------------------------------------------------------------------------------------------------------------
 
