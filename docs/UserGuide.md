@@ -121,7 +121,6 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listarchive`, `clearcurrent`, `cleararchive` and `exit`) will output an error message, ensuring only the command word is given as input<br>
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listarchive`, `clearcurrent`, `cleararchive` and `exit`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -788,9 +787,6 @@ Displays a student’s attendance records for a specific subject.
 </div>
 
 ---
-
-
-
 
 ### Viewing help : `help`
 
