@@ -53,6 +53,8 @@ public class AddCommandParser implements Parser<AddCommand> {
             }
             nameValue = args.substring(quoteStart, quoteEnd);
             processedArgs = args.substring(0, nameStart) + "n/QUOTEDNAME" + args.substring(quoteEnd + 1);
+        } else if (args.contains("n/")) {
+            throw new ParseException("Name must be enclosed in quotes. Example: add n/\"John Tan\"");
         }
         assertNoUnknownPrefixes(processedArgs);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
