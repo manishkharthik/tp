@@ -249,7 +249,7 @@ Edits an existing student's information in Tutor Track
 </table>
 
 2.	Changing a student's payment status
-* Command: `edit 2 ps/Pending`
+* Command: `edit 2 ps/Unpaid`
   <table>
   <tr>
     <td><img src="images/editcommand2_before.png" alt="Student 2 Before" width="540" height="200"></td>
@@ -257,7 +257,7 @@ Edits an existing student's information in Tutor Track
   </tr>
   <tr>
     <td align="center"><em>Figure 6a: Before editing fields</em></td>
-    <td align="center"><em>Figure 6b: After setting Payment Status to “Pending”</em></td>
+    <td align="center"><em>Figure 6b: After setting Jerry's Payment Status to “Unpaid”</em></td>
   </tr>
 </table>
 
@@ -367,6 +367,25 @@ Deletes the specified student from the student list.
     <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
   </figure>
 
+### Adding Lessons: `addlesson`
+  <figure>
+    <img src="images/addlesson.png" alt="Add Lessons" width="600"/>
+    <figcaption><em>Figure 12: An example of a user adding the Algebra lesson</em></figcaption>
+  </figure>
+
+
+### Listing Lessons: `listlessons`
+  <figure>
+    <img src="images/listlessons.png" alt="List Lessons" width="600"/>
+    <figcaption><em>Figure 13: An example of a user looking at all the Math lessons</em></figcaption>
+  </figure>
+
+### Deleting Lessons: `deletelessons`
+  <figure>
+    <img src="images/deletelesson.png" alt="Delete Lessons" width="600"/>
+    <figcaption><em>Figure 14: An example of a user deleting the Algebra lesson</em></figcaption>
+  </figure>
+
 ### Marking attendance: `markattendance`
 
 Marks a student’s attendance for a specific lesson.
@@ -395,7 +414,7 @@ Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
 
 <figure>
   <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
-  <figcaption><em>Figure 9: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
+  <figcaption><em>Figure 15: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
 </figure>
 
 
@@ -411,8 +430,8 @@ Command:
     <td><img src="images/attendance_change_after.png" alt="Change Status After" width="540" height="220"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 10a: Before editing attendance (status: ABSENT)</em></td>
-    <td align="center"><em>Figure 10b: After changing status to “EXCUSED”</em></td>
+    <td align="center"><em>Figure 16a: Before editing attendance (status: ABSENT)</em></td>
+    <td align="center"><em>Figure 16b: After changing status to “EXCUSED”</em></td>
   </tr>
 </table>
 
@@ -454,7 +473,7 @@ Command: `listattendance n/John Tan s/Math`
 
 <figure>
   <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
-  <figcaption><em>Figure 11: Listing attendance for John Tan’s Math lessons</em></figcaption>
+  <figcaption><em>Figure 17: Listing attendance for John Tan’s Math lessons</em></figcaption>
 </figure>
 
 
@@ -502,8 +521,8 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 12a: Student List before archiving Sarah Lim</em></td>
-    <td align="center"><em>Figure 12b: Student List after Sarah is archived</em></td>
+    <td align="center"><em>Figure 18a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 18b: Student List after Sarah is archived</em></td>
   </tr>
   </table>
 
@@ -514,7 +533,7 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 13a: Find the desired student</em></td>
+    <td align="center"><em>Figure 19a: Find the desired student</em></td>
   </tr>
   </table>
   <table>
@@ -523,8 +542,8 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 13b: Index is based on filtered list (1 in this case)</em></td>
-    <td align="center"><em>Figure 13c: John is successfully archived</em></td>
+    <td align="center"><em>Figure 19b: Index is based on filtered list (1 in this case)</em></td>
+    <td align="center"><em>Figure 19c: John is successfully archived</em></td>
   </tr>
   </table>
 
@@ -559,7 +578,7 @@ Displays all archived students in Tutor Track for recordkeeping and reference.
     <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 14: Archive student list showing all archived students</em></td>
+    <td align="center"><em>Figure 20: Archive student list showing all archived students</em></td>
   </tr>
   </table>
 
@@ -595,7 +614,7 @@ Moves a student from the archive list back to your active student list in Tutor 
     <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 15a: Unarchiving Sarah Lim from the archive list</em></td>
+    <td align="center"><em>Figure 21a: Unarchiving Sarah Lim from the archive list</em></td>
   </tr>
   </table>
 
@@ -606,7 +625,7 @@ Moves a student from the archive list back to your active student list in Tutor 
     <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 15b: Error message when using an invalid index</em></td>
+    <td align="center"><em>Figure 21b: Error message when using an invalid index</em></td>
   </tr>
   </table>
 
@@ -639,8 +658,8 @@ Deletes **all current students** from the student list. This action is **irrever
     <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 16a: Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 16b: Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 22a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 22b: Student List once all students have been cleared out</em></td>
   </tr>
   </table>
 
@@ -670,8 +689,8 @@ Deletes **all archived students** from the student list. This action is **irreve
     <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 17a: Archive Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 17b: Archive Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 23a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 23b: Archive Student List once all students have been cleared out</em></td>
   </tr>
 </table>
 
