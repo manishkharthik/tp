@@ -164,7 +164,8 @@ Adds a new student to the TutorTrack with their academic and contact information
     <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
   </figure>
 
-2. Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
+{:start="2"}
+1. Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
 * Command: `add n/"Sarah Lim" c/2A s/English ec/98765432 ps/Paid as/Completed`
   <figure>
     <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
@@ -215,7 +216,8 @@ Edits an existing student's information in TutorTrack
   </tr>
 </table>
 
-2.	Changing a student's payment status
+{:start="2"}
+1.	Changing a student's payment status
 * Command: `edit 2 ps/Unpaid`
   <table>
   <tr>
@@ -267,7 +269,8 @@ Finds students whose names contain any of the given keywords.
     <figcaption><em>Figure 9: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
-2. No matching students
+{:start="2"}
+1. No matching students
 * Command: `find alice`
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
@@ -279,6 +282,7 @@ Finds students whose names contain any of the given keywords.
 * Ensure the target `INDEX` is visible in your current view after any filters (e.g., after `find`).
 * Only students matching all keywords are shown; partial matches are not included.
 * If you intend to search by other fields (e.g., subject, class), use the appropriate command or filter.
+* The `find` command searches within the currently displayed list (current or archive) and only returns results from that list
 
 </div>
 
@@ -294,6 +298,7 @@ Deletes the specified student from the student list.
 **Description:**
 * Deletes the student at the specified `INDEX`. This action is **irreversible**
 * The index refers to the index number shown in the displayed student list
+* `delete` only removes students from the list you are currently viewing (current or archive)
 * The command works on the last shown list of students, which may be filtered (e.g., after using `find`)
 * If the provided index is not an integer, negative or out of range, an error message will be shown
 
@@ -313,7 +318,8 @@ Deletes the specified student from the student list.
     </tr>
   </table>
 
-2. Deleting a student from a filtered list
+{:start="2"}
+1. Deleting a student from a filtered list
 * Command: `find John` followed by `delete 2`
   <table>
     <tr>
@@ -326,7 +332,8 @@ Deletes the specified student from the student list.
     </tr>
   </table>
 
-3. Invalid index
+{:start="3"}
+1. Invalid index
 * Command: `delete 5` (when there are only 2 or fewer students)
   **Error:** "The person index provided is invalid"
   <figure>
@@ -367,7 +374,8 @@ Moves a student from your active list into the archive list in TutorTrack.
   </tr>
   </table>
 
-2. Archiving a student from filtered results
+{:start="2"}
+1. Archiving a student from filtered results
 * Command: `find John` followed by `archive 1`
   <table>
   <tr>
@@ -426,7 +434,8 @@ Moves a student from the archive list back to your active student list in TutorT
   </tr>
   </table>
 
-2. Attempting to unarchive with an invalid index
+{:start="2"}
+1. Attempting to unarchive with an invalid index
 * Command: `unarchive 2`
   <table>
   <tr>
@@ -714,7 +723,8 @@ Marks a student’s attendance for a specific lesson.
   <figcaption><em>Figure 15: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
 </figure>
 
-2. Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)
+{:start="2"}
+1. Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)
 Commands: 
 * `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT` (left image)
 * `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED` (right image)
