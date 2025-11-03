@@ -492,6 +492,16 @@ public class AddCommandTest {
         public void clearArchivedStudents() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void clearLessons() {
+            throw new AssertionError("This method should not be called");
+        }
+
+        @Override
+        public void clearSubjects() {
+            throw new AssertionError("This method should not be called");
+        }
     }
 
     /**

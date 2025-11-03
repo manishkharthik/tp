@@ -98,6 +98,38 @@ public class SubjectList {
         return new ArrayList<>(subjects);
     }
 
+    /**
+     * Returns the {@code Subject} in this list whose name matches the given {@code name},
+     * ignoring case. Returns {@code null} if no such subject exists.
+     */
+    public Subject findByName(String name) {
+        for (Subject s : subjects) {
+            if (s.getName().equalsIgnoreCase(name)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves an existing {@code Subject} with the given {@code name} if it exists,
+     * or creates and adds a new one if it does not.
+     * This ensures that all subjects with the same name share a single instance within the list.
+     */
+    public Subject getOrAdd(String name) {
+        Objects.requireNonNull(name);
+        Subject existing = findByName(name);
+        if (existing != null) {
+            return existing;
+        }
+        Subject created = new Subject(name);
+        subjects.add(created);
+        return created;
+    }
+
+    public void clear() {
+        subjects.clear();
+    }
     @Override
     public String toString() {
         return "Subjects:  " + subjects.toString();

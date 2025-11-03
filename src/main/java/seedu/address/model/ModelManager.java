@@ -302,6 +302,16 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void clearLessons() {
+        addressBook.clearLessons();
+    }
+
+    @Override
+    public void clearSubjects() {
+        addressBook.clearSubjects();
+    }
+
+    @Override
     public Subject getSubject(String subjectName) {
         requireNonNull(subjectName);
         if (!hasSubject(subjectName)) {

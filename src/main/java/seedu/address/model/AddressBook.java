@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
@@ -93,12 +94,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.add(p);
         if (p instanceof Student) {
             Student s = (Student) p;
-            List<Subject> subjects = s.getSubjects();
-            for (int i = 0; i < subjects.size(); i++) {
-                if (!subjectList.contains(subjects.get(i))) {
-                    subjectList.addSubject(new Subject(subjects.get(i).getName()));
-                }
+            List<Subject> resolved = new ArrayList<>();
+            for (Subject sub : s.getSubjects()) {
+                resolved.add(getOrCreateSubject(sub.getName()));
             }
+            s.setSubjects(resolved);
         }
     }
 
@@ -252,6 +252,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         return subjectList;
     }
 
+    public Subject getOrCreateSubject(String name) {
+        requireNonNull(name);
+        return subjectList.getOrAdd(name);
+    }
+
     //// util methods
 
     @Override
@@ -272,6 +277,20 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void clearCurrentStudents() {
         persons.setPersons(List.of());
+    }
+
+    /**
+     * Deletes all lessons from the lesson list
+     */
+    public void clearLessons() {
+        lessonList.setLessons(List.of());
+    }
+
+    /**
+     * Deletes all subjects from the subject list
+     */
+    public void clearSubjects() {
+        subjectList.clear();
     }
 
     @Override
