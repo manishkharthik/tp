@@ -186,21 +186,20 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
   You can add multiple subjects by using multiple `s/` prefixes.
   Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
-  Names are case-sensitive
 </div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
-Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  
+  Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  
 
-This means you cannot add another student if a student with the same name (regardless of case) already exists in the list.
+  This means you cannot add another student if a student with the same name (regardless of case) already exists in the list.
 
-For example:
-`add n/"John Tan" c/3B s/Math ec/12345678`
-followed by
-`add n/"john tan" c/3B s/Math ec/12345678`
-will not work, because “John Tan” and “john tan” are considered the same student.
+  For example:
+  `add n/"John Tan" c/3B s/Math ec/12345678`
+  followed by
+  `add n/"john tan" c/3B s/Math ec/12345678`
+  will not work, because “John Tan” and “john tan” are considered the same student.
 
-When this happens, TutorTrack will display an alert message to alert user that that student has already been added.
+  When this happens, TutorTrack will display an alert message to alert user that that student has already been added.
 </div>
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
