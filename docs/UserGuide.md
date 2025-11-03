@@ -45,16 +45,20 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 | **Parameter**          | Information provided to a command to specify details. For example, in `add n/John Tan c/3B`, `n/John Tan` and `c/3B` are parameters.                                                  |
 | **Case-sensitive**     | When the casing of letters matters. For example, `add` is valid but `ADD` is not.                                                                                                     |
 | **Case-insensitive**   | When the casing of letters does not matter. For example, `john` and `John` are treated as the same.                                                                                   |
-| **Index**              | The position number of a student as shown in the current displayed list. 1-indexed format is used; meaning 1 is treated as the first entry in the list.                                                                                                |
+| **Index**              | The position number of a student as shown in the current displayed list (1-indexed, meaning index 1 refers to the first element in the list).                                                                                                  |
 | **Mainstream OS**      | Commonly used operating systems supported by TutorTrack — Windows, macOS, Linux, and Unix.                                                                                            |
 | **Tutor**              | An individual providing academic tutoring services. Tutors are the primary users of TutorTrack.                                                                                       |
-| **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, contact, subjects) and associated records (e.g., attendance, payments, assignment status). |                                          |
+| **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, emergency contact, subjects) and associated records (e.g., attendance, payments, assignment status). |
+| **Emergency Contact**     | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes.                                              |
 | **Attendance**         | The attendance record associated with a student, tracking presence, lateness, or absence for lessons.                                                                                 |
 | **Attendance Status**  | The recorded attendance status for a student during a lesson — can be **Present**, **Absent**, **Late**, or **Excused**.                                                              |
 | **Archive**            | A status indicating whether a student is **active** (currently enrolled or assigned to a tutor) or **archived** (no longer active but retained for recordkeeping).                    |
+| **Current list**       | Refers to the list of students who are currently enrolled under the user.   |
+| **Archived list**       | Refers to the list of former students who are no longer enrolled under the user.   |
 | **Subject Enrollment** | The mapping between students and the subjects they are studying. A student may be enrolled in multiple subjects.                                                                      |
 | **Payment Status**     | The record indicating whether a student’s payment for tuition or lessons is **Paid** or **Unpaid**.                                                                                     |
-| **Assignment Status**     | The record indicating whether a student’s assignment is **Complete** or **Incomplete**.                                                                                     |
+| **Assignment Status**  | The record indicating whether a student’s assignment submission is **Complete** or **Incomplete**.                                                                                     |
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -117,11 +121,13 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
   e.g. `[s/SUBJECTS]…​` can be used as `s/Math`, `s/Math s/Science` etc.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listarchive`, `clearcurrent`, `cleararchive` and `exit`) will output an error message, ensuring only the command word is given as input<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listarchive`, `clearcurrent`, `cleararchive` and `exit`) will output an error message, ensuring only the command word is given as input<br>
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
 ### Viewing help : `help`
+
 Shows a message with a link to access the full help page.
 
 **Format:** `help`
@@ -129,17 +135,20 @@ Shows a message with a link to access the full help page.
 **Parameters:**
 * This command takes no parameters.
 
-**Details:** 
-* A help window opens with a link to this user guide.
-* No extra params should be added, simply `help`
+**Description:** 
+* Upon using this command, a help window opens with a link to this user guide.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+No extra params should be added, simply `help`
+</div>
 
 **Example:**
-* `help` opens up a window with a link to the user guide
+1. Using help command
+* Command: `help` 
   <figure>
     <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
     <figcaption><em>Figure 2: Help Window</em></figcaption>
   </figure>
-
 ---
 
 ### Adding a student: `add`
@@ -149,44 +158,17 @@ Adds a new student to the TutorTrack with their academic and contact information
 **Format:** `add n/"NAME" c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
-* `n/NAME` - Student's full name in quotation marks (e.g., "John Tan") (**required**)
+* `n/"NAME"` - Student's full name in quotes (e.g., `"John Tan"`) (**required**)
 * `c/CLASS` - Student's class (e.g., 3B) (**required**)
 * `s/SUBJECT` - Supply multiple subjects by repeating `s/` or using a comma-separated list, or a combination of both (e.g., `s/Math s/Physics` or `s/Math, Physics` or even `s/Math, Physics s/English`) (**at least 1 subject required**)
 * `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (e.g. ec/98765432) (**required**)
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
 * `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
 
-**Details:** 
+**Description:** 
 * You can add multiple subjects by using multiple `s/` prefixes.
-* Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
+* Optional fields (`PAYMENT_STATUS` and `ASSIGNMENT_STATUS`) will use the default values mentioned if not specified.
 * Names are case-sensitive
-* You cannot add a student with the **same name** as an existing student
-
-**Examples:**
-* `add n/"Rahit s/o Kumar" c/3B s/Math ec/62345678` - Adds a student with s/o in name
-* `add n/"Sarah d/o Bala" c/4A s/Science ec/87654321` - Adds a student with d/o in name
-* `add n/"John Tan" c/3B s/Math ec/92345678 ps/Paid as/Completed` - Adds a student with the provided optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS)
-
-* `add n/"Jane Tan" c/3B s/Math s/Science ec/91234567` 
-  * Accounts for compulsory fields and adds Jane Tan from class 3B (uses default values for optional fields)
-
-  <figure>
-    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
-    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
-  </figure>
-
-* `add n/"Sarah Lim" c/2A s/English ec/98765432 ps/Paid as/Completed`
-  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
-
-  <figure>
-    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
-    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
-  </figure> 
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-  You can add multiple subjects by using multiple `s/` prefixes.
-  Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
-  Names are case-sensitive
 </div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
@@ -195,9 +177,9 @@ Duplicate students are identified by **name only**, and the name comparison is *
 This means you cannot add another student if a student with the same name (regardless of case) already exists in the list.
 
 For example:
-`add n/"John Tan" c/3B s/Math ec/12345678`
+`add n/"John Tan" c/3B s/Math ec/82345678`
 followed by
-`add n/"john tan" c/3B s/Math ec/12345678`
+`add n/"john tan" c/3B s/Math ec/98345678`
 will not work, because “John Tan” and “john tan” are considered the same student.
 
 When this happens, TutorTrack will display an alert message to alert user that that student has already been added.
@@ -205,10 +187,25 @@ When this happens, TutorTrack will display an alert message to alert user that t
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 
-* Quotation marks are required for **ALL** student names, regardless of whether or not they contain special characters
+* Quotes are required for **all** names (with or without special characters)
 * When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
 
 </div>
+
+**Examples:**
+1. Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
+* Command: `add n/"John Tan" c/3B s/Math s/Science ec/91234567` 
+  <figure>
+    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
+    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+  </figure>
+
+2. Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
+* Command: `add n/"Sarah Lim" c/2A s/English ec/98765432 ps/Paid as/Completed`
+  <figure>
+    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
+    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
+  </figure> 
 
 ---
 
@@ -226,19 +223,17 @@ Adds a new lesson to a subject in TutorTrack.
 Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
 </div>
 
-**Examples:**
-* `addlesson s/Math n/Algebra` - Adds the Algebra lesson in Math subject.
-
-<div markdown="block" class="alert alert-info">:information_source: **Note:**
-Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
-</div>
-
-* `addlesson s/Math n/Algebra` 
+**Example:**
+1. Adds the Algebra lesson in Math subject.
+* Command: `addlesson s/Math n/Algebra`
   <figure>
     <img src="images/addlesson.png" alt="Add lesson" width="600"/>
     <figcaption><em>Figure 4: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
   </figure>
- 
+  
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
+</div>
 
 ### Listing all students : `list`
 
@@ -251,21 +246,35 @@ Shows a list of all active (non-archived) students in the TutorTrack.
 
 **Format:** `list`
 
-**What it does:**
+**Parameters:**
+* This command takes no parameters.
+
+**Description:**
 * Displays all students who have not been archived
 * Returns you to the active student view if you were viewing archived students
 * Students are shown with their index numbers, names, classes, and other details
 
-**Expected output:**
-```
-Listed all students
-```
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `list`
+
+</div>
+
+**Example:**
+1. Listing all current students
+* Command: `list`
+<figure>
+    <img src="images/listcommand.png" alt="List" width="600"/>
+    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
+</figure>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use this command to reset any filters and see all active students after using `find` or other filtering commands.
 </div>
 
 ### Listing all lessons in a subject : `listlessons`
+
+Shows the list of lessons that falls under the specified subject.
 
 **Format:** `listlessons s/SUBJECT`
 
@@ -276,8 +285,9 @@ Use this command to reset any filters and see all active students after using `f
 Only one subject's lesson list can be viewed for each listlessons command
 </div>
 
-**Examples:**
-* `listlessons s/Math` - List all the lessons currently in Math's lesson list.
+**Example:**
+1. List all the lessons currently in Math's lesson list
+* Command: `listlessons s/Math`
   <figure>
     <img src="images/listlessons.png" alt="Add lesson" width="600"/>
     <figcaption><em>Figure 6: An example of a user viewing all lessons in the Math lesson list.</em></figcaption>
@@ -290,6 +300,7 @@ Edits an existing student's information in TutorTrack
 **Format:** `edit [INDEX] [n/"NAME"] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
+* `INDEX` - index of the student to be edited (e.g., `1`) (**required**)
 *	`c/` — class (e.g., `3A`)
 *	`s/` — subject(s). Supply multiple subjects by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`(**at least 1 subject required**)
 *	`ec/` — emergency contact (numbers only)
@@ -341,7 +352,6 @@ Edits an existing student's information in TutorTrack
 
 ### Locating students by name: `find`
 
-
 Finds students whose names contain any of the given keywords.
 
 **Format:** `find KEYWORD [MORE_KEYWORDS]`
@@ -390,7 +400,7 @@ Deletes the specified student from the student list.
 **Format:** `delete INDEX`
 
 **Parameters:**
-* `INDEX` — the position of the student in the currently displayed list (must be a positive integer)
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer) (**required**)
 
 **Description:**
 * Deletes the student at the specified `INDEX`. This action is **irreversible**
@@ -442,15 +452,15 @@ Deletes the specified lesson from the lesson list.
 **Format:** `deletelesson s/SUBJECT n/LESSON`
 
 **Parameters:**
-* `s/SUBJECT` — the subject of the lesson to be deleted.
-* `n/LESSON` — the lesson to be deleted.
+* `s/SUBJECT` — the subject of the lesson to be deleted. (**required**)
+* `n/LESSON` — the lesson to be deleted. (**required**)
 
 **Description:**
 * Deletes the lesson in a specified subject. This action is **irreversible**
 
 ⸻
 
-**Examples:**
+**Example:**
 1. Deleting a lesson from the lesson list
 * Command: `deletelesson s/Math n/Algebra`
   <figure>
@@ -469,10 +479,10 @@ Marks a student’s attendance for a specific lesson.
 **Format:** `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS`
 
 **Parameters:**
-- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
-- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
-- `l/` — lesson name (must exist for the given subject).  
-- `st/` — attendance status. One of: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list). (**required**) 
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects). (**required**)
+- `l/` — lesson name (must exist for the given subject). (**required**)
+- `st/` — attendance status. One of: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`. (**required**)
 
 **Description:**
 - Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.  
@@ -484,21 +494,17 @@ Marks a student’s attendance for a specific lesson.
 
 **Examples**
 
-1. **Mark John Tan present for Algebra (Math)**  
-
-Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
-
+1. Mark John Tan present for Algebra (Math) 
+* Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
 <figure>
   <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
   <figcaption><em>Figure 15: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
 </figure>
 
-
-2. **Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)**  
-
-Command: 
-1. `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT`
-2. `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED`
+2. Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)
+Commands: 
+* `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT` (left image)
+* `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED` (right image)
 
 <table>
   <tr>
@@ -530,8 +536,8 @@ Displays a student’s attendance records for a specific subject.
 **Format:** `listattendance n/NAME s/SUBJECT`
 
 **Parameters:**
-- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list).  
-- `s/` — subject name (case-insensitive match against the student’s enrolled subjects).  
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list) (**required**)  
+- `s/` — subject name (case-insensitive match against the student’s enrolled subjects) (**required**)
 
 **Description:**
 - Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.  
@@ -543,15 +549,12 @@ Displays a student’s attendance records for a specific subject.
 
 **Example**
 
-**List John Tan’s attendance for Math**  
-
-Command: `listattendance n/John Tan s/Math`
-
+1. List John Tan’s attendance for Math
+* Command: `listattendance n/John Tan s/Math`
 <figure>
   <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
   <figcaption><em>Figure 17: Listing attendance for John Tan’s Math lessons</em></figcaption>
 </figure>
-
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution**
 
@@ -559,6 +562,7 @@ Command: `listattendance n/John Tan s/Math`
 - The student must be **enrolled** in the specified subject; otherwise, the command will fail.  
 - If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.  
 - Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).  
+
 </div>
 
 ---
@@ -570,7 +574,7 @@ Moves a student from your active list into the archive list in TutorTrack.
 **Format:** `archive INDEX`
 
 **Parameters:**
-* `INDEX` — the position of the student in the currently displayed list (must be a positive integer)
+* `INDEX` — the position of the student in the currently displayed list (must be a positive integer) (**required**)
 
 **Description:**
 * Archives the student at the specified `INDEX`.
@@ -633,6 +637,7 @@ Displays all archived students in TutorTrack for recordkeeping and reference.
 
 **Description:**
 * Displays a list of all students who have been archived.
+* No extra params should be added, simply `listarchive`
 * Archived students retain all their details (class, subjects, attendance, payment status, assignment status, etc.).
 * Use this command to view or verify students who are no longer actively being tutored.
 
@@ -664,7 +669,7 @@ Moves a student from the archive list back to your active student list in TutorT
 **Format:** `unarchive INDEX`
 
 **Parameters:**
-* `INDEX` — the position of the student in the archive list (must be a positive integer)
+* `INDEX` — the position of the student in the archive list (must be a positive integer) (**required**)
 
 **Description:**
 * Unarchives the student at the specified `INDEX` from the archive list.
@@ -711,6 +716,9 @@ Deletes **all current students** from the student list. This action is **irrever
 
 **Format:** `clearcurrent`
 
+**Parameters:**
+* This command takes no parameters.
+
 **Details:**
 * Permanently deletes all active student, lesson and subject records from the **current list**.
 * No extra params should be added, simply `clearcurrent`
@@ -718,8 +726,8 @@ Deletes **all current students** from the student list. This action is **irrever
 * The data file is automatically updated after the operation.
 
 **Example:**
-* `clearcurrent`
-  Removes every student, lesson and subject from the current list.
+1. Removes every student, lesson and subject from the current list.
+* Command: `clearcurrent`
   <table>
   <tr>
     <td><img src="images/currentclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
@@ -742,6 +750,9 @@ Deletes **all archived students, lessons and subjects** from the archived list. 
 
 **Format:** `cleararchive`
 
+**Parameters:**
+* This command takes no parameters.
+
 **Details:**
 * Permanently deletes all student records from the **archived list**.
 * No extra params should be added, simply `cleararchive`
@@ -749,8 +760,8 @@ Deletes **all archived students, lessons and subjects** from the archived list. 
 * The data file is automatically updated after the operation.
 
 **Example:**
-* `cleararchive`
-  Removes every student from the archived list.
+1. Removes every student from the archived list.
+* Command: `cleararchive`
   <table>
   <tr>
     <td><img src="images/archiveclear_command_view.png" alt="Student 2 Before" width="540" height="200"></td>
@@ -762,7 +773,6 @@ Deletes **all archived students, lessons and subjects** from the archived list. 
   </tr>
   </table>
 
-
 <div markdown="span" class="alert alert-warning">:exclamation:**Caution:**
 This command cannot be undone. All active records will be permanently deleted.
 Current records are not affected by this command.</div>
@@ -771,22 +781,35 @@ Current records are not affected by this command.</div>
 
 Exits the program.
 
-Format: `exit`
+**Format:** `exit`
+
+**Parameters:**
+* This command takes no parameters.
+
+**Description:** 
+* Upon using this command, the user exits the application
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+No extra params should be added, simply `exit`
+</div>
+
+---
 
 ## Command Summary
 
 | Action | Format, Examples (if necessary)                                                                                                                                                                          |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Help** | `help`                                                                                                                                                                                                   |
-| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/MORE_SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed`     |
+| **Add** | `add n/NAME c/CLASS s/SUBJECT [s/MORE_SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `add n/"John Tan" c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed`     |
 | **List** | `list`                                                                                                                                                                                                   |
-| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/Betsy Crower c/4A s/Math, Science ec/98212312 ps/Paid as/Completed` |
+| **Edit** | `edit INDEX [n/NAME] [c/CLASS] [s/SUBJECT]... [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`<br> e.g., `edit 2 n/"Betsy Crower" c/4A s/Math, Science ec/98212312 ps/Paid as/Completed` |
 | **Find** | `find KEYWORD [MORE_KEYWORDS]`                                                                                                                                                                           |
 | **Delete** | `delete INDEX` <br> e.g., `delete 2`                                                                                                                                                                     |
 | **Archive** | `archive INDEX` <br> e.g., `archive 3`                                                                                                                                                                   |
 | **List Archived** | `listarchive`                                                                                                                                                                                            |
 | **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                               |
 | **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                  |
+
 | **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                          
 | **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                      
 | **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                       
@@ -808,10 +831,6 @@ TutorTrack data are saved automatically as a JSON file `[JAR file location]/data
 If your changes to the data file makes its format invalid, TutorTrack will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
