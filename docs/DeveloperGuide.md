@@ -7,12 +7,6 @@ title: Developer Guide
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Acknowledgements**
-
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
-
---------------------------------------------------------------------------------------------------------------------
-
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
@@ -1049,7 +1043,7 @@ Use case: UC3 - Update a student
 Actor: User
 MSS:
    1. User clicks on a student profile.
-   2. User ammends the student particulars.
+   2. User amends the student particulars.
    3. TutorTrack asks for confirmation.
    4. User confirms.
    5. Student profile is updated.
@@ -1067,7 +1061,7 @@ Use case: UC4 - Update User availability
 Actor: User
 MSS:
    1. User clicks on their profile.
-   2. User ammends their availability.
+   2. User amends their availability.
    3. TutorTrack asks for confirmation.
    4. User confirms.
    5. User profile is updated.
@@ -1136,21 +1130,47 @@ Extensions:
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Tutor**: An individual providing academic tutoring as a service who is primary user of this application
-* **Student**: A learner recieving academic tutoring, Students have unique information (name, contact, subjects) and associated records (attendance, payments, academic performance)
-* **Parent Contact**: Emergency contact of a student's parent in the form of a phone number for safety and administrative purposes
-* **Attendance**: A record A record to inidicate whether is present or absent for a given class
-* **Class Schedule**: An timetable entry that represents a class with its date and time
-* **Archive**: A status indicating whether a student is active (assigned to a class or tutor) or not
-* **Assignment**: Tasks given by tutors to students for them to complete
-* **Assignment Completion**: A record to inidicate whether tasks given by tutors to students for them to complete is completed
-* **Subject Enrollment**: The mapping between students and subjects they are learning, students may have mulitple subjects
-* **Payment Record**: A log entry for fees paid by students or parents, including amount and date, supports balance tracking
-* **Outstanding Balance**: The unpaid student fees
-* **Performance Data**: Records of a student's test scores, grades, and attendance to track a student’s academic performance over time
-* **Teaching Material**: Documents, textbooks, or resources uploaded by tutors for lessons and/or assignments
+#### User & Data Entities
+* **Tutor**: An individual providing academic tutoring as a service who is the primary user of this application
+* **Student**: A learner receiving academic tutoring; students have unique information (name, contact, subjects) and associated records (attendance, payments, academic performance)
+* **Parent Contact**: The emergency contact of a student’s parent in the form of a phone number for safety or administrative purposes
+* **Subject Enrollment**: The mapping between students and the subjects they are learning; each student can have multiple subjects
+* **Lesson**: A unit of teaching under a subject that can have associated attendance records
+* **Lesson List**: A collection of lessons linked to a specific subject
+* **Attendance**: A record indicating a student’s attendance for a given lesson
+* **Attendance Status**: A value showing attendance outcome — Present, Absent, Excused, or Late
+* **Assignment**: A task given by tutors for students to complete
+* **Assignment Completion**: A record indicating whether an assigned task has been completed
+* **Payment Record**: A log entry for student fee payments, including amount and date, supporting balance tracking
+* **Outstanding Balance**: The unpaid or pending portion of student fees
+* **Archived Student**: A student marked inactive or graduated, whose data is retained for historical reference
 
+#### Application Logic & Architecture
+* **Model**: The in-memory representation of TutorTrack’s data (students, subjects, lessons, attendance, etc.)
+* **Storage**: The component that reads and writes data between the model and the local JSON file
+* **Parser**: The logic component that interprets user input text and constructs the appropriate command for execution
+* **Command**: A text-based instruction entered by the user to perform an action (e.g., add, delete, markattendance)
+* **Command Result**: The output message displayed to the user after executing a command, indicating success or failure
+* **Command Exception**: An error thrown when a command cannot be executed due to invalid input or logical conflict (e.g., duplicate student)
+* **Predicate**: A filtering condition used to select a subset of data (e.g., students taking “Math”)
+* **TutorTrack Data File**: The local storage file that saves all user data (students, attendance, subjects, lessons)
+* **Session**: The current running instance of TutorTrack, lasting until the program is closed
+
+#### Commands & User Input
+* **Prefix**: A shorthand identifier used in command inputs to indicate different fields (e.g., n/, c/, s/)
+* **Parameter**: The value provided after a prefix in a command (e.g., n/John Tan)
+* **Invalid Command Format**: An error message shown when a command does not follow the required syntax or prefix structure
+* **Duplicate Student**: A student with the same name (case-insensitive) as an existing student; duplicates are not allowed
+* **Duplicate Lesson**: A lesson with the same name and subject as an existing lesson; duplicates are not allowed
+* **Filtered List**: A dynamically updated list that shows only entries matching search or filter conditions (e.g., find, listattendance)
+* **Command History**: The list of previously entered commands that can be navigated using arrow keys
+
+#### Interface & Environment
+* **GUI** (Graphical User Interface): The visual interface allowing users to interact via windows, buttons, and text fields
+* **CLI** (Command-Line Interface): The text-based interface where users type commands directly
+* **Class** Schedule: A timetable entry representing a class session with date and time
+* **Archive**: A status indicating whether a student is active or inactive within the system
+* **Mainstream OS**: Commonly used operating systems such as Windows, Linux, Unix, and macOS
 
 --------------------------------------------------------------------------------------------------------------------
 
