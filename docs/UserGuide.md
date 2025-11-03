@@ -159,11 +159,11 @@ Adds a new student to the TutorTrack with their academic and contact information
 
 **Parameters:**
 * `n/"NAME"` - Student's full name in quotes (e.g., `"John Tan"`) (**required**)
-* `c/CLASS` - Student's class (e.g., 3B) (**required**)
+* `c/CLASS` - Student's class (e.g., `3B`) (**required**)
 * `s/SUBJECT` - Supply multiple subjects by repeating `s/` or using a comma-separated list, or a combination of both (e.g., `s/Math s/Physics` or `s/Math, Physics` or even `s/Math, Physics s/English`) (**at least 1 subject required**)
-* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (e.g. ec/98765432) (**required**)
-* `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to Unpaid if omitted_)
-* `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to Incomplete if omitted_)
+* `ec/EMERGENCY_CONTACT` - 8-digit Emergency contact phone number, starting with 6,8 or 9 (e.g. `98765432`) (**required**)
+* `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to `Unpaid` if omitted_)
+* `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to `Incomplete` if omitted_)
 
 **Description:** 
 * You can add multiple subjects by using multiple `s/` prefixes.
@@ -216,8 +216,8 @@ Adds a new lesson to a subject in TutorTrack.
 **Format:** `addlesson s/SUBJECT n/LESSON`
 
 **Parameters:**
-* `s/SUBJECT` - The subject the lesson belongs to (e.g., Algebra belongs to Math) (**required**)
-* `n/LESSON` - Lesson name (e.g, Algebra) (**required**)
+* `s/SUBJECT` - The subject the lesson belongs to (e.g., `Math`) (**required**)
+* `n/LESSON` - Lesson name (e.g, `Algebra`) (**required**)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
@@ -279,7 +279,7 @@ Shows the list of lessons that falls under the specified subject.
 **Format:** `listlessons s/SUBJECT`
 
 **Parameters:**
-* `s/SUBJECT` - Subject whose lesson list needs to be viewed (**required**)
+* `s/SUBJECT` - Subject whose lesson list needs to be viewed (e.g., `Math`) (**required**)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 Only one subject's lesson list can be viewed for each listlessons command
@@ -302,10 +302,10 @@ Edits an existing student's information in TutorTrack
 **Parameters:**
 * `INDEX` - index of the student to be edited (e.g., `1`) (**required**)
 *	`c/` — class (e.g., `3A`)
-*	`s/` — subject(s). Supply multiple subjects by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`(**at least 1 subject required**)
-*	`ec/` — emergency contact (numbers only)
-*	`ps/` — payment status (e.g., Paid or Unpaid)
-*	`as/` — assignment status (e.g., Completed or Incomplete)
+*	`s/` — subject(s). Supply multiple subjects by repeating `s/` or using a comma-separated list (e.g., `s/Math s/Physics` or `s/Math, Physics`(**at least 1 subject required**))
+*	`ec/` — emergency contact (8 digit number starting with 6, 8 or 9)
+*	`ps/` — payment status (e.g., `Paid` or `Unpaid`)
+*	`as/` — assignment status (e.g., `Completed` or `Incomplete`)
 
 **Description**:
 *	Edits the student at the given `INDEX` (as shown in the current student list). `INDEX` is a positive integer.
@@ -452,8 +452,8 @@ Deletes the specified lesson from the lesson list.
 **Format:** `deletelesson s/SUBJECT n/LESSON`
 
 **Parameters:**
-* `s/SUBJECT` — the subject of the lesson to be deleted. (**required**)
-* `n/LESSON` — the lesson to be deleted. (**required**)
+* `s/SUBJECT` — the subject of the lesson to be deleted. (e.g., `Math`) (**required**)
+* `n/LESSON` — the lesson to be deleted. (e.g., `Algebra`) (**required**)
 
 **Description:**
 * Deletes the lesson in a specified subject. This action is **irreversible**
@@ -637,9 +637,14 @@ Displays all archived students in TutorTrack for recordkeeping and reference.
 
 **Description:**
 * Displays a list of all students who have been archived.
-* No extra params should be added, simply `listarchive`
 * Archived students retain all their details (class, subjects, attendance, payment status, assignment status, etc.).
 * Use this command to view or verify students who are no longer actively being tutored.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `listarchive`
+
+</div>
 
 ⸻
 
@@ -721,9 +726,14 @@ Deletes **all current students** from the student list. This action is **irrever
 
 **Details:**
 * Permanently deletes all active student, lesson and subject records from the **current list**.
-* No extra params should be added, simply `clearcurrent`
 * Does **not** affect archived students.
 * The data file is automatically updated after the operation.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `clearcurrent`
+
+</div>
 
 **Example:**
 1. Removes every student, lesson and subject from the current list.
@@ -755,9 +765,14 @@ Deletes **all archived students, lessons and subjects** from the archived list. 
 
 **Details:**
 * Permanently deletes all student records from the **archived list**.
-* No extra params should be added, simply `cleararchive`
 * Does **not** affect current students.
 * The data file is automatically updated after the operation.
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+No extra params should be added, simply `cleararchive`
+
+</div>
 
 **Example:**
 1. Removes every student from the archived list.
@@ -790,6 +805,7 @@ Exits the program.
 * Upon using this command, the user exits the application
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
+
 No extra params should be added, simply `exit`
 </div>
 
