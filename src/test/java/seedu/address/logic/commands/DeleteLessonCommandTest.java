@@ -33,10 +33,11 @@ public class DeleteLessonCommandTest {
         CommandResult result = command.execute(model);
 
         assertEquals(
-            String.format(DeleteLessonCommand.MESSAGE_SUCCESS, lesson),
+            String.format(DeleteLessonCommand.MESSAGE_SUCCESS, lesson.getName()),
             result.getFeedbackToUser()
         );
-        assertFalse(model.hasLesson(lesson)); // lesson should be gone
+
+        assertFalse(model.hasLesson(lesson));
     }
 
     @Test

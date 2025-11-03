@@ -45,7 +45,7 @@ public class DeleteLessonCommand extends Command {
         }
 
         model.deleteLesson(toDelete);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toDelete));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toDelete.getName()));
     }
 
     @Override
