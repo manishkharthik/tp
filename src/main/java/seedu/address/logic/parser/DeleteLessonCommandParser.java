@@ -29,6 +29,11 @@ public class DeleteLessonCommandParser implements Parser<DeleteLessonCommand> {
                     DeleteLessonCommand.MESSAGE_USAGE));
         }
 
+        if (argMultimap.getAllValues(PREFIX_SUBJECTS).size() != 1
+                || argMultimap.getAllValues(PREFIX_NAME).size() != 1) {
+            throw new ParseException("Only one subject and one lesson name are allowed.");
+        }
+
         // Extract the subject and lesson name from the prefixes
         String subject = argMultimap.getValue(PREFIX_SUBJECTS).get().trim();
         String lessonName = argMultimap.getValue(PREFIX_NAME).get().trim();

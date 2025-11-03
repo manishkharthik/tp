@@ -38,9 +38,24 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args, "args must not be null");
         LOGGER.finer(() -> "Parsing EditCommand with args: " + args);
+        String processedArgs = args;
+        String nameValue = null;
+        if (args.contains("n/\"")) {
+            int nameStart = args.indexOf("n/\"");
+            int quoteStart = nameStart + 3;
+            int quoteEnd = args.indexOf("\"", quoteStart);
+
+            if (quoteEnd == -1) {
+                throw new ParseException("Missing closing quote for name.");
+            }
+            nameValue = args.substring(quoteStart, quoteEnd);
+            processedArgs = args.substring(0, nameStart) + "n/QUOTEDNAME" + args.substring(quoteEnd + 1);
+        } else if (args.contains("n/")) {
+            throw new ParseException("Name must be enclosed in quotes. Example: edit 1 n/\"John Tan\"");
+        }
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args,
+                processedArgs,
                 PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
                 PREFIX_CLASS, PREFIX_SUBJECTS, PREFIX_EMERGENCY_CONTACT,
                 PREFIX_PAYMENT_STATUS, PREFIX_ASSIGNMENT_STATUS
@@ -63,8 +78,11 @@ public class EditCommandParser implements Parser<EditCommand> {
         );
 
         EditPersonDescriptor descriptor = new EditPersonDescriptor();
-
-        parseAndSet(argMultimap, PREFIX_NAME, ParserUtil::parseName, descriptor::setName);
+        if (nameValue != null) {
+            descriptor.setName(ParserUtil.parseName(nameValue));
+        } else {
+            parseAndSet(argMultimap, PREFIX_NAME, ParserUtil::parseName, descriptor::setName);
+        }
         parseAndSet(argMultimap, PREFIX_PHONE, ParserUtil::parsePhone, descriptor::setPhone);
         parseAndSet(argMultimap, PREFIX_EMAIL, ParserUtil::parseEmail, descriptor::setEmail);
         parseAndSet(argMultimap, PREFIX_ADDRESS, ParserUtil::parseAddress, descriptor::setAddress);

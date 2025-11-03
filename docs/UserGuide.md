@@ -146,7 +146,7 @@ Shows a message with a link to access the full help page.
 
 Adds a new student to the Tutor Track with their academic and contact information.
 
-**Format:** `add n/NAME c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
+**Format:** `add n/"NAME" c/CLASS s/SUBJECT [s/SUBJECT]... ec/EMERGENCY_CONTACT [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
 * `n/NAME` - Student's full name in quotation marks (e.g., "John Tan") (**required**)
@@ -166,6 +166,30 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 * `add n/"Rahit s/o Kumar" c/3B s/Math ec/62345678` - Adds a student with s/o in name
 * `add n/"Sarah d/o Bala" c/4A s/Science ec/87654321` - Adds a student with d/o in name
 * `add n/"John Tan" c/3B s/Math ec/92345678 ps/Paid as/Completed` - Adds a student with the provided optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS)
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+  You can add multiple subjects by using multiple `s/` prefixes.
+  Optional fields (PAYMENT_STATUS and ASSIGNMENT_STATUS) will use the default values mentioned if not specified.
+  Names are case-sensitive
+</div>
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
+Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  
+
+This means you cannot add another student if a student with the same name (regardless of case) already exists in the list.
+
+For example:
+`add n/"John Tan" c/3B s/Math ec/12345678`
+followed by
+`add n/"john tan" c/3B s/Math ec/12345678`
+will not work, because “John Tan” and “john tan” are considered the same student.
+
+When this happens, TutorTrack will display an alert message to alert user that that student has already been added.
+</div>
+
+<div markdown="block" class="alert alert-info">:information_source: **Note:**
+
+* Quotes are required for all names (regular names and those with special characters)
+* When viewing the archived student list, the `add` command cannot be used. An error message will appear instead, reminding users that only the `archive` command can move students to the archived list.
 
 * `add n/"Jane Tan" c/3B s/Math s/Science ec/91234567` 
   * Accounts for compulsory fields and adds Jane Tan from class 3B (uses default values for optional fields)
@@ -192,47 +216,33 @@ Adds a new student to the Tutor Track with their academic and contact informatio
 
 ---
 
-### Adding a lesson : 'addlesson'
+### Adding a lesson : `addlesson`
 
 Adds a new lesson to a subject in Tutor Track.
 
-**Format:** `add s/SUBJECT n/LESSON.`
+**Format:** `addlesson s/SUBJECT n/LESSON.`
 
 **Parameters:**
 * `s/SUBJECT` - Subject that is being added (e.g., Math) (**required**)
 * `n/LESSON` - Lesson name (e.g, Algebra) (**required**)
-
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-  You can add multiple lessons by using multiple `n/` prefixes.
-</div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 Adding the same lesson (case-insensitive) multiple times will only result in one instance of the lesson added.
 </div>
 
 **Examples:**
-* `addlesson n/Math s/AlgebraI` - Adds AlgebraI lessons in Math subject.
+* `addlesson s/Math n/Algebra` - Adds the Algebra lesson in Math subject.
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
-Only one lesson in one lesson can be added. To add multiple lessons, use the command multiple times.
+Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
 </div>
-TODO: CHANGE COMMANDS AND IMAGE ACCORDINGLY
-* `add n/John Tan c/3B s/Math s/Science ec/91234567` 
-  * Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
 
+* `addlesson s/Math n/Algebra` 
   <figure>
-    <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
-    <figcaption><em>Figure 3a: Compulsory Fields for Adding students</em></figcaption>
+    <img src="images/addlesson.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 4: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
   </figure>
-
-* `add n/Sarah Lim c/2A s/English ec/98765432 ps/Paid as/Completed`
-  * Fills out optional fields along with compulsory ones while adding Sarah Lim from class 2A.
-
-  <figure>
-    <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
-    <figcaption><em>Figure 3b: Optional Fields for Adding students</em></figcaption>
-  </figure> 
+ 
 
 ### Listing all students : `list`
 
@@ -240,7 +250,7 @@ Shows a list of all active (non-archived) students in the Tutor Track.
 
 <figure>
     <img src="images/listcommand.png" alt="List" width="600"/>
-    <figcaption><em>Figure 4: Sample student list shown after the list Command is called</em></figcaption>
+    <figcaption><em>Figure 5: Sample student list shown after the list Command is called</em></figcaption>
   </figure>
 
 **Format:** `list`
@@ -259,13 +269,29 @@ Listed all students
 Use this command to reset any filters and see all active students after using `find` or other filtering commands.
 </div>
 
-### Listing all lessons in a subject : 'listlessons'
+### Listing all lessons in a subject : `listlessons`
+
+**Format:** `listlessons s/SUBJECT`
+
+**Parameters:**
+* `s/SUBJECT` - Subject who's lesson list needs to be viewed (**required**)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Only one subject's lesson list can be viewed for each listlessons command
+</div>
+
+**Examples:**
+* `listlessons s/Math` - List all the lessons currently in Math's lesson list.
+  <figure>
+    <img src="images/listlessons.png" alt="Add lesson" width="600"/>
+    <figcaption><em>Figure 6: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
+  </figure>
 
 ### Editing a student : `edit`
 
 Edits an existing student's information in Tutor Track
 
-**Format:** `edit [INDEX] [n/NAME] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
+**Format:** `edit [INDEX] [n/"NAME"] [c/CLASS] [s/SUBJECT...] [ec/EMERGENCY_CONTACT] [ps/PAYMENT_STATUS] [as/ASSIGNMENT_STATUS]`
 
 **Parameters:**
 *	`c/` — class (e.g., `3A`)
@@ -290,21 +316,21 @@ Edits an existing student's information in Tutor Track
     <td><img src="images/editcommand1_after.png" alt="Student 1 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 5a: Before editing fields</em></td>
-    <td align="center"><em>Figure 5b: After editing class & subjects</em></td>
+    <td align="center"><em>Figure 7a: Before editing fields</em></td>
+    <td align="center"><em>Figure 7b: After editing class & subjects</em></td>
   </tr>
 </table>
 
 2.	Changing a student's payment status
-* Command: `edit 2 ps/Pending`
+* Command: `edit 2 ps/Unpaid`
   <table>
   <tr>
     <td><img src="images/editcommand2_before.png" alt="Student 2 Before" width="540" height="200"></td>
     <td><img src="images/editcommand2_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 6a: Before editing fields</em></td>
-    <td align="center"><em>Figure 6b: After setting Payment Status to “Pending”</em></td>
+    <td align="center"><em>Figure 8a: Before editing fields</em></td>
+    <td align="center"><em>Figure 8b: After setting Jerry's Payment Status to “Unpaid”</em></td>
   </tr>
 </table>
 
@@ -343,14 +369,14 @@ Finds students whose names contain any of the given keywords.
 * Command: `find john`
   <figure>
     <img src="images/findcommand_multiple.png" alt="Find Multiple" width="600"/>
-    <figcaption><em>Figure 7: find john shows multiple students from the student list named John</em></figcaption>
+    <figcaption><em>Figure 9: find john shows multiple students from the student list named John</em></figcaption>
   </figure>
 
 2. No matching students
 * Command: `find alice`
   <figure>
     <img src="images/findcommand_invalid.png" alt="Find Invalid" width="600"/>
-    <figcaption><em>Figure 8: Finding an invalid student generates the following output</em></figcaption>
+    <figcaption><em>Figure 10: Finding an invalid student generates the following output</em></figcaption>
   </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
@@ -387,8 +413,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
+      <td align="center"><em>Figure 11a: Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 11b: Student List after the command delete 3 is run</em></td>
     </tr>
   </table>
 
@@ -400,8 +426,8 @@ Deletes the specified student from the student list.
       <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
     </tr>
     <tr>
-      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
+      <td align="center"><em>Figure 12a: Filtered Student List before deleting John Lee</em></td>
+      <td align="center"><em>Figure 12b: Filtered Student List after the command delete 2 is run</em></td>
     </tr>
   </table>
 
@@ -410,7 +436,7 @@ Deletes the specified student from the student list.
   **Error:** "The person index provided is invalid"
   <figure>
     <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
-    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
+    <figcaption><em>Figure 13: An example of an invalid delete command</em></figcaption>
   </figure>
 
 ### Deleting a lesson : 'deletelesson'
@@ -429,43 +455,15 @@ Deletes the specified lesson from the lesson list.
 ⸻
 
 **Examples:**
-TODO: CHANGE THE FOLLOWING BELOW
-1. Deleting a student from the main list
-* Command: `list` followed by `delete 3`
-  <table>
-    <tr>
-      <td><img src="images/deletecommand_list_before.png" alt="Student 2 Before" width="540" height="200"></td>
-      <td><img src="images/deletecommand_list_after.png" alt="Student 2 After" width="540" height="200"></td>
-    </tr>
-    <tr>
-      <td align="center"><em>Figure 9a: Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 9b: Student List after the command delete 3 is run</em></td>
-    </tr>
-  </table>
-
-2. Deleting a student from a filtered list
-* Command: `find John` followed by `delete 2`
-  <table>
-    <tr>
-      <td><img src="images/findcommand_multiple.png" alt="Student 2 Before" width="540" height="200"></td>
-      <td><img src="images/deletecommand_find_before.png" alt="Student 2 After" width="540" height="200"></td>
-    </tr>
-    <tr>
-      <td align="center"><em>Figure 10a: Filtered Student List before deleting John Lee</em></td>
-      <td align="center"><em>Figure 10b: Filtered Student List after the command delete 2 is run</em></td>
-    </tr>
-  </table>
-
-3. Invalid index
-* Command: `delete 5` (when there are only 2 or fewer students)
-  **Error:** "The person index provided is invalid"
+1. Deleting a lesson from the lesson list
+* Command: `delete s/Math n/Algebra`
   <figure>
-    <img src="images/deletecommand_error.png" alt="Delete Invalid" width="600"/>
-    <figcaption><em>Figure 11: An example of an invalid delete command</em></figcaption>
-  </figure>
+    <img src="images/deletelesson.png" alt="Delete Lesson" width="600"/>
+    <figcaption><em>Figure 14: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
+  </figure>  
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
-This command only deletes one lesson from one subject. To delete multiple lessons, run this command multiple times.
+This command only deletes one lesson from one subject per deletelesson command. To delete multiple lessons, run this command multiple times.
 </div>
 
 ### Marking attendance: `markattendance`
@@ -496,7 +494,7 @@ Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
 
 <figure>
   <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
-  <figcaption><em>Figure 9: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
+  <figcaption><em>Figure 15: After running the command — attendance marked as PRESENT for John Tan (Math → Algebra)</em></figcaption>
 </figure>
 
 
@@ -512,8 +510,8 @@ Command:
     <td><img src="images/attendance_change_after.png" alt="Change Status After" width="540" height="220"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 10a: Before editing attendance (status: ABSENT)</em></td>
-    <td align="center"><em>Figure 10b: After changing status to “EXCUSED”</em></td>
+    <td align="center"><em>Figure 16a: Before editing attendance (status: ABSENT)</em></td>
+    <td align="center"><em>Figure 16b: After changing status to “EXCUSED”</em></td>
   </tr>
 </table>
 
@@ -555,7 +553,7 @@ Command: `listattendance n/John Tan s/Math`
 
 <figure>
   <img src="images/listattendance_math.png" alt="List Attendance Math" width="600"/>
-  <figcaption><em>Figure 11: Listing attendance for John Tan’s Math lessons</em></figcaption>
+  <figcaption><em>Figure 17: Listing attendance for John Tan’s Math lessons</em></figcaption>
 </figure>
 
 
@@ -603,8 +601,8 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/archiveStudent1_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 12a: Student List before archiving Sarah Lim</em></td>
-    <td align="center"><em>Figure 12b: Student List after Sarah is archived</em></td>
+    <td align="center"><em>Figure 18a: Student List before archiving Sarah Lim</em></td>
+    <td align="center"><em>Figure 18b: Student List after Sarah is archived</em></td>
   </tr>
   </table>
 
@@ -615,7 +613,7 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/findStudent2_command_view.png" alt="Find Student" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 13a: Find the desired student</em></td>
+    <td align="center"><em>Figure 19a: Find the desired student</em></td>
   </tr>
   </table>
   <table>
@@ -624,8 +622,8 @@ Moves a student from your active list into the archive list in Tutor Track.
     <td><img src="images/archiveStudent2_command_after.png" alt="After Archive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 13b: Index is based on filtered list (1 in this case)</em></td>
-    <td align="center"><em>Figure 13c: John is successfully archived</em></td>
+    <td align="center"><em>Figure 19b: Index is based on filtered list (1 in this case)</em></td>
+    <td align="center"><em>Figure 19c: John is successfully archived</em></td>
   </tr>
   </table>
 
@@ -660,7 +658,7 @@ Displays all archived students in Tutor Track for recordkeeping and reference.
     <td><img src="images/listarchive.png" alt="Archive List" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 14: Archive student list showing all archived students</em></td>
+    <td align="center"><em>Figure 20: Archive student list showing all archived students</em></td>
   </tr>
   </table>
 
@@ -696,7 +694,7 @@ Moves a student from the archive list back to your active student list in Tutor 
     <td><img src="images/unarchive.png" alt="Unarchive" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 15a: Unarchiving Sarah Lim from the archive list</em></td>
+    <td align="center"><em>Figure 21a: Unarchiving Sarah Lim from the archive list</em></td>
   </tr>
   </table>
 
@@ -707,7 +705,7 @@ Moves a student from the archive list back to your active student list in Tutor 
     <td><img src="images/unarchive_error.png" alt="Unarchive Error" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 15b: Error message when using an invalid index</em></td>
+    <td align="center"><em>Figure 21b: Error message when using an invalid index</em></td>
   </tr>
   </table>
 
@@ -740,8 +738,8 @@ Deletes **all current students** from the student list. This action is **irrever
     <td><img src="images/currentclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 16a: Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 16b: Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 22a: Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 22b: Student List once all students have been cleared out</em></td>
   </tr>
   </table>
 
@@ -771,8 +769,8 @@ Deletes **all archived students, lessons and subjects** from the archived list. 
     <td><img src="images/archiveclear_command_after.png" alt="Student 2 After" width="540" height="200"></td>
   </tr>
   <tr>
-    <td align="center"><em>Figure 17a: Archive Student List before it is cleared</em></td>
-    <td align="center"><em>Figure 17b: Archive Student List once all students have been cleared out</em></td>
+    <td align="center"><em>Figure 23a: Archive Student List before it is cleared</em></td>
+    <td align="center"><em>Figure 23b: Archive Student List once all students have been cleared out</em></td>
   </tr>
   </table>
 

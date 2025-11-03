@@ -11,7 +11,7 @@ public class Name {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain alphabetic characters and spaces, and it should not be blank. "
-                    + "Use quotes for names with s/o or d/o (e.g., \"Rahit s/o Kumar\")";
+                    + "Use quotes for names";
 
     /*
      * The first character of the address must not be a whitespace,
