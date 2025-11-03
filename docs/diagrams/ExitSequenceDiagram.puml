@@ -1,0 +1,41 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant "e:ExitCommand" as ExitCommand LOGIC_COLOR
+end box
+
+box UI UI_COLOR_T1
+participant ":UI" as UI UI_COLOR
+end box
+
+[-> LogicManager : execute("exit")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("exit")
+activate AddressBookParser
+
+create ExitCommand
+AddressBookParser -> ExitCommand : new ExitCommand()
+AddressBookParser --> LogicManager : e
+deactivate AddressBookParser
+
+LogicManager -> ExitCommand : execute(model)
+activate ExitCommand
+
+create ":CommandResult" as CommandResult
+ExitCommand -> CommandResult : new CommandResult("Exiting Tutor Track as requested...", exit=true)
+ExitCommand --> LogicManager : result
+deactivate ExitCommand
+
+LogicManager --> UI : result(exit=true)
+activate UI
+UI -> UI : triggerAppShutdown()\n(save data → close window)
+deactivate UI
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+start
+:User inputs listattendance command;
+
+if (Valid command format?) then (yes)
+  if (All required prefixes present?\n n/ and s/) then (yes)
+    if (No duplicate prefixes?) then (yes)
+      :Find student by name\n(Model.getFilteredPersonList);
+      if (Student found?) then (yes)
+        :Check subject enrollment (case-insensitive);
+        if (Enrolled in subject?) then (yes)
+          :Retrieve attendance records\nfilter by subject;
+          if (Any records found?) then (yes)
+            :Format and display\n"Attendance for [Name] ([Subject]):"\n+ record list;
+          else (no)
+            :Display error\n("No attendance records for this subject");
+          endif
+        else (no)
+          :Display error\n("Student not enrolled in subject");
+        endif
+      else (no)
+        :Display error\n("Student not found");
+      endif
+    else (no)
+      :Display error\n("Duplicate prefixes detected");
+    endif
+  else (no)
+    :Display error\n("Missing required prefixes");
+  endif
+else (no)
+  :Display error\n("Invalid command format");
+endif
+
+stop
+@enduml

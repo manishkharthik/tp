@@ -1,0 +1,41 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant "h:HelpCommand" as HelpCommand LOGIC_COLOR
+end box
+
+box UI UI_COLOR_T1
+participant ":UI" as UI UI_COLOR
+end box
+
+[-> LogicManager : execute("help")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("help")
+activate AddressBookParser
+
+create HelpCommand
+AddressBookParser -> HelpCommand : new HelpCommand()
+AddressBookParser --> LogicManager : h
+deactivate AddressBookParser
+
+LogicManager -> HelpCommand : execute(model)
+activate HelpCommand
+
+create ":CommandResult" as CommandResult
+HelpCommand -> CommandResult : new CommandResult("Opened help window.", showHelp=true)
+HelpCommand --> LogicManager : result
+deactivate HelpCommand
+
+LogicManager --> UI : result(showHelp=true)
+activate UI
+UI -> UI : openHelpWindow()
+deactivate UI
+
+[<-- LogicManager : result
+deactivate LogicManager
+@enduml
