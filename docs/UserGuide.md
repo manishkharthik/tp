@@ -80,7 +80,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before moving on to the next instruction.
 
-4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar tutortrack.jar` command to run the application.<br>
+4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar './[CS2103T-W13-2][TutorTrack].jar'` command to run the application.<br>
    A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.
    <figure>
       <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
