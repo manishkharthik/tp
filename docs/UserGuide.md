@@ -66,15 +66,15 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 1. Ensure you have Java 17 or above installed on your computer.
     *	**Windows users:**
-    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows)￼ or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/)￼.
+    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows) or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/).
     *	**macOS users:**
-  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)￼,
+  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html),
   or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)
   or [Adoptium Temurin 17 (macOS)](https://adoptium.net/temurin/releases/).
     *	**Linux users:**
   You can install via your package manager (e.g., ```sudo apt install openjdk-17-jdk```)
   or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)
-  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
+  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/).
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
 
