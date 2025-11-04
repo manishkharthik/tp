@@ -152,7 +152,7 @@ This section describes some noteworthy details on how certain features are imple
 
 The add student feature allows TutorTrack to add students to a list of students.
 
-#### Implementation 
+#### Implementation
 
 The add student command mechanism is facilitated by the `AddCommandParser` class which implements the `Parser` interface.
 `AddCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
@@ -200,7 +200,7 @@ The `EditCommand` object then communicates with the `Model` API by calling the `
 
 The method `EditCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
 
-The following sequence diagram shows what happens when a user inputs the edit command. 
+The following sequence diagram shows what happens when a user inputs the edit command.
 
 <img src="images/EditCommandSequenceDiagram.png" width="600" />
 
@@ -447,7 +447,7 @@ The following activity diagram shows what happens when a user inputs the find co
 
 ### Add Lesson feature
 
-The add lesson feature allows tutor to add lessons to a subject. 
+The add lesson feature allows tutor to add lessons to a subject.
 
 #### Implementation
 
@@ -862,7 +862,7 @@ The following activity diagram shows what happens when a user inputs the clearar
 
 <img src="images/ClearArchiveActivityDiagram.png" width="600" />
 
-### Help feature 
+### Help feature
 
 The help feature allows tutors to see the User Guide to aid them in the usage of the app.
 
@@ -903,7 +903,7 @@ Given below is an example usage scenario and how the help command behaves at eac
 **Step 6.** The success message "Opened help window." is displayed in the result display area.
 
 **Note:** The help window contains:
-* Link to the full user guide 
+* Link to the full user guide
 
 ### Exit feature
 
@@ -1110,7 +1110,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC1 - Add a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1141,7 +1141,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC2 - Delete a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1167,7 +1167,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC3 - Edit a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1209,7 +1209,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC4 - Find students**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1235,7 +1235,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC5 - Archive a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1261,7 +1261,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC6 - Unarchive a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1287,7 +1287,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC7 - Add a lesson**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1313,7 +1313,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC8 - List lessons**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1339,7 +1339,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC9 - Delete a lesson**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1360,7 +1360,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC10 - Mark student attendance**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1398,7 +1398,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC11 - List student attendance**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1450,7 +1450,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC13 - Clear archived students**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
