@@ -17,7 +17,7 @@ skinparam Sequence {
   BoxBorderColor Black
 }
 
-box "Logic" #E8E0FF 
+box "Logic" #E8E0FF
   participant ":LogicManager" as LM
   participant ":AddressBookParser" as Parser
   participant ":ListLessonsCommandParser" as LLP
