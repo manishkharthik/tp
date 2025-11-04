@@ -1724,24 +1724,6 @@ testers are expected to do more *exploratory* testing.
       ```  
       Expected: Error message “Student not found.”
 
-### Saving data
-
-1. **Data persistence across sessions**
-
-   1.1 Prerequisites: Add one or more students.
-
-   1.2 Test case: Run `exit`, then reopen TutorTrack.<br>
-      Expected: The newly added students appear. Data file updated in `/data/addressbook.json`.
-
-2. **Handling corrupted data files**
-
-   2.1 Prerequisites: Manually open `/data/addressbook.json` and delete part of its content.
-
-   2.2 Test case: Reopen TutorTrack.<br>
-      Expected: Warning message “Data file corrupted. Starting with an empty address book.”  
-      App continues running with empty data.
-
-
 ### Help command
 
 1. **Opening the help window**
@@ -1791,8 +1773,8 @@ testers are expected to do more *exploratory* testing.
 
    1.2 Close the app.
 
-   1.3 Launch the app again.
-   Expected: The new employee should still be present.
+   1.3 Launch the app again. <br>
+   **Expected**: The new employee should still be present.
 
 2. Dealing with missing data file
 
@@ -1800,8 +1782,8 @@ testers are expected to do more *exploratory* testing.
 
    2.2 Delete tutortrack.json.
 
-   2.3 Launch the app by double-clicking the jar file.
-   Expected: The app should create a new tutortrack.json file with sample data in the data folder.
+   2.3 Launch the app by double-clicking the jar file. <br>
+   **Expected**: The app should create a new tutortrack.json file with sample data in the data folder.
 
 3. Dealing with corrupted data file
 
@@ -1810,8 +1792,9 @@ testers are expected to do more *exploratory* testing.
    3.2 Open tutortrack.json in a text editor.
 
    3.3 Corrupt the file by deleting some characters.
-
-1. _{ more test cases …​ }_
+   
+   3.4 Launch the app by double-clicking the jar file. <br>
+    **Expected**: The app should detect the corrupted file and show an error message in the console. The app should create a new hour.json file with an empty employee book in the data folder.
 
 # Appendix: Efforts
 
