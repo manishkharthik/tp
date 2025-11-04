@@ -868,9 +868,9 @@ The help feature allows tutors to see the User Guide to aid them in the usage of
 
 ##### Implementation
 
-#### Help Command
-
 The help command mechanism is facilitated by the `HelpCommand` class which extends the `Command` class.
+
+#### Help Command
 
 `HelpCommand` implements the following operations:
 * `HelpCommand#execute(Model)` — Validates that no extra arguments are provided after the `help` command. If any arguments are present, a `CommandException` is thrown. The command returns a `CommandResult` with a special flag that triggers the UI to display the help window showing program usage instructions for all available commands.
@@ -1536,40 +1536,280 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+   1.1 Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1.2 Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+   2.1 Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+   2.2 Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+3. Shutdown using the UI
 
-### Deleting a person
+   3.1 Click the X button in the top right corner of the window.<br>
+       Expected: The window closes.
 
-1. Deleting a person while all persons are being shown
+4. Shutdown using the exit command
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   4.1 Type exit in the command box and press Enter.<br>
+       Expected: The window closes.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+### Adding a student
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+1. **Adding a valid student**
 
-1. _{ more test cases …​ }_
+   1.1 Prerequisites: TutorTrack is open.
+
+   1.2 Test case:  
+      ```
+      add n/John Tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed
+      ```  
+      Expected: “New student added: John Tan” message shown. Student appears in list with specified details.
+
+2. **Adding a duplicate student**
+
+   2.1 Prerequisites: John Tan already exists in list.
+
+   2.2 Test case:  
+      ```
+      add n/john tan c/3B s/Math s/Science ec/91234567 ps/Paid as/Completed
+      ```  
+      Expected: Command fails with alert message  
+      “Duplicate student detected! A student with the same name already exists in the current list.”  
+      No new student added.
+
+3. **Invalid field inputs**
+
+   3.1 Test case:  
+      ```
+      add n/ c/3B s/Math ec/91234567
+      ```  
+      Expected: Error message “Name cannot be empty.”
+
+   3.2 Test case:  
+      ```
+      add n/John Tan c/ s/Math ec/91234567
+      ```  
+      Expected: Error message “Class cannot be empty.”
+
+   3.3 Test case:  
+      ```
+      add n/John Tan c/3B s/ ec/91234567
+      ```  
+      Expected: Error message “Subject names should not be empty and must be alphanumeric.”
+
+   3.4 Test case:  
+      ```
+      add n/John Tan c/3B s/Math ec/123
+      ```  
+      Expected: Error message “Emergency contact must be exactly 8 digits.”
+
+
+### Listing students
+
+1. **Listing all students**
+
+   1.1 Prerequisites: At least one student exists.
+
+   1.2 Test case:  
+      ```
+      list
+      ```  
+      Expected: All students displayed. Message “Listed all students.”
+
+2. **Empty student list**
+
+   2.1 Prerequisites: All students deleted beforehand.
+
+   2.2 Test case:  
+      ```
+      list
+      ```  
+      Expected: “No students found.”
+
+### Deleting a student
+
+1. **Deleting a student while all students are being shown**
+
+   1.1 Prerequisites: List all students using `list`. Ensure multiple students are displayed.
+
+   1.2 Test case:  
+      ```
+      delete 1
+      ```  
+      Expected: First student is deleted from the list. Details shown in result display.
+
+   1.3 Test case:  
+      ```
+      delete 0
+      ```  
+      Expected: Invalid index. No student deleted. Error message shown.
+
+   1.4 Other incorrect delete commands to try: `delete`, `delete x`, … (where x is larger than list size)<br>
+      Expected: Similar error messages as above.
+
+
+### Marking attendance
+
+1. **Valid attendance marking**
+
+   1.1 Prerequisites: A student “John Tan” with subject “Math” and lesson “L1” exists.
+
+   1.2 Test case:  
+      ```
+      markattendance n/John Tan s/Math l/L1 st/Present
+      ```  
+      Expected: Attendance for “Math – L1” marked as PRESENT.  
+      Message: “Marked attendance for John Tan for Math L1 → PRESENT.”
+
+2. **Invalid attendance status**
+
+   2.1 Test case:  
+      ```
+      markattendance n/John Tan s/Math l/L1 st/Maybe
+      ```  
+      Expected: Error message “Invalid status. Use PRESENT, ABSENT, LATE, or EXCUSED.”
+
+3. **Student not found**
+
+   3.1 Test case:  
+      ```
+      markattendance n/Ghost s/Math l/L1 st/Present
+      ```  
+      Expected: Error message “Student not found.”
+
+4. **Subject not enrolled**
+
+   4.1 Test case:  
+      ```
+      markattendance n/John Tan s/History l/L1 st/Present
+      ```  
+      Expected: Error message “Student John Tan is not enrolled in subject ‘History’.”
+
+
+### Listing attendance
+
+1. **Listing attendance for a student**
+
+   1.1 Prerequisites: John Tan has attendance records for Math.
+
+   1.2 Test case:  
+      ```
+      listattendance n/John Tan s/Math
+      ```  
+      Expected:  
+      ```
+      Attendance for John Tan (Math):
+      L1 PRESENT
+      L2 ABSENT
+      ```
+
+2. **No records for subject**
+
+   2.2 Test case:  
+      ```
+      listattendance n/John Tan s/History
+      ```  
+      Expected: Error message “No attendance records for History.”
+
+3. **Student not found**
+
+   3.1 Test case:  
+      ```
+      listattendance n/Ghost s/Math
+      ```  
+      Expected: Error message “Student not found.”
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. **Data persistence across sessions**
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1.1 Prerequisites: Add one or more students.
 
-1. _{ more test cases …​ }_
+   1.2 Test case: Run `exit`, then reopen TutorTrack.<br>
+      Expected: The newly added students appear. Data file updated in `/data/addressbook.json`.
+
+2. **Handling corrupted data files**
+
+   2.1 Prerequisites: Manually open `/data/addressbook.json` and delete part of its content.
+
+   2.2 Test case: Reopen TutorTrack.<br>
+      Expected: Warning message “Data file corrupted. Starting with an empty address book.”  
+      App continues running with empty data.
+
+
+### Help command
+
+1. **Opening the help window**
+
+   1.1 Test case:  
+      ```
+      help
+      ```  
+      Expected: Help window opens with a link to the User Guide.  
+      Result display shows “Opened help window.”
+
+2. **Invalid help command**
+
+   2.1 Test case:  
+      ```
+      help now
+      ```  
+      Expected: Error message “No extra parameters allowed! Use ‘help’ only.”
+
+
+### Exit command
+
+1. **Exiting the application**
+
+   1.1 Test case:  
+      ```
+      exit
+      ```  
+      Expected: Message “Exiting Tutor Track as requested…”  
+      App saves data and closes gracefully.
+
+2. **Invalid exit command**
+
+   2.1 Test case:  
+      ```
+      exit now
+      ```  
+      Expected: Error message “No extra parameters allowed! Use ‘exit’ only.”  
+      App remains open.
+
+
+### Saving data
+
+1. Saving data
+
+   1.1 Add a new student using the add command.
+
+   1.2 Close the app.
+
+   1.3 Launch the app again.
+   Expected: The new employee should still be present.
+
+2. Dealing with missing data file
+
+   2.1 Navigate to the folder containing the jar file. The data file should be in data/tutortrack.json.
+
+   2.2 Delete tutortrack.json.
+
+   2.3 Launch the app by double-clicking the jar file.
+   Expected: The app should create a new tutortrack.json file with sample data in the data folder.
+
+3. Dealing with corrupted data file
+
+   3.1 Navigate to the folder containing the jar file. The data file should be in data/tutortrack.json.
+
+   3.2 Open tutortrack.json in a text editor.
+
+   3.3 Corrupt the file by deleting some characters.
+
+   3.4 Launch the app by double-clicking the jar file.
+   Expected: The app should detect the corrupted file and show an error message in the console. The app should create a new hour.json file with an empty employee book in the data folder.

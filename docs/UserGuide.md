@@ -39,14 +39,14 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 | Term                   | Meaning                                                                                                                                                                               |
 |:-----------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **GUI**                | *Graphical User Interface* — The visual interface of TutorTrack that displays students, subjects, and command results.                                                                |
-| **CLI**                | *Command Line Interface* — The text-based interface where users type commands to perform actions in TutorTrack.                                                                       |
+| **GUI**                | *Graphical User Interface*: The visual interface of TutorTrack that displays students, subjects, and command results.                                                                |
+| **CLI**                | *Command Line Interface*: The text-based interface where users type commands to perform actions in TutorTrack.                                                                       |
 | **Command**            | A text instruction entered by the user to perform an operation in TutorTrack (e.g., `add`, `delete`, `archive`).                                                                      |
 | **Parameter**          | Information provided to a command to specify details. For example, in `add n/John Tan c/3B`, `n/John Tan` and `c/3B` are parameters.                                                  |
 | **Case-sensitive**     | When the casing of letters matters. For example, `add` is valid but `ADD` is not.                                                                                                     |
 | **Case-insensitive**   | When the casing of letters does not matter. For example, `john` and `John` are treated as the same.                                                                                   |
 | **Index**              | The position number of a student as shown in the current displayed list (1-indexed, meaning index 1 refers to the first element in the list).                                                                                                  |
-| **Mainstream OS**      | Commonly used operating systems supported by TutorTrack — Windows, macOS, Linux, and Unix.                                                                                            |
+| **Mainstream OS**      | Commonly used operating systems supported by TutorTrack: Windows, macOS, Linux, and Unix.                                                                                            |
 | **Tutor**              | An individual providing academic tutoring services. Tutors are the primary users of TutorTrack.                                                                                       |
 | **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, emergency contact, subjects) and associated records (e.g., attendance, payments, assignment status). |
 | **Emergency Contact**     | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes.                                              |
