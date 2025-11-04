@@ -1,83 +1,91 @@
 @startuml
 !include style.puml
+
+' Make packages draw as rectangles (visible box)
+skinparam packageStyle rectangle
+
+' Keep your color choices
 skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
-Package Model as ModelPackage <<Rectangle>>{
-Class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
-Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
-Class "<<interface>>\nModel" as Model
-Class AddressBook
-Class ModelManager
-Class UserPrefs
+' One visible box that contains EVERYTHING
+rectangle "Model" as ModelBox {
 
-Class UniquePersonList
-Class Person
-Class Student
-Class CurrentStudentList
-Class ArchivedStudentList
-Class Address
-Class Email
-Class Name
-Class Phone
-Class Tag
+  class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
+  class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
+  class "<<interface>>\nModel" as Model
 
-Class Subject
-Class LessonList
-Class Lesson
-Class AttendanceList
-Class AttendanceRecord
-Class AttendanceStatus
+  class AddressBook
+  class ModelManager
+  class UserPrefs
 
-Class I #FFFFFF
+  class UniquePersonList
+  class Person
+  class Student
+  class CurrentStudentList
+  class ArchivedStudentList
+  class Address
+  class Email
+  class Name
+  class Phone
+  class Tag
+
+  class Subject
+  class LessonList
+  class Lesson
+  class AttendanceList
+  class AttendanceRecord
+  class AttendanceStatus
+
+  ' --- Relationships (all internal) ---
+  AddressBook .up.|> ReadOnlyAddressBook
+
+  ModelManager .up.|> Model
+  Model .right.> ReadOnlyUserPrefs
+  Model .left.> ReadOnlyAddressBook
+  ModelManager -left-> "1" AddressBook
+  ModelManager -right-> "1" UserPrefs
+  UserPrefs .up.|> ReadOnlyUserPrefs
+
+  AddressBook *--> "1" CurrentStudentList : currentStudents
+  AddressBook *--> "1" ArchivedStudentList : archivedStudents
+
+  CurrentStudentList *--> "*" Student : students
+  ArchivedStudentList *--> "*" Student : students
+
+  Person <|-- Student
+  Person *--> Name
+  Person *--> Phone
+  Person *--> Email
+  Person *--> Address
+  Person *--> "*" Tag
+
+  Student *--> "1..*" Subject : subjects
+  Student *--> "1" AttendanceList
+  AttendanceList *--> "*" AttendanceRecord
+
+  ' If you keep StudentList in diagram:
+  class StudentList
+  StudentList *--> "*" Student : students
+  StudentList --> "1" Subject : subject
+
+  AttendanceRecord --> "1" Lesson
+  AttendanceRecord .right.> AttendanceStatus : status
+
+  Subject --> LessonList
+  LessonList -> Lesson
+
+  ' Filtered lists note (kept inside)
+  ModelManager --> "~* filtered" Person
+  ModelManager --> "~* filtered" Person : archivedPersons
+
+  ' --- Layout helpers kept INSIDE (no external nodes) ---
+  ' These hidden links help align rows like in your screenshot
+  Person -[hidden]up-> UniquePersonList
+  Name -[hidden]right-> Phone
+  Phone -[hidden]right-> Address
+  Address -[hidden]right-> Email
 }
 
-Class HiddenOutside #FFFFFF
-HiddenOutside ..> Model
-
-AddressBook .up.|> ReadOnlyAddressBook
-
-ModelManager .up.|> Model
-Model .right.> ReadOnlyUserPrefs
-Model .left.> ReadOnlyAddressBook
-ModelManager -left-> "1" AddressBook
-ModelManager -right-> "1" UserPrefs
-UserPrefs .up.|> ReadOnlyUserPrefs
-
-AddressBook *--> "1" CurrentStudentList : currentStudents
-AddressBook *--> "1" ArchivedStudentList : archivedStudents
-
-CurrentStudentList *--> "*" Student : students
-ArchivedStudentList *--> "*" Student : students
-
-Person <|-- Student
-Person *--> Name
-Person *--> Phone
-Person *--> Email
-Person *--> Address
-Person *--> "*" Tag
-
-Student *--> "1..*" Subject : subjects
-Student *--> "1" AttendanceList
-AttendanceList *--> "*" AttendanceRecord
-
-StudentList *--> "*" Student : students
-StudentList --> "1" Subject : subject
-
-AttendanceRecord --> "1" Lesson
-AttendanceRecord .right.> AttendanceStatus : status
-
-Person -[hidden]up--> I
-UniquePersonList -[hidden]right-> I
-
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
-
-Subject --> LessonList
-LessonList -> Lesson
-
-ModelManager --> "~* filtered" Person
-ModelManager --> "~* filtered" Person : archivedPersons
 @enduml
