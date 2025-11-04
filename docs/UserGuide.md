@@ -423,7 +423,7 @@ Moves a student from the archive list back to your active student list in TutorT
 * Command: `unarchive 1`
   <figure>
     <img src="images/unarchive.png" alt="Unarchive" width="600"/>
-    <figcaption><em>Figure 12a: Unarchiving Sarah Lim from the archive list</em></figcaption>
+    <figcaption><em>Figure 12a: Unarchiving Oliver Lee from the archive list</em></figcaption>
   </figure>
 
 {:start="2"}
