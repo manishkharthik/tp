@@ -29,9 +29,10 @@ TutorTrack is perfect for independent tutors, tutoring center staff, and educati
 * If you are new to TutorTrack, start with the [Quick Start](#quick-start) section to get set up and running in minutes.
 * If you need help with specific commands, refer to the [Command Summary](#command-summary) for a concise overview.
 * If you want a deeper understanding of a particular feature, explore the relevant section under [Features](#features).
-* If you are a developer seeking technical or implementation details, check out our [Developer Guide](https://ay2526s1-cs2103t-w13-2.github.io/tp/DeveloperGuide.html#model-component) for architecture and design information.
+* If you are a developer seeking technical or implementation details, check out our [Developer Guide](https://ay2526s1-cs2103t-w13-2.github.io/tp/DeveloperGuide.html#model-component) for architecture and design information. 
 
 [Back to top](#key-features)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Useful Notations and Glossary
@@ -61,6 +62,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 | **Assignment Status**  | The record indicating whether a student’s assignment submission is **Complete** or **Incomplete**.                                                                                     |
 
 [Back to top](#key-features)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
@@ -104,6 +106,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 6. Refer to the [Features](#features) below for details of each command.
 
 [Back to top](#key-features)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
@@ -182,6 +185,7 @@ Adds a new student to the TutorTrack with their academic and contact information
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Editing a student : `edit`
@@ -243,6 +247,7 @@ Edits an existing student's information in TutorTrack
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Locating students by name: `find`
@@ -291,6 +296,7 @@ Finds students whose names contain any of the given keywords.
 </div>
 
 [Back to top](#key-features)
+
 ---
 ### Deleting a student : `delete`
 
@@ -348,6 +354,7 @@ Deletes the specified student from the student list.
   </figure>
 
 [Back to top](#key-features)
+
 ---
 
 ### Archiving a student : `archive`
@@ -407,6 +414,7 @@ Moves a student from your active list into the archive list in TutorTrack.
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Unarchiving a student : `unarchive`
@@ -451,6 +459,7 @@ Moves a student from the archive list back to your active student list in TutorT
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Listing all students : `list`
@@ -486,6 +495,7 @@ Use this command to reset any filters and see all active students after using `f
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Viewing archived students : `listarchive`
@@ -526,6 +536,7 @@ No extra params should be added, simply `listarchive`
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Clearing all current student entries : `clearcurrent`
@@ -568,6 +579,7 @@ This command cannot be undone. All active records will be permanently deleted.
 Archived records are not affected by this command.</div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Clearing all archived student entries : `cleararchive`
@@ -610,6 +622,7 @@ Current records are not affected by this command.</div>
 
 
 [Back to top](#key-features)
+
 ---
 
 ### Adding a lesson : `addlesson`
@@ -639,6 +652,7 @@ Only one lesson in one subject can be added. To add multiple lessons, use the co
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Listing all lessons in a subject : `listlessons`
@@ -663,6 +677,7 @@ Only one subject's lesson list can be viewed for each listlessons command
   </figure>
 
 [Back to top](#key-features)
+
 ---
 
 ### Deleting a lesson : `deletelesson`
@@ -693,6 +708,7 @@ This command only deletes one lesson from one subject per deletelesson command. 
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Marking attendance: `markattendance`
@@ -752,6 +768,7 @@ Commands:
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Viewing attendance records: `listattendance`
@@ -791,6 +808,7 @@ Displays a student’s attendance records for a specific subject.
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ### Viewing help : `help`
@@ -818,6 +836,7 @@ No extra params should be added, simply `help`
   </figure>
 
 [Back to top](#key-features)
+
 ---
 
 ### Exiting the program : `exit`
@@ -838,6 +857,7 @@ No extra params should be added, simply `exit`
 </div>
 
 [Back to top](#key-features)
+
 ---
 
 ## Command Summary
@@ -878,6 +898,7 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 </div>
 
 [Back to top](#key-features)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -919,6 +940,7 @@ Notes:
 **A**: Use your OS window manager (Alt+Tab, or click the taskbar/dock icon) to restore the Help window. If that fails, restart TutorTrack.
 
 [Back to top](#key-features)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -928,4 +950,5 @@ Notes:
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 [Back to top](#key-features)
+
 ------------------------------------------------------------------------------------------------------------
