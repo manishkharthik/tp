@@ -836,12 +836,13 @@ No extra params should be added, simply `exit`
 
 | **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`
 
-| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                               
-| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                      
+| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`
+                                                                                                                              
+| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                           
 | **Delete Lessons** | `deletelesson` <br> e.g, `deletelesson s/Math n/Algebra`
 
-| **Clear** |`clearcurrent`                                                                                                                                                                          
-| **Clear Archive**| `cleararchive`                                                                                                                                                                                          
+| **Clear** |`clearcurrent`                                                                                                                                                                       
+| **Clear Archive**| `cleararchive`                                                                                                                                                                                       
 | **Exit** | `exit`                                                                                                                                                                                                   |
 
 ### Saving the data
