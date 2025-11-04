@@ -1811,6 +1811,79 @@ testers are expected to do more *exploratory* testing.
 
    3.3 Corrupt the file by deleting some characters.
 
+1. _{ more test cases …​ }_
+
+# Appendix: Efforts
+
+## Difficulty Level and Challenges Faced
+
+We would rate the difficulty of this project as 4/5.
+
+At the beginning, the existing architecture was the steepest part of the learning curve. We had to carefully trace how each component—from LogicManager to ModelManager and Storage—interacted with one another before we could confidently add new commands or modify existing ones. 
+Once we understood the data flow and event handling, subsequent development became smoother.
+Initially, our fork-based workflow created friction because every merge required manual conflict resolution. 
+Transitioning to a branch-based workflow reduced overhead and allowed faster iteration during v1.3–v1.4.
+Certain features, such as archive and lesson commands, required multiple layers of abstraction and high coupling, hence we had to make a lot of tracing and changes
+when we did changes to one class alone.
+Writing the Developer Guide itself was another challenge. None of us had written large-scale technical documentation before, 
+and figuring out PlantUML syntax took experimentation. However, by v1.4 we were comfortable producing diagrams consistent with the AB-3 documentation standards.
+
+Overall, the project was neither trivial nor overwhelming. It tested our ability to read and reason about unfamiliar codebases, coordinate as a team, and think systematically about feature design—hence our difficulty rating of 4/5.
+
+## Effort Required
+### Team Collaboration
+
+We met weekly to align priorities, refine user stories, and split tasks. Each member took ownership of specific components while remaining ready to review and test others’ contributions. 
+When someone was constrained by external commitments, the rest filled in to maintain progress. Since each of us had our peaka and lull periods, we all took turns to be in charge for certain weeks.
+
+### Project Management
+
+We placed strong emphasis on peer review and incremental testing. Mid-week check-ins ensured we caught potential regressions early. 
+Our internal deadlines were always set slightly before official milestones to leave buffer time for polishing and documentation (usually one day just for buffer).
+
+### Key Achievements
+
+Refined UI: Though minimal, our palette and icon updates made the interface more readable and cohesive.
+
+Consistent Architecture: By following the existing design patterns strictly, we kept TutorTrack modular and maintainable.
+
+Through this experience, we gained a realistic sense of what full-stack maintenance and feature delivery feel like in an actual software project.
+
+# Appendix: Planned Enhancements
+## Displaying Notes (Remarks) in the Student List
+
+**Problem**: Remarks are not visible in the main list; users must open reports to view them.
+**Solution**: Show remarks in the student card when the user expands or clicks on a student entry, maintaining a clutter-free default view.
+
+## Valid Date Range for Lessons and Attendance
+
+**Problem**: Extremely unrealistic dates (e.g., year 1111 or 2222) can be added.
+**Solution**: Restrict accepted dates to one year before and one year after the current year to preserve realism.
+
+## Viewing a Single Student’s Attendance Easily
+
+**Problem**: Users must scroll through long lists to locate one student’s records.
+**Solution**: Introduce a dedicated command (e.g., viewattendance id/STUDENT_ID) to show only that student’s lessons and attendance summaries.
+
+## Clearer Limit-Exceeded Messages
+
+**Problem**: Error messages for limits (e.g., maximum attendance count) lack context.
+**Solution**: Include remaining capacity in the error message, such as:
+“Attendance count exceeds limit. Remaining slots: 2.”
+
+## Unified Edit-Index Error Handling
+
+**Problem**: Different error messages appear for negative vs. out-of-range indices.
+**Solution**: Let the command handle all invalid indices; the parser only validates integer format for consistency.
+
+## Chronological Ordering for Dated Lists
+
+**Problem**: Lists of attendance or lessons are shown by insertion order.
+**Solution**: After every update, re-sort chronologically (earliest to latest) before display to improve readability.
+
+## Better linkage between students, subjects and lessons
+**Problem**: Users sometimes have to use edit command for the lessons or subject instead of having specific functions catered for specific cases.
+**Solution**: Add new commands like clear all lessons, clear all subject, list students in lesson among others.
    3.4 Launch the app by double-clicking the jar file.
    Expected: The app should detect the corrupted file and show an error message in the console. The app should create a new hour.json file with an empty employee book in the data folder.
    
