@@ -1,0 +1,37 @@
+@startuml
+title Clear Current Students — Activity Diagram
+
+skinparam defaultFontName Inter, Segoe UI, Arial
+skinparam Activity {
+  BackgroundColor #F5F5F5
+  BorderColor Black
+  StartColor Black
+  EndColor Black
+  DiamondBackgroundColor White
+  DiamondBorderColor Black
+  FontColor Black
+  RoundCorner 15
+}
+skinparam ArrowThickness 1.2
+skinparam ArrowColor Black
+skinparam shadowing false
+
+start
+:User inputs **clearcurrent** command;
+
+if ("Valid command format?") then (yes)
+  if ("No extra parameters?") then (yes)
+    :Clear all **current** students;
+    :Clear all **lessons**;
+    :Clear all **subjects**;
+    :Persist changes to storage;
+    :Display success message:\n"Current students, lessons and subjects\nhave been cleared!";
+  else (no)
+    :Display error message:\n"No extra parameters allowed!\nUse 'clearcurrent' only.";
+  endif
+else (no)
+  :Display error message:\n"Invalid command format";
+endif
+
+stop
+@enduml

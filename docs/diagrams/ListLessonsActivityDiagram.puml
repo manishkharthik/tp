@@ -1,0 +1,39 @@
+@startuml
+title List Lessons — Activity Diagram
+
+skinparam defaultFontName Inter, Segoe UI, Arial
+skinparam Activity {
+  BackgroundColor #F5F5F5
+  BorderColor Black
+  StartColor Black
+  EndColor Black
+  DiamondBackgroundColor White
+  DiamondBorderColor Black
+  FontColor Black
+  RoundCorner 15
+}
+skinparam ArrowThickness 1.2
+skinparam ArrowColor Black
+skinparam shadowing false
+
+start
+:User inputs **listlessons s/<subject>** command;
+
+if ("Valid command format?") then (yes)
+  if ("No empty or missing subject?") then (yes)
+    if ("Subject exists in system?") then (yes)
+      :Filter lessons by subject\n(case-insensitive);
+      :Show lessons belonging to that subject;
+      :Display success message:\n"Listed {count} lessons for <subject>.";
+    else (no)
+      :Display error message:\n"Subject not found: <subject>.";
+    endif
+  else (no)
+    :Display error message:\n"Missing or empty subject value.";
+  endif
+else (no)
+  :Display error message:\n"Invalid command format";
+endif
+
+stop
+@enduml

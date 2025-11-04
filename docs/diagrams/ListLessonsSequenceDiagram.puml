@@ -1,0 +1,69 @@
+@startuml
+title List Lessons — Styled Like Archive Diagram
+
+skinparam defaultFontName Inter, Segoe UI, Arial
+skinparam ArrowColor Black
+skinparam ArrowThickness 1.4
+skinparam ParticipantBorderColor Black
+skinparam ParticipantBackgroundColor #3F3D9E
+skinparam ParticipantFontColor White
+skinparam SequenceLifeLineBorderColor Black
+skinparam SequenceLifeLineBackgroundColor White
+skinparam Shadowing false
+skinparam NoteBackgroundColor #FFF6D5
+skinparam NoteBorderColor #E6C773
+skinparam Sequence {
+  ParticipantPadding 10
+  BoxBorderColor Black
+}
+
+box "Logic" #E8E0FF
+  participant ":LogicManager" as LM
+  participant ":AddressBookParser" as Parser
+  participant ":ListLessonsCommandParser" as LLP
+  participant "e:ListLessonsCommand" as Cmd
+end box
+
+box "Model" #F4B6B6
+  participant ":Model" as Model
+end box
+
+participant "CommandResult" as CR #DDDDDD
+
+LM -> LM : execute(\n\"listlessons s/Math\"\n)
+LM -> Parser : parseCommand(\n\"listlessons s/Math\"\n)
+
+Parser -> LLP : parse(\n\"s/Math\"\n)
+activate LLP
+LLP -> LLP : tokenize s/\ntrim & validate
+LLP -> LLP : subject = \"Math\"
+LLP -> Cmd : new ListLessonsCommand(\nsubject\n)
+deactivate LLP
+Parser <-- LLP : a
+LM <-- Parser : a
+
+LM -> Cmd : execute(\nmodel\n)
+activate Cmd
+
+Cmd -> Model : hasSubject(\n\"Math\"\n)
+activate Model
+Model --> Cmd : boolean
+deactivate Model
+
+alt subject exists
+  Cmd -> Model : updateFilteredLessonList(\nsubject=\"Math\", ci\n)
+  activate Model
+  Model --> Cmd : filtered list
+  deactivate Model
+
+  Cmd -> Cmd : count = list.size()
+  Cmd -> CR : new CommandResult(\n\"Listed {count} lessons\nfor Math\"\n)
+  deactivate Cmd
+  LM <-- Cmd : result
+  LM -> CR : result
+else not found
+  Cmd --> LM : CommandException(\n\"Subject not found: Math\"\n)
+  deactivate Cmd
+end
+
+@enduml

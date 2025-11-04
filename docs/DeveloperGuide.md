@@ -152,7 +152,7 @@ This section describes some noteworthy details on how certain features are imple
 
 The add student feature allows TutorTrack to add students to a list of students.
 
-#### Implementation 
+#### Implementation
 
 The add student command mechanism is facilitated by the `AddCommandParser` class which implements the `Parser` interface.
 `AddCommandParser#parse()` is exposed in the `Parser` interface as `Parser#parse()`.
@@ -200,7 +200,7 @@ The `EditCommand` object then communicates with the `Model` API by calling the `
 
 The method `EditCommand#execute()` returns a `CommandResult` object, which stores information about the completion of the command.
 
-The following sequence diagram shows what happens when a user inputs the edit command. 
+The following sequence diagram shows what happens when a user inputs the edit command.
 
 <img src="images/EditCommandSequenceDiagram.png" width="600" />
 
@@ -447,7 +447,7 @@ The following activity diagram shows what happens when a user inputs the find co
 
 ### Add Lesson feature
 
-The add lesson feature allows tutor to add lessons to a subject. 
+The add lesson feature allows tutor to add lessons to a subject.
 
 #### Implementation
 
@@ -627,11 +627,19 @@ Given below is an example usage scenario and how the list lessons command behave
 
 **Note:** The list lessons command is case-insensitive. For example, `listlessons s/math` will match lessons with the subject "Math", "MATH", or "math".
 
+The following sequence diagram shows what happens when a user inputs the listlessons command.
+
+<img src="images/ListLessonsSequenceDiagram.png" width="600" />
+
 **Error Handling:**
 * If the user provides no subject prefix (e.g., `listlessons`), a `ParseException` is thrown with the command usage message.
 * If the subject value is empty (e.g., `listlessons s/`), a `ParseException` is thrown with the command usage message.
 * If the user provides a preamble (e.g., `listlessons extra s/Math`), a `ParseException` is thrown with the command usage message.
 * If the specified subject does not exist in the system, a `CommandException` is thrown with the message "Subject not found: [subject name]".
+
+The following activity diagram shows what happens when a user inputs the listlessons command.
+
+<img src="images/ListLessonsActivityDiagram.png" width="600" />
 
 ### Mark Student Attendance feature
 
@@ -798,8 +806,16 @@ Given below is an example usage scenario and how the clear current students comm
 
 **Note:** This command only clears the **active (non-archived) student list**, along with all lessons and subjects. Archived students remain untouched and can be viewed with the `listarchive` command. This operation cannot be undone, so use with caution.
 
+The following sequence diagram shows what happens when a user inputs the clearcurrent command.
+
+<img src="images/ClearCurrentSequenceDiagram.png" width="600" />
+
 **Error Handling:**
 * If the user provides any arguments (e.g., `clearcurrent 123` or `clearcurrent extra`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'clearcurrent' only."
+
+The following activity diagram shows what happens when a user inputs the clearcurrent command.
+
+<img src="images/ClearCurrentActivityDiagram.png" width="600" />
 
 ### Clear archived Student feature
 
@@ -835,10 +851,18 @@ Given below is an example usage scenario and how the clear archive command behav
 
 **Note:** This command only clears the **archived student list**. Current (active) students, lessons, and subjects remain untouched. This operation cannot be undone, so use with caution. Once archived students are cleared, their data cannot be recovered.
 
+The following sequence diagram shows what happens when a user inputs the cleararchive command.
+
+<img src="images/ClearArchiveSequenceDiagram.png" width="600" />
+
 **Error Handling:**
 * If the user provides any arguments (e.g., `cleararchive 123` or `cleararchive extra`), a `CommandException` is thrown with the message "No extra parameters allowed! Use 'cleararchive' only."
 
-### Help feature 
+The following activity diagram shows what happens when a user inputs the cleararchive command.
+
+<img src="images/ClearArchiveActivityDiagram.png" width="600" />
+
+### Help feature
 
 The help feature allows tutors to see the User Guide to aid them in the usage of the app.
 
@@ -879,7 +903,7 @@ Given below is an example usage scenario and how the help command behaves at eac
 **Step 6.** The success message "Opened help window." is displayed in the result display area.
 
 **Note:** The help window contains:
-* Link to the full user guide 
+* Link to the full user guide
 
 ### Exit feature
 
@@ -1086,7 +1110,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC1 - Add a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1117,7 +1141,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC2 - Delete a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1143,7 +1167,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC3 - Edit a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1185,7 +1209,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC4 - Find students**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1211,7 +1235,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC5 - Archive a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1237,7 +1261,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC6 - Unarchive a student**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1263,7 +1287,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC7 - Add a lesson**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1289,7 +1313,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC8 - List lessons**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1315,7 +1339,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC9 - Delete a lesson**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1336,7 +1360,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC10 - Mark student attendance**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1374,7 +1398,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC11 - List student attendance**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1406,7 +1430,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC12 - Clear current students**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**
@@ -1426,7 +1450,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC13 - Clear archived students**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**

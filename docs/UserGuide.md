@@ -16,7 +16,7 @@ With TutorTrack, you can:
 * **Monitor attendance** - Mark and view attendance for individual lessons
 * **Track payments** - Keep tabs on payment status for each student
 * **Monitor assignments** - Track assignment completion status
-* **Search and filter** - Quickly find students by name 
+* **Search and filter** - Quickly find students by name
 
 TutorTrack is perfect for independent tutors, tutoring center staff, and educational coordinators who want a fast, keyboard-driven way to manage their students without the complexity of traditional administrative software.
 * Table of Contents
@@ -138,12 +138,12 @@ Adds a new student to the TutorTrack with their academic and contact information
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to `Unpaid` if omitted_)
 * `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to `Incomplete` if omitted_)
 
-**Description:** 
+**Description:**
 * You can add multiple subjects by using multiple `s/` prefixes.
 * Optional fields (`PAYMENT_STATUS` and `ASSIGNMENT_STATUS`) will use the default values mentioned if not specified.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
-  Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+  Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.
 
   This means you cannot add another student if a student with the same name (regardless of case) already exists in the list.
 
@@ -158,7 +158,7 @@ Adds a new student to the TutorTrack with their academic and contact information
 
 **Examples:**
 1. Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
-* Command: `add n/"John Tan" c/3B s/Math s/Science ec/91234567` 
+* Command: `add n/"John Tan" c/3B s/Math s/Science ec/91234567`
   <figure>
     <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
     <figcaption><em>Figure 2a: Compulsory Fields for Adding students</em></figcaption>
@@ -170,7 +170,7 @@ Adds a new student to the TutorTrack with their academic and contact information
   <figure>
     <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
     <figcaption><em>Figure 2b: Optional Fields for Adding students</em></figcaption>
-  </figure> 
+  </figure>
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 
@@ -619,7 +619,7 @@ Adding the same lesson (case-insensitive) multiple times will only result in one
     <img src="images/addlesson.png" alt="Add lesson" width="600"/>
     <figcaption><em>Figure 17: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
   </figure>
-  
+
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
 </div>
@@ -670,7 +670,7 @@ Deletes the specified lesson from the lesson list.
   <figure>
     <img src="images/deletelesson.png" alt="Delete Lesson" width="600"/>
     <figcaption><em>Figure 19: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
-  </figure>  
+  </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
 This command only deletes one lesson from one subject per deletelesson command. To delete multiple lessons, run this command multiple times.
@@ -685,22 +685,22 @@ Marks a student’s attendance for a specific lesson.
 **Format:** `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS`
 
 **Parameters:**
-- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list). (**required**) 
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list). (**required**)
 - `s/` — subject name (case-insensitive match against the student’s enrolled subjects). (**required**)
 - `l/` — lesson name (must exist for the given subject). (**required**)
 - `st/` — attendance status. One of: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`. (**required**)
 
 **Description:**
-- Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.  
-- The student **must already be a Student** (not a generic Person), must be **enrolled** in the specified subject, and the lesson must **exist** for that subject.  
-- Subject matching is **case-insensitive** (e.g., `math` matches `Math`).  
+- Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.
+- The student **must already be a Student** (not a generic Person), must be **enrolled** in the specified subject, and the lesson must **exist** for that subject.
+- Subject matching is **case-insensitive** (e.g., `math` matches `Math`).
 - On success, a confirmation message summarises: student, subject, lesson, and status.
 
 ---
 
 **Examples**
 
-1. Mark John Tan present for Algebra (Math) 
+1. Mark John Tan present for Algebra (Math)
 * Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
 <figure>
   <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
@@ -709,7 +709,7 @@ Marks a student’s attendance for a specific lesson.
 
 {:start="2"}
 1. Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)
-Commands: 
+Commands:
 * `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT` (left image)
 * `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED` (right image)
 
@@ -727,11 +727,11 @@ Commands:
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution**
 
-- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.  
-- The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.  
-- The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.  
-- Use the exact lesson name you created (spelling/spacing must match).  
-- Allowed statuses are exactly: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.  
+- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.
+- The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.
+- The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.
+- Use the exact lesson name you created (spelling/spacing must match).
+- Allowed statuses are exactly: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.
 </div>
 
 ---
@@ -743,14 +743,14 @@ Displays a student’s attendance records for a specific subject.
 **Format:** `listattendance n/NAME s/SUBJECT`
 
 **Parameters:**
-- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list) (**required**)  
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list) (**required**)
 - `s/` — subject name (case-insensitive match against the student’s enrolled subjects) (**required**)
 
 **Description:**
-- Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.  
-- The student must already be a **Student** (not a generic Person) and must be **enrolled** in the specified subject.  
-- Each record line displays the **Lesson name** and its **attendance status** (e.g., `Algebra PRESENT`, `Calculus LATE`).  
-- If no attendance records exist for that subject, an error message will be shown.  
+- Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.
+- The student must already be a **Student** (not a generic Person) and must be **enrolled** in the specified subject.
+- Each record line displays the **Lesson name** and its **attendance status** (e.g., `Algebra PRESENT`, `Calculus LATE`).
+- If no attendance records exist for that subject, an error message will be shown.
 
 ---
 
@@ -765,10 +765,10 @@ Displays a student’s attendance records for a specific subject.
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution**
 
-- The student is searched **only within the currently displayed list**. Ensure the target student is visible before running the command.  
-- The student must be **enrolled** in the specified subject; otherwise, the command will fail.  
-- If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.  
-- Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).  
+- The student is searched **only within the currently displayed list**. Ensure the target student is visible before running the command.
+- The student must be **enrolled** in the specified subject; otherwise, the command will fail.
+- If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.
+- Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).
 
 </div>
 
@@ -783,7 +783,7 @@ Shows a message with a link to access the full help page.
 **Parameters:**
 * This command takes no parameters.
 
-**Description:** 
+**Description:**
 * Upon using this command, a help window opens with a link to this user guide.
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
@@ -792,7 +792,7 @@ No extra params should be added, simply `help`
 
 **Example:**
 1. Using help command
-* Command: `help` 
+* Command: `help`
   <figure>
     <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
     <figcaption><em>Figure 23: Help Window</em></figcaption>
@@ -809,7 +809,7 @@ Exits the program.
 **Parameters:**
 * This command takes no parameters.
 
-**Description:** 
+**Description:**
 * Upon using this command, the user exits the application
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
@@ -834,13 +834,14 @@ No extra params should be added, simply `exit`
 | **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                               |
 | **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                  |
 
-| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                          
-| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                      
-| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                       
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`
+
+| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                       
+| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                 
 | **Delete Lessons** | `deletelesson` <br> e.g, `deletelesson s/Math n/Algebra`
 
-| **Clear** | `clearcurrent`                                                                                                                                                                                           
-| **Clear Archive**| `cleararchive`                                                                                                                                                                                           
+| **Clear** |`clearcurrent`                                                                                                                                                                       
+| **Clear Archive**| `cleararchive`                                                                                                                                                                                       
 | **Exit** | `exit`                                                                                                                                                                                                   |
 
 ### Saving the data

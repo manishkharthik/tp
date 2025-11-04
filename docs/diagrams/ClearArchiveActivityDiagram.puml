@@ -1,0 +1,35 @@
+@startuml
+title Clear Archived Students — Activity Diagram
+
+skinparam defaultFontName Inter, Segoe UI, Arial
+skinparam Activity {
+  BackgroundColor #F5F5F5
+  BorderColor Black
+  StartColor Black
+  EndColor Black
+  DiamondBackgroundColor White
+  DiamondBorderColor Black
+  FontColor Black
+  RoundCorner 15
+}
+skinparam ArrowThickness 1.2
+skinparam ArrowColor Black
+skinparam shadowing false
+
+start
+:User inputs **cleararchive** command;
+
+if ("Valid command format?") then (yes)
+  if ("No extra parameters?") then (yes)
+    :Clear all **archived students**;
+    :Persist changes to storage;
+    :Display success message:\n"Archived students have been cleared!";
+  else (no)
+    :Display error message:\n"No extra parameters allowed!\nUse 'cleararchive' only.";
+  endif
+else (no)
+  :Display error message:\n"Invalid command format";
+endif
+
+stop
+@enduml
