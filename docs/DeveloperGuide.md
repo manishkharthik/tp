@@ -1430,7 +1430,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### **Use case: UC12 - Clear current students**
 
-**System:** TutorTrack  
+**System:** TutorTrack
 **Actor:** Tutor
 
 **MSS:**

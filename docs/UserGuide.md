@@ -16,7 +16,7 @@ With TutorTrack, you can:
 * **Monitor attendance** - Mark and view attendance for individual lessons
 * **Track payments** - Keep tabs on payment status for each student
 * **Monitor assignments** - Track assignment completion status
-* **Search and filter** - Quickly find students by name 
+* **Search and filter** - Quickly find students by name
 
 TutorTrack is perfect for independent tutors, tutoring center staff, and educational coordinators who want a fast, keyboard-driven way to manage their students without the complexity of traditional administrative software.
 * Table of Contents
@@ -727,7 +727,7 @@ Commands:
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution**
 
-- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command. 
+- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.
 - The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.
 - The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.
 - Use the exact lesson name you created (spelling/spacing must match).
@@ -834,12 +834,13 @@ No extra params should be added, simply `exit`
 | **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                               |
 | **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                  |
 
-| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                             
-| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`
+
+| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                               
 | **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                      
 | **Delete Lessons** | `deletelesson` <br> e.g, `deletelesson s/Math n/Algebra`
 
-| **Clear** |`clearcurrent`                                                                                                                                                                                          
+| **Clear** |`clearcurrent`                                                                                                                                                                          
 | **Clear Archive**| `cleararchive`                                                                                                                                                                                          
 | **Exit** | `exit`                                                                                                                                                                                                   |
 
