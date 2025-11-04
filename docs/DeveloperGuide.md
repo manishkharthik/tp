@@ -1813,3 +1813,4 @@ testers are expected to do more *exploratory* testing.
 
    3.4 Launch the app by double-clicking the jar file.
    Expected: The app should detect the corrupted file and show an error message in the console. The app should create a new hour.json file with an empty employee book in the data folder.
+   
