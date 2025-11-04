@@ -29,7 +29,7 @@ TutorTrack is perfect for independent tutors, tutoring center staff, and educati
 * If you are new to TutorTrack, start with the [Quick Start](#quick-start) section to get set up and running in minutes.
 * If you need help with specific commands, refer to the [Command Summary](#command-summary) for a concise overview.
 * If you want a deeper understanding of a particular feature, explore the relevant section under [Features](#features).
-* If you are a developer seeking technical or implementation details, check out our [Developer Guide](https://ay2526s1-cs2103t-w13-2.github.io/tp/DeveloperGuide.html#model-component) for architecture and design information. 
+* If you are a developer seeking technical or implementation details, check out our [Developer Guide](https://ay2526s1-cs2103t-w13-2.github.io/tp/DeveloperGuide.html#model-component) for architecture and design information.
 
 [Back to top](#key-features)
 
