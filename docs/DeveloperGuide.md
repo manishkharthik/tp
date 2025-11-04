@@ -4,6 +4,10 @@ title: Developer Guide
 ---
 * Table of Contents
 {:toc}
+--------------------------------------------------------------------------------------------------------------------
+
+## **Acknowledgements**
+All team members used AI as a supportive tool during implementation. In particular, we used Claude to suggest refactorings, improve naming and documentation, surface edge cases, and align our code with good software engineering principles. We estimate that about 10% of the codebase was directly influenced by AI assisted edits, while the remainder was fully constructed by the team. Every AI generated suggestion was reviewed, adapted, and tested by us, and all design decisions and accountability for the final code remain with the members of the team. No proprietary source code was copied, and we followed our course’s academic integrity guidelines while using AI to augment, and not replace our designs.
 
 --------------------------------------------------------------------------------------------------------------------
 
