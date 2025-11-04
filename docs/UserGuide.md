@@ -51,7 +51,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 | **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, emergency contact, subjects) and associated records (e.g., attendance, payments, assignment status). |
 | **Emergency Contact**     | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes.                                              |
 | **Attendance**         | The attendance record associated with a student, tracking presence, lateness, or absence for lessons.                                                                                 |
-| **Attendance Status**  | The recorded attendance status for a student during a lesson — can be **Present**, **Absent**, **Late**, or **Excused**.                                                              |
+| **Attendance Status**  | The recorded attendance status for a student during a lesson, namely **Present**, **Absent**, **Late**, or **Excused**.                                                              |
 | **Archive**            | A status indicating whether a student is **active** (currently enrolled or assigned to a tutor) or **archived** (no longer active but retained for recordkeeping).                    |
 | **Current list**       | Refers to the list of students who are currently enrolled under the user.   |
 | **Archived list**       | Refers to the list of former students who are no longer enrolled under the user.   |
@@ -66,21 +66,21 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 1. Ensure you have Java 17 or above installed on your computer.
     *	**Windows users:**
-    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows)￼ or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/)￼.
+    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows) or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/).
     *	**macOS users:**
-  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)￼,
+  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html),
   or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)
   or [Adoptium Temurin 17 (macOS)](https://adoptium.net/temurin/releases/).
     *	**Linux users:**
   You can install via your package manager (e.g., ```sudo apt install openjdk-17-jdk```)
   or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)
-  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
+  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/).
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before moving on to the next instruction.
 
-4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar tutortrack.jar` command to run the application.<br>
+4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar './[CS2103T-W13-2][TutorTrack].jar'` command to run the application.<br>
    A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.
    <figure>
       <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
@@ -423,7 +423,7 @@ Moves a student from the archive list back to your active student list in TutorT
 * Command: `unarchive 1`
   <figure>
     <img src="images/unarchive.png" alt="Unarchive" width="600"/>
-    <figcaption><em>Figure 12a: Unarchiving Sarah Lim from the archive list</em></figcaption>
+    <figcaption><em>Figure 12a: Unarchiving Oliver Lee from the archive list</em></figcaption>
   </figure>
 
 {:start="2"}
