@@ -16,7 +16,7 @@ With TutorTrack, you can:
 * **Monitor attendance** - Mark and view attendance for individual lessons
 * **Track payments** - Keep tabs on payment status for each student
 * **Monitor assignments** - Track assignment completion status
-* **Search and filter** - Quickly find students by name 
+* **Search and filter** - Quickly find students by name
 
 TutorTrack is perfect for independent tutors, tutoring center staff, and educational coordinators who want a fast, keyboard-driven way to manage their students without the complexity of traditional administrative software.
 * Table of Contents
@@ -31,6 +31,7 @@ TutorTrack is perfect for independent tutors, tutoring center staff, and educati
 * If you want a deeper understanding of a particular feature, explore the relevant section under [Features](#features).
 * If you are a developer seeking technical or implementation details, check out our [Developer Guide](https://ay2526s1-cs2103t-w13-2.github.io/tp/DeveloperGuide.html#model-component) for architecture and design information.
 
+[Back to top](#key-features)
 --------------------------------------------------------------------------------------------------------------------
 
 ## Useful Notations and Glossary
@@ -39,19 +40,19 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 | Term                   | Meaning                                                                                                                                                                               |
 |:-----------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **GUI**                | *Graphical User Interface* — The visual interface of TutorTrack that displays students, subjects, and command results.                                                                |
-| **CLI**                | *Command Line Interface* — The text-based interface where users type commands to perform actions in TutorTrack.                                                                       |
+| **GUI**                | *Graphical User Interface*: The visual interface of TutorTrack that displays students, subjects, and command results.                                                                |
+| **CLI**                | *Command Line Interface*: The text-based interface where users type commands to perform actions in TutorTrack.                                                                       |
 | **Command**            | A text instruction entered by the user to perform an operation in TutorTrack (e.g., `add`, `delete`, `archive`).                                                                      |
 | **Parameter**          | Information provided to a command to specify details. For example, in `add n/John Tan c/3B`, `n/John Tan` and `c/3B` are parameters.                                                  |
 | **Case-sensitive**     | When the casing of letters matters. For example, `add` is valid but `ADD` is not.                                                                                                     |
 | **Case-insensitive**   | When the casing of letters does not matter. For example, `john` and `John` are treated as the same.                                                                                   |
 | **Index**              | The position number of a student as shown in the current displayed list (1-indexed, meaning index 1 refers to the first element in the list).                                                                                                  |
-| **Mainstream OS**      | Commonly used operating systems supported by TutorTrack — Windows, macOS, Linux, and Unix.                                                                                            |
+| **Mainstream OS**      | Commonly used operating systems supported by TutorTrack: Windows, macOS, Linux, and Unix.                                                                                            |
 | **Tutor**              | An individual providing academic tutoring services. Tutors are the primary users of TutorTrack.                                                                                       |
 | **Student**            | A learner receiving academic tutoring. Each student has unique information (e.g., name, emergency contact, subjects) and associated records (e.g., attendance, payments, assignment status). |
 | **Emergency Contact**     | The emergency contact of a student’s parent or guardian, typically in the form of a phone number for safety and administrative purposes.                                              |
 | **Attendance**         | The attendance record associated with a student, tracking presence, lateness, or absence for lessons.                                                                                 |
-| **Attendance Status**  | The recorded attendance status for a student during a lesson — can be **Present**, **Absent**, **Late**, or **Excused**.                                                              |
+| **Attendance Status**  | The recorded attendance status for a student during a lesson, namely **Present**, **Absent**, **Late**, or **Excused**.                                                              |
 | **Archive**            | A status indicating whether a student is **active** (currently enrolled or assigned to a tutor) or **archived** (no longer active but retained for recordkeeping).                    |
 | **Current list**       | Refers to the list of students who are currently enrolled under the user.   |
 | **Archived list**       | Refers to the list of former students who are no longer enrolled under the user.   |
@@ -59,28 +60,28 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 | **Payment Status**     | The record indicating whether a student’s payment for tuition or lessons is **Paid** or **Unpaid**.                                                                                     |
 | **Assignment Status**  | The record indicating whether a student’s assignment submission is **Complete** or **Incomplete**.                                                                                     |
 
-
+[Back to top](#key-features)
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
 1. Ensure you have Java 17 or above installed on your computer.
     *	**Windows users:**
-    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows)￼ or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/)￼.
+    Download the latest Java 17 LTS from [Oracle JDK 17 (Windows)](https://www.oracle.com/java/technologies/downloads/#java17-windows) or [Adoptium Temurin 17 (Windows)](https://adoptium.net/temurin/releases/).
     *	**macOS users:**
-  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)￼,
+  Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html),
   or download directly from [Oracle JDK 17 (macOS)](https://www.oracle.com/java/technologies/downloads/#java17-mac)
   or [Adoptium Temurin 17 (macOS)](https://adoptium.net/temurin/releases/).
     *	**Linux users:**
   You can install via your package manager (e.g., ```sudo apt install openjdk-17-jdk```)
   or download the binaries from [Oracle JDK 17 (Linux)](https://www.oracle.com/java/technologies/downloads/#java17-linux)
-  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/)￼.
+  or [Adoptium Temurin 17 (Linux)](https://adoptium.net/temurin/releases/).
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W13-2/tp/releases/tag/v1.5.1).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack. Take note of the [file path](https://gomakethings.com/navigating-the-file-system-with-terminal/) before moving on to the next instruction.
 
-4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar tutortrack.jar` command to run the application.<br>
+4. Open a command terminal, navigate into the folder you put the jar file in by running the command ```cd path/to/file```, where ```path/to/file``` should be replaced by the file path of ```tutortrack.jar```, and use the `java -jar './[CS2103T-W13-2][TutorTrack].jar'` command to run the application.<br>
    A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.
    <figure>
       <img src="images/Ui.png" alt="Student 1 Before" width="600"/>
@@ -102,6 +103,7 @@ While exploring TutorTrack, you will encounter several icons and terms used thro
 
 6. Refer to the [Features](#features) below for details of each command.
 
+[Back to top](#key-features)
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
@@ -138,12 +140,12 @@ Adds a new student to the TutorTrack with their academic and contact information
 * `ps/PAYMENT_STATUS` - Payment status: Paid or Unpaid (_optional, default to `Unpaid` if omitted_)
 * `as/ASSIGNMENT_STATUS` - Assignment completion status: Completed or Incomplete (_optional, defaults to `Incomplete` if omitted_)
 
-**Description:** 
+**Description:**
 * You can add multiple subjects by using multiple `s/` prefixes.
 * Optional fields (`PAYMENT_STATUS` and `ASSIGNMENT_STATUS`) will use the default values mentioned if not specified.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**  
-  Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.  
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+  Duplicate students are identified by **name only**, and the name comparison is **case-insensitive**.
 
   This means you cannot add another student if a student with the same name (regardless of case) already exists in the list.
 
@@ -158,7 +160,7 @@ Adds a new student to the TutorTrack with their academic and contact information
 
 **Examples:**
 1. Accounts for compulsory fields and adds John Tan from class 3B (uses default values for optional fields)
-* Command: `add n/"John Tan" c/3B s/Math s/Science ec/91234567` 
+* Command: `add n/"John Tan" c/3B s/Math s/Science ec/91234567`
   <figure>
     <img src="images/addcommand_compulsory.png" alt="Add Compulsory" width="600"/>
     <figcaption><em>Figure 2a: Compulsory Fields for Adding students</em></figcaption>
@@ -170,7 +172,7 @@ Adds a new student to the TutorTrack with their academic and contact information
   <figure>
     <img src="images/addcommand_optional.png" alt="Add Optional" width="600"/>
     <figcaption><em>Figure 2b: Optional Fields for Adding students</em></figcaption>
-  </figure> 
+  </figure>
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 
@@ -179,6 +181,7 @@ Adds a new student to the TutorTrack with their academic and contact information
 
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Editing a student : `edit`
@@ -239,6 +242,7 @@ Edits an existing student's information in TutorTrack
 
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Locating students by name: `find`
@@ -286,6 +290,8 @@ Finds students whose names contain any of the given keywords.
 
 </div>
 
+[Back to top](#key-features)
+---
 ### Deleting a student : `delete`
 
 Deletes the specified student from the student list.
@@ -341,6 +347,7 @@ Deletes the specified student from the student list.
     <figcaption><em>Figure 9: An example of an invalid delete command</em></figcaption>
   </figure>
 
+[Back to top](#key-features)
 ---
 
 ### Archiving a student : `archive`
@@ -399,6 +406,7 @@ Moves a student from your active list into the archive list in TutorTrack.
 
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Unarchiving a student : `unarchive`
@@ -423,7 +431,7 @@ Moves a student from the archive list back to your active student list in TutorT
 * Command: `unarchive 1`
   <figure>
     <img src="images/unarchive.png" alt="Unarchive" width="600"/>
-    <figcaption><em>Figure 12a: Unarchiving Sarah Lim from the archive list</em></figcaption>
+    <figcaption><em>Figure 12a: Unarchiving Oliver Lee from the archive list</em></figcaption>
   </figure>
 
 {:start="2"}
@@ -442,6 +450,7 @@ Moves a student from the archive list back to your active student list in TutorT
 
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Listing all students : `list`
@@ -476,6 +485,7 @@ No extra params should be added, simply `list`
 Use this command to reset any filters and see all active students after using `find` or other filtering commands.
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Viewing archived students : `listarchive`
@@ -515,6 +525,7 @@ No extra params should be added, simply `listarchive`
 
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Clearing all current student entries : `clearcurrent`
@@ -556,6 +567,7 @@ No extra params should be added, simply `clearcurrent`
 This command cannot be undone. All active records will be permanently deleted.
 Archived records are not affected by this command.</div>
 
+[Back to top](#key-features)
 ---
 
 ### Clearing all archived student entries : `cleararchive`
@@ -596,6 +608,8 @@ No extra params should be added, simply `cleararchive`
 This command cannot be undone. All active records will be permanently deleted.
 Current records are not affected by this command.</div>
 
+
+[Back to top](#key-features)
 ---
 
 ### Adding a lesson : `addlesson`
@@ -619,11 +633,12 @@ Adding the same lesson (case-insensitive) multiple times will only result in one
     <img src="images/addlesson.png" alt="Add lesson" width="600"/>
     <figcaption><em>Figure 17: An example of a user adding the Algebra lesson in the Math lesson list</em></figcaption>
   </figure>
-  
+
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
 Only one lesson in one subject can be added. To add multiple lessons, use the command multiple times.
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Listing all lessons in a subject : `listlessons`
@@ -647,6 +662,7 @@ Only one subject's lesson list can be viewed for each listlessons command
     <figcaption><em>Figure 18: An example of a user viewing all lessons in the Math lesson list.</em></figcaption>
   </figure>
 
+[Back to top](#key-features)
 ---
 
 ### Deleting a lesson : `deletelesson`
@@ -670,12 +686,13 @@ Deletes the specified lesson from the lesson list.
   <figure>
     <img src="images/deletelesson.png" alt="Delete Lesson" width="600"/>
     <figcaption><em>Figure 19: An example of a user deleting the Algebra lesson from the Math lesson list</em></figcaption>
-  </figure>  
+  </figure>
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution:**
 This command only deletes one lesson from one subject per deletelesson command. To delete multiple lessons, run this command multiple times.
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Marking attendance: `markattendance`
@@ -685,22 +702,22 @@ Marks a student’s attendance for a specific lesson.
 **Format:** `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS`
 
 **Parameters:**
-- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list). (**required**) 
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list). (**required**)
 - `s/` — subject name (case-insensitive match against the student’s enrolled subjects). (**required**)
 - `l/` — lesson name (must exist for the given subject). (**required**)
 - `st/` — attendance status. One of: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`. (**required**)
 
 **Description:**
-- Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.  
-- The student **must already be a Student** (not a generic Person), must be **enrolled** in the specified subject, and the lesson must **exist** for that subject.  
-- Subject matching is **case-insensitive** (e.g., `math` matches `Math`).  
+- Finds the student by **name** within the **current filtered list** and marks attendance for the given `SUBJECT` and `LESSON`.
+- The student **must already be a Student** (not a generic Person), must be **enrolled** in the specified subject, and the lesson must **exist** for that subject.
+- Subject matching is **case-insensitive** (e.g., `math` matches `Math`).
 - On success, a confirmation message summarises: student, subject, lesson, and status.
 
 ---
 
 **Examples**
 
-1. Mark John Tan present for Algebra (Math) 
+1. Mark John Tan present for Algebra (Math)
 * Command: `markattendance n/John Tan s/Math l/Algebra st/PRESENT`
 <figure>
   <img src="images/attendance_mark_success.png" alt="Mark Attendance Success" width="600"/>
@@ -709,7 +726,7 @@ Marks a student’s attendance for a specific lesson.
 
 {:start="2"}
 1. Change Jane Lee’s attendance from Absent to Excused for Calculus (Math)
-Commands: 
+Commands:
 * `markattendance n/Jane Lee s/Math l/Calculus st/ABSENT` (left image)
 * `markattendance n/Jane Lee s/Math l/Calculus st/EXCUSED` (right image)
 
@@ -727,13 +744,14 @@ Commands:
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution**
 
-- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.  
-- The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.  
-- The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.  
-- Use the exact lesson name you created (spelling/spacing must match).  
-- Allowed statuses are exactly: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.  
+- The student is searched **only within the currently displayed list**. If you used `find` or applied filters, ensure the target student is visible before running the command.
+- The student must be **enrolled** in `s/SUBJECT`; otherwise, the command fails.
+- The `l/LESSON` must already **exist** for that subject in the app; otherwise, the command fails.
+- Use the exact lesson name you created (spelling/spacing must match).
+- Allowed statuses are exactly: `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`.
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Viewing attendance records: `listattendance`
@@ -743,14 +761,14 @@ Displays a student’s attendance records for a specific subject.
 **Format:** `listattendance n/NAME s/SUBJECT`
 
 **Parameters:**
-- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list) (**required**)  
+- `n/` — student’s full name (must match exactly one entry in the **currently displayed** list) (**required**)
 - `s/` — subject name (case-insensitive match against the student’s enrolled subjects) (**required**)
 
 **Description:**
-- Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.  
-- The student must already be a **Student** (not a generic Person) and must be **enrolled** in the specified subject.  
-- Each record line displays the **Lesson name** and its **attendance status** (e.g., `Algebra PRESENT`, `Calculus LATE`).  
-- If no attendance records exist for that subject, an error message will be shown.  
+- Shows a detailed list of all lessons and their corresponding attendance statuses for the given student and subject.
+- The student must already be a **Student** (not a generic Person) and must be **enrolled** in the specified subject.
+- Each record line displays the **Lesson name** and its **attendance status** (e.g., `Algebra PRESENT`, `Calculus LATE`).
+- If no attendance records exist for that subject, an error message will be shown.
 
 ---
 
@@ -765,13 +783,14 @@ Displays a student’s attendance records for a specific subject.
 
 <div markdown="block" class="alert alert-warning">:exclamation: **Caution**
 
-- The student is searched **only within the currently displayed list**. Ensure the target student is visible before running the command.  
-- The student must be **enrolled** in the specified subject; otherwise, the command will fail.  
-- If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.  
-- Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).  
+- The student is searched **only within the currently displayed list**. Ensure the target student is visible before running the command.
+- The student must be **enrolled** in the specified subject; otherwise, the command will fail.
+- If there are **no attendance records** for that subject, you’ll receive an error message instead of an empty list.
+- Subject names are matched **case-insensitively** (e.g., `math` matches `Math`).
 
 </div>
 
+[Back to top](#key-features)
 ---
 
 ### Viewing help : `help`
@@ -783,7 +802,7 @@ Shows a message with a link to access the full help page.
 **Parameters:**
 * This command takes no parameters.
 
-**Description:** 
+**Description:**
 * Upon using this command, a help window opens with a link to this user guide.
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
@@ -792,12 +811,13 @@ No extra params should be added, simply `help`
 
 **Example:**
 1. Using help command
-* Command: `help` 
+* Command: `help`
   <figure>
     <img src="images/helpcommand.png" alt="Student 1 Before" width="600"/>
     <figcaption><em>Figure 23: Help Window</em></figcaption>
   </figure>
 
+[Back to top](#key-features)
 ---
 
 ### Exiting the program : `exit`
@@ -809,7 +829,7 @@ Exits the program.
 **Parameters:**
 * This command takes no parameters.
 
-**Description:** 
+**Description:**
 * Upon using this command, the user exits the application
 
 <div markdown="block" class="alert alert-info">:information_source: **Note:**
@@ -817,6 +837,7 @@ Exits the program.
 No extra params should be added, simply `exit`
 </div>
 
+[Back to top](#key-features)
 ---
 
 ## Command Summary
@@ -834,13 +855,14 @@ No extra params should be added, simply `exit`
 | **Unarchive** | `unarchive INDEX` <br> e.g., `unarchive 1`                                                                                                                                                               |
 | **Mark Attendance** | `markattendance n/NAME s/SUBJECT l/LESSON st/STATUS` <br> e.g., `markattendance n/John Tan s/Math l/Algebra st/PRESENT`                                                                                  |
 
-| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`                                                                                                                          
-| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                                                      
-| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                                       
+| **List Attendance** | `listattendance n/NAME s/SUBJECT` <br> e.g., `listattendance n/John Tan s/Math`
+
+| **List Lessons** | `listlessons` <br> e.g, `listlessons s/Mathematics`                                                                                                                       
+| **Add Lessons** | `addlesson` <br> e.g, `addlesson s/Math n/Algebra`                                                                                                                                 
 | **Delete Lessons** | `deletelesson` <br> e.g, `deletelesson s/Math n/Algebra`
 
-| **Clear** | `clearcurrent`                                                                                                                                                                                           
-| **Clear Archive**| `cleararchive`                                                                                                                                                                                           
+| **Clear** |`clearcurrent`                                                                                                                                                                       
+| **Clear Archive**| `cleararchive`                                                                                                                                                                                       
 | **Exit** | `exit`                                                                                                                                                                                                   |
 
 ### Saving the data
@@ -856,6 +878,7 @@ If your changes to the data file makes its format invalid, TutorTrack will disca
 Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
+[Back to top](#key-features)
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -896,6 +919,7 @@ Notes:
 **Q**: The Help Window is minimized and doesn't re-open. How can I restore it?
 **A**: Use your OS window manager (Alt+Tab, or click the taskbar/dock icon) to restore the Help window. If that fails, restart TutorTrack.
 
+[Back to top](#key-features)
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -904,4 +928,5 @@ Notes:
 
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
+[Back to top](#key-features)
 ------------------------------------------------------------------------------------------------------------
